@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DbAccess.Data.JoiningEntity;
+using DbAccess.Data.POCO.JoiningEntity;
 
-namespace DbAccess.Data.Models
+namespace DbAccess.Data.POCO
 {
     public class Role
     {
@@ -16,10 +16,5 @@ namespace DbAccess.Data.Models
 
         [ForeignKey("RoleId")]
         public virtual ICollection<UserRole> UserRoles { get; set; }
-
-        /*public Role()
-        {
-            UserRoles = new HashSet<UserRole>();
-        }*/
     }
 }

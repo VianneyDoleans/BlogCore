@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DbAccess.Data.JoiningEntity;
+using DbAccess.Data.POCO.JoiningEntity;
 
-namespace DbAccess.Data.Models
+namespace DbAccess.Data.POCO
 {
     public class User
     {
@@ -12,7 +12,7 @@ namespace DbAccess.Data.Models
         public int Id { get; set; }
 
         [Required]
-        [MaxLength(12)]
+        [MinLength(3), MaxLength(20)]
         public string Username { get; set; }
 
         [Required]
@@ -42,10 +42,5 @@ namespace DbAccess.Data.Models
 
         [ForeignKey("UserId")]
         public virtual ICollection<Like> Likes { get; set; }
-
-        /*public User()
-        {
-            UserRoles = new HashSet<UserRole>();
-        }*/
     }
 }

@@ -22,7 +22,7 @@ namespace MyBlog.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.RegisterDataServices(Configuration);
+            //services.RegisterDataServices(Configuration);
             /*services.AddDbContext<PersonContext>(options =>
             { 
                 options.UseSqlServer(Configuration.GetConnectionString("Default"));

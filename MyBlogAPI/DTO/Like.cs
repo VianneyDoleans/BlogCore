@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
-namespace DbAccess.Data.Models
+namespace MyBlogAPI.DTO
 {
     public enum LikeableType : byte
     {
@@ -16,20 +11,16 @@ namespace DbAccess.Data.Models
     public class Like
     {
 
-        [Key]
         public int Id { get; set; }
 
-        [Required]
         public DateTime PublishedAt { get; set; }
 
-        [Required]
         public LikeableType LikeableType { get; set; }
 
         public Comment Comment { get; set; }
 
         public Post Post { get; set; }
 
-        [Required]
-        public User User { get; set; }
+        public DbAccess.Data.POCO.User User { get; set; }
     }
 }

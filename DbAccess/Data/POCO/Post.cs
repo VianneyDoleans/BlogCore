@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DbAccess.Data.JoiningEntity;
+using DbAccess.Data.POCO.JoiningEntity;
 
-namespace DbAccess.Data.Models
+namespace DbAccess.Data.POCO
 {
     public class Post
     {
@@ -32,10 +32,5 @@ namespace DbAccess.Data.Models
 
         [ForeignKey("PostId")]
         public virtual ICollection<Comment> Comments { get; set; }
-
-        /*public Post()
-        {
-            PostTags = new HashSet<PostTag>();
-        }*/
     }
 }

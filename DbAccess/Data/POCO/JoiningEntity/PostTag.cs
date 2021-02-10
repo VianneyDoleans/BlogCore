@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DbAccess.Data.Models;
-
-namespace DbAccess.Data.JoiningEntity
+﻿namespace DbAccess.Data.POCO.JoiningEntity
 {
     public class PostTag
     {

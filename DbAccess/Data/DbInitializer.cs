@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using DbAccess.Data.JoiningEntity;
-using DbAccess.Data.Models;
+using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.JoiningEntity;
 using DbAccess.DataContext;
 
 namespace DbAccess.Data

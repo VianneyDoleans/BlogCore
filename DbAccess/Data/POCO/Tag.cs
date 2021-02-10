@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DbAccess.Data.JoiningEntity;
+using DbAccess.Data.POCO.JoiningEntity;
 
-namespace DbAccess.Data.Models
+namespace DbAccess.Data.POCO
 {
     public class Tag
     {
@@ -16,10 +16,5 @@ namespace DbAccess.Data.Models
 
         [ForeignKey("TagId")]
         public virtual ICollection<PostTag> PostTags { get; set; }
-
-        /*public Tag()
-        {
-            ArticleTags = new HashSet<ArticleTag>();
-        }*/
     }
 }
