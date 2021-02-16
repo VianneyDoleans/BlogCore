@@ -2,6 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTO.Like;
+using MyBlogAPI.DTO.Post;
+using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.DTO.User
 {
@@ -19,12 +23,12 @@ namespace MyBlogAPI.DTO.User
 
         public string UserDescription { get; set; }
 
-        public virtual ICollection<Role> UserRoles { get; set; }
+        public virtual IEnumerable<int> Roles { get; set; }
 
-        public virtual ICollection<Post> Posts { get; set; }
+        /*public virtual IEnumerable<int> Posts { get; set; }
 
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual IEnumerable<int> Comments { get; set; }
 
-        public virtual ICollection<Like> Likes { get; set; }
+        public virtual IEnumerable<int> Likes { get; set; }*/
     }
 }

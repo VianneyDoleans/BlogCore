@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Tag;
 
 namespace MyBlogAPI.Services.TagService
 {
     public interface ITagService
     {
-        ICollection<Tag> GetAllTags();
+        Task<IEnumerable<GetTagDto>> GetAllTags();
 
-        Tag GetTag(int id);
+        Task<GetTagDto> GetTag(int id);
 
-        void AddTag(Tag user);
+        Task AddTag(AddTagDto user);
 
-        void UpdateTag(Tag user);
+        Task UpdateTag(AddTagDto user);
 
-        void DeleteTag(int id);
+        Task DeleteTag(int id);
     }
 }

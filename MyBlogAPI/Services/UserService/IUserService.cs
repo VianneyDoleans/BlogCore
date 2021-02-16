@@ -15,5 +15,7 @@ namespace MyBlogAPI.Services.UserService
         Task UpdateUser(AddUserDto user);
 
         Task DeleteUser(int id);
+
+        Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id);
     }
 }

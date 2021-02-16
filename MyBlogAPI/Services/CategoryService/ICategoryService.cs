@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Category;
 
 namespace MyBlogAPI.Services.CategoryService
 {
     public interface ICategoryService
     {
-        ICollection<Category> GetAllCategories();
+        Task<IEnumerable<GetCategoryDto>> GetAllCategories();
 
-        Category GetCategory(int id);
+        Task<GetCategoryDto> GetCategory(int id);
 
-        void AddCategory(Category category);
+        Task AddCategory(AddCategoryDto category);
 
-        void UpdateCategory(Category category);
+        Task UpdateCategory(AddCategoryDto category);
 
-        void DeleteCategory(int id);
+        Task DeleteCategory(int id);
     }
 }

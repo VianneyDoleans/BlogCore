@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.Services.PostService
 {
     public interface IPostService
     {
-        ICollection<Post> GetAllPosts();
+        Task<IEnumerable<GetPostDto>> GetAllPosts();
 
-        Post GetPost(int id);
+        Task<IEnumerable<GetPostDto>> GetPostsFromUser(int id);
 
-        void AddPost(Post post);
+        Task<IEnumerable<GetPostDto>> GetPostsFromTag(int id);
 
-        void UpdatePost(Post post);
+        Task<IEnumerable<GetPostDto>> GetPostsFromCategory(int id);
 
-        void DeletePost(int id);
+        Task<GetPostDto> GetPost(int id);
+
+        Task AddPost(AddPostDto post);
+
+        Task UpdatePost(AddPostDto post);
+
+        Task DeletePost(int id);
     }
 }

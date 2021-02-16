@@ -1,23 +1,31 @@
-﻿using System;
-using System.Net;
-using System.Net.Http;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogAPI.DTO;
 using MyBlogAPI.DTO.User;
+using MyBlogAPI.Services.CommentService;
+using MyBlogAPI.Services.LikeService;
+using MyBlogAPI.Services.PostService;
+using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly ILikeService _likeService;
+        private readonly IPostService _postService;
+        private readonly ICommentService _commentService;
 
-        public UserController(IUserService userService)
+        public UsersController(IUserService userService, ILikeService likeService, IPostService postService, 
+            ICommentService commentService)
         {
             _userService = userService;
+            _likeService = likeService;
+            _postService = postService;
+            _commentService = commentService;
         }
 
         [HttpGet]
@@ -30,6 +38,24 @@ namespace MyBlogAPI.Controllers
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _userService.GetUser(id));
+        }
+
+        [HttpGet("{id}/Posts/")]
+        public async Task<IActionResult> GetPostsFromUser(int id)
+        {
+            return Ok(await _postService.GetPostsFromUser(id));
+        }
+
+        [HttpGet("{id}/Comments/")]
+        public async Task<IActionResult> GetCommentsFromUser(int id)
+        {
+            return Ok(await _commentService.GetCommentsFromUser(id));
+        }
+
+        [HttpGet("{id}/Likes/")]
+        public async Task<IActionResult> GetLikesFromUser(int id)
+        {
+            return Ok(await _likeService.GetLikesFromUser(id));
         }
 
         [HttpPost]
@@ -56,6 +82,5 @@ namespace MyBlogAPI.Controllers
             await _userService.DeleteUser(id);
             return Ok();
         }
-
     }
 }

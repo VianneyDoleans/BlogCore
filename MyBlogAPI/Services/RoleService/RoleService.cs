@@ -2,35 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DbAccess.Data.POCO;
+using DbAccess.Repositories.Role;
+using DbAccess.Repositories.UnitOfWork;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.Services.RoleService
 {
     public class RoleService : IRoleService
     {
-        public ICollection<Role> GetAllRoles()
+        private readonly IRoleRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public RoleService(IRoleRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
-        public Role GetRole(int id)
+        public async Task<IEnumerable<GetRoleDto>> GetAllRoles()
         {
-            throw new NotImplementedException();
+            //return _repository.GetAll().Select(x => _mapper.Map<GetRoleDto>(x)).ToList();
+            return _repository.GetAll().Select(c =>
+            {
+                var roleDto = _mapper.Map<GetRoleDto>(c);
+                roleDto.Users = c.UserRoles.Select(x => x.UserId);
+                return roleDto;
+            }).ToList();
         }
 
-        public void AddRole(Role role)
+        public async Task<GetRoleDto> GetRole(int id)
         {
-            throw new NotImplementedException();
+            var role = _repository.Get(id);
+            var roleDto = _mapper.Map<GetRoleDto>(role);
+            roleDto.Users = role.UserRoles.Select(x => x.UserId);
+            return roleDto;
+            //return _mapper.Map<GetRoleDto>(_repository.Get(id));
         }
 
-        public void UpdateRole(Role role)
+        public async Task AddRole(AddRoleDto role)
         {
-            throw new NotImplementedException();
+            _repository.Add(_mapper.Map<Role>(role));
+            _unitOfWork.Save();
         }
 
-        public void DeleteRole(int id)
+        public async Task UpdateRole(AddRoleDto role)
         {
-            throw new NotImplementedException();
+            var roleEntity = _repository.Get(role.Id);
+            roleEntity.Name = role.Name;
+            _unitOfWork.Save();
+        }
+
+        public async Task DeleteRole(int id)
+        {
+            _repository.Remove(_repository.Get(id));
+            _unitOfWork.Save();
         }
     }
 }

@@ -3,19 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Comment;
 
 namespace MyBlogAPI.Services.CommentService
 {
     public interface ICommentService
     {
-        ICollection<Comment> GetAllComments();
+        Task<IEnumerable<GetCommentDto>> GetAllComments();
 
-        Comment GetComment(int id);
+        Task<GetCommentDto> GetComment(int id);
 
-        void AddComment(Comment comment);
+        Task AddComment(AddCommentDto comment);
 
-        void UpdateComment(Comment comment);
+        Task UpdateComment(AddCommentDto comment);
 
-        void DeleteComment(int id);
+        Task DeleteComment(int id);
+
+        Task<IEnumerable<GetCommentDto>> GetCommentsFromUser(int id);
+
+        Task<IEnumerable<GetCommentDto>> GetCommentsFromPost(int id);
     }
 }

@@ -2,35 +2,71 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DbAccess.Data.POCO;
+using DbAccess.Repositories.Like;
+using DbAccess.Repositories.UnitOfWork;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Like;
 
 namespace MyBlogAPI.Services.LikeService
 {
     public class LikeService : ILikeService
     {
-        public ICollection<Like> GetAllLikes()
+
+        private readonly ILikeRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public LikeService(ILikeRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
+        }
+        public async Task<IEnumerable<GetLikeDto>> GetAllLikes()
+        {
+            return _repository.GetAll().Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
         }
 
-        public Like GetLike(int id)
+        public async Task<GetLikeDto> GetLike(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<GetLikeDto>(_repository.Get(id));
         }
 
-        public void AddLike(Like user)
+        public async Task AddLike(AddLikeDto user)
         {
-            throw new NotImplementedException();
+            _repository.Add(_mapper.Map<Like>(user));
+            _unitOfWork.Save();
         }
 
-        public void UpdateLike(Like user)
+        public async Task UpdateLike(AddLikeDto user)
         {
-            throw new NotImplementedException();
+            var userEntity = _repository.Get(user.Id);
+            //TODO
+            _unitOfWork.Save();
         }
 
-        public void DeleteLike(int id)
+        public async Task DeleteLike(int id)
         {
-            throw new NotImplementedException();
+            _repository.Remove(_repository.Get(id));
+            _unitOfWork.Save();
+        }
+
+        public async Task<IEnumerable<GetLikeDto>> GetLikesFromUser(int id)
+        {
+            //return (await _repository.GetWhereAsync(x => x.User.Id == id)).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
+            return (await _repository.GetLikesFromUser(id)).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetLikeDto>> GetLikesFromPost(int id)
+        {
+            return (await _repository.GetLikesFromPost(id)).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetLikeDto>> GetLikesFromComment(int id)
+        {
+            return (await _repository.GetLikesFromComment(id)).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
         }
     }
 }

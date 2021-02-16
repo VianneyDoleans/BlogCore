@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.Services.RoleService
 {
     public interface IRoleService
     {
-        ICollection<Role> GetAllRoles();
+        Task<IEnumerable<GetRoleDto>> GetAllRoles();
 
-        Role GetRole(int id);
+        Task<GetRoleDto> GetRole(int id);
 
-        void AddRole(Role role);
+        Task AddRole(AddRoleDto role);
 
-        void UpdateRole(Role role);
+        Task UpdateRole(AddRoleDto role);
 
-        void DeleteRole(int id);
+        Task DeleteRole(int id);
     }
 }

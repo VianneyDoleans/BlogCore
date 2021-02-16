@@ -2,35 +2,56 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using DbAccess.Data.POCO;
+using DbAccess.Repositories.Category;
+using DbAccess.Repositories.UnitOfWork;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Category;
 
 namespace MyBlogAPI.Services.CategoryService
 {
     public class CategoryService : ICategoryService
     {
-        public ICollection<Category> GetAllCategories()
+        private readonly ICategoryRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CategoryService(ICategoryRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
-        public Category GetCategory(int id)
+        public async Task<IEnumerable<GetCategoryDto>> GetAllCategories()
         {
-            throw new NotImplementedException();
+            return _repository.GetAll().Select(x => _mapper.Map<GetCategoryDto>(x)).ToList();
         }
 
-        public void AddCategory(Category category)
+        public async Task<GetCategoryDto> GetCategory(int id)
         {
-            throw new NotImplementedException();
+            return _mapper.Map<GetCategoryDto>(_repository.Get(id));
         }
 
-        public void UpdateCategory(Category category)
+        public async Task AddCategory(AddCategoryDto category)
         {
-            throw new NotImplementedException();
+            _repository.Add(_mapper.Map<Category>(category));
+            _unitOfWork.Save();
         }
 
-        public void DeleteCategory(int id)
+        public async Task UpdateCategory(AddCategoryDto category)
         {
-            throw new NotImplementedException();
+            var categoryEntity = _repository.Get(category.Id);
+            categoryEntity.Name = category.Name;
+            //TODO
+            _unitOfWork.Save();
+        }
+
+        public async Task DeleteCategory(int id)
+        {
+            _repository.Remove(_repository.Get(id));
+            _unitOfWork.Save();
         }
     }
 }

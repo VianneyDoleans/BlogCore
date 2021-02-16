@@ -3,19 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.DTO.Like;
 
 namespace MyBlogAPI.Services.LikeService
 {
     public interface ILikeService
     {
-        ICollection<Like> GetAllLikes();
+        Task<IEnumerable<GetLikeDto>> GetAllLikes();
 
-        Like GetLike(int id);
+        Task<GetLikeDto> GetLike(int id);
 
-        void AddLike(Like user);
+        Task AddLike(AddLikeDto user);
 
-        void UpdateLike(Like user);
+        Task UpdateLike(AddLikeDto user);
 
-        void DeleteLike(int id);
+        Task DeleteLike(int id);
+
+        Task<IEnumerable<GetLikeDto>> GetLikesFromUser(int id);
+
+        Task<IEnumerable<GetLikeDto>> GetLikesFromPost(int id);
+
+        Task<IEnumerable<GetLikeDto>> GetLikesFromComment(int id);
     }
 }

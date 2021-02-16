@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
-using DbAccess.Repositories;
 using DbAccess.Repositories.UnitOfWork;
-using Microsoft.AspNetCore.Mvc;
+using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.Services.UserService
@@ -24,27 +22,31 @@ namespace MyBlogAPI.Services.UserService
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("GetAll")]
         public async Task<IEnumerable<GetUserDto>> GetAllUsers()
         {
-            return _repository.GetAll().Select(c => _mapper.Map<GetUserDto>(c)).ToList();
+            var users = await _repository.GetAllAsync();
+            return users.Select(c =>
+            {
+               var usersDto = _mapper.Map<GetUserDto>(c);
+               usersDto.Roles = c.UserRoles.Select(x => x.RoleId);
+               return usersDto;
+            }).ToList();
         }
 
-        [HttpGet("{id}")]
         public async Task<GetUserDto> GetUser(int id)
         {
-            return _mapper.Map<GetUserDto>(_repository.Get(id));
+            var user = _repository.Get(id);
+            var userDto = _mapper.Map<GetUserDto>(user);
+            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            return userDto;
         }
 
-        [HttpPost]
         public async Task AddUser(AddUserDto user)
         {
-           var pocoUser = _mapper.Map<User>(user);
-           _repository.Add(pocoUser);
+            _repository.Add(_mapper.Map<User>(user));
            _unitOfWork.Save();
         }
 
-        [HttpPut]
         public async Task UpdateUser(AddUserDto user)
         {
             var userToModify = _repository.Get(user.Id);
@@ -55,11 +57,22 @@ namespace MyBlogAPI.Services.UserService
             _unitOfWork.Save();
         }
 
-        [HttpDelete]
         public async Task DeleteUser(int id)
         {
             _repository.Remove(_repository.Get(id));
             _unitOfWork.Save();
+        }
+
+        public async Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id)
+        {
+            var users = await _repository.GetUsersFromRole(id);
+            var userDtos = users.Select(x =>
+            {
+                var userDto = _mapper.Map<GetUserDto>(x);
+                userDto.Roles = x.UserRoles.Select(y => y.RoleId);
+                return userDto;
+            }).ToList();
+            return userDtos;
         }
     }
 }

@@ -2,35 +2,66 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO;
+using AutoMapper;
+using DbAccess.Data.POCO;
+using DbAccess.Repositories.Comment;
+using DbAccess.Repositories.UnitOfWork;
+using MyBlogAPI.DTO.Comment;
 
 namespace MyBlogAPI.Services.CommentService
 {
     public class CommentService : ICommentService
     {
-        public ICollection<Comment> GetAllComments()
+        private readonly ICommentsRepository _repository;
+        private readonly IMapper _mapper;
+        private readonly IUnitOfWork _unitOfWork;
+
+        public CommentService(ICommentsRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
         {
-            throw new NotImplementedException();
+            _repository = repository;
+            _mapper = mapper;
+            _unitOfWork = unitOfWork;
         }
 
-        public Comment GetComment(int id)
+        public async Task<IEnumerable<GetCommentDto>> GetAllComments()
         {
-            throw new NotImplementedException();
+            return _repository.GetAll().Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
         }
 
-        public void AddComment(Comment comment)
+        public async Task<GetCommentDto> GetComment(int id)
         {
-            throw new NotImplementedException();
+            var comment = _repository.Get(id);
+            return _mapper.Map<GetCommentDto>(comment);
         }
 
-        public void UpdateComment(Comment comment)
+        public async Task AddComment(AddCommentDto comment)
         {
-            throw new NotImplementedException();
+            _repository.Add(_mapper.Map<Comment>(comment));
+            _unitOfWork.Save();
         }
 
-        public void DeleteComment(int id)
+        public async Task UpdateComment(AddCommentDto comment)
         {
-            throw new NotImplementedException();
+            var commentEntity = _repository.Get(comment.Id);
+            commentEntity.Content = comment.Content;
+            //TODO
+            _unitOfWork.Save();
+        }
+
+        public async Task DeleteComment(int id)
+        {
+            _repository.Remove(_repository.Get(id));
+            _unitOfWork.Save();
+        }
+
+        public async Task<IEnumerable<GetCommentDto>> GetCommentsFromUser(int id)
+        {
+            return (await _repository.GetCommentsFromUser(id)).Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetCommentDto>> GetCommentsFromPost(int id)
+        {
+            return (await _repository.GetCommentsFromPost(id)).Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
         }
     }
 }
