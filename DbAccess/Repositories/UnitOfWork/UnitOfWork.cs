@@ -9,7 +9,7 @@ namespace DbAccess.Repositories.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private MyBlogContext _context;
+        private readonly MyBlogContext _context;
 
         public IUserRepository Users { get; }
 

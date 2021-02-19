@@ -19,13 +19,13 @@ namespace DbAccess.Repositories
         Task RemoveAsync(TEntity entity);
         Task RemoveRangeAsync(IEnumerable<TEntity> entities);
 
-        Task<int> CountWhereAsync(Expression<Func<TEntity, bool>> predicate);
+        //Task<int> CountWhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task<int> CountAllAsync();
 
         TEntity Get(int id);
-        IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate);
+        //IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate);
         IEnumerable<TEntity> GetAll();
-        IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
+        //IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
         void Add(TEntity entity);
         void AddRange(IEnumerable<TEntity> entities);

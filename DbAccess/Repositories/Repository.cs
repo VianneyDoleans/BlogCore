@@ -20,7 +20,10 @@ namespace DbAccess.Repositories
 
         public virtual async Task<TEntity> GetAsync(int id)
         {
-            return await Context.Set<TEntity>().FindAsync(id);
+            var result = await Context.Set<TEntity>().FindAsync(id);
+            if (result == null)
+                throw new InvalidOperationException();
+            return result;
         }
 
         public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
