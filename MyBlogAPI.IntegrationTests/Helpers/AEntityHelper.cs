@@ -7,40 +7,43 @@ using Newtonsoft.Json;
 
 namespace MyBlogAPI.IntegrationTests.Helpers
 {
-    public class GenericEntityHelper<TGet, TAdd> where TGet : IDto, new()
-        where TAdd : IDto, new()
+    public abstract class AEntityHelper<TGet, TAdd, TUpdate> : IEntityHelper<TGet, TAdd, TUpdate>
+        where TGet : ADto, new()
+        where TUpdate : ADto, new()
+        where TAdd : new()
     {
         private readonly string _baseUrl;
         private readonly HttpClient _client;
 
-        public GenericEntityHelper(string baseUrl, HttpClient client)
+        protected AEntityHelper(string baseUrl, HttpClient client)
         {
             _baseUrl = baseUrl;
             _client = client;
         }
 
-        protected virtual TAdd CreateAddEntity()
-        {
-            var entity = new TAdd();
-            return entity;
-        }
-
-        public async Task AddEntity(TAdd entity)
+        public async Task<TGet> AddEntity(TAdd entity)
         {
             var json = JsonConvert.SerializeObject(entity);
             var httpResponse =
                 await _client.PostAsync(_baseUrl, new StringContent(json, Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TGet>(stringResponse);
         }
 
-        public async Task<TAdd> AddRandomEntity()
+        protected abstract TAdd CreateTAdd();
+        public abstract bool Equals(TGet first, TGet second);
+        protected abstract TUpdate ModifyTUpdate(TUpdate entity);
+
+        public async Task<TGet> AddRandomEntity()
         {
-            var entity = CreateAddEntity();
+            var entity = CreateTAdd();
             var json = JsonConvert.SerializeObject(entity);
             var httpResponse =
                 await _client.PostAsync(_baseUrl, new StringContent(json, Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
-            return entity;
+            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TGet>(stringResponse);
         }
 
         public async Task<TGet> GetById(int id)
@@ -61,7 +64,13 @@ namespace MyBlogAPI.IntegrationTests.Helpers
             return entity;
         }
 
-        public async Task UpdateIdentity(TAdd entity)
+        public async Task UpdateRandomEntity(TUpdate entity)
+        {
+            var entityModified = ModifyTUpdate(entity);
+            await UpdateIdentity(entityModified);
+        }
+
+        public async Task UpdateIdentity(TUpdate entity)
         {
             var json = JsonConvert.SerializeObject(entity);
             var httpResponse =

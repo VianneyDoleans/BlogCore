@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AutoMapper.Configuration.Conventions;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Tag;
-using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Post
 {
-    public class AddPostDto
+    public class UpdatePostDto : ADto
     {
         public string Content { get; set; }
 

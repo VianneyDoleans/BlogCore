@@ -33,6 +33,10 @@ namespace MyBlogAPI.IntegrationTests
                     options.UseInMemoryDatabase(_dbName);
                     options.UseInternalServiceProvider(serviceProvider);
                 });
+                
+                // Add AutoMapper profile
+                services.AddAutoMapper(typeof(AutoMapperProfile));
+
                 var sp = services.BuildServiceProvider();
                 using (var scope = sp.CreateScope())
                 {

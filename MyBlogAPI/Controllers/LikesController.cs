@@ -35,12 +35,11 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddLikes(AddLikeDto like)
         {
-            await _likeService.AddLike(like);
-            return Ok();
+            return Ok(await _likeService.AddLike(like));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateLike(AddLikeDto like)
+        public async Task<IActionResult> UpdateLike(UpdateLikeDto like)
         {
             if (await _likeService.GetLike(like.Id) == null)
                 return NotFound();

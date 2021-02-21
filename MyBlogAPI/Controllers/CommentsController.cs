@@ -37,12 +37,11 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
-            await _commentService.AddComment(comment);
-            return Ok();
+            return Ok(await _commentService.AddComment(comment));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateComment(AddCommentDto comment)
+        public async Task<IActionResult> UpdateComment(UpdateCommentDto comment)
         {
             if (await _commentService.GetComment(comment.Id) == null)
                 return NotFound();

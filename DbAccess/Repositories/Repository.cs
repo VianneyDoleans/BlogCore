@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
@@ -41,14 +42,9 @@ namespace DbAccess.Repositories
             return await Context.Set<TEntity>().Where(predicate).ToListAsync();
         }
 
-        public virtual async Task AddAsync(TEntity entity)
-        {
-            await Context.Set<TEntity>().AddAsync(entity);
-        }
-
-        public virtual Task AddRangeAsync(IEnumerable<TEntity> entities)
-        {
-            return Context.Set<TEntity>().AddRangeAsync(entities);
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
+        { 
+            return (await Context.Set<TEntity>().AddAsync(entity)).Entity;
         }
 
         public virtual async Task RemoveAsync(TEntity entity)
@@ -91,14 +87,9 @@ namespace DbAccess.Repositories
             return Context.Set<TEntity>().Where(predicate).ToList();
         }
 
-        public virtual void Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
-            Context.Set<TEntity>().Add(entity);
-        }
-
-        public virtual void AddRange(IEnumerable<TEntity> entities)
-        {
-            Context.Set<TEntity>().AddRange(entities);
+            return Context.Set<TEntity>().Add(entity).Entity;
         }
 
         public virtual void Remove(TEntity entity)

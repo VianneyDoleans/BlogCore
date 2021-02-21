@@ -32,6 +32,14 @@ namespace MyBlogAPI
             CreateMap<Tag, GetTagDto>();
             CreateMap<User, GetUserDto>();
 
+            CreateMap<GetCategoryDto, UpdateCategoryDto>();
+            CreateMap<GetCommentDto, UpdateCommentDto>();
+            CreateMap<GetLikeDto, UpdateLikeDto>();
+            CreateMap<GetPostDto, UpdatePostDto>();
+            CreateMap<GetRoleDto, UpdateRoleDto>();
+            CreateMap<GetTagDto, UpdateTagDto>();
+            CreateMap<GetUserDto, UpdateUserDto>();
+
             CreateMap<Like, int>().ConvertUsing(x => x.Id);
             CreateMap<Comment, int>().ConvertUsing(x => x.Id);
             CreateMap<Post, int>().ConvertUsing(x => x.Id);

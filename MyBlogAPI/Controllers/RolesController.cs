@@ -40,12 +40,11 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTag(AddRoleDto role)
         {
-            await _roleService.AddRole(role);
-            return Ok();
+            return Ok(await _roleService.AddRole(role));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTag(AddRoleDto role)
+        public async Task<IActionResult> UpdateTag(UpdateRoleDto role)
         {
             if (await _roleService.GetRole(role.Id) == null)
                 return NotFound();

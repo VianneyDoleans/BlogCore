@@ -38,13 +38,14 @@ namespace MyBlogAPI.Services.TagService
             return _mapper.Map<GetTagDto>(_repository.Get(id));
         }
 
-        public async Task AddTag(AddTagDto tag)
+        public async Task<GetTagDto> AddTag(AddTagDto tag)
         {
-            _repository.Add(_mapper.Map<Tag>(tag));
+            var result = _repository.Add(_mapper.Map<Tag>(tag));
             _unitOfWork.Save();
+            return _mapper.Map<GetTagDto>(result);
         }
 
-        public async Task UpdateTag(AddTagDto tag)
+        public async Task UpdateTag(UpdateTagDto tag)
         {
             var tagEntity = _repository.Get(tag.Id);
             tagEntity.Name = tag.Name;

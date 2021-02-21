@@ -34,15 +34,16 @@ namespace MyBlogAPI.Services.LikeService
             return _mapper.Map<GetLikeDto>(_repository.Get(id));
         }
 
-        public async Task AddLike(AddLikeDto user)
+        public async Task<GetLikeDto> AddLike(AddLikeDto like)
         {
-            _repository.Add(_mapper.Map<Like>(user));
+            var result = _repository.Add(_mapper.Map<Like>(like));
             _unitOfWork.Save();
+            return _mapper.Map<GetLikeDto>(result);
         }
 
-        public async Task UpdateLike(AddLikeDto user)
+        public async Task UpdateLike(UpdateLikeDto like)
         {
-            var userEntity = _repository.Get(user.Id);
+            var userEntity = _repository.Get(like.Id);
             //TODO
             _unitOfWork.Save();
         }

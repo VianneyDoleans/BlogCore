@@ -13,9 +13,9 @@ namespace MyBlogAPI.Services.LikeService
 
         Task<GetLikeDto> GetLike(int id);
 
-        Task AddLike(AddLikeDto user);
+        Task<GetLikeDto> AddLike(AddLikeDto user);
 
-        Task UpdateLike(AddLikeDto user);
+        Task UpdateLike(UpdateLikeDto like);
 
         Task DeleteLike(int id);
 

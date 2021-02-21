@@ -34,13 +34,14 @@ namespace MyBlogAPI.Services.CommentService
             return _mapper.Map<GetCommentDto>(comment);
         }
 
-        public async Task AddComment(AddCommentDto comment)
+        public async Task<GetCommentDto> AddComment(AddCommentDto comment)
         {
-            _repository.Add(_mapper.Map<Comment>(comment));
+            var result = _repository.Add(_mapper.Map<Comment>(comment));
             _unitOfWork.Save();
+            return _mapper.Map<GetCommentDto>(result);
         }
 
-        public async Task UpdateComment(AddCommentDto comment)
+        public async Task UpdateComment(UpdateCommentDto comment)
         {
             var commentEntity = _repository.Get(comment.Id);
             commentEntity.Content = comment.Content;

@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO.Post;
 
-namespace MyBlogAPI.DTO.Category
+namespace MyBlogAPI.DTO.Role
 {
-    public class AddCategoryDto
+    public class UpdateRoleDto : ADto
     {
         public string Name { get; set; }
     }

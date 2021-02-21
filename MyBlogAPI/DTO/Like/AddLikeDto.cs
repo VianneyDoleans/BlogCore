@@ -6,12 +6,8 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class AddLikeDto : IDto
+    public class AddLikeDto
     {
-        public int Id { get; set; }
-
-        public DateTime PublishedAt { get; set; }
-
         public LikeableType LikeableType { get; set; }
 
         public int? Comment { get; set; }

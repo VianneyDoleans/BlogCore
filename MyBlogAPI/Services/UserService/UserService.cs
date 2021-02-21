@@ -41,13 +41,15 @@ namespace MyBlogAPI.Services.UserService
             return userDto;
         }
 
-        public async Task AddUser(AddUserDto user)
+        public async Task<GetUserDto> AddUser(AddUserDto user)
         {
-            _repository.Add(_mapper.Map<User>(user));
+            var result = _repository.Add(_mapper.Map<User>(user));
            _unitOfWork.Save();
+           return _mapper.Map<GetUserDto>(result);
+
         }
 
-        public async Task UpdateUser(AddUserDto user)
+        public async Task UpdateUser(UpdateUserDto user)
         {
             var userToModify = _repository.Get(user.Id);
             userToModify.Username = user.Username;

@@ -10,9 +10,9 @@ namespace MyBlogAPI.Services.UserService
 
         Task<GetUserDto> GetUser(int id);
 
-        Task AddUser(AddUserDto user);
+        Task<GetUserDto> AddUser(AddUserDto user);
 
-        Task UpdateUser(AddUserDto user);
+        Task UpdateUser(UpdateUserDto user);
 
         Task DeleteUser(int id);
 

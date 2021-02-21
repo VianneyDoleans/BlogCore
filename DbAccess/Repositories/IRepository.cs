@@ -13,8 +13,7 @@ namespace DbAccess.Repositories
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
-        Task AddAsync(TEntity entity);
-        Task AddRangeAsync(IEnumerable<TEntity> entities);
+        Task<TEntity> AddAsync(TEntity entity);
 
         Task RemoveAsync(TEntity entity);
         Task RemoveRangeAsync(IEnumerable<TEntity> entities);
@@ -27,8 +26,7 @@ namespace DbAccess.Repositories
         IEnumerable<TEntity> GetAll();
         //IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
-        void Add(TEntity entity);
-        void AddRange(IEnumerable<TEntity> entities);
+        TEntity Add(TEntity entity);
 
         void Remove(TEntity entity);
         void RemoveRange(IEnumerable<TEntity> entities);
