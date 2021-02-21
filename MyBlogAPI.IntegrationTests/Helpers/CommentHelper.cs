@@ -28,12 +28,20 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
             if (first == null || second == null)
                 return false;
-            if (first.Likes == null || second.Likes == null)
-                return first.Author == second.Author &&
+            if (first.Likes == null && second.Likes != null ||
+                first.Likes != null && second.Likes == null)
+                return false;
+            if (first.Likes != null && second.Likes != null)
+                return first.Likes.SequenceEqual(second.Likes) &&
+                       first.Author == second.Author &&
                        first.PostParent == second.PostParent &&
                        first.CommentParent == second.CommentParent &&
                        first.Content == second.Content;
-            return first.Likes.SequenceEqual(second.Likes);
+            return first.Author == second.Author &&
+                   first.PostParent == second.PostParent &&
+                   first.CommentParent == second.CommentParent &&
+                   first.Content == second.Content;
+
         }
 
         protected override UpdateCommentDto ModifyTUpdate(UpdateCommentDto entity)
