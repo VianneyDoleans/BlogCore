@@ -24,8 +24,9 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
             if (first == null || second == null)
                 return false;
-            return first.Name == second.Name &&
-                   first.Posts.SequenceEqual(second.Posts);
+            if (first.Posts == null || second.Posts == null)
+                return first.Name == second.Name;
+            return first.Posts.SequenceEqual(second.Posts);
         }
 
         protected override UpdateCategoryDto ModifyTUpdate(UpdateCategoryDto entity)

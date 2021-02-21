@@ -36,7 +36,7 @@ namespace MyBlogAPI.IntegrationTests.Helpers
 
         protected override UpdateLikeDto ModifyTUpdate(UpdateLikeDto entity)
         {
-            return new UpdateLikeDto { Id = entity.Id, LikeableType = LikeableType.Post, Post = 1, User = entity.User};
+            return new UpdateLikeDto {Id = entity.Id, LikeableType = LikeableType.Post, Post = 1, User = entity.User};
         }
     }
 }
