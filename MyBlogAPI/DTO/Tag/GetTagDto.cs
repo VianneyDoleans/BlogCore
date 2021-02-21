@@ -3,7 +3,7 @@ using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.DTO.Tag
 {
-    public class GetTagDto
+    public class GetTagDto : IDto
     {
         public int Id { get; set; }
 

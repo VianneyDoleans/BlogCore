@@ -10,7 +10,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Post
 {
-    public class GetPostDto
+    public class GetPostDto : IDto
     {
         public int Id { get; set; }
 

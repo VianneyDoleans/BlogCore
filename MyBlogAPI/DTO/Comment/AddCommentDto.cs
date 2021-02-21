@@ -8,7 +8,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Comment
 {
-    public class AddCommentDto
+    public class AddCommentDto : IDto
     {
         public int Id { get; set; }
 

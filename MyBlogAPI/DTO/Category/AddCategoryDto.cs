@@ -6,7 +6,7 @@ using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.DTO.Category
 {
-    public class AddCategoryDto
+    public class AddCategoryDto : IDto
     {
         public int Id { get; set; }
 

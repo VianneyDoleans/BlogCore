@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Linq;
+using DbAccess.Data;
 using DbAccess.Data.POCO;
+using DbAccess.DataContext;
+using DbAccess.Repositories.UnitOfWork;
 using Xunit;
 
 namespace DBAccess.Test.Repositories
 {
-    public class UserRepository : IClassFixture<DatabaseFixture>
+    public class UserRepository
     {
         private readonly DatabaseFixture _fixture;
 
-        public UserRepository(DatabaseFixture databaseFixture)
+        public UserRepository()
         {
-            _fixture = databaseFixture;
+            _fixture = new DatabaseFixture();
         }
 
         [Fact]
@@ -96,6 +99,5 @@ namespace DBAccess.Test.Repositories
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await userRepository.RemoveAsync(null));
         }
-
     }
 }

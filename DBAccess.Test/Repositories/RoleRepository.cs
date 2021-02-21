@@ -5,13 +5,13 @@ using Xunit;
 
 namespace DBAccess.Test.Repositories
 {
-    public class RolesRepository : IClassFixture<DatabaseFixture>
+    public class RolesRepository
     {
         private readonly DatabaseFixture _fixture;
 
-        public RolesRepository(DatabaseFixture databaseFixture)
+        public RolesRepository()
         {
-            _fixture = databaseFixture;
+            _fixture = new DatabaseFixture();
         }
 
         [Fact]

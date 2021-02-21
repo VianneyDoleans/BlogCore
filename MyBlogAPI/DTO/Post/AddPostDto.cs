@@ -11,7 +11,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Post
 {
-    public class AddPostDto
+    public class AddPostDto : IDto
     {
         public int Id { get; set; }
 

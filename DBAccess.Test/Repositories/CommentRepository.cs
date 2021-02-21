@@ -5,13 +5,13 @@ using Xunit;
 
 namespace DBAccess.Test.Repositories
 {
-    public class CommentRepository : IClassFixture<DatabaseFixture>
+    public class CommentRepository
     {
         private readonly DatabaseFixture _fixture;
 
-        public CommentRepository(DatabaseFixture databaseFixture)
+        public CommentRepository()
         {
-            _fixture = databaseFixture;
+            _fixture = new DatabaseFixture();
         }
 
         [Fact]

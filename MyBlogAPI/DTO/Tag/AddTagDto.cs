@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace MyBlogAPI.DTO.Tag
 {
-    public class AddTagDto
+    public class AddTagDto : IDto
     {
         public int Id { get; set; }
 

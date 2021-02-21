@@ -9,7 +9,7 @@ using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.DTO.User
 {
-    public class GetUserDto
+    public class GetUserDto : IDto
     {
         public int Id { get; set; }
 

@@ -3,7 +3,7 @@ using AutoMapper.Configuration.Conventions;
 
 namespace MyBlogAPI.DTO.Category
 {
-    public class GetCategoryDto
+    public class GetCategoryDto : IDto
     {
         public int Id { get; set; }
 

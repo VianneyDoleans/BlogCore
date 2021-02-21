@@ -6,7 +6,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class AddLikeDto
+    public class AddLikeDto : IDto
     {
         public int Id { get; set; }
 

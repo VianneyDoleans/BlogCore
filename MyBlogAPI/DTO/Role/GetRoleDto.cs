@@ -6,7 +6,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Role
 {
-    public class GetRoleDto
+    public class GetRoleDto : IDto
     {
         public int Id { get; set; }
 

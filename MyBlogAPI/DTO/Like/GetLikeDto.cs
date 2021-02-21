@@ -9,7 +9,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class GetLikeDto
+    public class GetLikeDto : IDto
     {
         public int Id { get; set; }
 

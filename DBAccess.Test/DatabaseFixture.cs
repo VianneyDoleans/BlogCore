@@ -13,14 +13,15 @@ namespace DBAccess.Test
         public DatabaseFixture()
         {
             Db = new MyBlogContext(
-                TestBootstrapper.GetInMemoryDbContextOptions("testDb"));
+                TestBootstrapper.GetInMemoryDbContextOptions());
             DbInitializer.Seed(Db);
             UnitOfWork = new UnitOfWork(Db);
         }
 
         public void Dispose()
         {
-            Db.Database.EnsureDeleted();
+            Db.Dispose();
+            UnitOfWork.Dispose();
         }
     }
 }

@@ -9,7 +9,7 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Comment
 {
-    public class GetCommentDto
+    public class GetCommentDto : IDto
     {
         public int Id { get; set; }
 

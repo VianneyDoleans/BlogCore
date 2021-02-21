@@ -3,7 +3,7 @@ using DbAccess.Data;
 using DbAccess.DataContext;
 using DbAccess.Repositories.UnitOfWork;
 
-namespace DBAccess.Test
+namespace MyBlogAPI.Test
 {
     public class DatabaseFixture : IDisposable
     {
@@ -13,14 +13,15 @@ namespace DBAccess.Test
         public DatabaseFixture()
         {
             Db = new MyBlogContext(
-                TestBootstrapper.GetInMemoryDbContextOptions("testDb"));
+                TestBootstrapper.GetInMemoryDbContextOptions());
             DbInitializer.Seed(Db);
             UnitOfWork = new UnitOfWork(Db);
         }
 
         public void Dispose()
         {
-            Db.Database.EnsureDeleted();
+            Db.Dispose();//Database.EnsureDeleted();
+            UnitOfWork.Dispose();
         }
     }
 }
