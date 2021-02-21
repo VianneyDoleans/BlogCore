@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using AutoMapper;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.User;
+﻿using MyBlogAPI.DTO.Category;
 using MyBlogAPI.IntegrationTests.GenericTests;
 using MyBlogAPI.IntegrationTests.Helpers;
 using Xunit;
