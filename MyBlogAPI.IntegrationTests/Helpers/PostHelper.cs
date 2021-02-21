@@ -29,11 +29,12 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
             if (first == null || second == null)
                 return false;
-            return first.Name == second.Name &&
-                   first.Category == second.Category &&
-                   first.Author == second.Author &&
-                   first.Content == second.Content &&
-                   first.Tags.SequenceEqual(second.Tags);
+            if (first.Tags == null || second.Tags == null)
+                return first.Name == second.Name &&
+                       first.Category == second.Category &&
+                       first.Author == second.Author &&
+                       first.Content == second.Content;
+            return first.Tags.SequenceEqual(second.Tags);
         }
 
         protected override UpdatePostDto ModifyTUpdate(UpdatePostDto entity)

@@ -26,8 +26,9 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
             if (first == null || second == null)
                 return false;
-            return first.Name == second.Name &&
-                   first.Users.SequenceEqual(second.Users);
+            if (first.Users == null || second.Users == null)
+                return first.Name == second.Name;
+            return first.Users.SequenceEqual(second.Users);
         }
 
         protected override UpdateRoleDto ModifyTUpdate(UpdateRoleDto entity)

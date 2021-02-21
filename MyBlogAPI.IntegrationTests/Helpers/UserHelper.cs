@@ -39,12 +39,13 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
             if (first == null || second == null)
                 return false;
-            return first.EmailAddress == second.EmailAddress &&
-                   first.LastLogin == second.LastLogin &&
-                   first.RegisteredAt == second.RegisteredAt &&
-                   first.Roles.SequenceEqual(second.Roles) &&
-                   first.UserDescription == second.UserDescription &&
-                   first.Username == second.Username;
+            if (first.Roles == null || second.Roles == null)
+                return first.EmailAddress == second.EmailAddress &&
+                       first.LastLogin == second.LastLogin &&
+                       first.RegisteredAt == second.RegisteredAt &&
+                       first.UserDescription == second.UserDescription &&
+                       first.Username == second.Username;
+            return first.Roles.SequenceEqual(second.Roles);
         }
     }
 }
