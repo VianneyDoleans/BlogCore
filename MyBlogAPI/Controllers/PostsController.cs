@@ -38,12 +38,12 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddPost(AddPostDto post)
         {
-            await _postService.AddPost(post);
-            return Ok();
+            
+            return Ok(await _postService.AddPost(post));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdatePost(AddPostDto post)
+        public async Task<IActionResult> UpdatePost(UpdatePostDto post)
         {
             if (await _postService.GetPost(post.Id) == null)
                 return NotFound();

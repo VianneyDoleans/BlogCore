@@ -13,8 +13,6 @@ namespace MyBlogAPI.DTO.Post
 {
     public class AddPostDto
     {
-        public int Id { get; set; }
-
         public string Content { get; set; }
 
         public string Name { get; set; }
@@ -22,10 +20,6 @@ namespace MyBlogAPI.DTO.Post
         public int Author { get; set; }
 
         public int Category { get; set; }
-
-        public DateTime PublishedAt { get; set; }
-
-        public DateTime? ModifiedAt { get; set; }
 
         public virtual ICollection<int> Tags { get; set; }
     }

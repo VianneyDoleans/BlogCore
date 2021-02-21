@@ -34,13 +34,14 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(_repository.Get(id));
         }
 
-        public async Task AddCategory(AddCategoryDto category)
+        public async Task<GetCategoryDto> AddCategory(AddCategoryDto category)
         {
-            _repository.Add(_mapper.Map<Category>(category));
+            var result = _repository.Add(_mapper.Map<Category>(category));
             _unitOfWork.Save();
+            return _mapper.Map<GetCategoryDto>(result);
         }
 
-        public async Task UpdateCategory(AddCategoryDto category)
+        public async Task UpdateCategory(UpdateCategoryDto category)
         {
             var categoryEntity = _repository.Get(category.Id);
             categoryEntity.Name = category.Name;

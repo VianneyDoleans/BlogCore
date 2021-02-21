@@ -13,9 +13,9 @@ namespace MyBlogAPI.Services.TagService
 
         Task<GetTagDto> GetTag(int id);
 
-        Task AddTag(AddTagDto user);
+        Task<GetTagDto> AddTag(AddTagDto user);
 
-        Task UpdateTag(AddTagDto user);
+        Task UpdateTag(UpdateTagDto user);
 
         Task DeleteTag(int id);
     }

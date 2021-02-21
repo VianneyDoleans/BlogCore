@@ -72,7 +72,7 @@ namespace MyBlogAPI.Services.PostService
             return postDto;
         }
 
-        public async Task AddPost(AddPostDto post)
+        public async Task<GetPostDto> AddPost(AddPostDto post)
         {
             var pocoPost = _mapper.Map<Post>(post);
             for (var i = 0; i < post.Tags.Count; i += 1)
@@ -80,11 +80,12 @@ namespace MyBlogAPI.Services.PostService
                 pocoPost.PostTags.Add(new PostTag() {PostId = pocoPost.Id, TagId = post.Tags.ToArray()[i]});
             }
             //TODO
-            _repository.Add(pocoPost);
+            var result = _repository.Add(pocoPost);
             _unitOfWork.Save();
+            return _mapper.Map<GetPostDto>(result);
         }
 
-        public async Task UpdatePost(AddPostDto post)
+        public async Task UpdatePost(UpdatePostDto post)
         {
             var postEntity = _repository.Get(post.Id);
             postEntity.Category.Id = post.Category;

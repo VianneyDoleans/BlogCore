@@ -45,13 +45,14 @@ namespace MyBlogAPI.Services.RoleService
             //return _mapper.Map<GetRoleDto>(_repository.Get(id));
         }
 
-        public async Task AddRole(AddRoleDto role)
+        public async Task<GetRoleDto> AddRole(AddRoleDto role)
         {
-            _repository.Add(_mapper.Map<Role>(role));
+            var result = _repository.Add(_mapper.Map<Role>(role));
             _unitOfWork.Save();
+            return _mapper.Map<GetRoleDto>(result);
         }
 
-        public async Task UpdateRole(AddRoleDto role)
+        public async Task UpdateRole(UpdateRoleDto role)
         {
             var roleEntity = _repository.Get(role.Id);
             roleEntity.Name = role.Name;
