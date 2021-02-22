@@ -68,5 +68,12 @@ namespace MyBlogAPI.Test.Services
             // Act & Assert
             Assert.Throws<ArgumentException>(() => _service.AddCategory(category).Result);
         }
+
+        [Fact]
+        public void GetCategoryNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetCategory(685479).Result);
+        }
     }
 }

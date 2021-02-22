@@ -37,8 +37,7 @@ namespace MyBlogAPI.Test.Services
 
             // Act
             var user = await _service.AddUser(userToAdd);
-            _fixture.UnitOfWork.Save();
-            
+
             // Assert
             Assert.Contains(_fixture.Db.Users, x => x.Id == user.Id &&
                                                     x.EmailAddress == user.EmailAddress &&
@@ -58,7 +57,6 @@ namespace MyBlogAPI.Test.Services
             };
             await _service.AddUser(userToAdd);
             userToAdd.Username = "test11";
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
@@ -76,7 +74,6 @@ namespace MyBlogAPI.Test.Services
             };
             await _service.AddUser(userToAdd);
             userToAdd.EmailAddress = "test@newEmail1.com";
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
@@ -91,7 +88,6 @@ namespace MyBlogAPI.Test.Services
                 EmailAddress = "test@newEmail3.com",
                 Username = "test10"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentNullException>(() => _service.AddUser(userToAdd).Result);
@@ -121,7 +117,6 @@ namespace MyBlogAPI.Test.Services
                 Username = "okTest",
                 Password = "12345"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentNullException>(() => _service.AddUser(userToAdd).Result);
@@ -137,7 +132,6 @@ namespace MyBlogAPI.Test.Services
                 EmailAddress = "test@aNewEmail.com",
                 Password = "12345"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
@@ -153,7 +147,6 @@ namespace MyBlogAPI.Test.Services
                 EmailAddress = "test@aNewEmail.com",
                 Password = "12345"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
@@ -177,7 +170,6 @@ namespace MyBlogAPI.Test.Services
                                "ttggggggggggggggggttttttttttend@Email.com",
                 Password = "12345"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
@@ -212,10 +204,16 @@ namespace MyBlogAPI.Test.Services
                                   " description",
                 Password = "12345"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+        }
+
+        [Fact]
+        public void GetUserNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetUser(685479).Result);
         }
     }
 }

@@ -63,5 +63,29 @@ namespace MyBlogAPI.Test.Services
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => _service.AddComment(comment).Result);
         }
+
+        [Fact]
+        public async void AddCommentNotFoundParent()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "AddCommentNotFoundParent@email.com", Password = "1234", Username = "AddBadParent" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "AddBadComPa" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "AddBadParentPost" });
+            _fixture.UnitOfWork.Save();
+            var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id, CommentParent = 654438};
+
+            // Act & Assert
+            Assert.Throws<ArgumentException>(() => _service.AddComment(comment).Result);
+        }
+
+        [Fact]
+        public void GetCommentNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetComment(685479).Result);
+        }
     }
 }

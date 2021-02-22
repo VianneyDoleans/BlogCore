@@ -86,5 +86,12 @@ namespace MyBlogAPI.Test.Services
             // Act & Assert
             Assert.Throws<InvalidOperationException>(() => _service.AddLike(like).Result);
         }
+
+        [Fact]
+        public void GetLikeNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetLike(685479).Result);
+        }
     }
 }

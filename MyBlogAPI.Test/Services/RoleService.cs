@@ -65,5 +65,12 @@ namespace MyBlogAPI.Test.Services
             // Act & Assert
             Assert.Throws<ArgumentException>(() => _service.AddRole(role).Result);
         }
+
+        [Fact]
+        public void GetRoleNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetRole(685479).Result);
+        }
     }
 }

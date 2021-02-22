@@ -64,5 +64,12 @@ namespace MyBlogAPI.Test.Services
             // Act & Assert
             Assert.Throws<ArgumentException>(() => _service.AddTag(tag).Result);
         }
+
+        [Fact]
+        public void GetTagNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetTag(685479).Result);
+        }
     }
 }

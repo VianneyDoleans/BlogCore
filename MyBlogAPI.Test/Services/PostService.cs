@@ -81,5 +81,12 @@ namespace MyBlogAPI.Test.Services
             // Act & Assert
             Assert.Throws<ArgumentException>(() => _service.AddPost(post).Result);
         }
+
+        [Fact]
+        public void GetPostNotFound()
+        {
+            // Arrange & Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => _service.GetPost(685479).Result);
+        }
     }
 }
