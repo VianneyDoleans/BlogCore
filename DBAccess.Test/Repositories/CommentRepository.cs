@@ -17,7 +17,7 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void AddCommentAsync()
         {
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var testComment = new Comment()
                 {Author = await _fixture.Db.Users.FindAsync(1), Content = "testContent test AddComment"};
             await commentRepository.AddAsync(testComment);
@@ -29,7 +29,7 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void AddNullCommentAsync()
         {
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await commentRepository.AddAsync(null));
         }
@@ -37,7 +37,7 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void GetCommentAsync()
         {
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var result = await commentRepository.GetAsync(1);
 
             Assert.True(result == await _fixture.Db.Comments.FindAsync(1));
@@ -46,7 +46,7 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void GetCommentOutOfRangeAsync()
         {
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await commentRepository.GetAsync(100));
         }
@@ -54,7 +54,7 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void GetAllAsync()
         {
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var result = await commentRepository.GetAllAsync();
 
             Assert.True(result.Count() == _fixture.Db.Comments.Count());
@@ -64,7 +64,7 @@ namespace DBAccess.Test.Repositories
         public async void RemoveAsync()
         {
             var nbCommentsAtBeginning = _fixture.Db.Comments.Count();
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var testComment = new Comment()
                 {Author = await _fixture.Db.Users.FindAsync(1), Content = "testContent test AddComment"};
 
@@ -82,7 +82,7 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void RemoveNullAsync()
         {
-            var commentRepository = new DbAccess.Repositories.Comment.CommentsRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await commentRepository.RemoveAsync(null));
         }

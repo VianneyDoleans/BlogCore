@@ -12,11 +12,11 @@ namespace MyBlogAPI.Services.CommentService
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentsRepository _repository;
+        private readonly ICommentRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public CommentService(ICommentsRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+        public CommentService(ICommentRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _mapper = mapper;

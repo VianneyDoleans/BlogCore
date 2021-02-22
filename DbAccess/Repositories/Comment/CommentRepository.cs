@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.Comment
 {
-    public class CommentsRepository : Repository<Data.POCO.Comment>, ICommentsRepository
+    public class CommentRepository : Repository<Data.POCO.Comment>, ICommentRepository
     {
-        public CommentsRepository(MyBlogContext context) : base(context)
+        public CommentRepository(MyBlogContext context) : base(context)
         {
         }
 

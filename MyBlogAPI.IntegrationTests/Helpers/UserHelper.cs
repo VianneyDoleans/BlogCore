@@ -39,6 +39,9 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
             if (first == null || second == null)
                 return false;
+            if (first.Roles == null && second.Roles != null ||
+                first.Roles != null && second.Roles == null)
+                return false;
             if (first.Roles == null || second.Roles == null)
                 return first.EmailAddress == second.EmailAddress &&
                        first.LastLogin == second.LastLogin &&
