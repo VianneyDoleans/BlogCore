@@ -35,7 +35,7 @@ namespace MyBlogAPI
         private static void ConfigureRepositoryServices(IServiceCollection services)
         {
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICommentsRepository, CommentsRepository>();
+            services.AddScoped<ICommentRepository, CommentRepository>();
             services.AddScoped<ILikeRepository, LikeRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
