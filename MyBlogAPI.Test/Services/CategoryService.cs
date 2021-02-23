@@ -17,7 +17,7 @@ namespace MyBlogAPI.Test.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new AutoMapperProfile());
+                cfg.AddProfile(databaseFixture.MapperProfile);
             });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.CategoryService.CategoryService(new CategoryRepository(_fixture.Db),
@@ -31,7 +31,7 @@ namespace MyBlogAPI.Test.Services
             var category = new AddCategoryDto() {Name = "ANewName13"};
 
             // Act
-            var categoryAdded = _service.AddCategory(category);
+            var categoryAdded = await _service.AddCategory(category);
 
             // Assert
             Assert.Contains(await _service.GetAllCategories() , x => x.Id == categoryAdded.Id 

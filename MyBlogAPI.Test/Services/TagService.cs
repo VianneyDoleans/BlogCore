@@ -15,7 +15,7 @@ namespace MyBlogAPI.Test.Services
         public TagService(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile(new AutoMapperProfile()); });
+            var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.TagService.TagService(new TagRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork);

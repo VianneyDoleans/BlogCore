@@ -2,6 +2,7 @@
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Comment;
+using Microsoft.Extensions.DependencyInjection;
 using MyBlogAPI.DTO.Category;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.Services.CommentService;
@@ -17,7 +18,7 @@ namespace MyBlogAPI.Test.Services
         public CommentService(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile(new AutoMapperProfile()); });
+            var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork);

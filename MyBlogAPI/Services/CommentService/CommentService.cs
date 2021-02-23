@@ -36,7 +36,7 @@ namespace MyBlogAPI.Services.CommentService
 
         public async Task<GetCommentDto> AddComment(AddCommentDto comment)
         {
-            var result = _repository.Add(_mapper.Map<Comment>(comment));
+            var result = await _repository.AddAsync(_mapper.Map<Comment>(comment));
             _unitOfWork.Save();
             return _mapper.Map<GetCommentDto>(result);
         }

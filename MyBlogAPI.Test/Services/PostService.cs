@@ -16,7 +16,7 @@ namespace MyBlogAPI.Test.Services
         public PostService(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile(new AutoMapperProfile()); });
+            var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork);
@@ -34,8 +34,9 @@ namespace MyBlogAPI.Test.Services
             var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPost65" };
 
             // Act
-            var postAdded = _service.AddPost(post);
+            var postAdded = await _service.AddPost(post);
 
+            var posts = await _service.GetAllPosts();
             // Assert
             Assert.Contains(await _service.GetAllPosts(), x => x.Id == postAdded.Id &&
                                                                x.Author == post.Author &&

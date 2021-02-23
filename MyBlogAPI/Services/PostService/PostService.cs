@@ -75,12 +75,14 @@ namespace MyBlogAPI.Services.PostService
         public async Task<GetPostDto> AddPost(AddPostDto post)
         {
             var pocoPost = _mapper.Map<Post>(post);
-            for (var i = 0; i < post.Tags.Count; i += 1)
-            {
-                pocoPost.PostTags.Add(new PostTag() {PostId = pocoPost.Id, TagId = post.Tags.ToArray()[i]});
-            }
-            //TODO
-            var result = _repository.Add(pocoPost);
+            if (post.Tags != null)
+                pocoPost.PostTags = post.Tags.Select(x => new PostTag()
+                {
+                    PostId = pocoPost.Id, 
+                    TagId = x
+                }).ToList();
+
+            var result = await _repository.AddAsync(pocoPost);
             _unitOfWork.Save();
             return _mapper.Map<GetPostDto>(result);
         }
