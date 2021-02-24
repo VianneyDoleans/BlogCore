@@ -2,6 +2,8 @@
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Comment;
+using DbAccess.Repositories.Post;
+using DbAccess.Repositories.User;
 using Microsoft.Extensions.DependencyInjection;
 using MyBlogAPI.DTO.Category;
 using MyBlogAPI.DTO.Comment;
@@ -21,7 +23,7 @@ namespace MyBlogAPI.Test.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db), new PostRepository(_fixture.Db));
         }
 
         [Fact]
@@ -62,7 +64,7 @@ namespace MyBlogAPI.Test.Services
             var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id };
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _service.AddComment(comment).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
@@ -79,14 +81,14 @@ namespace MyBlogAPI.Test.Services
             var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id, CommentParent = 654438};
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddComment(comment).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
-        public void GetCommentNotFound()
+        public async void GetCommentNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetComment(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetComment(685479));
         }
     }
 }

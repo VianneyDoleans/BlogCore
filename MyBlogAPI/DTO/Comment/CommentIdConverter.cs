@@ -3,11 +3,11 @@ using DbAccess.Repositories.Comment;
 
 namespace MyBlogAPI.DTO.Comment
 {
-    public class CommentDtoConverter: ITypeConverter<int, DbAccess.Data.POCO.Comment>
+    public class CommentIdConverter: ITypeConverter<int, DbAccess.Data.POCO.Comment>
     {
         private readonly ICommentRepository _repository;
 
-        public CommentDtoConverter(ICommentRepository repository)
+        public CommentIdConverter(ICommentRepository repository)
         {
             _repository = repository;
         }

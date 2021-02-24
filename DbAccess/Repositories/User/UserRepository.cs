@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -46,6 +47,18 @@ namespace DbAccess.Repositories.User
                 .Select(y => y.User)
                 .ToList();
                 return users;
+        }
+
+        public async Task<bool> UsernameAlreadyExists(string username)
+        {
+            var user = await Context.Set<Data.POCO.User>().Where(x => x.Username == username).FirstOrDefaultAsync();
+            return user != null;
+        }
+
+        public async Task<bool> EmailAddressAlreadyExists(string emailAddress)
+        {
+            var user = await Context.Set<Data.POCO.User>().Where(x => x.EmailAddress == emailAddress).FirstOrDefaultAsync();
+            return user != null;
         }
     }
 }

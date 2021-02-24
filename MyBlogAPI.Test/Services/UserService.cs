@@ -59,7 +59,7 @@ namespace MyBlogAPI.Test.Services
             userToAdd.Username = "test11";
 
             // Act && Assert
-            Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -76,11 +76,11 @@ namespace MyBlogAPI.Test.Services
             userToAdd.EmailAddress = "test@newEmail1.com";
 
             // Act && Assert
-            Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithNullPassword()
+        public async void AddUserWithNullPassword()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -90,11 +90,11 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithNullUsername()
+        public async void AddUserWithNullUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -105,11 +105,11 @@ namespace MyBlogAPI.Test.Services
             //_fixture.UnitOfWork.Save();
 
             // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithNullEmail()
+        public async void AddUserWithNullEmail()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -119,11 +119,11 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            Assert.Throws<ArgumentNullException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithTooLongUsername()
+        public async void AddUserWithTooLongUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -134,11 +134,11 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithTooShortUsername()
+        public async void AddUserWithTooShortUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -149,11 +149,11 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithTooLongEmail()
+        public async void AddUserWithTooLongEmail()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -172,11 +172,11 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void AddUserWithTooLongUserDescription()
+        public async void AddUserWithTooLongUserDescription()
         {
             // Arrange
             var userToAdd = new AddUserDto()
@@ -206,14 +206,14 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            Assert.Throws<ArgumentException>(() => _service.AddUser(userToAdd).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public void GetUserNotFound()
+        public async void GetUserNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetUser(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetUser(685479));
         }
     }
 }

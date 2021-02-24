@@ -1,7 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Post;
+using DbAccess.Repositories.Tag;
+using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Services.PostService;
 using Xunit;
@@ -19,7 +22,8 @@ namespace MyBlogAPI.Test.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db), new CategoryRepository(_fixture.Db),
+                new TagRepository(_fixture.Db));
         }
 
         [Fact]
@@ -62,7 +66,7 @@ namespace MyBlogAPI.Test.Services
             var post2 = new AddPostDto() { Author = user2.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPost65" };
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddPost(post2).Result);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddPost(post2));
         }
 
         [Fact]
@@ -80,14 +84,14 @@ namespace MyBlogAPI.Test.Services
                        "long long long long long long long long long long long name !!" };
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddPost(post).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
-        public void GetPostNotFound()
+        public async void GetPostNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetPost(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPost(685479));
         }
     }
 }

@@ -3,11 +3,11 @@ using DbAccess.Repositories.Role;
 
 namespace MyBlogAPI.DTO.Role
 {
-    public class RoleDtoConverter : ITypeConverter<int, DbAccess.Data.POCO.Role>
+    public class RoleIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Role>
     {
         private readonly IRoleRepository _repository;
 
-        public RoleDtoConverter(IRoleRepository repository)
+        public RoleIdConverter(IRoleRepository repository)
         {
             _repository = repository;
         }

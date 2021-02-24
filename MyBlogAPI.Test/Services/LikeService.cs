@@ -1,7 +1,10 @@
 ﻿using System;
 using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Like;
+using DbAccess.Repositories.Post;
+using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Services.LikeService;
 using Xunit;
@@ -19,7 +22,8 @@ namespace MyBlogAPI.Test.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.LikeService.LikeService(new LikeRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new CommentRepository(_fixture.Db), new PostRepository(_fixture.Db), 
+                new UserRepository(_fixture.Db));
         }
 
         [Fact]
@@ -63,7 +67,7 @@ namespace MyBlogAPI.Test.Services
             await _service.AddLike(like);
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => _service.AddLike(like).Result);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -84,14 +88,14 @@ namespace MyBlogAPI.Test.Services
             await _service.AddLike(like);
 
             // Act & Assert
-            Assert.Throws<InvalidOperationException>(() => _service.AddLike(like).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
-        public void GetLikeNotFound()
+        public async void GetLikeNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetLike(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetLike(685479));
         }
     }
 }

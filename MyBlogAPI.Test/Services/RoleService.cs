@@ -37,40 +37,40 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
-        public void AddRoleWithTooLongName()
+        public async void AddRoleWithTooLongName()
         {
             // Arrange
             var role = new AddRoleDto() { Name = "Ths is a long name !!" };
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddRole(role).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
-        public void AddRoleWithNullName()
+        public async void AddRoleWithNullName()
         {
             // Arrange
             var role = new AddRoleDto();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddRole(role).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
-        public void AddRoleWithEmptyName()
+        public async void AddRoleWithEmptyName()
         {
             // Arrange
             var role = new AddRoleDto() { Name = "  " };
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddRole(role).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
-        public void GetRoleNotFound()
+        public async void GetRoleNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetRole(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetRole(685479));
         }
     }
 }

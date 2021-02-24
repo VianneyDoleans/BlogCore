@@ -3,11 +3,11 @@ using DbAccess.Repositories.Like;
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class LikeDtoConverter : ITypeConverter<int, DbAccess.Data.POCO.Like>
+    public class LikeIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Like>
     {
         private readonly ILikeRepository _repository;
 
-        public LikeDtoConverter(ILikeRepository repository)
+        public LikeIdConverter(ILikeRepository repository)
         {
             _repository = repository;
         }

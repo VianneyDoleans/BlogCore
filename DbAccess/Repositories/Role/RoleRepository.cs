@@ -33,6 +33,12 @@ namespace DbAccess.Repositories.Role
             return Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToList();
         }
 
+        public async Task<bool> NameAlreadyExists(string name)
+        {
+            var role = await Context.Set<Data.POCO.Role>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            return role != null;
+        }
+
         public override async Task<IEnumerable<Data.POCO.Role>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToListAsync();

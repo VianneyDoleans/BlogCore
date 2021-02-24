@@ -47,13 +47,13 @@ namespace MyBlogAPI
             CreateMap<Role, int>().ConvertUsing(x => x.Id);
             CreateMap<Tag, int>().ConvertUsing(x => x.Id);
 
-            CreateMap<int, Like>().ConvertUsing<LikeDtoConverter>();
-            CreateMap<int, Comment>().ConvertUsing<CommentDtoConverter>();
-            CreateMap<int, Post> ().ConvertUsing<PostDtoConverter>();
-            CreateMap<int, User>().ConvertUsing<UserDtoConverter>();
-            CreateMap<int, Category>().ConvertUsing<CategoryDtoConverter>();
-            CreateMap<int, Role>().ConvertUsing<RoleDtoConverter>();
-            CreateMap<int, Tag>().ConvertUsing<TagDtoConverter>();
+            CreateMap<int, Like>().ConvertUsing<LikeIdConverter>();
+            CreateMap<int, Comment>().ConvertUsing<CommentIdConverter>();
+            CreateMap<int, Post> ().ConvertUsing<PostIdConverter>();
+            CreateMap<int, User>().ConvertUsing<UserIdConverter>();
+            CreateMap<int, Category>().ConvertUsing<CategoryIdConverter>();
+            CreateMap<int, Role>().ConvertUsing<RoleIdConverter>();
+            CreateMap<int, Tag>().ConvertUsing<TagIdConverter>();
         }
     }
 }

@@ -86,7 +86,7 @@ namespace MyBlogAPI
             // specifying the Swagger JSON endpoint.    
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Blog V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
             });
 
             app.UseHttpsRedirection();

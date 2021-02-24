@@ -34,8 +34,35 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(_repository.Get(id));
         }
 
+        public async Task CheckCategoryValidity(AddCategoryDto category)
+        {
+            if (category == null)
+                throw new ArgumentNullException();
+            if (string.IsNullOrWhiteSpace(category.Name))
+                throw new ArgumentException("Name cannot be null or empty.");
+            if (category.Name.Length > 50)
+                throw new ArgumentException("Name cannot exceed 50 characters.");
+            if (await _repository.NameAlreadyExists(category.Name))
+                throw new InvalidOperationException("Name already exists.");
+        }
+
+        public async Task CheckCategoryValidity(UpdateCategoryDto category)
+        {
+            if (category == null)
+                throw new ArgumentNullException();
+            if (_repository.GetAsync(category.Id) == null)
+                throw new ArgumentException("Category doesn't exist.");
+            if (string.IsNullOrWhiteSpace(category.Name))
+                throw new ArgumentException("Name cannot be null or empty.");
+            if (category.Name.Length > 50)
+                throw new ArgumentException("Name cannot exceed 50 characters.");
+            if (await _repository.NameAlreadyExists(category.Name))
+                throw new InvalidOperationException("Name already exists.");
+        }
+
         public async Task<GetCategoryDto> AddCategory(AddCategoryDto category)
         {
+            await CheckCategoryValidity(category);
             var result = _repository.Add(_mapper.Map<Category>(category));
             _unitOfWork.Save();
             return _mapper.Map<GetCategoryDto>(result);
@@ -43,6 +70,7 @@ namespace MyBlogAPI.Services.CategoryService
 
         public async Task UpdateCategory(UpdateCategoryDto category)
         {
+            await CheckCategoryValidity(category);
             var categoryEntity = _repository.Get(category.Id);
             categoryEntity.Name = category.Name;
             //TODO

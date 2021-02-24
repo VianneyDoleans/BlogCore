@@ -7,11 +7,11 @@ using DbAccess.Repositories.Category;
 
 namespace MyBlogAPI.DTO.Category
 {
-    public class CategoryDtoConverter : ITypeConverter<int, DbAccess.Data.POCO.Category>
+    public class CategoryIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Category>
     {
         private readonly ICategoryRepository _repository;
 
-        public CategoryDtoConverter(ICategoryRepository repository)
+        public CategoryIdConverter(ICategoryRepository repository)
         {
             _repository = repository;
         }

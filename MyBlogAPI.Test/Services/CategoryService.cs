@@ -39,41 +39,41 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
-        public void AddCategoryWithAlreadyExistingName()
+        public async void AddCategoryWithAlreadyExistingName()
         {
             // Arrange
             var category = new AddCategoryDto() { Name = "ANewName134" };
             var categoryAdded = _service.AddCategory(category);
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddCategory(category).Result);
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
-        public void AddCategoryWithNullName()
+        public async void AddCategoryWithNullName()
         {
             // Arrange
             var category = new AddCategoryDto();
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _service.AddCategory(category).Result);
+           await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
-        public void AddCategoryWithTooLongName()
+        public async void AddCategoryWithTooLongName()
         {
             // Arrange
             var category = new AddCategoryDto() {Name = "AAAAAAAAAAAAAAAAAAAAAAAAAAlongNameForTestingPurpose" };
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddCategory(category).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
-        public void GetCategoryNotFound()
+        public async void GetCategoryNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetCategory(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetCategory(685479));
         }
     }
 }

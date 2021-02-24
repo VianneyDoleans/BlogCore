@@ -3,11 +3,11 @@ using DbAccess.Repositories.Tag;
 
 namespace MyBlogAPI.DTO.Tag
 {
-    public class TagDtoConverter : ITypeConverter<int, DbAccess.Data.POCO.Tag>
+    public class TagIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Tag>
     {
         private readonly ITagRepository _repository;
 
-        public TagDtoConverter(ITagRepository repository)
+        public TagIdConverter(ITagRepository repository)
         {
             _repository = repository;
         }

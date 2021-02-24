@@ -15,6 +15,6 @@ namespace MyBlogAPI.DTO.Post
 
         public int Category { get; set; }
 
-        public virtual ICollection<int> Tags { get; set; }
+        public virtual IEnumerable<int> Tags { get; set; }
     }
 }
