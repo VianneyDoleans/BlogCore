@@ -32,10 +32,14 @@ namespace MyBlogAPI.Services.TagService
 
         public async Task<GetTagDto> GetTag(int id)
         {
-            /*var userEntity = _repository.Get(id);
-            var userDto = _mapper.Map<GetTagDto>(userEntity);
-            userDto.Posts = userEntity.PostTags.Where(x => x.TagId == id).Select(x => x.PostId);*/
-            return _mapper.Map<GetTagDto>(_repository.Get(id));
+            try
+            {
+                return _mapper.Map<GetTagDto>(_repository.Get(id));
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Tag doesn't exist.");
+            }
         }
 
         public async Task CheckTagValidity(AddTagDto tag)

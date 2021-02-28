@@ -31,11 +31,11 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPost@email.com", Password = "1234", Username = "postOk" });
+                new User() { EmailAddress = "AddPost@email.com", Password = "1234", Username = "AddPost" });
             var category = await _fixture.Db.Categories.AddAsync(
-                new Category() { Name = "AddCommentName" });
+                new Category() { Name = "AddPost" });
             _fixture.UnitOfWork.Save();
-            var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPost65" };
+            var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPost" };
 
             // Act
             var postAdded = await _service.AddPost(post);
@@ -54,16 +54,16 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostAlready@email.com", Password = "1234", Username = "postOk11" });
+                new User() { EmailAddress = "AddPostAlreadyName@email.com", Password = "1234", Username = "AddPostAlName" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostAlreadyExist@email.com", Password = "1234", Username = "postOk543" });
+                new User() { EmailAddress = "AddPostAlreadyName@email.com", Password = "1234", Username = "AddPostAlName2" });
             var category = await _fixture.Db.Categories.AddAsync(
-                new Category() { Name = "AddCommentName" });
+                new Category() { Name = "AddPostAlName" });
             _fixture.UnitOfWork.Save();
-            var post1 = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPost65" };
+            var post1 = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPostAlName" };
             await _service.AddPost(post1);
 
-            var post2 = new AddPostDto() { Author = user2.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPost65" };
+            var post2 = new AddPostDto() { Author = user2.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPostAlName" };
 
             // Act & Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddPost(post2));
@@ -74,9 +74,9 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostTooLongName@email.com", Password = "1234", Username = "postOk132" });
+                new User() { EmailAddress = "AddPostTooLongName@email.com", Password = "1234", Username = "AddPostTooName" });
             var category = await _fixture.Db.Categories.AddAsync(
-                new Category() { Name = "AddPostLongNa" });
+                new Category() { Name = "AddPostLoName" });
             _fixture.UnitOfWork.Save();
             var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", 
                 Name = "Ths is a long long long long long long long long long long long long long long long long long " +

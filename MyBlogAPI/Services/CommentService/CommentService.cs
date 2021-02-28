@@ -37,8 +37,15 @@ namespace MyBlogAPI.Services.CommentService
 
         public async Task<GetCommentDto> GetComment(int id)
         {
-            var comment = _repository.Get(id);
-            return _mapper.Map<GetCommentDto>(comment);
+            try
+            {
+                var comment = _repository.Get(id);
+                return _mapper.Map<GetCommentDto>(comment);
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Comment doesn't exist.");
+            }
         }
 
         public async Task CheckCommentValidity(AddCommentDto comment)

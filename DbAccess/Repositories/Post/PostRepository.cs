@@ -73,5 +73,11 @@ namespace DbAccess.Repositories.Post
                 .Where(x => x.Category.Id == id)
                 .ToListAsync();
         }
+
+        public async Task<bool> NameAlreadyExists(string name)
+        {
+            var post = await Context.Set<Data.POCO.Post>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            return post != null;
+        }
     }
 }

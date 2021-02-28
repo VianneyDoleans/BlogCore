@@ -78,10 +78,17 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task<GetPostDto> GetPost(int id)
         {
-            var post = _repository.Get(id);
-            var postDto = _mapper.Map<GetPostDto>(post);
-            postDto.Tags = post.PostTags.Select(x => x.TagId);
-            return postDto;
+            try
+            {
+                var post = _repository.Get(id);
+                var postDto = _mapper.Map<GetPostDto>(post);
+                postDto.Tags = post.PostTags.Select(x => x.TagId);
+                return postDto;
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Post doesn't exist.");
+            }
         }
 
         public async Task CheckPostValidity(AddPostDto post)
@@ -104,6 +111,8 @@ namespace MyBlogAPI.Services.PostService
                 if (tag == null)
                     throw new ArgumentException("Tag id " + x + " doesn't exist.");
             });
+            if (await _repository.NameAlreadyExists(post.Name))
+                throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckPostValidity(UpdatePostDto post)
@@ -128,6 +137,8 @@ namespace MyBlogAPI.Services.PostService
                 if (tag == null)
                     throw new ArgumentException("Tag id " + x + " doesn't exist.");
             });
+            if (await _repository.NameAlreadyExists(post.Name))
+                throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task<GetPostDto> AddPost(AddPostDto post)

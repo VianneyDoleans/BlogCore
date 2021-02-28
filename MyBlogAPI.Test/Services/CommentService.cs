@@ -31,7 +31,7 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() {EmailAddress = "AddComment@email.com", Password = "1234", Username = "ok"});
+                new User() {EmailAddress = "AddComment@email.com", Password = "1234", Username = "AddComment"});
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() {Name = "AddCommentName"});
             var post = await _fixture.Db.Posts.AddAsync(

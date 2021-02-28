@@ -31,11 +31,11 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLike@email.com", Password = "1234", Username = "like243" });
+                new User() { EmailAddress = "AddLike@email.com", Password = "1234", Username = "AddLike" });
             var category = await _fixture.Db.Categories.AddAsync(
-                new Category() { Name = "AddLikeName" });
+                new Category() { Name = "AddLike" });
             var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "AddLikeName" });
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "AddLike" });
             _fixture.UnitOfWork.Save();
             var like = new AddLikeDto()
                 {LikeableType = LikeableType.Post, Post = post.Entity.Id, User = user.Entity.Id};
@@ -56,11 +56,11 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeTwoTimes@email.com", Password = "1234", Username = "like6501" });
+                new User() { EmailAddress = "AddLikeTwoTimes@email.com", Password = "1234", Username = "AddLikeTwoT" });
             var category = await _fixture.Db.Categories.AddAsync(
-                new Category() { Name = "AddLikeTwo" });
+                new Category() { Name = "AddLikeTwoT" });
             var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "AddLikeTwo" });
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "AddLikeTwoT" });
             _fixture.UnitOfWork.Save();
             var like = new AddLikeDto()
                 { LikeableType = LikeableType.Post, Post = post.Entity.Id, User = user.Entity.Id };
@@ -75,7 +75,7 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeNullElement@email.com", Password = "1234", Username = "like912" });
+                new User() { EmailAddress = "AddLikeNullElement@email.com", Password = "1234", Username = "AddLikeNullE" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeNullE" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -85,7 +85,6 @@ namespace MyBlogAPI.Test.Services
             _fixture.UnitOfWork.Save();
             var like = new AddLikeDto()
                 { LikeableType = LikeableType.Post, User = user.Entity.Id, Comment = comment.Entity.Id};
-            await _service.AddLike(like);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddLike(like));

@@ -42,7 +42,14 @@ namespace MyBlogAPI.Services.LikeService
 
         public async Task<GetLikeDto> GetLike(int id)
         {
-            return _mapper.Map<GetLikeDto>(_repository.Get(id));
+            try
+            {
+                return _mapper.Map<GetLikeDto>(_repository.Get(id));
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Like doesn't exist.");
+            }
         }
 
         public async Task CheckLikeValidity(AddLikeDto like)
@@ -64,9 +71,9 @@ namespace MyBlogAPI.Services.LikeService
                     throw new ArgumentException("Post cannot be null.");
                 case LikeableType.Post when await _postRepository.GetAsync(like.Post.Value) == null:
                     throw new ArgumentException("Post doesn't exist.");
-                default:
-                    return;
             }
+            if (await _repository.LikeAlreadyExists(_mapper.Map<Like>(like)))
+                throw new InvalidOperationException("Like already exists.");
         }
 
         public async Task CheckLikeValidity(UpdateLikeDto like)

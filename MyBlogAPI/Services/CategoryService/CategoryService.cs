@@ -31,7 +31,14 @@ namespace MyBlogAPI.Services.CategoryService
 
         public async Task<GetCategoryDto> GetCategory(int id)
         {
-            return _mapper.Map<GetCategoryDto>(_repository.Get(id));
+            try
+            {
+                return _mapper.Map<GetCategoryDto>(_repository.Get(id));
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Post doesn't exist.");
+            }
         }
 
         public async Task CheckCategoryValidity(AddCategoryDto category)

@@ -69,5 +69,14 @@ namespace DbAccess.Repositories.Like
                 .Include(x => x.Comment)
                 .Where(x => x.Comment.Id == id).ToListAsync();
         }
+
+        public async Task<bool> LikeAlreadyExists(Data.POCO.Like like)
+        {
+            var result = await Context.Set<Data.POCO.Like>().FirstOrDefaultAsync(x => x.User == like.User && 
+                x.Comment == like.Comment &&
+                x.LikeableType == like.LikeableType &&
+                x.Post == like.Post);
+            return result != null;
+        }
     }
 }

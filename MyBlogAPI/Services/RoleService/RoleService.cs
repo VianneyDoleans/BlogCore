@@ -35,10 +35,17 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task<GetRoleDto> GetRole(int id)
         {
-            var role = _repository.Get(id);
-            var roleDto = _mapper.Map<GetRoleDto>(role);
-            roleDto.Users = role.UserRoles.Select(x => x.UserId);
-            return roleDto;
+            try
+            {
+                var role = _repository.Get(id);
+                var roleDto = _mapper.Map<GetRoleDto>(role);
+                roleDto.Users = role.UserRoles.Select(x => x.UserId);
+                return roleDto;
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Role doesn't exist.");
+            }
         }
 
         public async Task CheckRoleValidity(AddRoleDto role)
