@@ -13,9 +13,9 @@ namespace MyBlogAPI.Services.CommentService
 
         Task<GetCommentDto> GetComment(int id);
 
-        Task AddComment(AddCommentDto comment);
+        Task<GetCommentDto> AddComment(AddCommentDto comment);
 
-        Task UpdateComment(AddCommentDto comment);
+        Task UpdateComment(UpdateCommentDto comment);
 
         Task DeleteComment(int id);
 

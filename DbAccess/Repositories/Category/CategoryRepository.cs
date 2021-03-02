@@ -33,6 +33,12 @@ namespace DbAccess.Repositories.Category
                 .ToList();
         }
 
+        public async Task<bool> NameAlreadyExists(string name)
+        {
+            var category = await Context.Set<Data.POCO.Category>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            return category != null;
+        }
+
         public override async Task<IEnumerable<Data.POCO.Category>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.Category>()

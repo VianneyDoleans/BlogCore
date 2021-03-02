@@ -10,5 +10,7 @@ namespace DbAccess.Repositories.Like
         Task<IEnumerable<Data.POCO.Like>> GetLikesFromUser(int id);
 
         Task<IEnumerable<Data.POCO.Like>> GetLikesFromComment(int id);
+
+        Task<bool> LikeAlreadyExists(Data.POCO.Like like);
     }
 }

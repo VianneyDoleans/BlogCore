@@ -44,12 +44,11 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddTag(AddTagDto user)
         {
-            await _tagService.AddTag(user);
-            return Ok();
+            return Ok(await _tagService.AddTag(user));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateTag(AddTagDto tag)
+        public async Task<IActionResult> UpdateTag(UpdateTagDto tag)
         {
             if (await _tagService.GetTag(tag.Id) == null)
                 return NotFound();

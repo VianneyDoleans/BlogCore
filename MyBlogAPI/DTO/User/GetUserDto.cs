@@ -9,10 +9,8 @@ using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.DTO.User
 {
-    public class GetUserDto
+    public class GetUserDto : ADto
     {
-        public int Id { get; set; }
-
         public string Username { get; set; }
 
         public string EmailAddress { get; set; }

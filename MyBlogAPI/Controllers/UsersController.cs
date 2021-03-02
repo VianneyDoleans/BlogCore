@@ -61,12 +61,11 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(AddUserDto user)
         {
-            await _userService.AddUser(user);
-            return Ok();
+            return Ok(await _userService.AddUser(user));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(AddUserDto user)
+        public async Task<IActionResult> UpdateUser(UpdateUserDto user)
         {
             if (await _userService.GetUser(user.Id) == null)
                 return NotFound();

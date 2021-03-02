@@ -9,10 +9,8 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Comment
 {
-    public class GetCommentDto
+    public class GetCommentDto : ADto
     {
-        public int Id { get; set; }
-
         public int Author { get; set; }
 
         public int PostParent { get; set; }
@@ -25,7 +23,6 @@ namespace MyBlogAPI.DTO.Comment
 
         public string Content { get; set; }
 
-        /*[MapTo(nameof(DbAccess.Data.POCO.Like.Id))]*/
         public IEnumerable<int> Likes { get; set; }
     }
 }

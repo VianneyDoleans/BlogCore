@@ -13,9 +13,9 @@ namespace MyBlogAPI.Services.CategoryService
 
         Task<GetCategoryDto> GetCategory(int id);
 
-        Task AddCategory(AddCategoryDto category);
+        Task<GetCategoryDto> AddCategory(AddCategoryDto category);
 
-        Task UpdateCategory(AddCategoryDto category);
+        Task UpdateCategory(UpdateCategoryDto category);
 
         Task DeleteCategory(int id);
     }

@@ -9,10 +9,8 @@ using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class GetLikeDto
+    public class GetLikeDto : ADto
     {
-        public int Id { get; set; }
-
         public DateTime PublishedAt { get; set; }
 
         public LikeableType LikeableType { get; set; }

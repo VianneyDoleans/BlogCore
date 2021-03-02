@@ -8,8 +8,6 @@ namespace MyBlogAPI.DTO.Role
 {
     public class AddRoleDto
     {
-        public int Id { get; set; }
-
         public string Name { get; set; }
 
     }

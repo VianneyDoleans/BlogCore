@@ -19,9 +19,9 @@ namespace MyBlogAPI.Services.PostService
 
         Task<GetPostDto> GetPost(int id);
 
-        Task AddPost(AddPostDto post);
+        Task<GetPostDto> AddPost(AddPostDto post);
 
-        Task UpdatePost(AddPostDto post);
+        Task UpdatePost(UpdatePostDto post);
 
         Task DeletePost(int id);
     }

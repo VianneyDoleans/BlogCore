@@ -34,12 +34,11 @@ namespace MyBlogAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> AddUser(AddCategoryDto user)
         {
-            await _categoryService.AddCategory(user);
-            return Ok();
+            return Ok(await _categoryService.AddCategory(user));
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(AddCategoryDto category)
+        public async Task<IActionResult> UpdateUser(UpdateCategoryDto category)
         {
             if (await _categoryService.GetCategory(category.Id) == null)
                 return NotFound();
