@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
 using MyBlogAPI.DTO.User;
+using Newtonsoft.Json;
 
 namespace MyBlogAPI.IntegrationTests.Helpers
 {
@@ -11,27 +14,15 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
         }
 
-        protected override AddUserDto CreateTAdd()
-        {
-            var user = new AddUserDto()
-            {
-                EmailAddress = "AddANewUser@user.com",
-                Password = "abcdh",
-                UserDescription = "My description",
-                Username = Guid.NewGuid().ToString()
-            };
-            return user;
-        }
-
         protected override UpdateUserDto ModifyTUpdate(UpdateUserDto entity)
         {
             return new UpdateUserDto()
             {
                 EmailAddress = entity.EmailAddress,
                 Id = entity.Id,
-                Password = entity.Password,
-                UserDescription = Guid.NewGuid().ToString(),
-                Username = entity.Username
+                Password = Guid.NewGuid().ToString("N"),
+                UserDescription = entity.UserDescription,
+                Username = Guid.NewGuid().ToString("N")[..20]
             };
         }
 

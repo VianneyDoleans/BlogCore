@@ -74,10 +74,12 @@ namespace MyBlogAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseExceptionHandler("/error");
+            //app.UseHsts();
+            /*if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-            }
+            }*/
 
             // Enable middleware to serve generated Swagger as a JSON Endpoint.
             app.UseSwagger();

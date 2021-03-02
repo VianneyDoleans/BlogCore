@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.IntegrationTests.Helpers
@@ -9,18 +10,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
     {
         public PostHelper(HttpClient client, string baseUrl = "/posts") : base(baseUrl, client)
         {
-        }
-
-        protected override AddPostDto CreateTAdd()
-        {
-            var user = new AddPostDto()
-            {
-                Name = Guid.NewGuid().ToString(),
-                Author = 1,
-                Category = 1,
-                Content = "test POstDto"
-            };
-            return user;
         }
 
         public override bool Equals(GetPostDto first, GetPostDto second)

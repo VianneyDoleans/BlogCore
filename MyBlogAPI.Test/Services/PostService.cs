@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
@@ -40,7 +42,6 @@ namespace MyBlogAPI.Test.Services
             // Act
             var postAdded = await _service.AddPost(post);
 
-            var posts = await _service.GetAllPosts();
             // Assert
             Assert.Contains(await _service.GetAllPosts(), x => x.Id == postAdded.Id &&
                                                                x.Author == post.Author &&
@@ -92,6 +93,50 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPost(685479));
+        }
+
+        [Fact]
+        public async void UpdatePostOnlyOneProperty()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpdatePostOnlyOneProperty@email.com", Password = "1234", Username = "UptPstOnlyOProp" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UptPstOnlyOProp" });
+            var tag1 = await _fixture.Db.Tags.AddAsync(
+                new Tag() { Name = "UptPstOnlyOProp" });
+            var tag2 = await _fixture.Db.Tags.AddAsync(
+                new Tag() { Name = "UptPstOnlyOProp2" });
+            _fixture.UnitOfWork.Save();
+            var post = await _service.AddPost(new AddPostDto()
+            {
+                Author = user.Entity.Id,
+                Category = category.Entity.Id,
+                Content = "UpdatePostOnlyOneProperty",
+                Name = "UpdatePostOnlyOneProperty",
+                Tags = new List<int>() { tag1.Entity.Id, tag2.Entity.Id }
+            });
+            var postToUpdate = new UpdatePostDto()
+            {
+                Id = post.Id,
+                Author = user.Entity.Id,
+                Category = category.Entity.Id,
+                Content = "UpdatePostOnlyOneProperty",
+                Name = "UpdatePostOnlyOneProperty here",
+                Tags = new List<int>() { tag2.Entity.Id, tag1.Entity.Id }
+            };
+
+            // Act
+            await _service.UpdatePost(postToUpdate);
+
+            // Assert
+            var postUpdated = await _service.GetPost(post.Id);
+            Assert.True(postUpdated.Category == postToUpdate.Category &&
+                        postUpdated.Author == postToUpdate.Author &&
+                        postUpdated.Content == postToUpdate.Content &&
+                        postUpdated.Name == postToUpdate.Name &&
+                        postUpdated.Tags.Contains(tag1.Entity.Id) &&
+                        postUpdated.Tags.Contains(tag2.Entity.Id));
         }
     }
 }

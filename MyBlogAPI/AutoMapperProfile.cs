@@ -1,12 +1,19 @@
 ﻿using DbAccess.Data.POCO;
 using AutoMapper;
 using MyBlogAPI.DTO.Category;
+using MyBlogAPI.DTO.Category.Converters;
 using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTO.Comment.Converters;
 using MyBlogAPI.DTO.Like;
+using MyBlogAPI.DTO.Like.Converters;
 using MyBlogAPI.DTO.Post;
+using MyBlogAPI.DTO.Post.Converters;
 using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTO.Role.Converters;
 using MyBlogAPI.DTO.Tag;
+using MyBlogAPI.DTO.Tag.Converters;
 using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTO.User.Converters;
 
 namespace MyBlogAPI
 {
@@ -24,7 +31,6 @@ namespace MyBlogAPI
 
             CreateMap<Category, GetCategoryDto>();
             CreateMap<Comment, GetCommentDto>();
-                //.ForMember(commentDto => commentDto.Author, y => y.MapFrom(comment => comment.Author));
             CreateMap<Like, GetLikeDto>();
             CreateMap<Post, GetPostDto>();
             CreateMap<Role, GetRoleDto>();
@@ -54,6 +60,9 @@ namespace MyBlogAPI
             CreateMap<int, Category>().ConvertUsing<CategoryIdConverter>();
             CreateMap<int, Role>().ConvertUsing<RoleIdConverter>();
             CreateMap<int, Tag>().ConvertUsing<TagIdConverter>();
+
+            CreateMap<UpdateCategoryDto, Category>().ConvertUsing<CategoryUpdateConverter>();
+            CreateMap<UpdateCommentDto, Comment>().ConvertUsing<CommentUpdateConverter>();
         }
     }
 }

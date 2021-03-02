@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Role;
 
-namespace MyBlogAPI.DTO.Role
+namespace MyBlogAPI.DTO.Role.Converters
 {
     public class RoleIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Role>
     {

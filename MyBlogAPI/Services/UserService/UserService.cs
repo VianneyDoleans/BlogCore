@@ -92,6 +92,7 @@ namespace MyBlogAPI.Services.UserService
         {
             if (user == null)
                 throw new ArgumentNullException();
+            // TODO problem here if User.Id is null
             if (_repository.GetAsync(user.Id) == null)
                 throw new ArgumentException("User doesn't exist.");
             var emailTask = CheckEmailAddressValidity(user.EmailAddress);
@@ -107,7 +108,7 @@ namespace MyBlogAPI.Services.UserService
         public async Task<GetUserDto> AddUser(AddUserDto user)
         {
             await CheckUserValidity(user);
-            var result = _repository.Add(_mapper.Map<User>(user));
+            var result = await _repository.AddAsync(_mapper.Map<User>(user));
            _unitOfWork.Save();
            return _mapper.Map<GetUserDto>(result);
 
@@ -115,10 +116,10 @@ namespace MyBlogAPI.Services.UserService
 
         public async Task UpdateUser(UpdateUserDto user)
         {
+            await CheckUserValidity(user);
             try
             {
-                await CheckUserValidity(user);
-                var userToModify = _repository.Get(user.Id);
+                var userToModify = await _repository.GetAsync(user.Id);
                 userToModify.Username = user.Username;
                 userToModify.EmailAddress = user.EmailAddress;
                 userToModify.Password = user.Password;
@@ -135,7 +136,7 @@ namespace MyBlogAPI.Services.UserService
         {
             try
             {
-                _repository.Remove(_repository.Get(id));
+                await _repository.RemoveAsync(await _repository.GetAsync(id));
                 _unitOfWork.Save();
             }
             catch (InvalidOperationException)

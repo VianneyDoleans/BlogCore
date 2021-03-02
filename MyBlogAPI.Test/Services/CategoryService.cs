@@ -28,7 +28,7 @@ namespace MyBlogAPI.Test.Services
         public async void AddCategory()
         {
             // Arrange
-            var category = new AddCategoryDto() {Name = "ANewName13"};
+            var category = new AddCategoryDto() {Name = "AddCategory"};
 
             // Act
             var categoryAdded = await _service.AddCategory(category);
@@ -39,10 +39,26 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateCategory()
+        {
+            // Arrange
+            var category = new AddCategoryDto() { Name = "UpCategory" };
+            var categoryAdded = await _service.AddCategory(category);
+            var categoryToUpdate = new UpdateCategoryDto() {Id = categoryAdded.Id, Name = "UpCategory Here"};
+
+            // Act
+            await _service.UpdateCategory(categoryToUpdate);
+
+            // Assert
+            var categoryUpdated = await _service.GetCategory(categoryToUpdate.Id);
+            Assert.True(categoryUpdated.Name == categoryToUpdate.Name);
+        }
+
+        [Fact]
         public async void AddCategoryWithAlreadyExistingName()
         {
             // Arrange
-            var category = new AddCategoryDto() { Name = "ANewName134" };
+            var category = new AddCategoryDto() { Name = " AddCategoryWiAlExName" };
             var categoryAdded = _service.AddCategory(category);
 
             // Act & Assert

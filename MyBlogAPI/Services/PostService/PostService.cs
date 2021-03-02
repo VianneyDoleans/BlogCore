@@ -159,6 +159,7 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task UpdatePost(UpdatePostDto post)
         {
+            // TODO
             await CheckPostValidity(post);
             var postEntity = _repository.Get(post.Id);
             postEntity.Category.Id = post.Category;

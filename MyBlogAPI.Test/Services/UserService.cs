@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using DbAccess.Data.POCO;
@@ -277,6 +276,34 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateUserOnlyOneProperty()
+        {
+            // Arrange
+            var user = await _service.AddUser(new AddUserDto()
+            {
+                EmailAddress = "UpdateUserOnlyOneProperty@newEmail.com",
+                Password = "16453",
+                Username = "UpdateUOnlyOPro"
+            });
+            var userToUpdate = new UpdateUserDto()
+            {
+                Id = user.Id,
+                Password = "16453",
+                EmailAddress = "UpdateUserOnlyOnePropertyValid@newEmail.comUpdate",
+                Username = "UpdateUOnlyOPro"
+            };
+
+            // Act
+            await _service.UpdateUser(userToUpdate);
+
+            // Assert
+            var userUpdated = await _service.GetUser(user.Id);
+            Assert.True(userUpdated.EmailAddress == userToUpdate.EmailAddress &&
+                        userUpdated.UserDescription == userToUpdate.UserDescription &&
+                        userUpdated.Username == userToUpdate.Username);
+        }
+
+        [Fact]
         public async void UpdateUserInvalid()
         {
             // Arrange
@@ -289,9 +316,30 @@ namespace MyBlogAPI.Test.Services
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user.Id,
-                EmailAddress = "UpdateUser@newEmail.comUpdate",
+                EmailAddress = "UpdateUserInvalid@newEmail.comUpdate",
                 Password = "",
-                Username = "UpdateUserUpdate"
+                Username = "UpdateUInvalid"
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
+        }
+
+        [Fact]
+        public async void UpdateUserMissingId()
+        {
+            // Arrange
+            var user = await _service.AddUser(new AddUserDto()
+            {
+                EmailAddress = "UpdateUserIdMissing@newEmail.com",
+                Password = "16453",
+                Username = "UpdateUIdMissing"
+            });
+            var userToUpdate = new UpdateUserDto()
+            {
+                EmailAddress = "UpdateUserId@newEmail.comUpdate",
+                Password = "16453",
+                Username = "UpdateUserIdMissingUpdate"
             };
 
             // Act & Assert

@@ -11,15 +11,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
         }
 
-        protected override AddCategoryDto CreateTAdd()
-        {
-            var user = new AddCategoryDto()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
-            return user;
-        }
-
         public override bool Equals(GetCategoryDto first, GetCategoryDto second)
         {
             if (first == null || second == null)
@@ -34,7 +25,7 @@ namespace MyBlogAPI.IntegrationTests.Helpers
 
         protected override UpdateCategoryDto ModifyTUpdate(UpdateCategoryDto entity)
         {
-            return new UpdateCategoryDto {Id = entity.Id, Name = Guid.NewGuid().ToString()};
+            return new UpdateCategoryDto {Id = entity.Id, Name = Guid.NewGuid().ToString("N") };
         }
     }
 }

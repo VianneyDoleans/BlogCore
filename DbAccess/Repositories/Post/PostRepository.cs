@@ -16,7 +16,8 @@ namespace DbAccess.Repositories.Post
         {
             return await Context.Set<Data.POCO.Post>().Include(x => x.Author)
                 .Include(x => x.PostTags)
-                .Include(x => x.Category).SingleAsync(x => x.Id == id);
+                .Include(x => x.Category)
+                .SingleAsync(x => x.Id == id);
         }
 
         public override Data.POCO.Post Get(int id)
@@ -56,12 +57,11 @@ namespace DbAccess.Repositories.Post
 
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromTag(int id)
         {
-            var postTags = Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
+            var posts = Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
                 .Include(x => x.Post.Category)
                 .Include(x => x.Tag)
-                .Where(x => x.TagId == id).ToList();
-                var posts = postTags.Select(x => x.Post).ToList();
-            return posts;
+                .Where(x => x.TagId == id).Select(x => x.Post).ToListAsync();
+            return await posts;
         }
 
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromCategory(int id)

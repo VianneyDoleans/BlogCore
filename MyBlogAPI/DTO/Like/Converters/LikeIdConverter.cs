@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Like;
 
-namespace MyBlogAPI.DTO.Like
+namespace MyBlogAPI.DTO.Like.Converters
 {
     public class LikeIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Like>
     {

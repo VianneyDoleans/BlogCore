@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.IntegrationTests.Helpers
@@ -11,15 +12,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
     {
         public RoleHelper(HttpClient client, string baseUrl = "/roles") : base(baseUrl, client)
         {
-        }
-
-        protected override AddRoleDto CreateTAdd()
-        {
-            var user = new AddRoleDto()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
-            return user;
         }
 
         public override bool Equals(GetRoleDto first, GetRoleDto second)
@@ -38,7 +30,7 @@ namespace MyBlogAPI.IntegrationTests.Helpers
 
         protected override UpdateRoleDto ModifyTUpdate(UpdateRoleDto entity)
         {
-            return new UpdateRoleDto { Id = entity.Id, Name = Guid.NewGuid().ToString() };
+            return new UpdateRoleDto { Id = entity.Id, Name = Guid.NewGuid().ToString("N")[..20] };
         }
     }
 }

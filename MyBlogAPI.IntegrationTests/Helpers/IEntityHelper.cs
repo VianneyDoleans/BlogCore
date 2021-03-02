@@ -17,8 +17,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
 
         public Task UpdateRandomEntity(TUpdate entity);
 
-        public Task<TGet> AddRandomEntity();
-
         public Task<TGet> GetById(int id);
 
         public Task<IEnumerable<TGet>> GetAll();

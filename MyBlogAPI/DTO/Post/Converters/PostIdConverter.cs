@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Post;
 
-namespace MyBlogAPI.DTO.Post
+namespace MyBlogAPI.DTO.Post.Converters
 {
     public class PostIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Post>
     {

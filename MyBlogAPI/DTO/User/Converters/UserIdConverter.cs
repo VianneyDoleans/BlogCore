@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.User;
 
-namespace MyBlogAPI.DTO.User
+namespace MyBlogAPI.DTO.User.Converters
 {
     public class UserIdConverter : ITypeConverter<int, DbAccess.Data.POCO.User>
     {

@@ -32,14 +32,14 @@ namespace MyBlogAPI.Services.CommentService
 
         public async Task<IEnumerable<GetCommentDto>> GetAllComments()
         {
-            return _repository.GetAll().Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
+            return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
         }
 
         public async Task<GetCommentDto> GetComment(int id)
         {
             try
             {
-                var comment = _repository.Get(id);
+                var comment = await _repository.GetAsync(id);
                 return _mapper.Map<GetCommentDto>(comment);
             }
             catch (InvalidOperationException)
@@ -96,16 +96,30 @@ namespace MyBlogAPI.Services.CommentService
         public async Task UpdateComment(UpdateCommentDto comment)
         {
             await CheckCommentValidity(comment);
-            var commentEntity = _repository.Get(comment.Id);
-            commentEntity.Content = comment.Content;
-            //TODO
-            _unitOfWork.Save();
+            try
+            {
+                var commentEntity = await _repository.GetAsync(comment.Id);
+                _mapper.Map(comment, commentEntity);
+                _unitOfWork.Save();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Comment doesn't exist.");
+            }
         }
 
         public async Task DeleteComment(int id)
         {
-            _repository.Remove(_repository.Get(id));
-            _unitOfWork.Save();
+            try
+            {
+                await _repository.RemoveAsync(await _repository.GetAsync(id));
+                _unitOfWork.Save();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("Comment doesn't exist.");
+            }
+
         }
 
         public async Task<IEnumerable<GetCommentDto>> GetCommentsFromUser(int id)

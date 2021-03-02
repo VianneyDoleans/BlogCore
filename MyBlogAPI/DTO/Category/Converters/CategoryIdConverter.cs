@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using DbAccess.Repositories.Category;
 
-namespace MyBlogAPI.DTO.Category
+namespace MyBlogAPI.DTO.Category.Converters
 {
     public class CategoryIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Category>
     {

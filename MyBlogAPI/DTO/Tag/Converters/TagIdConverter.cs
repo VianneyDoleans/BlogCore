@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Tag;
 
-namespace MyBlogAPI.DTO.Tag
+namespace MyBlogAPI.DTO.Tag.Converters
 {
     public class TagIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Tag>
     {
