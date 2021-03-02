@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
@@ -68,6 +66,15 @@ namespace DbAccess.Repositories.Like
                 .Include(x => x.User)
                 .Include(x => x.Comment)
                 .Where(x => x.Comment.Id == id).ToListAsync();
+        }
+
+        public async Task<bool> LikeAlreadyExists(Data.POCO.Like like)
+        {
+            var result = await Context.Set<Data.POCO.Like>().FirstOrDefaultAsync(x => x.User == like.User && 
+                x.Comment == like.Comment &&
+                x.LikeableType == like.LikeableType &&
+                x.Post == like.Post);
+            return result != null;
         }
     }
 }

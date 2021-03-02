@@ -13,17 +13,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
         }
 
-        protected override AddLikeDto CreateTAdd()
-        {
-            var user = new AddLikeDto()
-            {
-                Comment = 1,
-                LikeableType = LikeableType.Comment,
-                User = 1
-            };
-            return user;
-        }
-
         public override bool Equals(GetLikeDto first, GetLikeDto second)
         {
             if (first == null || second == null)

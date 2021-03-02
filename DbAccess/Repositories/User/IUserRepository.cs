@@ -8,5 +8,9 @@ namespace DbAccess.Repositories.User
         Task<IEnumerable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids);
 
         Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id);
+
+        Task<bool> UsernameAlreadyExists(string username);
+
+        Task<bool> EmailAddressAlreadyExists(string emailAddress);
     }
 }

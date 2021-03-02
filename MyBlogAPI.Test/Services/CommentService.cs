@@ -2,7 +2,8 @@
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Comment;
-using MyBlogAPI.DTO.Category;
+using DbAccess.Repositories.Post;
+using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.Services.CommentService;
 using Xunit;
@@ -17,10 +18,10 @@ namespace MyBlogAPI.Test.Services
         public CommentService(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile(new AutoMapperProfile()); });
+            var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db), new PostRepository(_fixture.Db));
         }
 
         [Fact]
@@ -28,7 +29,7 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() {EmailAddress = "AddComment@email.com", Password = "1234", Username = "ok"});
+                new User() {EmailAddress = "AddComment@email.com", Password = "1234", Username = "AddComment"});
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() {Name = "AddCommentName"});
             var post = await _fixture.Db.Posts.AddAsync(
@@ -61,7 +62,7 @@ namespace MyBlogAPI.Test.Services
             var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id };
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => _service.AddComment(comment).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
@@ -78,14 +79,79 @@ namespace MyBlogAPI.Test.Services
             var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id, CommentParent = 654438};
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddComment(comment).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
-        public void GetCommentNotFound()
+        public async void GetCommentNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetComment(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetComment(685479));
+        }
+
+        [Fact]
+        public async void UpdateCommentOnlyOneProperty()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpdateCommentOnlyOneProperty@email.com", Password = "1234", Username = "UptCmtOnlyOProp" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UptCmtOnlyOProp" }); ;
+            var post = await _fixture.Db.Posts.AddAsync(new Post()
+                {Author = user.Entity, Category = category.Entity, Content = "UpdateCommentOnlyOneProperty"});
+
+            _fixture.UnitOfWork.Save();
+            var comment = await _service.AddComment(new AddCommentDto()
+            {
+                Author = user.Entity.Id,
+                Content = "UpdateCmtOnlyOneProperty",
+                PostParent = post.Entity.Id
+            });
+            var commentToUpdate = new UpdateCommentDto()
+            {
+                Id = comment.Id,
+                Author = user.Entity.Id,
+                Content = "UpdateCmtOnlyOneProperty Here",
+                PostParent = post.Entity.Id
+            };
+
+            // Act
+            await _service.UpdateComment(commentToUpdate);
+
+            // Assert
+            var commentUpdated = await _service.GetComment(comment.Id);
+            Assert.True(commentToUpdate.Content == commentUpdated.Content &&
+                        commentToUpdate.Author == commentUpdated.Author &&
+                        commentToUpdate.PostParent == commentUpdated.PostParent);
+        }
+
+        [Fact]
+        public async void UpdateCommentInvalid()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpdateCommentInvalid@email.com", Password = "1234", Username = "UptCmtInvalid" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UptCmtInvalid" }); ;
+            var post = await _fixture.Db.Posts.AddAsync(new Post()
+                { Author = user.Entity, Category = category.Entity, Content = "UpdateCommentInvalid" });
+
+            _fixture.UnitOfWork.Save();
+            var comment = await _service.AddComment(new AddCommentDto()
+            {
+                Author = user.Entity.Id,
+                Content = "UpdateCmtInvalid",
+                PostParent = post.Entity.Id
+            });
+            var commentToUpdate = new UpdateCommentDto()
+            {
+                Id = comment.Id,
+                Content = "UpdateCmtInvalid",
+                PostParent = post.Entity.Id
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateComment(commentToUpdate));
         }
     }
 }

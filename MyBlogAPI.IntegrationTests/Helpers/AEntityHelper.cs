@@ -31,20 +31,8 @@ namespace MyBlogAPI.IntegrationTests.Helpers
             return JsonConvert.DeserializeObject<TGet>(stringResponse);
         }
 
-        protected abstract TAdd CreateTAdd();
         public abstract bool Equals(TGet first, TGet second);
         protected abstract TUpdate ModifyTUpdate(TUpdate entity);
-
-        public async Task<TGet> AddRandomEntity()
-        {
-            var entity = CreateTAdd();
-            var json = JsonConvert.SerializeObject(entity);
-            var httpResponse =
-                await _client.PostAsync(_baseUrl, new StringContent(json, Encoding.UTF8, "application/json"));
-            httpResponse.EnsureSuccessStatusCode();
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<TGet>(stringResponse);
-        }
 
         public async Task<TGet> GetById(int id)
         {

@@ -13,17 +13,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
         {
         }
 
-        protected override AddCommentDto CreateTAdd()
-        {
-            var comment = new AddCommentDto()
-            {
-                Author = 1,
-                PostParent = 1,
-                Content = "test CommentDto"
-            };
-            return comment;
-        }
-
         public override bool Equals(GetCommentDto first, GetCommentDto second)
         {
             if (first == null || second == null)

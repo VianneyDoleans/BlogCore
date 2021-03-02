@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
+using System.Threading.Tasks;
 using MyBlogAPI.DTO.Tag;
 
 namespace MyBlogAPI.IntegrationTests.Helpers
@@ -10,15 +11,6 @@ namespace MyBlogAPI.IntegrationTests.Helpers
     {
         public TagHelper(HttpClient client, string baseUrl = "/tags") : base(baseUrl, client)
         {
-        }
-
-        protected override AddTagDto CreateTAdd()
-        {
-            var user = new AddTagDto()
-            {
-                Name = Guid.NewGuid().ToString()
-            };
-            return user;
         }
 
         public override bool Equals(GetTagDto first, GetTagDto second)
@@ -30,7 +22,7 @@ namespace MyBlogAPI.IntegrationTests.Helpers
 
         protected override UpdateTagDto ModifyTUpdate(UpdateTagDto entity)
         {
-            return new UpdateTagDto { Id = entity.Id, Name = Guid.NewGuid().ToString() };
+            return new UpdateTagDto { Id = entity.Id, Name = Guid.NewGuid().ToString("N") };
         }
     }
 }

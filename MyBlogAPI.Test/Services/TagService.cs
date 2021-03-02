@@ -15,7 +15,7 @@ namespace MyBlogAPI.Test.Services
         public TagService(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
-            var config = new MapperConfiguration(cfg => { cfg.AddProfile(new AutoMapperProfile()); });
+            var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.TagService.TagService(new TagRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork);
@@ -36,40 +36,40 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
-        public void AddTagWithTooLongName()
+        public async void AddTagWithTooLongName()
         {
             // Arrange
             var tag = new AddTagDto() { Name = "Ths is a long long long long long long long name !!" };
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddTag(tag).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
-        public void AddTagWithNullName()
+        public async void AddTagWithNullName()
         {
             // Arrange
             var tag = new AddTagDto();
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddTag(tag).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
-        public void AddTagWithEmptyName()
+        public async void AddTagWithEmptyName()
         {
             // Arrange
             var tag = new AddTagDto() {Name = "  "};
 
             // Act & Assert
-            Assert.Throws<ArgumentException>(() => _service.AddTag(tag).Result);
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
-        public void GetTagNotFound()
+        public async void GetTagNotFound()
         {
             // Arrange & Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => _service.GetTag(685479).Result);
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetTag(685479));
         }
     }
 }

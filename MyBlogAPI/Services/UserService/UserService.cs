@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
@@ -35,15 +37,78 @@ namespace MyBlogAPI.Services.UserService
 
         public async Task<GetUserDto> GetUser(int id)
         {
-            var user = _repository.Get(id);
-            var userDto = _mapper.Map<GetUserDto>(user);
-            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
-            return userDto;
+            try
+            {
+                var user = await _repository.GetAsync(id);
+                var userDto = _mapper.Map<GetUserDto>(user);
+                userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+                return userDto;
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("User doesn't exist.");
+            }
+        }
+
+        private async Task CheckUsernameValidity(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+                throw new ArgumentException("Username cannot be null or empty.");
+            if (!Regex.Match(username, @"^(?!.*[._()\[\]-]{2})[A-Za-z0-9._()\[\]-]{3,20}$").Success)
+                throw new ArgumentException("Username must consist of between 3 to 20 allowed characters (A-Z, a-z, 0-9, .-_()[]) and cannot contain two consecutive symbols.");
+            if (await _repository.UsernameAlreadyExists(username))
+                throw new InvalidOperationException("Username already exists.");
+        }
+
+        private async Task CheckEmailAddressValidity(string emailAddress)
+        {
+            if (string.IsNullOrWhiteSpace(emailAddress))
+                throw new ArgumentException("Email cannot be null or empty.");
+            if (emailAddress.Length > 320)
+                throw new ArgumentException("Email address cannot exceed 320 characters.");
+            if (!Regex.Match(emailAddress,
+                    @"\A[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z")
+                .Success)
+                throw new ArgumentException("Email address is invalid.");
+            if (await _repository.EmailAddressAlreadyExists(emailAddress))
+                throw new InvalidOperationException("Email Address already exists.");
+        }
+
+        private async Task CheckUserValidity(AddUserDto user)
+        {
+            if (user == null)
+                throw new ArgumentNullException();
+            var emailTask = CheckEmailAddressValidity(user.EmailAddress);
+            var usernameTask = CheckUsernameValidity(user.Username);
+            if (string.IsNullOrWhiteSpace(user.Password))
+                throw new ArgumentException("Password cannot be null or empty.");
+            if (user.UserDescription != null && user.UserDescription.Length > 1000) 
+                throw new ArgumentException("User description cannot exceed 1000 characters.");
+            await emailTask;
+            await usernameTask;
+        }
+
+        private async Task CheckUserValidity(UpdateUserDto user)
+        {
+            if (user == null)
+                throw new ArgumentNullException();
+            // TODO problem here if User.Id is null
+            if (_repository.GetAsync(user.Id) == null)
+                throw new ArgumentException("User doesn't exist.");
+            var emailTask = CheckEmailAddressValidity(user.EmailAddress);
+            var usernameTask = CheckUsernameValidity(user.Username);
+            if (string.IsNullOrWhiteSpace(user.Password))
+                throw new ArgumentException("Password cannot be null or empty.");
+            if (user.UserDescription != null && user.UserDescription.Length > 1000)
+                throw new ArgumentException("User description cannot exceed 1000 characters.");
+            await emailTask;
+            await usernameTask;
         }
 
         public async Task<GetUserDto> AddUser(AddUserDto user)
         {
-            var result = _repository.Add(_mapper.Map<User>(user));
+            await CheckUserValidity(user);
+            var result = await _repository.AddAsync(_mapper.Map<User>(user));
            _unitOfWork.Save();
            return _mapper.Map<GetUserDto>(result);
 
@@ -51,18 +116,33 @@ namespace MyBlogAPI.Services.UserService
 
         public async Task UpdateUser(UpdateUserDto user)
         {
-            var userToModify = _repository.Get(user.Id);
-            userToModify.Username = user.Username;
-            userToModify.EmailAddress = user.EmailAddress;
-            userToModify.Password = user.Password;
-            userToModify.UserDescription = user.UserDescription;
-            _unitOfWork.Save();
+            await CheckUserValidity(user);
+            try
+            {
+                var userToModify = await _repository.GetAsync(user.Id);
+                userToModify.Username = user.Username;
+                userToModify.EmailAddress = user.EmailAddress;
+                userToModify.Password = user.Password;
+                userToModify.UserDescription = user.UserDescription;
+                _unitOfWork.Save();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("User doesn't exist.");
+            }
         }
 
         public async Task DeleteUser(int id)
         {
-            _repository.Remove(_repository.Get(id));
-            _unitOfWork.Save();
+            try
+            {
+                await _repository.RemoveAsync(await _repository.GetAsync(id));
+                _unitOfWork.Save();
+            }
+            catch (InvalidOperationException)
+            {
+                throw new IndexOutOfRangeException("User doesn't exist.");
+            }
         }
 
         public async Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id)

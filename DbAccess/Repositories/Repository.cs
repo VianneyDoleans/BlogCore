@@ -69,7 +69,10 @@ namespace DbAccess.Repositories
 
         public virtual TEntity Get(int id)
         {
-            return Context.Set<TEntity>().Find(id);
+            var result = Context.Set<TEntity>().Find(id);
+            if (result == null)
+                throw new InvalidOperationException();
+            return result;
         }
 
         public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate)

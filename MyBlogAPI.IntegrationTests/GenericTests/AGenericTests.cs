@@ -31,11 +31,13 @@ namespace MyBlogAPI.IntegrationTests.GenericTests
             Assert.True(entities.Any());
         }
 
+        public abstract Task<TGet> AddRandomEntity();
+
         [Fact]
         public async Task CanAddEntity()
         {
             // Arrange & Act
-            var entity = await Helper.AddRandomEntity();
+            var entity = await AddRandomEntity();
             var entities = await Helper.GetAll();
 
             // Assert
@@ -46,7 +48,7 @@ namespace MyBlogAPI.IntegrationTests.GenericTests
         public async Task CanGetEntity()
         {
             // Arrange
-            var entity = await Helper.AddRandomEntity();
+            var entity = await AddRandomEntity();
 
             // Act
             var result = await Helper.GetById(entity.Id);
@@ -59,7 +61,7 @@ namespace MyBlogAPI.IntegrationTests.GenericTests
         public async Task CanUpdateEntity()
         {
             // Arrange
-            var entityAdded = await Helper.AddRandomEntity();
+            var entityAdded = await AddRandomEntity();
 
             // Act
             var config = new MapperConfiguration(cfg =>
@@ -77,7 +79,7 @@ namespace MyBlogAPI.IntegrationTests.GenericTests
         public async Task CanDeleteEntity()
         {
             // Arrange
-            var user = await Helper.AddRandomEntity();
+            var user = await AddRandomEntity();
 
             // Act
             await Helper.RemoveIdentity(user.Id);
