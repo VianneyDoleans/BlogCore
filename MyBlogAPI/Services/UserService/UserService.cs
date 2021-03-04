@@ -37,17 +37,10 @@ namespace MyBlogAPI.Services.UserService
 
         public async Task<GetUserDto> GetUser(int id)
         {
-            try
-            {
-                var user = await _repository.GetAsync(id);
+            var user = await GetUserFromRepository(id);
                 var userDto = _mapper.Map<GetUserDto>(user);
                 userDto.Roles = user.UserRoles.Select(x => x.RoleId);
                 return userDto;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            }
         }
 
         private async Task CheckUsernameValidity(string username)
@@ -74,35 +67,62 @@ namespace MyBlogAPI.Services.UserService
                 throw new InvalidOperationException("Email Address already exists.");
         }
 
+        private static void CheckPasswordValidity(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ArgumentException("Password cannot be null or empty.");
+        }
+
+        private static void CheckUserDescription(string userDescription)
+        {
+            if (userDescription != null && userDescription.Length > 1000)
+                throw new ArgumentException("User description cannot exceed 1000 characters.");
+        }
+
+        private async Task<User> GetUserFromRepository(int id)
+        {
+            // TODO problem here if User.Id is null
+            try
+            {
+                var userDb = await _repository.GetAsync(id);
+                if (userDb == null)
+                    throw new IndexOutOfRangeException("User doesn't exist.");
+                return userDb;
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("User doesn't exist.");
+            }
+        }
+
         private async Task CheckUserValidity(AddUserDto user)
         {
-            if (user == null)
-                throw new ArgumentNullException();
             var emailTask = CheckEmailAddressValidity(user.EmailAddress);
             var usernameTask = CheckUsernameValidity(user.Username);
-            if (string.IsNullOrWhiteSpace(user.Password))
-                throw new ArgumentException("Password cannot be null or empty.");
-            if (user.UserDescription != null && user.UserDescription.Length > 1000) 
-                throw new ArgumentException("User description cannot exceed 1000 characters.");
+            CheckPasswordValidity(user.Password);
+            CheckUserDescription(user.UserDescription);
+
             await emailTask;
             await usernameTask;
         }
 
         private async Task CheckUserValidity(UpdateUserDto user)
         {
-            if (user == null)
-                throw new ArgumentNullException();
-            // TODO problem here if User.Id is null
-            if (_repository.GetAsync(user.Id) == null)
-                throw new ArgumentException("User doesn't exist.");
-            var emailTask = CheckEmailAddressValidity(user.EmailAddress);
-            var usernameTask = CheckUsernameValidity(user.Username);
-            if (string.IsNullOrWhiteSpace(user.Password))
-                throw new ArgumentException("Password cannot be null or empty.");
-            if (user.UserDescription != null && user.UserDescription.Length > 1000)
-                throw new ArgumentException("User description cannot exceed 1000 characters.");
-            await emailTask;
-            await usernameTask;
+            Task emailTask = null;
+            Task usernameTask = null;
+
+            var userDb = await GetUserFromRepository(user.Id);
+            if (userDb.EmailAddress != user.EmailAddress) 
+                emailTask = CheckEmailAddressValidity(user.EmailAddress);
+            if (userDb.Username != user.Username) 
+                usernameTask = CheckUsernameValidity(user.Username);
+            CheckPasswordValidity(user.Password);
+            CheckUserDescription(user.UserDescription);
+
+            if (emailTask != null) 
+                await emailTask;
+            if (usernameTask != null) 
+                await usernameTask;
         }
 
         public async Task<GetUserDto> AddUser(AddUserDto user)
@@ -111,50 +131,32 @@ namespace MyBlogAPI.Services.UserService
             var result = await _repository.AddAsync(_mapper.Map<User>(user));
            _unitOfWork.Save();
            return _mapper.Map<GetUserDto>(result);
-
         }
 
         public async Task UpdateUser(UpdateUserDto user)
         {
             await CheckUserValidity(user);
-            try
-            {
-                var userToModify = await _repository.GetAsync(user.Id);
-                userToModify.Username = user.Username;
-                userToModify.EmailAddress = user.EmailAddress;
-                userToModify.Password = user.Password;
-                userToModify.UserDescription = user.UserDescription;
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            }
+            var userEntity = await GetUserFromRepository(user.Id);
+            _mapper.Map(user, userEntity);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteUser(int id)
         {
-            try
-            {
-                await _repository.RemoveAsync(await _repository.GetAsync(id));
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            }
+            await _repository.RemoveAsync(await GetUserFromRepository(id));
+            _unitOfWork.Save();
         }
 
         public async Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id)
         {
             var users = await _repository.GetUsersFromRole(id);
-            var userDtos = users.Select(x =>
+            var usersDto = users.Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
                 userDto.Roles = x.UserRoles.Select(y => y.RoleId);
                 return userDto;
             }).ToList();
-            return userDtos;
+            return usersDto;
         }
     }
 }

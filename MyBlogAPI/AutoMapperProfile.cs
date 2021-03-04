@@ -61,7 +61,8 @@ namespace MyBlogAPI
             CreateMap<int, Role>().ConvertUsing<RoleIdConverter>();
             CreateMap<int, Tag>().ConvertUsing<TagIdConverter>();
 
-            CreateMap<UpdateCategoryDto, Category>().ConvertUsing<CategoryUpdateConverter>();
+            CreateMap<UpdateCategoryDto, Category>().ConvertUsing<UpdateCategoryConverter>();
+            CreateMap<UpdateUserDto, User>().ConvertUsing(new UpdateUserConverter());
             CreateMap<UpdateCommentDto, Comment>().ConvertUsing<CommentUpdateConverter>();
         }
     }

@@ -49,6 +49,22 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void AddNullUser()
+        {
+
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.AddUser(null));
+        }
+
+        [Fact]
+        public async void UpdateNullUser()
+        {
+
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateUser(null));
+        }
+
+        [Fact]
         public async void AddUserWithAnAlreadyExistingEmailAddress()
         {
             // Arrange
@@ -276,6 +292,34 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateUserWithSameExistingProperties()
+        {
+            // Arrange
+            var user = await _service.AddUser(new AddUserDto()
+            {
+                EmailAddress = "UpdateUserWithSameExistingProperty@newEmail.com",
+                Password = "16453",
+                Username = "UpUsrWiSaExtProp"
+            });
+            var userToUpdate = new UpdateUserDto()
+            {
+                Id = user.Id,
+                EmailAddress = "UpdateUserWithSameExistingProperty@newEmail.com",
+                Password = "16453",
+                Username = "UpUsrWiSaExtProp"
+            };
+
+            // Act
+            await _service.UpdateUser(userToUpdate);
+            var userUpdated = await _service.GetUser(userToUpdate.Id);
+
+            // Assert
+            Assert.True(userUpdated.EmailAddress == userToUpdate.EmailAddress &&
+                        userUpdated.UserDescription == userToUpdate.UserDescription &&
+                        userUpdated.Username == userToUpdate.Username);
+        }
+
+        [Fact]
         public async void UpdateUserOnlyOneProperty()
         {
             // Arrange
@@ -325,7 +369,7 @@ namespace MyBlogAPI.Test.Services
             await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
         }
 
-        [Fact]
+        /*[Fact]
         public async void UpdateUserMissingId()
         {
             // Arrange
@@ -344,7 +388,7 @@ namespace MyBlogAPI.Test.Services
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
-        }
+        }*/
 
         [Fact]
         public async void DeleteUser()

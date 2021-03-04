@@ -6,7 +6,6 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Tag;
 
 namespace MyBlogAPI.Services.TagService
@@ -71,22 +70,37 @@ namespace MyBlogAPI.Services.TagService
         public async Task<GetTagDto> AddTag(AddTagDto tag)
         {
             await CheckTagValidity(tag);
-            var result = _repository.Add(_mapper.Map<Tag>(tag));
+            var result = await _repository.AddAsync(_mapper.Map<Tag>(tag));
             _unitOfWork.Save();
             return _mapper.Map<GetTagDto>(result);
+        }
+
+        private async Task<Tag> GetTagFromRepository(int id)
+        {
+            try
+            {
+                var tagDb = await _repository.GetAsync(id);
+                if (tagDb == null)
+                    throw new IndexOutOfRangeException("Tag doesn't exist.");
+                return tagDb;
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Tag doesn't exist.");
+            }
         }
 
         public async Task UpdateTag(UpdateTagDto tag)
         {
             await CheckTagValidity(tag);
-            var tagEntity = _repository.Get(tag.Id);
+            var tagEntity = await GetTagFromRepository(tag.Id);
             tagEntity.Name = tag.Name;
             _unitOfWork.Save();
         }
 
         public async Task DeleteTag(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            await _repository.RemoveAsync(await GetTagFromRepository(id));
             _unitOfWork.Save();
         }
     }
