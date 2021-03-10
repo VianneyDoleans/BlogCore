@@ -33,19 +33,27 @@ namespace MyBlogAPI.Services.RoleService
             }).ToList();
         }
 
-        public async Task<GetRoleDto> GetRole(int id)
+        private async Task<Role> GetRoleFromRepository(int id)
         {
             try
             {
-                var role = _repository.Get(id);
-                var roleDto = _mapper.Map<GetRoleDto>(role);
-                roleDto.Users = role.UserRoles.Select(x => x.UserId);
-                return roleDto;
+                var roleDb = await _repository.GetAsync(id);
+                if (roleDb == null)
+                    throw new IndexOutOfRangeException("Role doesn't exist.");
+                return roleDb;
             }
-            catch (InvalidOperationException)
+            catch
             {
                 throw new IndexOutOfRangeException("Role doesn't exist.");
             }
+        }
+
+        public async Task<GetRoleDto> GetRole(int id)
+        {
+            var role = await GetRoleFromRepository(id);
+            var roleDto = _mapper.Map<GetRoleDto>(role);
+            roleDto.Users = role.UserRoles.Select(x => x.UserId);
+            return roleDto;
         }
 
         public async Task CheckRoleValidity(AddRoleDto role)
@@ -64,8 +72,9 @@ namespace MyBlogAPI.Services.RoleService
         {
             if (role == null)
                 throw new ArgumentNullException();
-            if (_repository.GetAsync(role.Id) == null)
-                throw new ArgumentException("Role doesn't exist.");
+            var roleDb = await GetRoleFromRepository(role.Id);
+            if (role.Name == roleDb.Name)
+                return;
             if (string.IsNullOrWhiteSpace(role.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (role.Name.Length > 20)
@@ -92,7 +101,7 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task DeleteRole(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            _repository.Remove(await GetRoleFromRepository(id));
             _unitOfWork.Save();
         }
     }

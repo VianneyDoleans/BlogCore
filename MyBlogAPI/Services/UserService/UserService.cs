@@ -97,6 +97,8 @@ namespace MyBlogAPI.Services.UserService
 
         private async Task CheckUserValidity(AddUserDto user)
         {
+            if (user == null)
+                throw new ArgumentNullException();
             var emailTask = CheckEmailAddressValidity(user.EmailAddress);
             var usernameTask = CheckUsernameValidity(user.Username);
             CheckPasswordValidity(user.Password);
@@ -111,6 +113,8 @@ namespace MyBlogAPI.Services.UserService
             Task emailTask = null;
             Task usernameTask = null;
 
+            if (user == null)
+                throw new ArgumentNullException();
             var userDb = await GetUserFromRepository(user.Id);
             if (userDb.EmailAddress != user.EmailAddress) 
                 emailTask = CheckEmailAddressValidity(user.EmailAddress);

@@ -42,7 +42,7 @@ namespace MyBlogAPI.Test.Services
             // Arrange
             var role = new AddRoleDto()
             {
-                Name = "AddRoleWithAlreadyExistingName",
+                Name = "AddRlWiAlExName",
             };
             await _service.AddRole(role);
 

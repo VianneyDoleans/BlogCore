@@ -57,8 +57,9 @@ namespace MyBlogAPI.Services.TagService
         {
             if (tag == null)
                 throw new ArgumentNullException();
-            if (_repository.GetAsync(tag.Id) == null)
-                throw new ArgumentException("Tag doesn't exist.");
+            var tagDb = await GetTagFromRepository(tag.Id);
+            if (tagDb.Name == tag.Name)
+                return;
             if (string.IsNullOrWhiteSpace(tag.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (tag.Name.Length > 50)
