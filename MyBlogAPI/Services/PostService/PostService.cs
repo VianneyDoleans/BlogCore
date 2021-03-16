@@ -78,17 +78,10 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task<GetPostDto> GetPost(int id)
         {
-            try
-            {
-                var post = _repository.Get(id);
-                var postDto = _mapper.Map<GetPostDto>(post);
-                postDto.Tags = post.PostTags.Select(x => x.TagId);
-                return postDto;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Post doesn't exist.");
-            }
+            var post = await GetPostFromRepository(id);
+            var postDto = _mapper.Map<GetPostDto>(post);
+            postDto.Tags = post.PostTags.Select(x => x.TagId);
+            return postDto;
         }
 
         public async Task CheckPostValidity(AddPostDto post)
@@ -119,8 +112,13 @@ namespace MyBlogAPI.Services.PostService
         {
             if (post == null)
                 throw new ArgumentNullException();
-            if (_repository.GetAsync(post.Id) == null)
-                throw new ArgumentException("Post doesn't exist.");
+            var postDb = await GetPostFromRepository(post.Id);
+            if (postDb.Name == post.Name &&
+                postDb.Author.Id == post.Author &&
+                postDb.Category.Id == post.Category &&
+                postDb.Content == post.Content &&
+                postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
+                return;
             if (string.IsNullOrWhiteSpace(post.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
             if (string.IsNullOrWhiteSpace(post.Name))
@@ -137,6 +135,7 @@ namespace MyBlogAPI.Services.PostService
                 if (tag == null)
                     throw new ArgumentException("Tag id " + x + " doesn't exist.");
             });
+            // TODO REMAKE THIS LINE
             if (await _repository.NameAlreadyExists(post.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
@@ -157,18 +156,33 @@ namespace MyBlogAPI.Services.PostService
             return _mapper.Map<GetPostDto>(result);
         }
 
+        private async Task<Post> GetPostFromRepository(int id)
+        {
+            try
+            {
+                var postDb = await _repository.GetAsync(id);
+                if (postDb == null)
+                    throw new IndexOutOfRangeException("Post doesn't exist.");
+                return postDb;
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Post doesn't exist.");
+            }
+        }
+
         public async Task UpdatePost(UpdatePostDto post)
         {
             // TODO
             await CheckPostValidity(post);
-            var postEntity = _repository.Get(post.Id);
+            var postEntity = await GetPostFromRepository(post.Id);
             postEntity.Category.Id = post.Category;
             postEntity.Name = post.Name;
         }
 
         public async Task DeletePost(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            _repository.Remove(await GetPostFromRepository(id));
             _unitOfWork.Save();
         }
     }

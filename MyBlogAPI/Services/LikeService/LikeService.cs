@@ -42,14 +42,7 @@ namespace MyBlogAPI.Services.LikeService
 
         public async Task<GetLikeDto> GetLike(int id)
         {
-            try
-            {
-                return _mapper.Map<GetLikeDto>(_repository.Get(id));
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Like doesn't exist.");
-            }
+            return _mapper.Map<GetLikeDto>(await GetLikeFromRepository(id));
         }
 
         public async Task CheckLikeValidity(AddLikeDto like)
@@ -81,8 +74,12 @@ namespace MyBlogAPI.Services.LikeService
             // TODO maybe remove LikeableType (not so much useful)
             if (like == null)
                 throw new ArgumentNullException();
-            if (_repository.GetAsync(like.Id) == null) 
-                throw new ArgumentException("Like doesn't exist.");
+            var likeDb = await GetLikeFromRepository(like.Id);
+            if (likeDb.Comment.Id == like.Comment && 
+                likeDb.LikeableType == like.LikeableType &&
+                likeDb.Post.Id == like.Post &&
+                likeDb.User.Id == like.User)
+                return;
             if (await _userRepository.GetAsync(like.User) == null)
                 throw new ArgumentException("User doesn't exist.");
             if (like.Comment != null && like.Post != null)
@@ -102,6 +99,21 @@ namespace MyBlogAPI.Services.LikeService
             }
         }
 
+        private async Task<Like> GetLikeFromRepository(int id)
+        {
+            try
+            {
+                var likeDb = await _repository.GetAsync(id);
+                if (likeDb == null)
+                    throw new IndexOutOfRangeException("Like doesn't exist.");
+                return likeDb;
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Like doesn't exist.");
+            }
+        }
+
         public async Task<GetLikeDto> AddLike(AddLikeDto like)
         {
             await CheckLikeValidity(like);
@@ -113,14 +125,14 @@ namespace MyBlogAPI.Services.LikeService
         public async Task UpdateLike(UpdateLikeDto like)
         {
             await CheckLikeValidity(like);
-            var userEntity = _repository.Get(like.Id);
+            var likeEntity = await GetLikeFromRepository(like.Id);
             //TODO
             _unitOfWork.Save();
         }
 
         public async Task DeleteLike(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            _repository.Remove(await GetLikeFromRepository(id));
             _unitOfWork.Save();
         }
 
