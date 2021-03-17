@@ -144,7 +144,7 @@ namespace MyBlogAPI.Test.Services
                 { LikeableType = LikeableType.Post, Post = post.Entity.Id };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -155,7 +155,7 @@ namespace MyBlogAPI.Test.Services
                 { LikeableType = LikeableType.Post };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddLike(like));
         }
 
         [Fact]

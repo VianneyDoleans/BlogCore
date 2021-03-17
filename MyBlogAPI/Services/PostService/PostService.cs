@@ -95,14 +95,14 @@ namespace MyBlogAPI.Services.PostService
             if (post.Name.Length > 250)
                 throw new ArgumentException("Name cannot exceed 250 characters.");
             if (await _userRepository.GetAsync(post.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
+                throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _categoryRepository.GetAsync(post.Category) == null)
-                throw new ArgumentException("Category doesn't exist.");
+                throw new IndexOutOfRangeException("Category doesn't exist.");
             post.Tags?.ToList().ForEach(x =>
             {
                 var tag = _tagRepository.Get(x);
                 if (tag == null)
-                    throw new ArgumentException("Tag id " + x + " doesn't exist.");
+                    throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
             });
             if (await _repository.NameAlreadyExists(post.Name))
                 throw new InvalidOperationException("Name already exists.");
@@ -126,14 +126,14 @@ namespace MyBlogAPI.Services.PostService
             if (post.Name.Length > 250)
                 throw new ArgumentException("Name cannot exceed 250 characters.");
             if (await _userRepository.GetAsync(post.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
+                throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _categoryRepository.GetAsync(post.Category) == null)
-                throw new ArgumentException("Category doesn't exist.");
+                throw new IndexOutOfRangeException("Category doesn't exist.");
             post.Tags?.ToList().ForEach(x =>
             {
                 var tag = _tagRepository.Get(x);
                 if (tag == null)
-                    throw new ArgumentException("Tag id " + x + " doesn't exist.");
+                    throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
             });
             // TODO REMAKE THIS LINE
             if (await _repository.NameAlreadyExists(post.Name))
@@ -182,7 +182,7 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task DeletePost(int id)
         {
-            _repository.Remove(await GetPostFromRepository(id));
+            await _repository.RemoveAsync(await GetPostFromRepository(id));
             _unitOfWork.Save();
         }
     }

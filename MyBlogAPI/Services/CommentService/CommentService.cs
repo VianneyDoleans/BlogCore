@@ -48,11 +48,11 @@ namespace MyBlogAPI.Services.CommentService
             if (string.IsNullOrWhiteSpace(comment.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
             if (await _userRepository.GetAsync(comment.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
+                throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _postRepository.GetAsync(comment.PostParent) == null)
-                throw new ArgumentException("Post parent doesn't exist.");
+                throw new IndexOutOfRangeException("Post parent doesn't exist.");
             if (comment.CommentParent != null && await _repository.GetAsync(comment.CommentParent.Value) == null)
-                throw new ArgumentException("Comment parent doesn't exist.");
+                throw new IndexOutOfRangeException("Comment parent doesn't exist.");
         }
 
         public async Task CheckCommentValidity(UpdateCommentDto comment)
@@ -67,13 +67,12 @@ namespace MyBlogAPI.Services.CommentService
                 return;
             if (string.IsNullOrWhiteSpace(comment.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
-            // TODO  Add a verification for all ID properties in all services (GetItemFromRepository() throw error)
             if (await _userRepository.GetAsync(comment.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
+                throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _postRepository.GetAsync(comment.PostParent) == null)
-                throw new ArgumentException("Post parent doesn't exist.");
+                throw new IndexOutOfRangeException("Post parent doesn't exist.");
             if (comment.CommentParent != null && await _repository.GetAsync(comment.CommentParent.Value) == null)
-                throw new ArgumentException("Comment parent doesn't exist.");
+                throw new IndexOutOfRangeException("Comment parent doesn't exist.");
             if (comment.CommentParent != null)
             {
                 var commentParent = await _repository.GetAsync(comment.CommentParent.Value);

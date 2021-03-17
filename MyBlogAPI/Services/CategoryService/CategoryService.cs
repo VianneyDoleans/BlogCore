@@ -30,14 +30,7 @@ namespace MyBlogAPI.Services.CategoryService
 
         public async Task<GetCategoryDto> GetCategory(int id)
         {
-            try
-            {
-                return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            }
+            return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));
         }
 
         public async Task CheckCategoryValidity(AddCategoryDto category)
@@ -56,7 +49,7 @@ namespace MyBlogAPI.Services.CategoryService
         {
             if (category == null)
                 throw new ArgumentNullException();
-            var categoryDb = await GetCategoryFromRepository(category.Id);
+            var categoryDb = await _repository.GetAsync(category.Id);
             if (categoryDb.Name == category.Name)
                 return;
             if (string.IsNullOrWhiteSpace(category.Name))
@@ -75,33 +68,18 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(result);
         }
 
-        private async Task<Category> GetCategoryFromRepository(int id)
-        {
-            try
-            {
-                var categoryDb = await _repository.GetAsync(id);
-                if (categoryDb == null)
-                    throw new IndexOutOfRangeException("Category doesn't exist.");
-                return categoryDb;
-            }
-            catch
-            {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            }
-        }
-
         public async Task UpdateCategory(UpdateCategoryDto category)
         {
             await CheckCategoryValidity(category);
             //TODO
-            var categoryEntity = await GetCategoryFromRepository(category.Id);
+            var categoryEntity = await _repository.GetAsync(category.Id);
             _mapper.Map(category, categoryEntity);
             _unitOfWork.Save();
         }
 
         public async Task DeleteCategory(int id)
         {
-            await _repository.RemoveAsync(await GetCategoryFromRepository(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
         }
     }

@@ -157,10 +157,10 @@ namespace MyBlogAPI.Test.Services
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "AddBadParentPost" });
             _fixture.UnitOfWork.Save();
-            var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id, CommentParent = 654438};
+            var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id, Content = "AddCommentNotFoundParent", CommentParent = 654438};
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(comment));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
@@ -231,7 +231,7 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateComment(commentToUpdate));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateComment(commentToUpdate));
         }
 
         [Fact]
@@ -268,7 +268,7 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(commentToAdd));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(commentToAdd));
         }
 
         [Fact]
@@ -285,7 +285,7 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(commentToAdd));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(commentToAdd));
         }
 
         [Fact]
