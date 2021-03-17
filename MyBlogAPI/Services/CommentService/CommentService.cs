@@ -62,11 +62,12 @@ namespace MyBlogAPI.Services.CommentService
             var commentDb = await GetCommentFromRepository(comment.Id);
             if (commentDb.Content == comment.Content &&
                 commentDb.Author.Id == comment.Author &&
-                commentDb.CommentParent.Id == comment.CommentParent &&
-                commentDb.PostParent.Id == comment.PostParent)
+                commentDb.CommentParent?.Id == comment.CommentParent &&
+                commentDb.PostParent?.Id == comment.PostParent)
                 return;
             if (string.IsNullOrWhiteSpace(comment.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
+            // TODO  Add a verification for all ID properties in all services (GetItemFromRepository() throw error)
             if (await _userRepository.GetAsync(comment.Author) == null)
                 throw new ArgumentException("Author doesn't exist.");
             if (await _postRepository.GetAsync(comment.PostParent) == null)
@@ -77,7 +78,7 @@ namespace MyBlogAPI.Services.CommentService
             {
                 var commentParent = await _repository.GetAsync(comment.CommentParent.Value);
                 if (commentParent.Id == comment.Id)
-                    throw new ArgumentException("Comment's comment parent cannot be itself.");
+                    throw new InvalidOperationException("Comment's comment parent cannot be itself.");
             }
         }
 

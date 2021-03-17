@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -14,18 +15,32 @@ namespace DbAccess.Repositories.Like
 
         public override async Task<Data.POCO.Like> GetAsync(int id)
         {
-            return await Context.Set<Data.POCO.Like>().Include(x => x.User)
-                .Include(x => x.Comment)
-                .Include(x => x.Post)
-                .SingleAsync(x => x.Id == id);
+            try
+            {
+                return await Context.Set<Data.POCO.Like>().Include(x => x.User)
+                    .Include(x => x.Comment)
+                    .Include(x => x.Post)
+                    .SingleAsync(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Like doesn't exist.");
+            }
         }
 
         public override Data.POCO.Like Get(int id)
         {
-            return Context.Set<Data.POCO.Like>().Include(x => x.User)
-                .Include(x => x.Comment)
-                .Include(x => x.Post)
-                .Single(x => x.Id == id);
+            try
+            {
+                return Context.Set<Data.POCO.Like>().Include(x => x.User)
+                    .Include(x => x.Comment)
+                    .Include(x => x.Post)
+                    .Single(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Like doesn't exist.");
+            }
         }
 
         public override IEnumerable<Data.POCO.Like> GetAll()
@@ -47,9 +62,9 @@ namespace DbAccess.Repositories.Like
         public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromPost(int id)
         {
             return await Context.Set<Data.POCO.Like>()
-                .Include(x => x.Post)
-                .Include(x => x.User)
-                .Where(x => x.Post.Id == id).ToListAsync();
+                    .Include(x => x.Post)
+                    .Include(x => x.User)
+                    .Where(x => x.Post.Id == id).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromUser(int id)

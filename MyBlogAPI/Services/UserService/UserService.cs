@@ -81,7 +81,6 @@ namespace MyBlogAPI.Services.UserService
 
         private async Task<User> GetUserFromRepository(int id)
         {
-            // TODO problem here if User.Id is null
             try
             {
                 var userDb = await _repository.GetAsync(id);

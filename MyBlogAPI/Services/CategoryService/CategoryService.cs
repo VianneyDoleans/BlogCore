@@ -56,8 +56,9 @@ namespace MyBlogAPI.Services.CategoryService
         {
             if (category == null)
                 throw new ArgumentNullException();
-            if (_repository.GetAsync(category.Id) == null)
-                throw new ArgumentException("Category doesn't exist.");
+            var categoryDb = await GetCategoryFromRepository(category.Id);
+            if (categoryDb.Name == category.Name)
+                return;
             if (string.IsNullOrWhiteSpace(category.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (category.Name.Length > 50)
@@ -74,34 +75,34 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(result);
         }
 
-        public async Task UpdateCategory(UpdateCategoryDto category)
+        private async Task<Category> GetCategoryFromRepository(int id)
         {
-            await CheckCategoryValidity(category);
             try
             {
-                //TODO
-                var categoryEntity = await _repository.GetAsync(category.Id);
-                _mapper.Map(category, categoryEntity);
-                _unitOfWork.Save();
+                var categoryDb = await _repository.GetAsync(id);
+                if (categoryDb == null)
+                    throw new IndexOutOfRangeException("Category doesn't exist.");
+                return categoryDb;
             }
-            catch (InvalidOperationException)
+            catch
             {
                 throw new IndexOutOfRangeException("Category doesn't exist.");
             }
         }
 
+        public async Task UpdateCategory(UpdateCategoryDto category)
+        {
+            await CheckCategoryValidity(category);
+            //TODO
+            var categoryEntity = await GetCategoryFromRepository(category.Id);
+            _mapper.Map(category, categoryEntity);
+            _unitOfWork.Save();
+        }
+
         public async Task DeleteCategory(int id)
         {
-            try
-            {
-                await _repository.RemoveAsync(await _repository.GetAsync(id));
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            }
-
+            await _repository.RemoveAsync(await GetCategoryFromRepository(id));
+            _unitOfWork.Save();
         }
     }
 }

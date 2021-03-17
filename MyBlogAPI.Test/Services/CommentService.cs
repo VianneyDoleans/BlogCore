@@ -138,6 +138,7 @@ namespace MyBlogAPI.Test.Services
             //Act & Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateComment(new UpdateCommentDto()
             {
+                Id = commentAdded.Id,
                 Author = user.Entity.Id,
                 CommentParent = commentAdded.Id,
                 Content = "A new Content Updated",
@@ -332,11 +333,11 @@ namespace MyBlogAPI.Test.Services
 
             // Assert
             var commentDb = await _service.GetComment(commentAdded.Id);
-            Assert.True(commentDb.Id == commentAdded.Id &&
-                        commentDb.Author == comment.Author &&
-                        commentDb.Content == comment.Content &&
-                        commentDb.CommentParent == comment.CommentParent &&
-                        commentDb.PostParent == comment.PostParent);
+            Assert.True(commentDb.Id == commentToUpdate.Id &&
+                        commentDb.Author == commentToUpdate.Author &&
+                        commentDb.Content == commentToUpdate.Content &&
+                        commentDb.CommentParent == commentToUpdate.CommentParent &&
+                        commentDb.PostParent == commentToUpdate.PostParent);
         }
 
         [Fact]
@@ -377,11 +378,11 @@ namespace MyBlogAPI.Test.Services
 
             // Assert
             var commentDb = await _service.GetComment(commentAdded.Id);
-            Assert.True(commentDb.Id == commentAdded.Id &&
-                        commentDb.Author == comment.Author &&
-                        commentDb.Content == comment.Content &&
-                        commentDb.CommentParent == comment.CommentParent &&
-                        commentDb.PostParent == comment.PostParent);
+            Assert.True(commentDb.Id == commentToUpdate.Id &&
+                        commentDb.Author == commentToUpdate.Author &&
+                        commentDb.Content == commentToUpdate.Content &&
+                        commentDb.CommentParent == commentToUpdate.CommentParent &&
+                        commentDb.PostParent == commentToUpdate.PostParent);
         }
 
         [Fact]

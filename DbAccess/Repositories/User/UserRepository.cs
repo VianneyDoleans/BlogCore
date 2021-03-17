@@ -15,12 +15,26 @@ namespace DbAccess.Repositories.User
 
         public override async Task<Data.POCO.User> GetAsync(int id)
         {
-            return await Context.Set<Data.POCO.User>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
+            try
+            {
+                return await Context.Set<Data.POCO.User>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("User doesn't exist.");
+            }
         }
 
         public override Data.POCO.User Get(int id)
         {
-            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles).Single(x => x.Id == id);
+            try
+            {
+                return Context.Set<Data.POCO.User>().Include(x => x.UserRoles).Single(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("User doesn't exist.");
+            }
         }
 
         public override IEnumerable<Data.POCO.User> GetAll()

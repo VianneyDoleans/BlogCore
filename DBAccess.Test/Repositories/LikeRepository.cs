@@ -51,7 +51,7 @@ namespace DBAccess.Test.Repositories
         {
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await repository.GetAsync(100));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await repository.GetAsync(100));
         }
 
         [Fact]

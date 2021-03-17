@@ -300,9 +300,9 @@ namespace MyBlogAPI.Test.Services
             var user = await _fixture.Db.Users.AddAsync(
                 new User() {EmailAddress = "UpdatePostInvalid@email.com", Password = "1234", Username = "UpdatePostInvalid" });
             var category = await _fixture.Db.Categories.AddAsync(
-                new Category() {Name = "UpdatePost"});
+                new Category() {Name = "UpdatePostInv"});
             var tag1 = await _fixture.Db.Tags.AddAsync(
-                new Tag() {Name = "UpdatePost"});
+                new Tag() {Name = "UpdatePostInv"});
             _fixture.UnitOfWork.Save();
             var post = new AddPostDto()
                 {Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "UpdatePostInvalid" };

@@ -23,7 +23,7 @@ namespace DbAccess.Repositories
         {
             var result = await Context.Set<TEntity>().FindAsync(id);
             if (result == null)
-                throw new InvalidOperationException();
+                throw new IndexOutOfRangeException("Element doesn't exists.");
             return result;
         }
 
@@ -71,7 +71,7 @@ namespace DbAccess.Repositories
         {
             var result = Context.Set<TEntity>().Find(id);
             if (result == null)
-                throw new InvalidOperationException();
+                throw new IndexOutOfRangeException("Element doesn't exist.");
             return result;
         }
 
