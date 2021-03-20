@@ -320,6 +320,34 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser()
+        {
+            // Arrange
+            await _service.AddUser(new AddUserDto()
+            {
+                EmailAddress = "UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser@newEmail.com",
+                Password = "16453",
+                Username = "UpUsrWiSoUExtProp"
+            });
+            var user2 = await _service.AddUser(new AddUserDto()
+            {
+                EmailAddress = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
+                Password = "16453",
+                Username = "UpUsrWiSoUExtProp2"
+            });
+            var userToUpdate = new UpdateUserDto()
+            {
+                Id = user2.Id,
+                EmailAddress = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
+                Password = "16453",
+                Username = "UpUsrWiSoUExtProp"
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateUser(userToUpdate));
+        }
+
+        [Fact]
         public async void UpdateUserOnlyOneProperty()
         {
             // Arrange
@@ -369,26 +397,26 @@ namespace MyBlogAPI.Test.Services
             await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
         }
 
-        /*[Fact]
-        public async void UpdateUserMissingId()
+        [Fact]
+        public async void UpdateUserMissingUsername()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserIdMissing@newEmail.com",
+                EmailAddress = "UpdateUserMissingUsername@newEmail.com",
                 Password = "16453",
                 Username = "UpdateUIdMissing"
             });
             var userToUpdate = new UpdateUserDto()
             {
-                EmailAddress = "UpdateUserId@newEmail.comUpdate",
+                Id = user.Id,
+                EmailAddress = "UpdateUserMissingUsername@newEmail.comUpdate",
                 Password = "16453",
-                Username = "UpdateUserIdMissingUpdate"
             };
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
-        }*/
+        }
 
         [Fact]
         public async void DeleteUser()

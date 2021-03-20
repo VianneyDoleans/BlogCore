@@ -58,6 +58,14 @@ namespace MyBlogAPI.Services.RoleService
                 throw new InvalidOperationException("Name already exists.");
         }
 
+        public async Task CheckRoleValidity(UpdateRoleDto role)
+        {
+            CheckRoleValidity((IRoleDto)role);
+            if (await _repository.NameAlreadyExists(role.Name) &&
+                (await _repository.GetAsync(role.Id)).Name != role.Name)
+                throw new InvalidOperationException("Name already exists.");
+        }
+
         public async Task<GetRoleDto> AddRole(AddRoleDto role)
         {
             await CheckRoleValidity(role);
@@ -70,7 +78,7 @@ namespace MyBlogAPI.Services.RoleService
         {
             if (await RoleAlreadyExistsWithSameProperties(role))
                 return;
-            CheckRoleValidity(role);
+            await CheckRoleValidity(role);
             var roleEntity = await _repository.GetAsync(role.Id);
             roleEntity.Name = role.Name;
             _unitOfWork.Save();

@@ -142,11 +142,11 @@ namespace MyBlogAPI.Test.Services
             await _service.AddCategory(categoryToAdd2);
 
             // Act
-            var categorys = (await _service.GetAllCategories()).ToArray();
+            var categories = (await _service.GetAllCategories()).ToArray();
 
             // Assert
-            Assert.Contains(categorys, x => x.Name == categoryToAdd.Name);
-            Assert.Contains(categorys, x => x.Name == categoryToAdd2.Name);
+            Assert.Contains(categories, x => x.Name == categoryToAdd.Name);
+            Assert.Contains(categories, x => x.Name == categoryToAdd2.Name);
         }
 
         [Fact]
@@ -184,6 +184,23 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateCategoryMissingName()
+        {
+            // Arrange
+            var category = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryMisName"
+            });
+            var categoryToUpdate = new UpdateCategoryDto()
+            {
+                Id = category.Id
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateCategory(categoryToUpdate));
+        }
+
+        [Fact]
         public async void UpdateCategoryNotFound()
         {
             // Arrange & Act & Assert
@@ -211,6 +228,28 @@ namespace MyBlogAPI.Test.Services
 
             // Assert
             Assert.True(categoryUpdated.Name == categoryToUpdate.Name);
+        }
+
+        [Fact]
+        public async void UpdateCategoryWithSomeUniqueExistingPropertiesFromAnotherCategory()
+        {
+            // Arrange
+            await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryWithSoUExtProp",
+            });
+            var category2 = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryWithSoUExtProp2",
+            });
+            var categoryToUpdate = new UpdateCategoryDto()
+            {
+                Id = category2.Id,
+                Name = "UpCategoryWithSoUExtProp",
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateCategory(categoryToUpdate));
         }
 
         [Fact]

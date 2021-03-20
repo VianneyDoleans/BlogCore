@@ -94,6 +94,18 @@ namespace MyBlogAPI.Services.UserService
                 throw new InvalidOperationException("Email Address already exists.");
         }
 
+        private async Task CheckUserValidity(UpdateUserDto user)
+        {
+            var userDb = _repository.GetAsync(user.Id);
+            CheckUserValidity((IUserDto)user);
+            if (await _repository.UsernameAlreadyExists(user.Username) &&
+                (await userDb).Username != user.Username)
+                throw new InvalidOperationException("Username already exists.");
+            if (await _repository.EmailAddressAlreadyExists(user.EmailAddress) &&
+                (await userDb).EmailAddress != user.EmailAddress)
+                throw new InvalidOperationException("Email Address already exists.");
+        }
+
         public async Task<GetUserDto> AddUser(AddUserDto user)
         {
             await CheckUserValidity(user);
@@ -106,7 +118,7 @@ namespace MyBlogAPI.Services.UserService
         {
             if (await UserAlreadyExistsWithSameProperties(user))
                 return;
-            CheckUserValidity(user);
+            await CheckUserValidity(user);
             var userEntity = await _repository.GetAsync(user.Id);
             _mapper.Map(user, userEntity);
             _unitOfWork.Save();

@@ -50,6 +50,14 @@ namespace MyBlogAPI.Services.CategoryService
                 throw new InvalidOperationException("Name already exists.");
         }
 
+        public async Task CheckCategoryValidity(UpdateCategoryDto category)
+        {
+            CheckCategoryValidity((ICategoryDto) category);
+            if (await _repository.NameAlreadyExists(category.Name) &&
+                (await _repository.GetAsync(category.Id)).Name != category.Name)
+                throw new InvalidOperationException("Name already exists.");
+        }
+
         public async Task<GetCategoryDto> AddCategory(AddCategoryDto category)
         {
             await CheckCategoryValidity(category);
@@ -70,7 +78,7 @@ namespace MyBlogAPI.Services.CategoryService
         {
             if (await CategoryAlreadyExistsWithSameProperties(category))
                 return;
-            CheckCategoryValidity(category);
+            await CheckCategoryValidity(category);
             var categoryEntity = await _repository.GetAsync(category.Id);
             _mapper.Map(category, categoryEntity);
             _unitOfWork.Save();

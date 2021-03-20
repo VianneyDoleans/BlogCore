@@ -190,12 +190,52 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateRoleMissingName()
+        {
+            // Arrange
+            var role = await _service.AddRole(new AddRoleDto()
+            {
+                Name = "UpRoleMisName"
+            });
+            var roleToUpdate = new UpdateRoleDto()
+            {
+                Id = role.Id,
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateRole(roleToUpdate));
+        }
+
+        [Fact]
         public async void UpdateRoleNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateRole(new UpdateRoleDto()
             { Id = 164854, Name = "UpdateRoleNotFound" }));
         }
+
+        [Fact]
+        public async void UpdateRoleWithSomeUniqueExistingUniquePropertiesFromAnotherRole()
+        {
+            // Arrange
+            await _service.AddRole(new AddRoleDto()
+            {
+                Name = "UpRoleWiSoUExtProp",
+            });
+            var role2 = await _service.AddRole(new AddRoleDto()
+            {
+                Name = "UpRoleWiSoUExtProp2",
+            });
+            var roleToUpdate = new UpdateRoleDto()
+            {
+                Id = role2.Id,
+                Name = "UpRoleWiSoUExtProp",
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateRole(roleToUpdate));
+        }
+
 
         [Fact]
         public async void UpdateRoleWithSameExistingProperties()

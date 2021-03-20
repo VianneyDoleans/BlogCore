@@ -235,6 +235,34 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateCommentMissingContent()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpdateCommentMissingContent@email.com", Password = "1234", Username = "UptCmtMisContent" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UptCmtMisContent" });
+            var post = await _fixture.Db.Posts.AddAsync(new Post()
+                { Author = user.Entity, Category = category.Entity, Content = "UptCmtMisContent" });
+            _fixture.UnitOfWork.Save();
+            var comment = await _service.AddComment(new AddCommentDto()
+            {
+                Author = user.Entity.Id,
+                Content = "UptCmtMisContent",
+                PostParent = post.Entity.Id
+            });
+            var commentToUpdate = new UpdateCommentDto()
+            {
+                Id = comment.Id,
+                Author = user.Entity.Id,
+                PostParent = post.Entity.Id
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateComment(commentToUpdate));
+        }
+
+        [Fact]
         public async void AddNullComment()
         {
 

@@ -51,6 +51,14 @@ namespace MyBlogAPI.Services.TagService
                 throw new InvalidOperationException("Name already exists.");
         }
 
+        public async Task CheckTagValidity(UpdateTagDto tag)
+        {
+            CheckTagValidity((ITagDto) tag);
+            if (await _repository.NameAlreadyExists(tag.Name) &&
+                (await _repository.GetAsync(tag.Id)).Name != tag.Name)
+                throw new InvalidOperationException("Name already exists.");
+        }
+
         public async Task<GetTagDto> AddTag(AddTagDto tag)
         {
             await CheckTagValidity(tag);
@@ -63,7 +71,7 @@ namespace MyBlogAPI.Services.TagService
         {
             if (await TagAlreadyExistsWithSameProperties(tag))
                 return;
-            CheckTagValidity(tag);
+            await CheckTagValidity(tag);
             var tagEntity = await _repository.GetAsync(tag.Id);
             tagEntity.Name = tag.Name;
             _unitOfWork.Save();

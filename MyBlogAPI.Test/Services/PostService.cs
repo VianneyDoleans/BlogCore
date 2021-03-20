@@ -322,6 +322,60 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdatePostMissingName()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpdatePostMissingName@email.com", Password = "1234", Username = "UpPostMisName" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UpPostMisName" });
+            var tag1 = await _fixture.Db.Tags.AddAsync(
+                new Tag() { Name = "UpPostMisName" });
+            _fixture.UnitOfWork.Save();
+            var post = new AddPostDto()
+                { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "UpPostMisName" };
+            var postAdded = await _service.AddPost(post);
+            var postToUpdate = new UpdatePostDto()
+            {
+                Id = postAdded.Id,
+                Author = user.Entity.Id,
+                Category = category.Entity.Id,
+                Content = "UpPostMisName",
+                Tags = new List<int>() { tag1.Entity.Id }
+            };
+
+            // Act && Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdatePost(postToUpdate));
+        }
+
+        [Fact]
+        public async void UpdatePostMissingContent()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpdatePostMissingContent@email.com", Password = "1234", Username = "UpPostMisContent" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UpPostMisContent" });
+            var tag1 = await _fixture.Db.Tags.AddAsync(
+                new Tag() { Name = "UpPostMisContent" });
+            _fixture.UnitOfWork.Save();
+            var post = new AddPostDto()
+                { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "UpPostMisContent" };
+            var postAdded = await _service.AddPost(post);
+            var postToUpdate = new UpdatePostDto()
+            {
+                Id = postAdded.Id,
+                Author = user.Entity.Id,
+                Category = category.Entity.Id,
+                Name = "UpPostMisContent",
+                Tags = new List<int>() { tag1.Entity.Id }
+            };
+
+            // Act && Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdatePost(postToUpdate));
+        }
+
+        [Fact]
         public async void GetPost()
         {
             // Arrange
@@ -369,10 +423,10 @@ namespace MyBlogAPI.Test.Services
             // Assert
             var postDb = await _service.GetPost(postAdded.Id);
             Assert.True(postDb.Id == postAdded.Id &&
-                        postDb.Author == post.Author &&
-                        postDb.Category == post.Category &&
-                        postDb.Content == post.Content &&
-                        postDb.Name == post.Name &&
+                        postDb.Author == postToUpdate.Author &&
+                        postDb.Category == postToUpdate.Category &&
+                        postDb.Content == postToUpdate.Content &&
+                        postDb.Name == postToUpdate.Name &&
                         postDb.Tags.Count() == 1 &&
                         postDb.Tags.Contains(tag1.Entity.Id));
         }
@@ -397,6 +451,32 @@ namespace MyBlogAPI.Test.Services
 
             // Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdatePost(postToUpdate));
+        }
+
+        [Fact]
+        public async void UpdatePostWithSomeUniqueExistingPropertiesFromAnotherPost()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "UpPstWiSoUExtProp@email.com", Password = "1234", Username = "UpPstWiSoUExtProp" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "UpPstWiSoUExtProp" });
+            _fixture.UnitOfWork.Save();
+            var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "UpPstWiSoUExtProp" };
+            var post2 = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "UpPstWiSoUExtProp2" };
+            await _service.AddPost(post);
+            var postAdded2 = await _service.AddPost(post2);
+            var postToUpdate = new UpdatePostDto()
+            {
+                Id = postAdded2.Id,
+                Author = user.Entity.Id,
+                Category = category.Entity.Id,
+                Content = "new post",
+                Name = "UpPstWiSoUExtProp"
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdatePost(postToUpdate));
         }
 
         [Fact]

@@ -190,6 +190,23 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void UpdateTagMissingName()
+        {
+            // Arrange
+            var tag = await _service.AddTag(new AddTagDto()
+            {
+                Name = "UpTagMisName"
+            });
+            var tagToUpdate = new UpdateTagDto()
+            {
+                Id = tag.Id
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateTag(tagToUpdate));
+        }
+
+        [Fact]
         public async void UpdateTagNotFound()
         {
             // Arrange & Act & Assert
@@ -217,6 +234,28 @@ namespace MyBlogAPI.Test.Services
 
             // Assert
             Assert.True(tagUpdated.Name == tagToUpdate.Name);
+        }
+
+        [Fact]
+        public async void UpdateTagWithSomeUniqueExistingUniquePropertiesFromAnotherTag()
+        {
+            // Arrange
+            await _service.AddTag(new AddTagDto()
+            {
+                Name = "UpdateTagWithSomeUExistingProperty",
+            });
+            var tag2 = await _service.AddTag(new AddTagDto()
+            {
+                Name = "UpdateTagWithSomeUExistingProperty2",
+            });
+            var tagToUpdate = new UpdateTagDto()
+            {
+                Id = tag2.Id,
+                Name = "UpdateTagWithSomeUExistingProperty",
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateTag(tagToUpdate));
         }
 
         [Fact]

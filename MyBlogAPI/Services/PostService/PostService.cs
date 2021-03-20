@@ -88,11 +88,13 @@ namespace MyBlogAPI.Services.PostService
             if (post == null)
                 throw new ArgumentNullException();
             var postDb = await _repository.GetAsync(post.Id);
+            if (postDb.PostTags != null && post.Tags != null &&
+                !postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
+                return false;
             return postDb.Name == post.Name &&
                    postDb.Author.Id == post.Author &&
                    postDb.Category.Id == post.Category &&
-                   postDb.Content == post.Content &&
-                   postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags);
+                   postDb.Content == post.Content;
         }
 
         public async Task CheckPostValidity(IPostDto post)
@@ -123,8 +125,15 @@ namespace MyBlogAPI.Services.PostService
         public async Task CheckPostValidity(AddPostDto post)
         {
             await CheckPostValidity((IPostDto)post);
-            // TODO REMAKE THIS LINE
             if (await _repository.NameAlreadyExists(post.Name))
+                throw new InvalidOperationException("Name already exists.");
+        }
+
+        public async Task CheckPostValidity(UpdatePostDto post)
+        {
+            await CheckPostValidity((IPostDto)post);
+            if (await _repository.NameAlreadyExists(post.Name) &&
+                (await _repository.GetAsync(post.Id)).Name != post.Name)
                 throw new InvalidOperationException("Name already exists.");
         }
 
