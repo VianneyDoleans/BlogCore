@@ -25,7 +25,7 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task<IEnumerable<GetRoleDto>> GetAllRoles()
         {
-            return _repository.GetAll().Select(c =>
+            return (await _repository.GetAllAsync()).Select(c =>
             {
                 var roleDto = _mapper.Map<GetRoleDto>(c);
                 roleDto.Users = c.UserRoles.Select(x => x.UserId);
@@ -33,30 +33,15 @@ namespace MyBlogAPI.Services.RoleService
             }).ToList();
         }
 
-        private async Task<Role> GetRoleFromRepository(int id)
-        {
-            try
-            {
-                var roleDb = await _repository.GetAsync(id);
-                if (roleDb == null)
-                    throw new IndexOutOfRangeException("Role doesn't exist.");
-                return roleDb;
-            }
-            catch
-            {
-                throw new IndexOutOfRangeException("Role doesn't exist.");
-            }
-        }
-
         public async Task<GetRoleDto> GetRole(int id)
         {
-            var role = await GetRoleFromRepository(id);
+            var role = await _repository.GetAsync(id);
             var roleDto = _mapper.Map<GetRoleDto>(role);
             roleDto.Users = role.UserRoles.Select(x => x.UserId);
             return roleDto;
         }
 
-        public async Task CheckRoleValidity(AddRoleDto role)
+        public void CheckRoleValidity(IRoleDto role)
         {
             if (role == null)
                 throw new ArgumentNullException();
@@ -64,21 +49,11 @@ namespace MyBlogAPI.Services.RoleService
                 throw new ArgumentException("Name cannot be null or empty.");
             if (role.Name.Length > 20)
                 throw new ArgumentException("Name cannot exceed 20 characters.");
-            if (await _repository.NameAlreadyExists(role.Name))
-                throw new InvalidOperationException("Name already exists.");
         }
 
-        public async Task CheckRoleValidity(UpdateRoleDto role)
+        public async Task CheckRoleValidity(AddRoleDto role)
         {
-            if (role == null)
-                throw new ArgumentNullException();
-            var roleDb = await GetRoleFromRepository(role.Id);
-            if (role.Name == roleDb.Name)
-                return;
-            if (string.IsNullOrWhiteSpace(role.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (role.Name.Length > 20)
-                throw new ArgumentException("Name cannot exceed 20 characters.");
+            CheckRoleValidity((IRoleDto)role);
             if (await _repository.NameAlreadyExists(role.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
@@ -93,16 +68,26 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task UpdateRole(UpdateRoleDto role)
         {
-            await CheckRoleValidity(role);
-            var roleEntity = await GetRoleFromRepository(role.Id);
+            if (await RoleAlreadyExistsWithSameProperties(role))
+                return;
+            CheckRoleValidity(role);
+            var roleEntity = await _repository.GetAsync(role.Id);
             roleEntity.Name = role.Name;
             _unitOfWork.Save();
         }
 
         public async Task DeleteRole(int id)
         {
-            await _repository.RemoveAsync(await GetRoleFromRepository(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
+        }
+
+        private async Task<bool> RoleAlreadyExistsWithSameProperties(UpdateRoleDto role)
+        {
+            if (role == null)
+                throw new ArgumentNullException();
+            var roleDb = await _repository.GetAsync(role.Id);
+            return role.Name == roleDb.Name;
         }
     }
 }

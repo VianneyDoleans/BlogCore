@@ -2,7 +2,7 @@
 
 namespace MyBlogAPI.DTO.Role
 {
-    public class GetRoleDto : ADto
+    public class GetRoleDto : ADto, IRoleDto
     {
         public string Name { get; set; }
 

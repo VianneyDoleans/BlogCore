@@ -1,6 +1,6 @@
 ﻿namespace MyBlogAPI.DTO.User
 {
-    public class AddUserDto
+    public class AddUserDto : IUserDto
     {
         public string Username { get; set; }
 

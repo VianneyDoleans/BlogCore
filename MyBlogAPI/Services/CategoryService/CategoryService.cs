@@ -33,7 +33,7 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));
         }
 
-        public async Task CheckCategoryValidity(AddCategoryDto category)
+        public void CheckCategoryValidity(ICategoryDto category)
         {
             if (category == null)
                 throw new ArgumentNullException();
@@ -41,21 +41,11 @@ namespace MyBlogAPI.Services.CategoryService
                 throw new ArgumentException("Name cannot be null or empty.");
             if (category.Name.Length > 50)
                 throw new ArgumentException("Name cannot exceed 50 characters.");
-            if (await _repository.NameAlreadyExists(category.Name))
-                throw new InvalidOperationException("Name already exists.");
         }
 
-        public async Task CheckCategoryValidity(UpdateCategoryDto category)
+        public async Task CheckCategoryValidity(AddCategoryDto category)
         {
-            if (category == null)
-                throw new ArgumentNullException();
-            var categoryDb = await _repository.GetAsync(category.Id);
-            if (categoryDb.Name == category.Name)
-                return;
-            if (string.IsNullOrWhiteSpace(category.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (category.Name.Length > 50)
-                throw new ArgumentException("Name cannot exceed 50 characters.");
+            CheckCategoryValidity((ICategoryDto)category);
             if (await _repository.NameAlreadyExists(category.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
@@ -68,9 +58,19 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(result);
         }
 
+        private async Task<bool> CategoryAlreadyExistsWithSameProperties(UpdateCategoryDto category)
+        {
+            if (category == null)
+                throw new ArgumentNullException();
+            var categoryDb = await _repository.GetAsync(category.Id);
+            return categoryDb.Name == category.Name;
+        }
+
         public async Task UpdateCategory(UpdateCategoryDto category)
         {
-            await CheckCategoryValidity(category);
+            if (await CategoryAlreadyExistsWithSameProperties(category))
+                return;
+            CheckCategoryValidity(category);
             var categoryEntity = await _repository.GetAsync(category.Id);
             _mapper.Map(category, categoryEntity);
             _unitOfWork.Save();

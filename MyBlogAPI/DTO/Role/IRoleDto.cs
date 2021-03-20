@@ -1,7 +1,7 @@
 ﻿
 namespace MyBlogAPI.DTO.Role
 {
-    interface IRoleDto
+    public interface IRoleDto
     {
         public string Name { get; set; }
     }

@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace MyBlogAPI.DTO.Category
 {
-    interface ICategoryDto
+    public interface ICategoryDto
     {
+        public string Name { get; set; }
     }
 }

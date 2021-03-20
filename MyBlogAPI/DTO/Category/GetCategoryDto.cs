@@ -2,7 +2,7 @@
 
 namespace MyBlogAPI.DTO.Category
 {
-    public class GetCategoryDto : ADto
+    public class GetCategoryDto : ADto, ICategoryDto
     {
         public string Name { get; set; }
 

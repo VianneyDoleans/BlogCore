@@ -35,15 +35,15 @@ namespace MyBlogAPI.Services.LikeService
 
         public async Task<IEnumerable<GetLikeDto>> GetAllLikes()
         {
-            return _repository.GetAll().Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
+            return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
         }
 
         public async Task<GetLikeDto> GetLike(int id)
         {
-            return _mapper.Map<GetLikeDto>(await GetLikeFromRepository(id));
+            return _mapper.Map<GetLikeDto>(await _repository.GetAsync(id));
         }
 
-        public async Task CheckLikeValidity(AddLikeDto like)
+        public async Task CheckLikeValidity(ILikeDto like)
         {
             // TODO maybe remove LikeableType (not so much useful)
             if (like == null)
@@ -63,81 +63,54 @@ namespace MyBlogAPI.Services.LikeService
                 case LikeableType.Post when await _postRepository.GetAsync(like.Post.Value) == null:
                     throw new IndexOutOfRangeException("Post doesn't exist.");
             }
+        }
+
+        public async Task CheckLikeValidity(AddLikeDto like)
+        {
+            await CheckLikeValidity((ILikeDto)like);
             if (await _repository.LikeAlreadyExists(_mapper.Map<Like>(like)))
                 throw new InvalidOperationException("Like already exists.");
-        }
-
-        public async Task CheckLikeValidity(UpdateLikeDto like)
-        {
-            // TODO maybe remove LikeableType (not so much useful)
-            if (like == null)
-                throw new ArgumentNullException();
-            var likeDb = await GetLikeFromRepository(like.Id);
-            // TODO check ?.Id in every "if comparison" conditions (null) (only if propery have the right to be null)
-            if (likeDb.Comment?.Id == like.Comment && 
-                likeDb.LikeableType == like.LikeableType &&
-                likeDb.Post?.Id == like.Post &&
-                likeDb.User.Id == like.User)
-                return;
-            if (await _userRepository.GetAsync(like.User) == null)
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            if (like.Comment != null && like.Post != null)
-                throw new ArgumentException("A like can't be assigned to a comment and a post at the same time.");
-            switch (like.LikeableType)
-            {
-                case LikeableType.Comment when like.Comment == null:
-                    throw new ArgumentException("Comment cannot be null.");
-                case LikeableType.Comment when await _commentRepository.GetAsync(like.Comment.Value) == null:
-                    throw new IndexOutOfRangeException("Comment doesn't exist.");
-                case LikeableType.Post when like.Post == null:
-                    throw new ArgumentException("Post cannot be null.");
-                case LikeableType.Post when await _postRepository.GetAsync(like.Post.Value) == null:
-                    throw new IndexOutOfRangeException("Post doesn't exist.");
-                default:
-                    return;
-            }
-        }
-
-        private async Task<Like> GetLikeFromRepository(int id)
-        {
-            try
-            {
-                var likeDb = await _repository.GetAsync(id);
-                if (likeDb == null)
-                    throw new IndexOutOfRangeException("Like doesn't exist.");
-                return likeDb;
-            }
-            catch
-            {
-                throw new IndexOutOfRangeException("Like doesn't exist.");
-            }
         }
 
         public async Task<GetLikeDto> AddLike(AddLikeDto like)
         {
             await CheckLikeValidity(like);
-            var result = _repository.Add(_mapper.Map<Like>(like));
+            var result = await _repository.AddAsync(_mapper.Map<Like>(like));
             _unitOfWork.Save();
             return _mapper.Map<GetLikeDto>(result);
         }
 
         public async Task UpdateLike(UpdateLikeDto like)
         {
+            if (await LikeAlreadyExistsWithSameProperties(like))
+                return;
             await CheckLikeValidity(like);
-            var likeEntity = await GetLikeFromRepository(like.Id);
+            var likeEntity = await _repository.GetAsync(like.Id);
             _mapper.Map(like, likeEntity);
             _unitOfWork.Save();
         }
 
         public async Task DeleteLike(int id)
         {
-            _repository.Remove(await GetLikeFromRepository(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
+        }
+
+        private async Task<bool> LikeAlreadyExistsWithSameProperties(UpdateLikeDto like)
+        {
+            // TODO maybe remove LikeableType (not so much useful)
+            if (like == null)
+                throw new ArgumentNullException();
+            var likeDb = await _repository.GetAsync(like.Id);
+            // TODO check ?.Id in every "if comparison" conditions (null) (only if property have the right to be null)
+            return likeDb.Comment?.Id == like.Comment &&
+                   likeDb.LikeableType == like.LikeableType &&
+                   likeDb.Post?.Id == like.Post &&
+                   likeDb.User.Id == like.User;
         }
 
         public async Task<IEnumerable<GetLikeDto>> GetLikesFromUser(int id)
         {
-            //return (await _repository.GetWhereAsync(x => x.User.Id == id)).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
             return (await _repository.GetLikesFromUser(id)).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
         }
 

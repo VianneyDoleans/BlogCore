@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace MyBlogAPI.DTO.Tag
 {
-    interface ITagDto
+    public interface ITagDto
     {
+        public string Name { get; set; }
     }
 }

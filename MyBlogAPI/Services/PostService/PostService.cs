@@ -36,7 +36,7 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task<IEnumerable<GetPostDto>> GetAllPosts()
         {
-            return _repository.GetAll().Select(x =>
+            return (await _repository.GetAllAsync()).Select(x =>
             {
                 var postDto =  _mapper.Map<GetPostDto>(x);
                 postDto.Tags = x.PostTags.Select(y => y.TagId);
@@ -77,50 +77,28 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task<GetPostDto> GetPost(int id)
         {
-            var post = await GetPostFromRepository(id);
+            var post = await _repository.GetAsync(id);
             var postDto = _mapper.Map<GetPostDto>(post);
             postDto.Tags = post.PostTags.Select(x => x.TagId);
             return postDto;
         }
 
-        public async Task CheckPostValidity(AddPostDto post)
+        private async Task<bool> PostAlreadyExistsWithSameProperties(UpdatePostDto post)
         {
             if (post == null)
                 throw new ArgumentNullException();
-            if (string.IsNullOrWhiteSpace(post.Content))
-                throw new ArgumentException("Content cannot be null or empty.");
-            if (string.IsNullOrWhiteSpace(post.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (post.Name.Length > 250)
-                throw new ArgumentException("Name cannot exceed 250 characters.");
-            if (await _userRepository.GetAsync(post.Author) == null)
-                throw new IndexOutOfRangeException("Author doesn't exist.");
-            if (await _categoryRepository.GetAsync(post.Category) == null)
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            post.Tags?.ToList().ForEach(x =>
-            {
-                var tag = _tagRepository.Get(x);
-                if (tag == null)
-                    throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
-            });
-            // TODO do it on each service (check duplicate) and add unitTests
-            if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
-                throw new InvalidOperationException("There can't be duplicate tags.");
-            if (await _repository.NameAlreadyExists(post.Name))
-                throw new InvalidOperationException("Name already exists.");
+            var postDb = await _repository.GetAsync(post.Id);
+            return postDb.Name == post.Name &&
+                   postDb.Author.Id == post.Author &&
+                   postDb.Category.Id == post.Category &&
+                   postDb.Content == post.Content &&
+                   postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags);
         }
 
-        public async Task CheckPostValidity(UpdatePostDto post)
+        public async Task CheckPostValidity(IPostDto post)
         {
             if (post == null)
                 throw new ArgumentNullException();
-            var postDb = await GetPostFromRepository(post.Id);
-            if (postDb.Name == post.Name &&
-                postDb.Author.Id == post.Author &&
-                postDb.Category.Id == post.Category &&
-                postDb.Content == post.Content &&
-                postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
-                return;
             if (string.IsNullOrWhiteSpace(post.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
             if (string.IsNullOrWhiteSpace(post.Name))
@@ -140,6 +118,11 @@ namespace MyBlogAPI.Services.PostService
             // TODO do it on each service (check duplicate) and add unitTests
             if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
                 throw new InvalidOperationException("There can't be duplicate tags.");
+        }
+
+        public async Task CheckPostValidity(AddPostDto post)
+        {
+            await CheckPostValidity((IPostDto)post);
             // TODO REMAKE THIS LINE
             if (await _repository.NameAlreadyExists(post.Name))
                 throw new InvalidOperationException("Name already exists.");
@@ -161,32 +144,19 @@ namespace MyBlogAPI.Services.PostService
             return _mapper.Map<GetPostDto>(result);
         }
 
-        private async Task<Post> GetPostFromRepository(int id)
-        {
-            try
-            {
-                var postDb = await _repository.GetAsync(id);
-                if (postDb == null)
-                    throw new IndexOutOfRangeException("Post doesn't exist.");
-                return postDb;
-            }
-            catch
-            {
-                throw new IndexOutOfRangeException("Post doesn't exist.");
-            }
-        }
-
         public async Task UpdatePost(UpdatePostDto post)
         {
+            if (await PostAlreadyExistsWithSameProperties(post))
+                return;
             await CheckPostValidity(post);
-            var postEntity = await GetPostFromRepository(post.Id);
+            var postEntity = await _repository.GetAsync(post.Id);
             _mapper.Map(post, postEntity);
             _unitOfWork.Save();
         }
 
         public async Task DeletePost(int id)
         {
-            await _repository.RemoveAsync(await GetPostFromRepository(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
         }
     }

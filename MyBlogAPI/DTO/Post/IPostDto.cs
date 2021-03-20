@@ -2,7 +2,7 @@
 
 namespace MyBlogAPI.DTO.Post
 {
-    interface IPostDto
+    public interface IPostDto
     {
         public string Content { get; set; }
 
