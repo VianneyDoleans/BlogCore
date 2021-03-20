@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using DbAccess.Repositories.Like;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Comment;
 
-namespace MyBlogAPI.DTO.Comment
+namespace MyBlogAPI.DTO.Comment.Converters
 {
     public class CommentIdConverter: ITypeConverter<int, DbAccess.Data.POCO.Comment>
     {

@@ -1,11 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.DTO.User
 {

@@ -264,7 +264,7 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -290,7 +290,7 @@ namespace MyBlogAPI.Test.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPost(post));
         }
 
         [Fact]

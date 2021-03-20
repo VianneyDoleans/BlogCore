@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using DbAccess.DataContext;
+﻿using DbAccess.DataContext;
 using DbAccess.Repositories.User;
-using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.UnitOfWork
 {

@@ -1,13 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using AutoMapper;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.IntegrationTests.GenericTests;
 using MyBlogAPI.IntegrationTests.Helpers;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace MyBlogAPI.IntegrationTests.Controllers

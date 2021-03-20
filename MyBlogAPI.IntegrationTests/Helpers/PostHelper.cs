@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Threading.Tasks;
 using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.IntegrationTests.Helpers

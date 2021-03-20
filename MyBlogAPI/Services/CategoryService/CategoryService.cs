@@ -71,7 +71,6 @@ namespace MyBlogAPI.Services.CategoryService
         public async Task UpdateCategory(UpdateCategoryDto category)
         {
             await CheckCategoryValidity(category);
-            //TODO
             var categoryEntity = await _repository.GetAsync(category.Id);
             _mapper.Map(category, categoryEntity);
             _unitOfWork.Save();

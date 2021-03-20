@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyBlogAPI.DTO.User;
+﻿using System.Collections.Generic;
 
 namespace MyBlogAPI.DTO.Role
 {

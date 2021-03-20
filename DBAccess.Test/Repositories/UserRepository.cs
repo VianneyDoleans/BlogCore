@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using DbAccess.Data;
 using DbAccess.Data.POCO;
-using DbAccess.DataContext;
-using DbAccess.Repositories.UnitOfWork;
 using Xunit;
 
 namespace DBAccess.Test.Repositories

@@ -1,12 +1,8 @@
-﻿using System;
-using DbAccess.Data.POCO;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.User;
+﻿using DbAccess.Data.POCO;
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class AddLikeDto
+    public class AddLikeDto : ILikeDto
     {
         public LikeableType LikeableType { get; set; }
 

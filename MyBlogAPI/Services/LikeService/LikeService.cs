@@ -9,7 +9,6 @@ using DbAccess.Repositories.Like;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO;
 using MyBlogAPI.DTO.Like;
 
 namespace MyBlogAPI.Services.LikeService

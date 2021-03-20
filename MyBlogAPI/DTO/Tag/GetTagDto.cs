@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using MyBlogAPI.DTO.Post;
-
-namespace MyBlogAPI.DTO.Tag
+﻿namespace MyBlogAPI.DTO.Tag
 {
-    public class GetTagDto : ADto
+    public class GetTagDto : ADto, ITagDto
     {
         public string Name { get; set; }
 

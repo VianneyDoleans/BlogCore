@@ -11,7 +11,6 @@ using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Post;
-using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Services.PostService
 {
@@ -104,6 +103,9 @@ namespace MyBlogAPI.Services.PostService
                 if (tag == null)
                     throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
             });
+            // TODO do it on each service (check duplicate) and add unitTests
+            if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
+                throw new InvalidOperationException("There can't be duplicate tags.");
             if (await _repository.NameAlreadyExists(post.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
@@ -135,6 +137,9 @@ namespace MyBlogAPI.Services.PostService
                 if (tag == null)
                     throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
             });
+            // TODO do it on each service (check duplicate) and add unitTests
+            if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
+                throw new InvalidOperationException("There can't be duplicate tags.");
             // TODO REMAKE THIS LINE
             if (await _repository.NameAlreadyExists(post.Name))
                 throw new InvalidOperationException("Name already exists.");
@@ -173,11 +178,10 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task UpdatePost(UpdatePostDto post)
         {
-            // TODO
             await CheckPostValidity(post);
             var postEntity = await GetPostFromRepository(post.Id);
-            postEntity.Category.Id = post.Category;
-            postEntity.Name = post.Name;
+            _mapper.Map(post, postEntity);
+            _unitOfWork.Save();
         }
 
         public async Task DeletePost(int id)

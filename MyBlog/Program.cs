@@ -1,7 +1,4 @@
-using DbAccess.Data;
-using DbAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 namespace MyBlog.Web

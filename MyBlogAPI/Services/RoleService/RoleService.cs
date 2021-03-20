@@ -86,7 +86,7 @@ namespace MyBlogAPI.Services.RoleService
         public async Task<GetRoleDto> AddRole(AddRoleDto role)
         {
             await CheckRoleValidity(role);
-            var result = _repository.Add(_mapper.Map<Role>(role));
+            var result = await _repository.AddAsync(_mapper.Map<Role>(role));
             _unitOfWork.Save();
             return _mapper.Map<GetRoleDto>(result);
         }
@@ -94,14 +94,14 @@ namespace MyBlogAPI.Services.RoleService
         public async Task UpdateRole(UpdateRoleDto role)
         {
             await CheckRoleValidity(role);
-            var roleEntity = _repository.Get(role.Id);
+            var roleEntity = await GetRoleFromRepository(role.Id);
             roleEntity.Name = role.Name;
             _unitOfWork.Save();
         }
 
         public async Task DeleteRole(int id)
         {
-            _repository.Remove(await GetRoleFromRepository(id));
+            await _repository.RemoveAsync(await GetRoleFromRepository(id));
             _unitOfWork.Save();
         }
     }

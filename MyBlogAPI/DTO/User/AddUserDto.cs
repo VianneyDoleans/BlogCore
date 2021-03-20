@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyBlogAPI.DTO.User
+﻿namespace MyBlogAPI.DTO.User
 {
     public class AddUserDto
     {
