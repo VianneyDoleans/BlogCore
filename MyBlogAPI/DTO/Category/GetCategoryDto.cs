@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using AutoMapper.Configuration.Conventions;
 
 namespace MyBlogAPI.DTO.Category
 {
-    public class GetCategoryDto : ADto
+    public class GetCategoryDto : ADto, ICategoryDto
     {
         public string Name { get; set; }
 

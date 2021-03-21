@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Text;
+﻿using System.Net.Http;
 using DbAccess.Data.POCO;
 using MyBlogAPI.DTO.Like;
 

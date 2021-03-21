@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyBlogAPI.DTO.Role
+﻿namespace MyBlogAPI.DTO.Role
 {
-    public class UpdateRoleDto : ADto
+    public class UpdateRoleDto : ADto, IRoleDto
     {
         public string Name { get; set; }
     }

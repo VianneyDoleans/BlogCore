@@ -1,16 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Tag;
-using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Post
 {
-    public class GetPostDto : ADto
+    public class GetPostDto : ADto, IPostDto
     {
         public string Content { get; set; }
 

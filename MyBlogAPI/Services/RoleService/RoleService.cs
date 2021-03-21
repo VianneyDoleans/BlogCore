@@ -25,7 +25,7 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task<IEnumerable<GetRoleDto>> GetAllRoles()
         {
-            return _repository.GetAll().Select(c =>
+            return (await _repository.GetAllAsync()).Select(c =>
             {
                 var roleDto = _mapper.Map<GetRoleDto>(c);
                 roleDto.Users = c.UserRoles.Select(x => x.UserId);
@@ -35,20 +35,13 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task<GetRoleDto> GetRole(int id)
         {
-            try
-            {
-                var role = _repository.Get(id);
-                var roleDto = _mapper.Map<GetRoleDto>(role);
-                roleDto.Users = role.UserRoles.Select(x => x.UserId);
-                return roleDto;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Role doesn't exist.");
-            }
+            var role = await _repository.GetAsync(id);
+            var roleDto = _mapper.Map<GetRoleDto>(role);
+            roleDto.Users = role.UserRoles.Select(x => x.UserId);
+            return roleDto;
         }
 
-        public async Task CheckRoleValidity(AddRoleDto role)
+        public void CheckRoleValidity(IRoleDto role)
         {
             if (role == null)
                 throw new ArgumentNullException();
@@ -56,44 +49,53 @@ namespace MyBlogAPI.Services.RoleService
                 throw new ArgumentException("Name cannot be null or empty.");
             if (role.Name.Length > 20)
                 throw new ArgumentException("Name cannot exceed 20 characters.");
+        }
+
+        public async Task CheckRoleValidity(AddRoleDto role)
+        {
+            CheckRoleValidity((IRoleDto)role);
             if (await _repository.NameAlreadyExists(role.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckRoleValidity(UpdateRoleDto role)
         {
-            if (role == null)
-                throw new ArgumentNullException();
-            if (_repository.GetAsync(role.Id) == null)
-                throw new ArgumentException("Role doesn't exist.");
-            if (string.IsNullOrWhiteSpace(role.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (role.Name.Length > 20)
-                throw new ArgumentException("Name cannot exceed 20 characters.");
-            if (await _repository.NameAlreadyExists(role.Name))
+            CheckRoleValidity((IRoleDto)role);
+            if (await _repository.NameAlreadyExists(role.Name) &&
+                (await _repository.GetAsync(role.Id)).Name != role.Name)
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task<GetRoleDto> AddRole(AddRoleDto role)
         {
             await CheckRoleValidity(role);
-            var result = _repository.Add(_mapper.Map<Role>(role));
+            var result = await _repository.AddAsync(_mapper.Map<Role>(role));
             _unitOfWork.Save();
             return _mapper.Map<GetRoleDto>(result);
         }
 
         public async Task UpdateRole(UpdateRoleDto role)
         {
+            if (await RoleAlreadyExistsWithSameProperties(role))
+                return;
             await CheckRoleValidity(role);
-            var roleEntity = _repository.Get(role.Id);
+            var roleEntity = await _repository.GetAsync(role.Id);
             roleEntity.Name = role.Name;
             _unitOfWork.Save();
         }
 
         public async Task DeleteRole(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
+        }
+
+        private async Task<bool> RoleAlreadyExistsWithSameProperties(UpdateRoleDto role)
+        {
+            if (role == null)
+                throw new ArgumentNullException();
+            var roleDb = await _repository.GetAsync(role.Id);
+            return role.Name == roleDb.Name;
         }
     }
 }

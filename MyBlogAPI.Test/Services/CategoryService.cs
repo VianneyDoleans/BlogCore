@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using AutoMapper;
 using DbAccess.Repositories.Category;
 using MyBlogAPI.DTO.Category;
@@ -39,6 +40,16 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void AddCategoryWithEmptyName()
+        {
+            // Arrange
+            var category = new AddCategoryDto() { Name = "  " };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddCategory(category));
+        }
+
+        [Fact]
         public async void UpdateCategory()
         {
             // Arrange
@@ -59,7 +70,7 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange
             var category = new AddCategoryDto() { Name = " AddCategoryWiAlExName" };
-            var categoryAdded = _service.AddCategory(category);
+            await _service.AddCategory(category);
 
             // Act & Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddCategory(category));
@@ -90,6 +101,171 @@ namespace MyBlogAPI.Test.Services
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetCategory(685479));
+        }
+
+        [Fact]
+        public async void DeleteCategory()
+        {
+            // Arrange
+            var category = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "DeleteCategory"
+            });
+
+            // Act
+            await _service.DeleteCategory(category.Id);
+
+            // Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetCategory(category.Id));
+        }
+
+        [Fact]
+        public async void DeleteCategoryNotFound()
+        {
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteCategory(175574));
+        }
+
+        [Fact]
+        public async void GetAllCategories()
+        {
+            // Arrange
+            var categoryToAdd = new AddCategoryDto()
+            {
+                Name = "GetAllCategorys"
+            };
+            var categoryToAdd2 = new AddCategoryDto()
+            {
+                Name = "GetAllCategorys2"
+            };
+            await _service.AddCategory(categoryToAdd);
+            await _service.AddCategory(categoryToAdd2);
+
+            // Act
+            var categories = (await _service.GetAllCategories()).ToArray();
+
+            // Assert
+            Assert.Contains(categories, x => x.Name == categoryToAdd.Name);
+            Assert.Contains(categories, x => x.Name == categoryToAdd2.Name);
+        }
+
+        [Fact]
+        public async void GetCategory()
+        {
+            // Arrange
+            var categoryToAdd = new AddCategoryDto()
+            {
+                Name = "GetCategory"
+            };
+
+            // Act
+            var categoryDb = await _service.GetCategory((await _service.AddCategory(categoryToAdd)).Id);
+
+            // Assert
+            Assert.True(categoryDb.Name == categoryToAdd.Name);
+        }
+
+        [Fact]
+        public async void UpdateCategoryInvalid()
+        {
+            // Arrange
+            var category = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpdateCategoryInvalid"
+            });
+            var categoryToUpdate = new UpdateCategoryDto()
+            {
+                Id = category.Id,
+                Name = ""
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateCategory(categoryToUpdate));
+        }
+
+        [Fact]
+        public async void UpdateCategoryMissingName()
+        {
+            // Arrange
+            var category = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryMisName"
+            });
+            var categoryToUpdate = new UpdateCategoryDto()
+            {
+                Id = category.Id
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateCategory(categoryToUpdate));
+        }
+
+        [Fact]
+        public async void UpdateCategoryNotFound()
+        {
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateCategory(new UpdateCategoryDto()
+            { Id = 164854, Name = "UpdateCategoryNotFound" }));
+        }
+
+        [Fact]
+        public async void UpdateCategoryWithSameExistingProperties()
+        {
+            // Arrange
+            var category = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryWithSaExtProp",
+            });
+            var categoryToUpdate = new UpdateCategoryDto()
+            {
+                Id = category.Id,
+                Name = "UpCategoryWithSaExtProp",
+            };
+
+            // Act
+            await _service.UpdateCategory(categoryToUpdate);
+            var categoryUpdated = await _service.GetCategory(categoryToUpdate.Id);
+
+            // Assert
+            Assert.True(categoryUpdated.Name == categoryToUpdate.Name);
+        }
+
+        [Fact]
+        public async void UpdateCategoryWithSomeUniqueExistingPropertiesFromAnotherCategory()
+        {
+            // Arrange
+            await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryWithSoUExtProp",
+            });
+            var category2 = await _service.AddCategory(new AddCategoryDto()
+            {
+                Name = "UpCategoryWithSoUExtProp2",
+            });
+            var categoryToUpdate = new UpdateCategoryDto()
+            {
+                Id = category2.Id,
+                Name = "UpCategoryWithSoUExtProp",
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateCategory(categoryToUpdate));
+        }
+
+        [Fact]
+        public async void AddNullCategory()
+        {
+
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.AddCategory(null));
+        }
+
+        [Fact]
+        public async void UpdateNullCategory()
+        {
+
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateCategory(null));
         }
     }
 }

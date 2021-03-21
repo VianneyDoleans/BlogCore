@@ -2,7 +2,7 @@
 
 namespace MyBlogAPI.DTO.Post
 {
-    public class UpdatePostDto : ADto, IPostDto
+    public interface IPostDto
     {
         public string Content { get; set; }
 
@@ -12,6 +12,6 @@ namespace MyBlogAPI.DTO.Post
 
         public int Category { get; set; }
 
-        public virtual IEnumerable<int> Tags { get; set; }
+        public IEnumerable<int> Tags { get; set; }
     }
 }

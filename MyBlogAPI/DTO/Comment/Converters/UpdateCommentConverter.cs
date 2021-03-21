@@ -5,13 +5,13 @@ using DbAccess.Repositories.User;
 
 namespace MyBlogAPI.DTO.Comment.Converters
 {
-    public class CommentUpdateConverter : ITypeConverter<UpdateCommentDto, DbAccess.Data.POCO.Comment>
+    public class UpdateCommentConverter : ITypeConverter<UpdateCommentDto, DbAccess.Data.POCO.Comment>
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
 
-        public CommentUpdateConverter(ICommentRepository commentRepository, IPostRepository postRepository,
+        public UpdateCommentConverter(ICommentRepository commentRepository, IPostRepository postRepository,
             IUserRepository userRepository)
         {
             _commentRepository = commentRepository;

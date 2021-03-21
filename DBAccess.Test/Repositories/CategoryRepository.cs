@@ -47,7 +47,7 @@ namespace DBAccess.Test.Repositories
         {
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await categoryRepository.GetAsync(100));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await categoryRepository.GetAsync(100));
         }
 
         [Fact]

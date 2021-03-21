@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.User;
 using MyBlogAPI.IntegrationTests.GenericTests;
 using MyBlogAPI.IntegrationTests.Helpers;
 using Xunit;

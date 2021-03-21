@@ -48,7 +48,7 @@ namespace DBAccess.Test.Repositories
         {
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await commentRepository.GetAsync(100));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await commentRepository.GetAsync(100));
         }
 
         [Fact]

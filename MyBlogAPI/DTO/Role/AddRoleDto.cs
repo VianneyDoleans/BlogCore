@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MyBlogAPI.DTO.User;
-
-namespace MyBlogAPI.DTO.Role
+﻿namespace MyBlogAPI.DTO.Role
 {
-    public class AddRoleDto
+    public class AddRoleDto : IRoleDto
     {
         public string Name { get; set; }
 

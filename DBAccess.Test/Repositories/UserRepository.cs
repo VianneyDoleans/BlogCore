@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Linq;
-using DbAccess.Data;
 using DbAccess.Data.POCO;
-using DbAccess.DataContext;
-using DbAccess.Repositories.UnitOfWork;
 using Xunit;
 
 namespace DBAccess.Test.Repositories
@@ -57,7 +54,7 @@ namespace DBAccess.Test.Repositories
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await userRepository.GetAsync(100));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await userRepository.GetAsync(100));
         }
 
         [Fact]

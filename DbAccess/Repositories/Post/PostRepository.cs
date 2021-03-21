@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -14,18 +15,32 @@ namespace DbAccess.Repositories.Post
 
         public override async Task<Data.POCO.Post> GetAsync(int id)
         {
-            return await Context.Set<Data.POCO.Post>().Include(x => x.Author)
-                .Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .SingleAsync(x => x.Id == id);
+            try
+            {
+                return await Context.Set<Data.POCO.Post>().Include(x => x.Author)
+                    .Include(x => x.PostTags)
+                    .Include(x => x.Category)
+                    .SingleAsync(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Post doesn't exist.");
+            }
         }
 
         public override Data.POCO.Post Get(int id)
         {
-            return Context.Set<Data.POCO.Post>().Include(x => x.Author)
-                .Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .Single(x => x.Id == id);
+            try
+            {
+                return Context.Set<Data.POCO.Post>().Include(x => x.Author)
+                    .Include(x => x.PostTags)
+                    .Include(x => x.Category)
+                    .Single(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Post doesn't exist.");
+            }
         }
 
         public override IEnumerable<Data.POCO.Post> GetAll()

@@ -11,7 +11,6 @@ using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Post;
-using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Services.PostService
 {
@@ -37,7 +36,7 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task<IEnumerable<GetPostDto>> GetAllPosts()
         {
-            return _repository.GetAll().Select(x =>
+            return (await _repository.GetAllAsync()).Select(x =>
             {
                 var postDto =  _mapper.Map<GetPostDto>(x);
                 postDto.Tags = x.PostTags.Select(y => y.TagId);
@@ -78,20 +77,27 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task<GetPostDto> GetPost(int id)
         {
-            try
-            {
-                var post = _repository.Get(id);
-                var postDto = _mapper.Map<GetPostDto>(post);
-                postDto.Tags = post.PostTags.Select(x => x.TagId);
-                return postDto;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Post doesn't exist.");
-            }
+            var post = await _repository.GetAsync(id);
+            var postDto = _mapper.Map<GetPostDto>(post);
+            postDto.Tags = post.PostTags.Select(x => x.TagId);
+            return postDto;
         }
 
-        public async Task CheckPostValidity(AddPostDto post)
+        private async Task<bool> PostAlreadyExistsWithSameProperties(UpdatePostDto post)
+        {
+            if (post == null)
+                throw new ArgumentNullException();
+            var postDb = await _repository.GetAsync(post.Id);
+            if (postDb.PostTags != null && post.Tags != null &&
+                !postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
+                return false;
+            return postDb.Name == post.Name &&
+                   postDb.Author.Id == post.Author &&
+                   postDb.Category.Id == post.Category &&
+                   postDb.Content == post.Content;
+        }
+
+        public async Task CheckPostValidity(IPostDto post)
         {
             if (post == null)
                 throw new ArgumentNullException();
@@ -102,42 +108,32 @@ namespace MyBlogAPI.Services.PostService
             if (post.Name.Length > 250)
                 throw new ArgumentException("Name cannot exceed 250 characters.");
             if (await _userRepository.GetAsync(post.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
+                throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _categoryRepository.GetAsync(post.Category) == null)
-                throw new ArgumentException("Category doesn't exist.");
+                throw new IndexOutOfRangeException("Category doesn't exist.");
             post.Tags?.ToList().ForEach(x =>
             {
                 var tag = _tagRepository.Get(x);
                 if (tag == null)
-                    throw new ArgumentException("Tag id " + x + " doesn't exist.");
+                    throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
             });
+            // TODO do it on each service (check duplicate) and add unitTests
+            if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
+                throw new InvalidOperationException("There can't be duplicate tags.");
+        }
+
+        public async Task CheckPostValidity(AddPostDto post)
+        {
+            await CheckPostValidity((IPostDto)post);
             if (await _repository.NameAlreadyExists(post.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckPostValidity(UpdatePostDto post)
         {
-            if (post == null)
-                throw new ArgumentNullException();
-            if (_repository.GetAsync(post.Id) == null)
-                throw new ArgumentException("Post doesn't exist.");
-            if (string.IsNullOrWhiteSpace(post.Content))
-                throw new ArgumentException("Content cannot be null or empty.");
-            if (string.IsNullOrWhiteSpace(post.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (post.Name.Length > 250)
-                throw new ArgumentException("Name cannot exceed 250 characters.");
-            if (await _userRepository.GetAsync(post.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
-            if (await _categoryRepository.GetAsync(post.Category) == null)
-                throw new ArgumentException("Category doesn't exist.");
-            post.Tags?.ToList().ForEach(x =>
-            {
-                var tag = _tagRepository.Get(x);
-                if (tag == null)
-                    throw new ArgumentException("Tag id " + x + " doesn't exist.");
-            });
-            if (await _repository.NameAlreadyExists(post.Name))
+            await CheckPostValidity((IPostDto)post);
+            if (await _repository.NameAlreadyExists(post.Name) &&
+                (await _repository.GetAsync(post.Id)).Name != post.Name)
                 throw new InvalidOperationException("Name already exists.");
         }
 
@@ -159,16 +155,17 @@ namespace MyBlogAPI.Services.PostService
 
         public async Task UpdatePost(UpdatePostDto post)
         {
-            // TODO
+            if (await PostAlreadyExistsWithSameProperties(post))
+                return;
             await CheckPostValidity(post);
-            var postEntity = _repository.Get(post.Id);
-            postEntity.Category.Id = post.Category;
-            postEntity.Name = post.Name;
+            var postEntity = await _repository.GetAsync(post.Id);
+            _mapper.Map(post, postEntity);
+            _unitOfWork.Save();
         }
 
         public async Task DeletePost(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
         }
     }
