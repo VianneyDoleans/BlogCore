@@ -348,6 +348,110 @@ namespace MyBlogAPI.Test.Services
         }
 
         [Fact]
+        public async void GetLikesFromComment()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetLikesFromComment@email.com", Password = "1234", Username = "GetLikesFromComment" });
+            var user2 = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetLikesFromComment2@email.com", Password = "1234", Username = "GetLikesFromComment2" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetLikesFromComment" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "GetLikesFromComment" });
+            var comment = await _fixture.Db.Comments.AddAsync(new Comment()
+                { Author = user.Entity, Content = "test", PostParent = post.Entity });
+            _fixture.UnitOfWork.Save();
+            var likeToAdd = new AddLikeDto()
+                { LikeableType = LikeableType.Comment, Comment = comment.Entity.Id, User = user.Entity.Id };
+            var likeToAdd2 = new AddLikeDto()
+                { LikeableType = LikeableType.Comment, Comment = comment.Entity.Id, User = user2.Entity.Id };
+            await _service.AddLike(likeToAdd);
+            await _service.AddLike(likeToAdd2);
+
+            // Act
+            var likes = (await _service.GetLikesFromComment(comment.Entity.Id)).ToArray();
+
+            // Assert
+            Assert.Contains(likes, x => x.Post == likeToAdd.Post &&
+                                        x.Comment == likeToAdd.Comment &&
+                                        x.LikeableType == likeToAdd.LikeableType &&
+                                        x.User == likeToAdd.User);
+            Assert.Contains(likes, x => x.Post == likeToAdd2.Post &&
+                                        x.Comment == likeToAdd2.Comment &&
+                                        x.LikeableType == likeToAdd2.LikeableType &&
+                                        x.User == likeToAdd2.User);
+        }
+
+        [Fact]
+        public async void GetLikesFromPost()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetLikesFromPost@email.com", Password = "1234", Username = "GetLikesFromPost" });
+            var user2 = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetLikesFromPost2@email.com", Password = "1234", Username = "GetLikesFromPost2" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetLikesFromPost" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "GetLikesFromPost" });
+            _fixture.UnitOfWork.Save();
+            var likeToAdd = new AddLikeDto()
+            { LikeableType = LikeableType.Post, Post = post.Entity.Id, User = user.Entity.Id };
+            var likeToAdd2 = new AddLikeDto()
+            { LikeableType = LikeableType.Post, Post = post.Entity.Id, User = user2.Entity.Id };
+            await _service.AddLike(likeToAdd);
+            await _service.AddLike(likeToAdd2);
+
+            // Act
+            var likes = (await _service.GetLikesFromPost(post.Entity.Id)).ToArray();
+
+            // Assert
+            Assert.Contains(likes, x => x.Post == likeToAdd.Post &&
+                                        x.Comment == likeToAdd.Comment &&
+                                        x.LikeableType == likeToAdd.LikeableType &&
+                                        x.User == likeToAdd.User);
+            Assert.Contains(likes, x => x.Post == likeToAdd2.Post &&
+                                        x.Comment == likeToAdd2.Comment &&
+                                        x.LikeableType == likeToAdd2.LikeableType &&
+                                        x.User == likeToAdd2.User);
+        }
+
+        [Fact]
+        public async void GetLikesFromUser()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetLikesFromUser@email.com", Password = "1234", Username = "GetLikesFromUser" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetLikesFromUser" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "GetLikesFromUser" });
+            var comment = await _fixture.Db.Comments.AddAsync(new Comment()
+            { Author = user.Entity, Content = "test", PostParent = post.Entity });
+            _fixture.UnitOfWork.Save();
+            var likeToAdd = new AddLikeDto()
+            { LikeableType = LikeableType.Post, Post = post.Entity.Id, User = user.Entity.Id };
+            var likeToAdd2 = new AddLikeDto()
+            { LikeableType = LikeableType.Comment, Comment = comment.Entity.Id, User = user.Entity.Id };
+            await _service.AddLike(likeToAdd);
+            await _service.AddLike(likeToAdd2);
+
+            // Act
+            var likes = (await _service.GetLikesFromUser(user.Entity.Id)).ToArray();
+
+            // Assert
+            Assert.Contains(likes, x => x.Post == likeToAdd.Post &&
+                                        x.Comment == likeToAdd.Comment &&
+                                        x.LikeableType == likeToAdd.LikeableType &&
+                                        x.User == likeToAdd.User);
+            Assert.Contains(likes, x => x.Post == likeToAdd2.Post &&
+                                        x.Comment == likeToAdd2.Comment &&
+                                        x.LikeableType == likeToAdd2.LikeableType &&
+                                        x.User == likeToAdd2.User);
+        }
+
+        [Fact]
         public async void AddNullLike()
         {
 

@@ -567,5 +567,101 @@ namespace MyBlogAPI.Test.Services
                                         x.Content == post2.Content &&
                                         x.Name == post2.Name);
         }
+
+        [Fact]
+        public async void GetPostsFromCategory()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetPostsFromCategory@email.com", Password = "1234", Username = "GetPostsFromCat" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetPostsFromCat" });
+            _fixture.UnitOfWork.Save();
+            var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "GetPostsFromCat" };
+            var post2 = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "GetPostsFromCat2" };
+            var postAdded = await _service.AddPost(post);
+            var postAdded2 = await _service.AddPost(post2);
+
+
+            // Act
+            var posts = (await _service.GetPostsFromCategory(category.Entity.Id)).ToArray();
+
+            // Assert
+            Assert.Contains(posts, x => x.Id == postAdded.Id &&
+                                        x.Author == post.Author &&
+                                        x.Category == post.Category &&
+                                        x.Content == post.Content &&
+                                        x.Name == post.Name);
+            Assert.Contains(posts, x => x.Id == postAdded2.Id &&
+                                        x.Author == post2.Author &&
+                                        x.Category == post2.Category &&
+                                        x.Content == post2.Content &&
+                                        x.Name == post2.Name);
+        }
+
+        [Fact]
+        public async void GetPostsFromTag()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetPostsFromTag@email.com", Password = "1234", Username = "GetPostsFromTag" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetPostsFromTag" });
+            var tag = await _fixture.Db.Tags.AddAsync(new Tag() {Name = "GetPostsFromTag"});
+            _fixture.UnitOfWork.Save();
+            var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "GetPostsFromTag", Tags = new List<int>(){tag.Entity.Id}};
+            var post2 = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "GetPostsFromTag2", Tags = new List<int>(){tag.Entity.Id}};
+            var postAdded = await _service.AddPost(post);
+            var postAdded2 = await _service.AddPost(post2);
+
+
+            // Act
+            var posts = (await _service.GetPostsFromTag(tag.Entity.Id)).ToArray();
+
+            // Assert
+            Assert.Contains(posts, x => x.Id == postAdded.Id &&
+                                        x.Author == post.Author &&
+                                        x.Category == post.Category &&
+                                        x.Content == post.Content &&
+                                        x.Name == post.Name);
+            Assert.Contains(posts, x => x.Id == postAdded2.Id &&
+                                        x.Author == post2.Author &&
+                                        x.Category == post2.Category &&
+                                        x.Content == post2.Content &&
+                                        x.Name == post2.Name);
+        }
+
+        [Fact]
+        public async void GetPostsFromUser()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetPostsFromUser@email.com", Password = "1234", Username = "GetPostsFromUser" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetPostsFromUser" });
+            var tag = await _fixture.Db.Tags.AddAsync(new Tag() { Name = "GetPostsFromUser" });
+            _fixture.UnitOfWork.Save();
+            var post = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "GetPostsFromUser", Tags = new List<int>() { tag.Entity.Id } };
+            var post2 = new AddPostDto() { Author = user.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "GetPostsFromUser2", Tags = new List<int>() { tag.Entity.Id } };
+            var postAdded = await _service.AddPost(post);
+            var postAdded2 = await _service.AddPost(post2);
+
+
+            // Act
+            var posts = (await _service.GetPostsFromUser(user.Entity.Id)).ToArray();
+
+            // Assert
+            Assert.Contains(posts, x => x.Id == postAdded.Id &&
+                                        x.Author == post.Author &&
+                                        x.Category == post.Category &&
+                                        x.Content == post.Content &&
+                                        x.Name == post.Name);
+            Assert.Contains(posts, x => x.Id == postAdded2.Id &&
+                                        x.Author == post2.Author &&
+                                        x.Category == post2.Category &&
+                                        x.Content == post2.Content &&
+                                        x.Name == post2.Name);
+        }
+
     }
 }

@@ -475,5 +475,76 @@ namespace MyBlogAPI.Test.Services
                                            x.CommentParent == commentAdded2.CommentParent &&
                                            x.PostParent == commentAdded2.PostParent);
         }
+
+        [Fact]
+        public async void GetCommentsFromPost()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetCommentsFromPost@email.com", Password = "1234", Username = "GetCommentsFromPost" });
+            var user2 = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetCommentsFromPost2@email.com", Password = "1234", Username = "GetCommentsFromPost2" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetCommentsFromPost" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "GetCommentsFromPost" });
+            _fixture.UnitOfWork.Save();
+            var comment = new AddCommentDto() { Author = user.Entity.Id, Content = "A new Content", PostParent = post.Entity.Id };
+            var commentAdded = await _service.AddComment(comment);
+            comment.Content = "A new Content 2";
+            comment.Author = user2.Entity.Id;
+            var commentAdded2 = await _service.AddComment(comment);
+
+            // Act
+            var comments = (await _service.GetCommentsFromPost(post.Entity.Id)).ToArray();
+
+            // Assert
+            // Assert
+            Assert.Contains(comments, x => x.Id == commentAdded.Id &&
+                                           x.Author == commentAdded.Author &&
+                                           x.Content == commentAdded.Content &&
+                                           x.CommentParent == commentAdded.CommentParent &&
+                                           x.PostParent == commentAdded.PostParent);
+            Assert.Contains(comments, x => x.Id == commentAdded2.Id &&
+                                           x.Author == commentAdded2.Author &&
+                                           x.Content == commentAdded2.Content &&
+                                           x.CommentParent == commentAdded2.CommentParent &&
+                                           x.PostParent == commentAdded2.PostParent);
+        }
+
+        [Fact]
+        public async void GetCommentsFromUser()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "GetCommentsFromUser@email.com", Password = "1234", Username = "GetCommentsFromUser" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "GetCommentsFromUser" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "GetCommentsFromUser" });
+            var post2 = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "GetCommentsFromUser2" });
+            _fixture.UnitOfWork.Save();
+            var comment = new AddCommentDto() { Author = user.Entity.Id, Content = "A new Content", PostParent = post.Entity.Id };
+            var commentAdded = await _service.AddComment(comment);
+            comment.PostParent = post2.Entity.Id;
+            var commentAdded2 = await _service.AddComment(comment);
+
+            // Act
+            var comments = (await _service.GetCommentsFromUser(user.Entity.Id)).ToArray();
+
+            // Assert
+            // Assert
+            Assert.Contains(comments, x => x.Id == commentAdded.Id &&
+                                           x.Author == commentAdded.Author &&
+                                           x.Content == commentAdded.Content &&
+                                           x.CommentParent == commentAdded.CommentParent &&
+                                           x.PostParent == commentAdded.PostParent);
+            Assert.Contains(comments, x => x.Id == commentAdded2.Id &&
+                                           x.Author == commentAdded2.Author &&
+                                           x.Content == commentAdded2.Content &&
+                                           x.CommentParent == commentAdded2.CommentParent &&
+                                           x.PostParent == commentAdded2.PostParent);
+        }
     }
 }
