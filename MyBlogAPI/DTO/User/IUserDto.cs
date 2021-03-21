@@ -1,6 +1,7 @@
-﻿namespace MyBlogAPI.DTO.User
+﻿
+namespace MyBlogAPI.DTO.User
 {
-    public class UpdateUserDto : ADto, IUserDto
+    public interface IUserDto
     {
         public string Username { get; set; }
 

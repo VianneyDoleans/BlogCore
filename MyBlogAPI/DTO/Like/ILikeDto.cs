@@ -2,7 +2,7 @@
 
 namespace MyBlogAPI.DTO.Like
 {
-    public class UpdateLikeDto : ADto, ILikeDto
+    public interface ILikeDto
     {
         public LikeableType LikeableType { get; set; }
 

@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 using MyBlogAPI.Services.PostService;
-using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Controllers

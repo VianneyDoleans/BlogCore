@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper.Configuration.Conventions;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.DTO.Comment
 {
-    public class GetCommentDto : ADto
+    public class GetCommentDto : ADto, ICommentDto
     {
         public int Author { get; set; }
 

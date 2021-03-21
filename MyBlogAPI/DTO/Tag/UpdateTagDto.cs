@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace MyBlogAPI.DTO.Tag
+﻿namespace MyBlogAPI.DTO.Tag
 {
-    public class UpdateTagDto : ADto
+    public class UpdateTagDto : ADto, ITagDto
     {
         public string Name { get; set; }
     }

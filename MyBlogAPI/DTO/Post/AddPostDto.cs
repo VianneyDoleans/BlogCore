@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper.Configuration.Conventions;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Tag;
-using MyBlogAPI.DTO.User;
+﻿using System.Collections.Generic;
 
 namespace MyBlogAPI.DTO.Post
 {
-    public class AddPostDto
+    public class AddPostDto : IPostDto
     {
         public string Content { get; set; }
 

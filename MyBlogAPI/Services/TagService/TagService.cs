@@ -6,7 +6,6 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.Tag;
 
 namespace MyBlogAPI.Services.TagService
@@ -27,22 +26,15 @@ namespace MyBlogAPI.Services.TagService
 
         public async Task<IEnumerable<GetTagDto>> GetAllTags()
         {
-            return _repository.GetAll().Select(x => _mapper.Map<Tag, GetTagDto>(x)).ToList();
+            return (await _repository.GetAllAsync()).Select(x => _mapper.Map<Tag, GetTagDto>(x)).ToList();
         }
 
         public async Task<GetTagDto> GetTag(int id)
         {
-            try
-            {
-                return _mapper.Map<GetTagDto>(_repository.Get(id));
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Tag doesn't exist.");
-            }
+            return _mapper.Map<GetTagDto>(await _repository.GetAsync(id));
         }
 
-        public async Task CheckTagValidity(AddTagDto tag)
+        public void CheckTagValidity(ITagDto tag)
         {
             if (tag == null)
                 throw new ArgumentNullException();
@@ -50,44 +42,53 @@ namespace MyBlogAPI.Services.TagService
                 throw new ArgumentException("Name cannot be null or empty.");
             if (tag.Name.Length > 50)
                 throw new ArgumentException("Name cannot exceed 50 characters.");
+        }
+
+        public async Task CheckTagValidity(AddTagDto tag)
+        {
+            CheckTagValidity((ITagDto)tag);
             if (await _repository.NameAlreadyExists(tag.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckTagValidity(UpdateTagDto tag)
         {
-            if (tag == null)
-                throw new ArgumentNullException();
-            if (_repository.GetAsync(tag.Id) == null)
-                throw new ArgumentException("Tag doesn't exist.");
-            if (string.IsNullOrWhiteSpace(tag.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (tag.Name.Length > 50)
-                throw new ArgumentException("Name cannot exceed 50 characters.");
-            if (await _repository.NameAlreadyExists(tag.Name))
+            CheckTagValidity((ITagDto) tag);
+            if (await _repository.NameAlreadyExists(tag.Name) &&
+                (await _repository.GetAsync(tag.Id)).Name != tag.Name)
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task<GetTagDto> AddTag(AddTagDto tag)
         {
             await CheckTagValidity(tag);
-            var result = _repository.Add(_mapper.Map<Tag>(tag));
+            var result = await _repository.AddAsync(_mapper.Map<Tag>(tag));
             _unitOfWork.Save();
             return _mapper.Map<GetTagDto>(result);
         }
 
         public async Task UpdateTag(UpdateTagDto tag)
         {
+            if (await TagAlreadyExistsWithSameProperties(tag))
+                return;
             await CheckTagValidity(tag);
-            var tagEntity = _repository.Get(tag.Id);
+            var tagEntity = await _repository.GetAsync(tag.Id);
             tagEntity.Name = tag.Name;
             _unitOfWork.Save();
         }
 
         public async Task DeleteTag(int id)
         {
-            _repository.Remove(_repository.Get(id));
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
+        }
+
+        private async Task<bool> TagAlreadyExistsWithSameProperties(UpdateTagDto tag)
+        {
+            if (tag == null)
+                throw new ArgumentNullException();
+            var tagDb = await _repository.GetAsync(tag.Id);
+            return tagDb.Name == tag.Name;
         }
     }
 }

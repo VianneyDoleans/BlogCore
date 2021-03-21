@@ -11,7 +11,7 @@ namespace MyBlogAPI.IntegrationTests.GenericTests
     public abstract class AGenericTests<TGet, TAdd, TUpdate>
         where TGet : ADto, new() 
         where TAdd : new()
-        where TUpdate : ADto, new() 
+        where TUpdate : ADto, new()
     {
         protected readonly HttpClient Client;
         protected abstract IEntityHelper<TGet, TAdd, TUpdate> Helper { get; set; }

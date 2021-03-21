@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -14,16 +15,30 @@ namespace DbAccess.Repositories.Category
 
         public override async Task<Data.POCO.Category> GetAsync(int id)
         {
-            return await Context.Set<Data.POCO.Category>()
-                .Include(x => x.Posts)
-                .SingleAsync(x => x.Id == id);
+            try
+            {
+                return await Context.Set<Data.POCO.Category>()
+                    .Include(x => x.Posts)
+                    .SingleAsync(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Category doesn't exist.");
+            }
         }
 
         public override Data.POCO.Category Get(int id)
         {
-            return Context.Set<Data.POCO.Category>()
-                .Include(x => x.Posts)
-                .Single(x => x.Id == id);
+            try
+            {
+                return Context.Set<Data.POCO.Category>()
+                    .Include(x => x.Posts)
+                    .Single(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Category doesn't exist.");
+            }
         }
 
         public override IEnumerable<Data.POCO.Category> GetAll()

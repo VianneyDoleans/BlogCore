@@ -37,30 +37,21 @@ namespace MyBlogAPI.Services.UserService
 
         public async Task<GetUserDto> GetUser(int id)
         {
-            try
-            {
-                var user = await _repository.GetAsync(id);
+            var user = await _repository.GetAsync(id);
                 var userDto = _mapper.Map<GetUserDto>(user);
                 userDto.Roles = user.UserRoles.Select(x => x.RoleId);
                 return userDto;
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            }
         }
 
-        private async Task CheckUsernameValidity(string username)
+        private static void CheckUsernameValidity(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
                 throw new ArgumentException("Username cannot be null or empty.");
             if (!Regex.Match(username, @"^(?!.*[._()\[\]-]{2})[A-Za-z0-9._()\[\]-]{3,20}$").Success)
                 throw new ArgumentException("Username must consist of between 3 to 20 allowed characters (A-Z, a-z, 0-9, .-_()[]) and cannot contain two consecutive symbols.");
-            if (await _repository.UsernameAlreadyExists(username))
-                throw new InvalidOperationException("Username already exists.");
         }
 
-        private async Task CheckEmailAddressValidity(string emailAddress)
+        private static void CheckEmailAddressValidity(string emailAddress)
         {
             if (string.IsNullOrWhiteSpace(emailAddress))
                 throw new ArgumentException("Email cannot be null or empty.");
@@ -70,39 +61,49 @@ namespace MyBlogAPI.Services.UserService
                     @"\A[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z")
                 .Success)
                 throw new ArgumentException("Email address is invalid.");
-            if (await _repository.EmailAddressAlreadyExists(emailAddress))
-                throw new InvalidOperationException("Email Address already exists.");
+        }
+
+        private static void CheckPasswordValidity(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ArgumentException("Password cannot be null or empty.");
+        }
+
+        private static void CheckUserDescription(string userDescription)
+        {
+            if (userDescription != null && userDescription.Length > 1000)
+                throw new ArgumentException("User description cannot exceed 1000 characters.");
+        }
+
+        private static void CheckUserValidity(IUserDto user)
+        {
+            if (user == null)
+                throw new ArgumentNullException();
+            CheckEmailAddressValidity(user.EmailAddress);
+            CheckUsernameValidity(user.Username);
+            CheckPasswordValidity(user.Password);
+            CheckUserDescription(user.UserDescription);
         }
 
         private async Task CheckUserValidity(AddUserDto user)
         {
-            if (user == null)
-                throw new ArgumentNullException();
-            var emailTask = CheckEmailAddressValidity(user.EmailAddress);
-            var usernameTask = CheckUsernameValidity(user.Username);
-            if (string.IsNullOrWhiteSpace(user.Password))
-                throw new ArgumentException("Password cannot be null or empty.");
-            if (user.UserDescription != null && user.UserDescription.Length > 1000) 
-                throw new ArgumentException("User description cannot exceed 1000 characters.");
-            await emailTask;
-            await usernameTask;
+            CheckUserValidity((IUserDto) user);
+            if (await _repository.UsernameAlreadyExists(user.Username))
+                throw new InvalidOperationException("Username already exists.");
+            if (await _repository.EmailAddressAlreadyExists(user.EmailAddress))
+                throw new InvalidOperationException("Email Address already exists.");
         }
 
         private async Task CheckUserValidity(UpdateUserDto user)
         {
-            if (user == null)
-                throw new ArgumentNullException();
-            // TODO problem here if User.Id is null
-            if (_repository.GetAsync(user.Id) == null)
-                throw new ArgumentException("User doesn't exist.");
-            var emailTask = CheckEmailAddressValidity(user.EmailAddress);
-            var usernameTask = CheckUsernameValidity(user.Username);
-            if (string.IsNullOrWhiteSpace(user.Password))
-                throw new ArgumentException("Password cannot be null or empty.");
-            if (user.UserDescription != null && user.UserDescription.Length > 1000)
-                throw new ArgumentException("User description cannot exceed 1000 characters.");
-            await emailTask;
-            await usernameTask;
+            var userDb = _repository.GetAsync(user.Id);
+            CheckUserValidity((IUserDto)user);
+            if (await _repository.UsernameAlreadyExists(user.Username) &&
+                (await userDb).Username != user.Username)
+                throw new InvalidOperationException("Username already exists.");
+            if (await _repository.EmailAddressAlreadyExists(user.EmailAddress) &&
+                (await userDb).EmailAddress != user.EmailAddress)
+                throw new InvalidOperationException("Email Address already exists.");
         }
 
         public async Task<GetUserDto> AddUser(AddUserDto user)
@@ -111,50 +112,45 @@ namespace MyBlogAPI.Services.UserService
             var result = await _repository.AddAsync(_mapper.Map<User>(user));
            _unitOfWork.Save();
            return _mapper.Map<GetUserDto>(result);
-
         }
 
         public async Task UpdateUser(UpdateUserDto user)
         {
+            if (await UserAlreadyExistsWithSameProperties(user))
+                return;
             await CheckUserValidity(user);
-            try
-            {
-                var userToModify = await _repository.GetAsync(user.Id);
-                userToModify.Username = user.Username;
-                userToModify.EmailAddress = user.EmailAddress;
-                userToModify.Password = user.Password;
-                userToModify.UserDescription = user.UserDescription;
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            }
+            var userEntity = await _repository.GetAsync(user.Id);
+            _mapper.Map(user, userEntity);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteUser(int id)
         {
-            try
-            {
-                await _repository.RemoveAsync(await _repository.GetAsync(id));
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("User doesn't exist.");
-            }
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
+            _unitOfWork.Save();
         }
 
         public async Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id)
         {
             var users = await _repository.GetUsersFromRole(id);
-            var userDtos = users.Select(x =>
+            var usersDto = users.Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
                 userDto.Roles = x.UserRoles.Select(y => y.RoleId);
                 return userDto;
             }).ToList();
-            return userDtos;
+            return usersDto;
+        }
+
+        private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateUserDto user)
+        {
+            if (user == null)
+                throw new ArgumentNullException();
+            var userDb = await _repository.GetAsync(user.Id);
+            return userDb.Username == user.Username &&
+                   userDb.EmailAddress == user.EmailAddress &&
+                   user.Password == userDb.Password &&
+                   user.UserDescription == userDb.UserDescription;
         }
     }
 }

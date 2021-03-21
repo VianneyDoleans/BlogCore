@@ -37,53 +37,45 @@ namespace MyBlogAPI.Services.CommentService
 
         public async Task<GetCommentDto> GetComment(int id)
         {
-            try
-            {
-                var comment = await _repository.GetAsync(id);
+            var comment = await _repository.GetAsync(id);
                 return _mapper.Map<GetCommentDto>(comment);
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Comment doesn't exist.");
-            }
         }
 
-        public async Task CheckCommentValidity(AddCommentDto comment)
+        private async Task<bool> CommentAlreadyExistsWithSameProperties(UpdateCommentDto comment)
+        {
+            if (comment == null)
+                throw new ArgumentNullException();
+            var commentDb = await _repository.GetAsync(comment.Id);
+            return commentDb.Content == comment.Content &&
+                   commentDb.Author.Id == comment.Author &&
+                   commentDb.CommentParent?.Id == comment.CommentParent &&
+                   commentDb.PostParent?.Id == comment.PostParent;
+        }
+
+        public async Task CheckCommentValidity(ICommentDto comment)
         {
             if (comment == null)
                 throw new ArgumentNullException();
             if (string.IsNullOrWhiteSpace(comment.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
             if (await _userRepository.GetAsync(comment.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
+                throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _postRepository.GetAsync(comment.PostParent) == null)
-                throw new ArgumentException("Post parent doesn't exist.");
+                throw new IndexOutOfRangeException("Post parent doesn't exist.");
             if (comment.CommentParent != null && await _repository.GetAsync(comment.CommentParent.Value) == null)
-                throw new ArgumentException("Comment parent doesn't exist.");
+                throw new IndexOutOfRangeException("Comment parent doesn't exist.");
         }
 
         public async Task CheckCommentValidity(UpdateCommentDto comment)
         {
-            if (comment == null)
-                throw new ArgumentNullException();
-            if (_repository.GetAsync(comment.Id) == null)
-                throw new ArgumentException("Comment doesn't exist.");
-            if (string.IsNullOrWhiteSpace(comment.Content))
-                throw new ArgumentException("Content cannot be null or empty.");
-            if (await _userRepository.GetAsync(comment.Author) == null)
-                throw new ArgumentException("Author doesn't exist.");
-            if (await _postRepository.GetAsync(comment.PostParent) == null)
-                throw new ArgumentException("Post parent doesn't exist.");
-            if (comment.CommentParent != null && await _repository.GetAsync(comment.CommentParent.Value) == null)
-                throw new ArgumentException("Comment parent doesn't exist.");
+            await CheckCommentValidity((ICommentDto)comment);
             if (comment.CommentParent != null)
             {
                 var commentParent = await _repository.GetAsync(comment.CommentParent.Value);
                 if (commentParent.Id == comment.Id)
-                    throw new ArgumentException("Comment's comment parent cannot be itself.");
+                    throw new InvalidOperationException("Comment's comment parent cannot be itself.");
             }
         }
-
 
         public async Task<GetCommentDto> AddComment(AddCommentDto comment)
         {
@@ -95,31 +87,18 @@ namespace MyBlogAPI.Services.CommentService
 
         public async Task UpdateComment(UpdateCommentDto comment)
         {
+            if (await CommentAlreadyExistsWithSameProperties(comment))
+                return;
             await CheckCommentValidity(comment);
-            try
-            {
-                var commentEntity = await _repository.GetAsync(comment.Id);
-                _mapper.Map(comment, commentEntity);
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Comment doesn't exist.");
-            }
+            var commentEntity = await _repository.GetAsync(comment.Id);
+            _mapper.Map(comment, commentEntity);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteComment(int id)
         {
-            try
-            {
-                await _repository.RemoveAsync(await _repository.GetAsync(id));
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Comment doesn't exist.");
-            }
-
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
+            _unitOfWork.Save();
         }
 
         public async Task<IEnumerable<GetCommentDto>> GetCommentsFromUser(int id)

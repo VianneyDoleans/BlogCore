@@ -30,17 +30,10 @@ namespace MyBlogAPI.Services.CategoryService
 
         public async Task<GetCategoryDto> GetCategory(int id)
         {
-            try
-            {
-                return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            }
+            return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));
         }
 
-        public async Task CheckCategoryValidity(AddCategoryDto category)
+        public void CheckCategoryValidity(ICategoryDto category)
         {
             if (category == null)
                 throw new ArgumentNullException();
@@ -48,21 +41,20 @@ namespace MyBlogAPI.Services.CategoryService
                 throw new ArgumentException("Name cannot be null or empty.");
             if (category.Name.Length > 50)
                 throw new ArgumentException("Name cannot exceed 50 characters.");
+        }
+
+        public async Task CheckCategoryValidity(AddCategoryDto category)
+        {
+            CheckCategoryValidity((ICategoryDto)category);
             if (await _repository.NameAlreadyExists(category.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckCategoryValidity(UpdateCategoryDto category)
         {
-            if (category == null)
-                throw new ArgumentNullException();
-            if (_repository.GetAsync(category.Id) == null)
-                throw new ArgumentException("Category doesn't exist.");
-            if (string.IsNullOrWhiteSpace(category.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (category.Name.Length > 50)
-                throw new ArgumentException("Name cannot exceed 50 characters.");
-            if (await _repository.NameAlreadyExists(category.Name))
+            CheckCategoryValidity((ICategoryDto) category);
+            if (await _repository.NameAlreadyExists(category.Name) &&
+                (await _repository.GetAsync(category.Id)).Name != category.Name)
                 throw new InvalidOperationException("Name already exists.");
         }
 
@@ -74,34 +66,28 @@ namespace MyBlogAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(result);
         }
 
+        private async Task<bool> CategoryAlreadyExistsWithSameProperties(UpdateCategoryDto category)
+        {
+            if (category == null)
+                throw new ArgumentNullException();
+            var categoryDb = await _repository.GetAsync(category.Id);
+            return categoryDb.Name == category.Name;
+        }
+
         public async Task UpdateCategory(UpdateCategoryDto category)
         {
+            if (await CategoryAlreadyExistsWithSameProperties(category))
+                return;
             await CheckCategoryValidity(category);
-            try
-            {
-                //TODO
-                var categoryEntity = await _repository.GetAsync(category.Id);
-                _mapper.Map(category, categoryEntity);
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            }
+            var categoryEntity = await _repository.GetAsync(category.Id);
+            _mapper.Map(category, categoryEntity);
+            _unitOfWork.Save();
         }
 
         public async Task DeleteCategory(int id)
         {
-            try
-            {
-                await _repository.RemoveAsync(await _repository.GetAsync(id));
-                _unitOfWork.Save();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
-            }
-
+            await _repository.RemoveAsync(await _repository.GetAsync(id));
+            _unitOfWork.Save();
         }
     }
 }

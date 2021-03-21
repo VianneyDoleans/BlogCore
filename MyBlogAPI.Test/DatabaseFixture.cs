@@ -9,14 +9,6 @@ using DbAccess.Repositories.Role;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
-using Microsoft.Extensions.DependencyInjection;
-using MyBlogAPI.Services.CategoryService;
-using MyBlogAPI.Services.CommentService;
-using MyBlogAPI.Services.LikeService;
-using MyBlogAPI.Services.PostService;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.TagService;
-using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Test
 {

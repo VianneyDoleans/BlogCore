@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -14,16 +15,30 @@ namespace DbAccess.Repositories.Comment
 
         public override async Task<Data.POCO.Comment> GetAsync(int id)
         {
-            return await Context.Set<Data.POCO.Comment>()
-                .Include(x => x.PostParent)
-                .Include(x => x.Author).SingleAsync(x => x.Id == id);
+            try
+            {
+                return await Context.Set<Data.POCO.Comment>()
+                    .Include(x => x.PostParent)
+                    .Include(x => x.Author).SingleAsync(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Comment doesn't exist.");
+            }
         }
 
         public override Data.POCO.Comment Get(int id)
         {
-            return Context.Set<Data.POCO.Comment>()
-                .Include(x => x.PostParent)
-                .Include(x => x.Author).Single(x => x.Id == id);
+            try
+            {
+                return Context.Set<Data.POCO.Comment>()
+                    .Include(x => x.PostParent)
+                    .Include(x => x.Author).Single(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Comment doesn't exist.");
+            }
         }
 
         public override IEnumerable<Data.POCO.Comment> GetAll()
@@ -42,6 +57,7 @@ namespace DbAccess.Repositories.Comment
 
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromPost(int id)
         {
+
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.Author)
                 .Include(x => x.PostParent).Where(x => x.PostParent.Id == id).ToListAsync();
@@ -52,6 +68,7 @@ namespace DbAccess.Repositories.Comment
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.Author)
                 .Include(x => x.PostParent).Where(x => x.Author.Id == id).ToListAsync();
+
         }
     }
 }

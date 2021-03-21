@@ -1,7 +1,7 @@
 ﻿
 namespace MyBlogAPI.DTO.Comment
 {
-    public class AddCommentDto : ICommentDto
+    public interface ICommentDto
     {
         public int Author { get; set; }
 
