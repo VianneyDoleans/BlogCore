@@ -1,4 +1,6 @@
-﻿namespace MyBlogAPI.Responses
+﻿using System.Collections.Generic;
+
+namespace MyBlogAPI.Responses
 {
     public class PagedBlogResponse<T> : BlogResponse<T>
     {
@@ -6,11 +8,12 @@
         public int Limit { get; set; }
         public int Total { get; set; }
 
-        public PagedBlogResponse(T data, int offset, int limit) : base(data)
+        public PagedBlogResponse(IList<T> data, int offset, int limit, int total) : base(data)
         {
             Offset = offset;
             Limit = limit;
             Data = data;
+            Total = total;
         }
     }
 }
