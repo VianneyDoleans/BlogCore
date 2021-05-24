@@ -7,7 +7,7 @@ using MyBlogAPI.Responses;
 
 namespace MyBlogAPI.Extensions
 {
-    public static class DataPagerExtension
+    public static class ControllerParameters
     {
         public static async Task<PagedBlogResponse<TModel>> PaginateAsync<TModel>(
             this IQueryable<TModel> query,

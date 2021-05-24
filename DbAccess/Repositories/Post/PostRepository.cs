@@ -43,50 +43,45 @@ namespace DbAccess.Repositories.Post
             }
         }
 
-        public override IEnumerable<Data.POCO.Post> GetAll()
+        public override IQueryable<Data.POCO.Post> GetAll()
+        {
+            return Context.Set<Data.POCO.Post>()
+                .Include(x => x.Author)
+                .Include(x => x.PostTags)
+                .Include(x => x.Category);
+        }
+
+        public override async Task<IQueryable<Data.POCO.Post>> GetAllAsync()
+        {
+            return Context.Set<Data.POCO.Post>()
+                .Include(x => x.Author)
+                .Include(x => x.PostTags)
+                .Include(x => x.Category);
+        }
+
+        public async Task<IQueryable<Data.POCO.Post>> GetPostsFromUser(int id)
+        {
+            return Context.Set<Data.POCO.Post>().Include(x => x.PostTags)
+                .Include(x => x.Category)
+                .Include(x => x.Author)
+                .Where(x => x.Author.Id == id);
+        }
+
+        public async Task<IQueryable<Data.POCO.Post>> GetPostsFromTag(int id)
+        {
+            return Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
+                .Include(x => x.Post.Category)
+                .Include(x => x.Tag)
+                .Where(x => x.TagId == id).Select(x => x.Post);
+        }
+
+        public async Task<IQueryable<Data.POCO.Post>> GetPostsFromCategory(int id)
         {
             return Context.Set<Data.POCO.Post>()
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category)
-                .ToList();
-        }
-
-        public override async Task<IEnumerable<Data.POCO.Post>> GetAllAsync()
-        {
-            return await Context.Set<Data.POCO.Post>()
-                .Include(x => x.Author)
-                .Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromUser(int id)
-        {
-            var posts = await Context.Set<Data.POCO.Post>().Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .Include(x => x.Author)
-                .Where(x => x.Author.Id == id).ToListAsync();
-            return posts;
-        }
-
-        public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromTag(int id)
-        {
-            var posts = Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
-                .Include(x => x.Post.Category)
-                .Include(x => x.Tag)
-                .Where(x => x.TagId == id).Select(x => x.Post).ToListAsync();
-            return await posts;
-        }
-
-        public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromCategory(int id)
-        {
-            return await Context.Set<Data.POCO.Post>()
-                .Include(x => x.Author)
-                .Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .Where(x => x.Category.Id == id)
-                .ToListAsync();
+                .Where(x => x.Category.Id == id);
         }
 
         public async Task<bool> NameAlreadyExists(string name)

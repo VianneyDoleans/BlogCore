@@ -13,10 +13,10 @@ namespace DbAccess.Repositories.Role
         {
         }
 
-        public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
+        public async Task<IQueryable<Data.POCO.Role>> GetRolesFromUser(int id)
         {
-            return await Context.Set<Data.POCO.JoiningEntity.UserRole>()
-                .Where(x => x.UserId == id).Select(x => x.Role).ToListAsync();
+            return Context.Set<Data.POCO.JoiningEntity.UserRole>()
+                .Where(x => x.UserId == id).Select(x => x.Role);
         }
 
         public override async Task<Data.POCO.Role> GetAsync(int id)
@@ -43,9 +43,9 @@ namespace DbAccess.Repositories.Role
             }
         }
 
-        public override IEnumerable<Data.POCO.Role> GetAll()
+        public override IQueryable<Data.POCO.Role> GetAll()
         {
-            return Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToList();
+            return Context.Set<Data.POCO.Role>().Include(x => x.UserRoles);
         }
 
         public async Task<bool> NameAlreadyExists(string name)
@@ -54,9 +54,9 @@ namespace DbAccess.Repositories.Role
             return role != null;
         }
 
-        public override async Task<IEnumerable<Data.POCO.Role>> GetAllAsync()
+        public override async Task<IQueryable<Data.POCO.Role>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToListAsync();
+            return Context.Set<Data.POCO.Role>().Include(x => x.UserRoles);
         }
     }
 }

@@ -37,29 +37,28 @@ namespace DbAccess.Repositories.User
             }
         }
 
-        public override IEnumerable<Data.POCO.User> GetAll()
+        public override IQueryable<Data.POCO.User> GetAll()
         {
-            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToList();
+            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles);
         }
 
-        public override async Task<IEnumerable<Data.POCO.User>> GetAllAsync()
+        public override async Task<IQueryable<Data.POCO.User>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToListAsync();
+            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles);
         }
 
-        public async Task<IEnumerable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids)
+        public async Task<IQueryable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids)
         {
-            return await Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id)).ToListAsync();
+            return Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id));
         }
 
-        public async Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id)
+        public async Task<IQueryable<Data.POCO.User>> GetUsersFromRole(int id)
         {
             var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)
-                .Where(x => x.RoleId == id).ToList();
+                .Where(x => x.RoleId == id);
                 var users = userRole
-                .Select(y => y.User)
-                .ToList();
+                .Select(y => y.User);
                 return users;
         }
 

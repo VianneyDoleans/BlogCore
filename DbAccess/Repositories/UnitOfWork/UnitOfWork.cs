@@ -7,8 +7,6 @@ namespace DbAccess.Repositories.UnitOfWork
     {
         private readonly MyBlogContext _context;
 
-        public IUserRepository Users { get; }
-
         public void Dispose()
         {
             _context.Dispose();
@@ -22,7 +20,6 @@ namespace DbAccess.Repositories.UnitOfWork
         public UnitOfWork(MyBlogContext context)
         {
             _context = context;
-            Users = new UserRepository(context);
         }
     }
 }

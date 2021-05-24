@@ -17,9 +17,9 @@ using MyBlogAPI.DTO.User.Converters;
 
 namespace MyBlogAPI
 {
-    public class AutoMapperProfile : Profile
+    public class ValidatePagingAttribute : Profile
     {
-        public AutoMapperProfile()
+        public ValidatePagingAttribute()
         {
             CreateMap<AddCategoryDto, Category>();
             CreateMap<AddCommentDto, Comment>();

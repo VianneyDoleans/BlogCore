@@ -25,19 +25,19 @@ namespace DbAccess.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
+            return Context.Set<TEntity>().Where(predicate);
         }
 
-        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IQueryable<TEntity>> GetAllAsync()
         {
-            return await Context.Set<TEntity>().ToListAsync();
+            return Context.Set<TEntity>();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        public virtual async Task<IQueryable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
-            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
+            return Context.Set<TEntity>().Where(predicate);
         }
 
         public virtual async Task<TEntity> AddAsync(TEntity entity)
@@ -78,9 +78,9 @@ namespace DbAccess.Repositories
             return Context.Set<TEntity>().Where(predicate).ToList();
         }
 
-        public virtual IEnumerable<TEntity> GetAll()
+        public virtual IQueryable<TEntity> GetAll()
         {
-            return Context.Set<TEntity>().ToList();
+            return Context.Set<TEntity>();
         }
 
         public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)

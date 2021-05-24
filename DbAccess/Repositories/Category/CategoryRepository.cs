@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -41,11 +40,10 @@ namespace DbAccess.Repositories.Category
             }
         }
 
-        public override IEnumerable<Data.POCO.Category> GetAll()
+        public override IQueryable<Data.POCO.Category> GetAll()
         {
             return Context.Set<Data.POCO.Category>()
-                .Include(x => x.Posts)
-                .ToList();
+                .Include(x => x.Posts);
         }
 
         public async Task<bool> NameAlreadyExists(string name)
@@ -54,11 +52,10 @@ namespace DbAccess.Repositories.Category
             return category != null;
         }
 
-        public override async Task<IEnumerable<Data.POCO.Category>> GetAllAsync()
+        public override async Task<IQueryable<Data.POCO.Category>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Category>()
-                .Include(x => x.Posts)
-                .ToListAsync();
+            return Context.Set<Data.POCO.Category>()
+                .Include(x => x.Posts);
         }
     }
 }

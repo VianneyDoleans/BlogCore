@@ -33,7 +33,7 @@ namespace MyBlogAPI.IntegrationTests
                 });
                 
                 // Add AutoMapper profile
-                services.AddAutoMapper(typeof(AutoMapperProfile));
+                services.AddAutoMapper(typeof(ValidatePagingAttribute));
 
                 var sp = services.BuildServiceProvider();
                 using (var scope = sp.CreateScope())

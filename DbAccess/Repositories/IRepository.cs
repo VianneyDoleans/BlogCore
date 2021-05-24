@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -8,9 +9,9 @@ namespace DbAccess.Repositories
     public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetAsync(int id);
-        Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
-        Task<IEnumerable<TEntity>> GetAllAsync();
-        Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
+        Task<IQueryable<TEntity>> GetAllAsync();
+        Task<IQueryable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
         Task<TEntity> AddAsync(TEntity entity);
 
@@ -22,7 +23,7 @@ namespace DbAccess.Repositories
 
         TEntity Get(int id);
         //IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate);
-        IEnumerable<TEntity> GetAll();
+        IQueryable<TEntity> GetAll();
         //IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
         TEntity Add(TEntity entity);

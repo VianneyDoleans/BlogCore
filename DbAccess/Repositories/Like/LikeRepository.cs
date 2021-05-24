@@ -43,44 +43,42 @@ namespace DbAccess.Repositories.Like
             }
         }
 
-        public override IEnumerable<Data.POCO.Like> GetAll()
+        public override IQueryable<Data.POCO.Like> GetAll()
         {
             return Context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
-                .Include(x => x.Post)
-                .ToList();
+                .Include(x => x.Post);
         }
 
-        public override async Task<IEnumerable<Data.POCO.Like>> GetAllAsync()
+        public override async Task<IQueryable<Data.POCO.Like>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Like>().Include(x => x.User)
+            return Context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
-                .Include(x => x.Post)
-                .ToListAsync();
+                .Include(x => x.Post);
         }
 
-        public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromPost(int id)
+        public async Task<IQueryable<Data.POCO.Like>> GetLikesFromPost(int id)
         {
-            return await Context.Set<Data.POCO.Like>()
+            return Context.Set<Data.POCO.Like>()
                     .Include(x => x.Post)
                     .Include(x => x.User)
-                    .Where(x => x.Post.Id == id).ToListAsync();
+                    .Where(x => x.Post.Id == id);
         }
 
-        public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromUser(int id)
+        public async Task<IQueryable<Data.POCO.Like>> GetLikesFromUser(int id)
         {
-            return await Context.Set<Data.POCO.Like>().Include(x => x.Comment)
+            return Context.Set<Data.POCO.Like>().Include(x => x.Comment)
                 .Include(x => x.Post)
                 .Include(x => x.User)
-                .Where(x => x.User.Id == id).ToListAsync();
+                .Where(x => x.User.Id == id);
         }
 
-        public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromComment(int id)
+        public async Task<IQueryable<Data.POCO.Like>> GetLikesFromComment(int id)
         {
-            return await Context.Set<Data.POCO.Like>()
+            return Context.Set<Data.POCO.Like>()
                 .Include(x => x.User)
                 .Include(x => x.Comment)
-                .Where(x => x.Comment.Id == id).ToListAsync();
+                .Where(x => x.Comment.Id == id);
         }
 
         public async Task<bool> LikeAlreadyExists(Data.POCO.Like like)
