@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
@@ -52,7 +53,7 @@ namespace DbAccess.Repositories.Category
             return category != null;
         }
 
-        public override async Task<IQueryable<Data.POCO.Category>> GetAllAsync()
+        public override async Task<IEnumerable<Data.POCO.Category>> GetAllAsync()
         {
             return Context.Set<Data.POCO.Category>()
                 .Include(x => x.Posts);

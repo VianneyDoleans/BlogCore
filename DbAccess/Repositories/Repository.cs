@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories
@@ -25,17 +26,30 @@ namespace DbAccess.Repositories
             return result;
         }
 
-        public async Task<IQueryable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return Context.Set<TEntity>().Where(predicate);
         }
 
-        public virtual async Task<IQueryable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return Context.Set<TEntity>();
         }
 
-        public virtual async Task<IQueryable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> Get(FilterSpecification<TEntity> filterSpecification = null,
+            PagingSpecification pagingSpecification = null)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+            if (filterSpecification != null)
+                query = query.Where(filterSpecification);
+
+            if (pagingSpecification != null)
+                query = query.OrderBy("a").Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
+            
+            return await query.ToListAsync();
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
         {
             return Context.Set<TEntity>().Where(predicate);
         }

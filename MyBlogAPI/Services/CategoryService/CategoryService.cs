@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.UnitOfWork;
 using MyBlogAPI.DTO.Category;
+using MyBlogAPI.Extensions;
 
 namespace MyBlogAPI.Services.CategoryService
 {
@@ -26,6 +28,11 @@ namespace MyBlogAPI.Services.CategoryService
         public async Task<IEnumerable<GetCategoryDto>> GetAllCategories()
         {
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCategoryDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetCategoryDto>> GetCategories(int offset = 0, int limit = 0)
+        {
+            return (await _repository.GetAllAsync()).PaginateAsync(offset, limit, CancellationToken.None);
         }
 
         public async Task<GetCategoryDto> GetCategory(int id)

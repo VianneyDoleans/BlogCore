@@ -50,14 +50,14 @@ namespace DbAccess.Repositories.Like
                 .Include(x => x.Post);
         }
 
-        public override async Task<IQueryable<Data.POCO.Like>> GetAllAsync()
+        public override async Task<IEnumerable<Data.POCO.Like>> GetAllAsync()
         {
             return Context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
                 .Include(x => x.Post);
         }
 
-        public async Task<IQueryable<Data.POCO.Like>> GetLikesFromPost(int id)
+        public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromPost(int id)
         {
             return Context.Set<Data.POCO.Like>()
                     .Include(x => x.Post)
@@ -65,7 +65,7 @@ namespace DbAccess.Repositories.Like
                     .Where(x => x.Post.Id == id);
         }
 
-        public async Task<IQueryable<Data.POCO.Like>> GetLikesFromUser(int id)
+        public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromUser(int id)
         {
             return Context.Set<Data.POCO.Like>().Include(x => x.Comment)
                 .Include(x => x.Post)
@@ -73,7 +73,7 @@ namespace DbAccess.Repositories.Like
                 .Where(x => x.User.Id == id);
         }
 
-        public async Task<IQueryable<Data.POCO.Like>> GetLikesFromComment(int id)
+        public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromComment(int id)
         {
             return Context.Set<Data.POCO.Like>()
                 .Include(x => x.User)

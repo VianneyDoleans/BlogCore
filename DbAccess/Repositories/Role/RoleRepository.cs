@@ -13,7 +13,7 @@ namespace DbAccess.Repositories.Role
         {
         }
 
-        public async Task<IQueryable<Data.POCO.Role>> GetRolesFromUser(int id)
+        public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
         {
             return Context.Set<Data.POCO.JoiningEntity.UserRole>()
                 .Where(x => x.UserId == id).Select(x => x.Role);
@@ -54,7 +54,7 @@ namespace DbAccess.Repositories.Role
             return role != null;
         }
 
-        public override async Task<IQueryable<Data.POCO.Role>> GetAllAsync()
+        public override async Task<IEnumerable<Data.POCO.Role>> GetAllAsync()
         {
             return Context.Set<Data.POCO.Role>().Include(x => x.UserRoles);
         }

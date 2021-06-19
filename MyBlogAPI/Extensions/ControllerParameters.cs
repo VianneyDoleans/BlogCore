@@ -9,28 +9,29 @@ namespace MyBlogAPI.Extensions
 {
     public static class ControllerParameters
     {
-        public static async Task<PagedBlogResponse<TModel>> PaginateAsync<TModel>(
+        public static async /*Task<PagedBlogResponse<TModel>>*/ Task<IEnumerable<TModel>> PaginateAsync<TModel>(
             this IQueryable<TModel> query,
-            int page,
+            int offset,
             int limit,
             CancellationToken cancellationToken)
             where TModel : class
         {
-            page = (page < 0) ? 1 : page;
+            //offset = (offset < 0) ? 0 : offset;
+            //offset = (offset > 100) ? 100 : offset;
 
-            var totalItemsCountTask = query.CountAsync(cancellationToken);
+            //var totalItemsCountTask = query.CountAsync(cancellationToken);
 
-            var startRow = (page - 1) * limit;
+            //var startRow = (offset - 1) * limit;
             IList<TModel> data = await query
-                .Skip(startRow)
+                .Skip(offset)
                 .Take(limit)
                 .ToListAsync(cancellationToken);
 
             //paged.TotalPages = (int) Math.Ceiling(paged.TotalItems / (double) limit);
 
 
-            var paged = new PagedBlogResponse<TModel>(data, page, limit, await totalItemsCountTask);
-            return paged;
+            //var paged = new PagedBlogResponse<TModel>(data, offset, limit, await totalItemsCountTask);
+            return data; //paged;
         }
     }
 }

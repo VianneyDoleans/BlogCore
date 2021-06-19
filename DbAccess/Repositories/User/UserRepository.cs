@@ -42,17 +42,17 @@ namespace DbAccess.Repositories.User
             return Context.Set<Data.POCO.User>().Include(x => x.UserRoles);
         }
 
-        public override async Task<IQueryable<Data.POCO.User>> GetAllAsync()
+        public override async Task<IEnumerable<Data.POCO.User>> GetAllAsync()
         {
             return Context.Set<Data.POCO.User>().Include(x => x.UserRoles);
         }
 
-        public async Task<IQueryable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids)
+        public async Task<IEnumerable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids)
         {
             return Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id));
         }
 
-        public async Task<IQueryable<Data.POCO.User>> GetUsersFromRole(int id)
+        public async Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id)
         {
             var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)

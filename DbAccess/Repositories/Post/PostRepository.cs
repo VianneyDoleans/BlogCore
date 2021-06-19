@@ -51,7 +51,7 @@ namespace DbAccess.Repositories.Post
                 .Include(x => x.Category);
         }
 
-        public override async Task<IQueryable<Data.POCO.Post>> GetAllAsync()
+        public override async Task<IEnumerable<Data.POCO.Post>> GetAllAsync()
         {
             return Context.Set<Data.POCO.Post>()
                 .Include(x => x.Author)
@@ -59,7 +59,7 @@ namespace DbAccess.Repositories.Post
                 .Include(x => x.Category);
         }
 
-        public async Task<IQueryable<Data.POCO.Post>> GetPostsFromUser(int id)
+        public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromUser(int id)
         {
             return Context.Set<Data.POCO.Post>().Include(x => x.PostTags)
                 .Include(x => x.Category)
@@ -67,7 +67,7 @@ namespace DbAccess.Repositories.Post
                 .Where(x => x.Author.Id == id);
         }
 
-        public async Task<IQueryable<Data.POCO.Post>> GetPostsFromTag(int id)
+        public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromTag(int id)
         {
             return Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
                 .Include(x => x.Post.Category)
@@ -75,7 +75,7 @@ namespace DbAccess.Repositories.Post
                 .Where(x => x.TagId == id).Select(x => x.Post);
         }
 
-        public async Task<IQueryable<Data.POCO.Post>> GetPostsFromCategory(int id)
+        public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromCategory(int id)
         {
             return Context.Set<Data.POCO.Post>()
                 .Include(x => x.Author)
