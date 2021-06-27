@@ -1,9 +1,9 @@
 ﻿
 namespace DbAccess.Specifications
 {
-    public class OrderBySpecification
+    public class PagingSpecification
     {
-        public OrderBySpecification(int skip, int take)
+        public PagingSpecification(int skip, int take)
         {
             Skip = skip;
             Take = take;

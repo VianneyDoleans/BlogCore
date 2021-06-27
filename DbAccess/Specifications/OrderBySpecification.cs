@@ -1,15 +1,18 @@
-﻿
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+
 namespace DbAccess.Specifications
 {
-    public class PagingSpecification
+    public class OrderBySpecification<T, TProperty>
     {
-        public PagingSpecification(int skip, int take)
+
+        public OrderBySpecification(Expression<Func<T, TProperty>> order)
         {
-            Skip = skip;
-            Take = take;
+            Order = order;
         }
 
-        public int Skip { get; }
-        public int Take { get; }
+        public Expression<Func<T, TProperty>> Order { get; }
+
     }
 }

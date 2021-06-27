@@ -17,10 +17,10 @@ namespace DbAccess.Repositories.Post
         {
             try
             {
-                return await Context.Set<Data.POCO.Post>().Include(x => x.Author)
+                return Context.Set<Data.POCO.Post>().Include(x => x.Author)
                     .Include(x => x.PostTags)
-                    .Include(x => x.Category)
-                    .SingleAsync(x => x.Id == id);
+                    .Include(x => x.Category).;
+                //.SingleAsync(x => x.Id == id);
             }
             catch
             {

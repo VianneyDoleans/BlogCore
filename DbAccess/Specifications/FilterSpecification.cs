@@ -8,13 +8,12 @@ namespace DbAccess.Specifications
     {
         private class ConstructedSpecification<TType> : FilterSpecification<TType>
         {
-            private readonly Expression<Func<TType, bool>> _specificationExpression;
             public ConstructedSpecification(Expression<Func<TType, bool>> specificationExpression)
             {
-                _specificationExpression = specificationExpression;
+                SpecificationExpression = specificationExpression;
             }
 
-            protected override Expression<Func<TType, bool>> SpecificationExpression => _specificationExpression;
+            protected override Expression<Func<TType, bool>> SpecificationExpression { get; }
         }
 
         protected abstract Expression<Func<T, bool>> SpecificationExpression { get; }

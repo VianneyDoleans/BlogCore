@@ -13,8 +13,10 @@ namespace DbAccess.Repositories
         Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<IEnumerable<TEntity>> Get(FilterSpecification<TEntity> filterSpecification = null,
-            PagingSpecification pagingSpecification = null);
+        Task<IEnumerable<TEntity>> Get<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            OrderBySpecification<TEntity, TProperty> odBySpecification = null,
+            SortingDirectionSpecification sortingDirectionSpecification = SortingDirectionSpecification.Ascending);
 
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);
 

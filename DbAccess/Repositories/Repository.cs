@@ -36,16 +36,24 @@ namespace DbAccess.Repositories
             return Context.Set<TEntity>();
         }
 
-        public async Task<IEnumerable<TEntity>> Get(FilterSpecification<TEntity> filterSpecification = null,
-            PagingSpecification pagingSpecification = null)
+        public virtual async Task<IEnumerable<TEntity>> Get<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            OrderBySpecification<TEntity, TProperty> odBySpecification = null,
+            SortingDirectionSpecification sortingDirectionSpecification = SortingDirectionSpecification.Ascending)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
             if (filterSpecification != null)
                 query = query.Where(filterSpecification);
 
             if (pagingSpecification != null)
-                query = query.OrderBy("a").Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
-            
+                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
+
+            if (odBySpecification != null && sortingDirectionSpecification == SortingDirectionSpecification.Ascending)
+                query = query.OrderBy(odBySpecification.Order);
+
+            if (odBySpecification != null && sortingDirectionSpecification == SortingDirectionSpecification.Descending)
+                query = query.OrderByDescending(odBySpecification.Order);
+
             return await query.ToListAsync();
         }
 
