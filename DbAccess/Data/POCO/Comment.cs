@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbAccess.Data.POCO.Interface;
 
 namespace DbAccess.Data.POCO
 {
-    public class Comment
+    public class Comment : IPoco, IHasCreationDate, IHasModificationDate
     {
         [Key]
         public int Id { get; set; }

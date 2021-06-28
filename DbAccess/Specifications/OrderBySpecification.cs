@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 
 namespace DbAccess.Specifications
 {
-    public class OrderBySpecification<T, TProperty>
+    public class OrderBySpecification<T>
     {
 
         public OrderBySpecification(Expression<Func<T, TProperty>> order)

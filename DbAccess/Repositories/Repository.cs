@@ -36,7 +36,7 @@ namespace DbAccess.Repositories
             return Context.Set<TEntity>();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> Get<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
+        public virtual async Task<IEnumerable<TEntity>> GetAsync<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
             OrderBySpecification<TEntity, TProperty> odBySpecification = null,
             SortingDirectionSpecification sortingDirectionSpecification = SortingDirectionSpecification.Ascending)

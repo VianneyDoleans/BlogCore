@@ -7,6 +7,8 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.UnitOfWork;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
 using MyBlogAPI.DTO.Category;
 using MyBlogAPI.Extensions;
 
@@ -30,9 +32,10 @@ namespace MyBlogAPI.Services.CategoryService
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCategoryDto>(x)).ToList();
         }
 
-        public async Task<IEnumerable<GetCategoryDto>> GetCategories(int offset = 0, int limit = 0)
+        public async Task<IEnumerable<GetCategoryDto>> GetCategories(int offset = 0, int limit = 0, SortingDirectionSpecification sort = SortingDirectionSpecification.Ascending)
         {
-            return (await _repository.GetAllAsync()).PaginateAsync(offset, limit, CancellationToken.None);
+            return (await _repository.GetAsync(null, new PagingSpecification(offset, limit),
+                new OrderBySpecification<Category>(x => x.Name), sort)).Select(x => _mapper.Map<GetCategoryDto>(x));
         }
 
         public async Task<GetCategoryDto> GetCategory(int id)

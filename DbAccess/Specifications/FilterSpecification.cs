@@ -35,6 +35,16 @@ namespace DbAccess.Specifications
             return new ConstructedSpecification<T>(Expression.Lambda<Func<T, bool>>(combined, arg));
         }
 
+        public FilterSpecification<T> And(FilterSpecification<T> other)
+        {
+            return this & other;
+        }
+
+        public FilterSpecification<T> Or(FilterSpecification<T> other)
+        {
+            return this | other;
+        }
+
         public static FilterSpecification<T> operator !(FilterSpecification<T> original)
             => new ConstructedSpecification<T>(Expression.Lambda<Func<T, bool>>(Expression.Negate(original.SpecificationExpression.Body), original.SpecificationExpression.Parameters));
 

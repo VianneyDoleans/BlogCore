@@ -13,7 +13,7 @@ namespace DbAccess.Repositories
         Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task<IEnumerable<TEntity>> GetAllAsync();
 
-        Task<IEnumerable<TEntity>> Get<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
+        Task<IEnumerable<TEntity>> GetAsync<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
             OrderBySpecification<TEntity, TProperty> odBySpecification = null,
             SortingDirectionSpecification sortingDirectionSpecification = SortingDirectionSpecification.Ascending);
@@ -25,13 +25,11 @@ namespace DbAccess.Repositories
         Task RemoveAsync(TEntity entity);
         Task RemoveRangeAsync(IEnumerable<TEntity> entities);
 
-        //Task<int> CountWhereAsync(Expression<Func<TEntity, bool>> predicate);
         Task<int> CountAllAsync();
 
         TEntity Get(int id);
-        //IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate);
+
         IQueryable<TEntity> GetAll();
-        //IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
 
         TEntity Add(TEntity entity);
 
