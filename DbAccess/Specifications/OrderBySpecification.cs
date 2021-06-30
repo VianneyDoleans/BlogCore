@@ -14,5 +14,6 @@ namespace DbAccess.Specifications
 
         public Expression<Func<T, TProperty>> Order { get; }
 
+
     }
 }
