@@ -25,12 +25,6 @@ namespace MyBlogAPI.Controllers
             return Ok(await _categoryService.GetAllCategories());
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
-        {
-            return Ok(await _categoryService.GetCategory());
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {

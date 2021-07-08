@@ -22,9 +22,9 @@ namespace MyBlogAPI.Filters
 {
     public class ValidatePagingAttribute : Profile
     {
-        public override void OnActionExecuting(HttpActionContext actionContext)
-        {
-            string order = (string)actionContext.ActionArguments["order"];
+        //public override void OnActionExecuting(HttpActionContext actionContext*/)
+        //{
+           /* string order = (string)actionContext.ActionArguments["order"];
             string sortBy = (string)actionContext.ActionArguments["sortby"];
 
             var states = new ModelStateDictionary();
@@ -41,7 +41,7 @@ namespace MyBlogAPI.Filters
             if (states.Any())
             {
                 actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, states);
-            }
-        }
+            }*/
+        //}
     }
 }

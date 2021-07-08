@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using DbAccess.Specifications.SortSpecification;
 
 namespace DbAccess.Repositories
 {
@@ -15,7 +16,7 @@ namespace DbAccess.Repositories
 
         Task<IEnumerable<TEntity>> GetAsync<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
-            OrderBySpecification<TEntity, TProperty> odBySpecification = null,
+            OrderBySpecification<TEntity> odBySpecification = null,
             SortingDirectionSpecification sortingDirectionSpecification = SortingDirectionSpecification.Ascending);
 
         Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate);

@@ -6,7 +6,6 @@ namespace DbAccess.Specifications
 {
     internal class ReplaceParameterVisitor : ExpressionVisitor, IEnumerable<KeyValuePair<ParameterExpression, ParameterExpression>>
     {
-
         private readonly Dictionary<ParameterExpression, ParameterExpression> _parameterMappings = new Dictionary<ParameterExpression, ParameterExpression>();
 
         protected override Expression VisitParameter(ParameterExpression node)

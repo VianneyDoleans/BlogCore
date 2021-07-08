@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
 using DbAccess.Specifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories
@@ -38,7 +39,7 @@ namespace DbAccess.Repositories
 
         public virtual async Task<IEnumerable<TEntity>> GetAsync<TProperty>(FilterSpecification<TEntity> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
-            OrderBySpecification<TEntity, TProperty> odBySpecification = null,
+            OrderBySpecification<TEntity> odBySpecification = null,
             SortingDirectionSpecification sortingDirectionSpecification = SortingDirectionSpecification.Ascending)
         {
             IQueryable<TEntity> query = Context.Set<TEntity>();
@@ -53,7 +54,7 @@ namespace DbAccess.Repositories
 
             if (odBySpecification != null && sortingDirectionSpecification == SortingDirectionSpecification.Descending)
                 query = query.OrderByDescending(odBySpecification.Order);
-
+            
             return await query.ToListAsync();
         }
 

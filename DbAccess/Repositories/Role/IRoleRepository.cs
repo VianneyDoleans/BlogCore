@@ -7,7 +7,7 @@ namespace DbAccess.Repositories.Role
 {
     public interface IRoleRepository : IRepository<Data.POCO.Role>
     {
-        Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id, PagingSpecification pagingSpecification = null);
+        Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id);
 
         Task<bool> NameAlreadyExists(string name);
     }
