@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Category;
-using MyBlogAPI.Extensions;
 
 namespace MyBlogAPI.Services.CategoryService
 {
@@ -33,10 +30,11 @@ namespace MyBlogAPI.Services.CategoryService
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCategoryDto>(x)).ToList();
         }
 
-        public async Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filter = null,  int offset = 0, int limit = 1, SortingDirectionSpecification sort = SortingDirectionSpecification.Ascending, OrderBySpecification<Category> orderBy = null)
+        public async Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filter = null,
+            PagingSpecification paging = null,
+            SortSpecification<Category> sort = null)
         {
-            return (await _repository.GetAsync<Category>(filter, new PagingSpecification(offset, limit),
-                orderBy, sort)).Select(x => _mapper.Map<GetCategoryDto>(x));
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCategoryDto>(x));
         }
 
         public async Task<GetCategoryDto> GetCategory(int id)

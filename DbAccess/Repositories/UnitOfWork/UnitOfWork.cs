@@ -1,5 +1,4 @@
 ﻿using DbAccess.DataContext;
-using DbAccess.Repositories.User;
 
 namespace DbAccess.Repositories.UnitOfWork
 {

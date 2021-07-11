@@ -7,6 +7,8 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
+using DbAccess.Specifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.User;
 
 namespace MyBlogAPI.Services.UserService
@@ -33,6 +35,12 @@ namespace MyBlogAPI.Services.UserService
                usersDto.Roles = c.UserRoles.Select(x => x.RoleId);
                return usersDto;
             }).ToList();
+        }
+
+        public async Task<IEnumerable<GetUserDto>> GetUsers(FilterSpecification<User> filter = null, PagingSpecification paging = null,
+            SortSpecification<User> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetUserDto>(x));
         }
 
         public async Task<GetUserDto> GetUser(int id)

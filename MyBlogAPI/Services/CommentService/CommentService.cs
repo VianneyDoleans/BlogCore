@@ -8,6 +8,8 @@ using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
+using DbAccess.Specifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Comment;
 
 namespace MyBlogAPI.Services.CommentService
@@ -33,6 +35,13 @@ namespace MyBlogAPI.Services.CommentService
         public async Task<IEnumerable<GetCommentDto>> GetAllComments()
         {
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetCommentDto>> GetComments(FilterSpecification<Comment> filter = null,
+            PagingSpecification paging = null,
+            SortSpecification<Comment> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCommentDto>(x));
         }
 
         public async Task<GetCommentDto> GetComment(int id)

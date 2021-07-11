@@ -4,7 +4,6 @@ using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Category;
-using MyBlogAPI.Responses;
 
 namespace MyBlogAPI.Services.CategoryService
 {
@@ -12,7 +11,9 @@ namespace MyBlogAPI.Services.CategoryService
     {
         Task<IEnumerable<GetCategoryDto>> GetAllCategories();
 
-        Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filter = null, int offset = 0, int limit = 1, SortingDirectionSpecification sort = SortingDirectionSpecification.Ascending, OrderBySpecification<Category> orderBy = null);
+        public Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Category> sortSpecification = null);
 
         Task<GetCategoryDto> GetCategory(int id);
 

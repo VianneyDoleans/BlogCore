@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO;
+using DbAccess.Specifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Comment;
 
 namespace MyBlogAPI.Services.CommentService
@@ -7,6 +10,10 @@ namespace MyBlogAPI.Services.CommentService
     public interface ICommentService
     {
         Task<IEnumerable<GetCommentDto>> GetAllComments();
+
+        public Task<IEnumerable<GetCommentDto>> GetComments(FilterSpecification<Comment> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Comment> sortSpecification = null);
 
         Task<GetCommentDto> GetComment(int id);
 

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.User
@@ -11,6 +13,23 @@ namespace DbAccess.Repositories.User
     {
         public UserRepository(MyBlogContext context) : base(context)
         {
+        }
+
+        public override async Task<IEnumerable<Data.POCO.User>> GetAsync(FilterSpecification<Data.POCO.User> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.User> sortSpecification = null)
+        {
+            IQueryable<Data.POCO.User> query = Context.Set<Data.POCO.User>();
+            if (filterSpecification != null)
+                query = query.Where(filterSpecification);
+
+            if (sortSpecification != null)
+                query = SortQuery(sortSpecification, query);
+
+            if (pagingSpecification != null)
+                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
+
+            return await query.Include(x => x.UserRoles).ToListAsync();
         }
 
         public override async Task<Data.POCO.User> GetAsync(int id)
@@ -37,19 +56,19 @@ namespace DbAccess.Repositories.User
             }
         }
 
-        public override IQueryable<Data.POCO.User> GetAll()
+        public override IEnumerable<Data.POCO.User> GetAll()
         {
-            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles);
+            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToList();
         }
 
         public override async Task<IEnumerable<Data.POCO.User>> GetAllAsync()
         {
-            return Context.Set<Data.POCO.User>().Include(x => x.UserRoles);
+            return await Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids)
         {
-            return Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id));
+            return await Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id)).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id)
@@ -57,8 +76,8 @@ namespace DbAccess.Repositories.User
             var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)
                 .Where(x => x.RoleId == id);
-                var users = userRole
-                .Select(y => y.User);
+                var users = await userRole
+                .Select(y => y.User).ToListAsync();
                 return users;
         }
 

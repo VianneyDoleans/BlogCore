@@ -1,22 +1,4 @@
-﻿using System.Linq;
-using System.Net;
-using AutoMapper;
-using DbAccess.Data.POCO;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Category.Converters;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Comment.Converters;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Like.Converters;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.Post.Converters;
-using MyBlogAPI.DTO.Role;
-using MyBlogAPI.DTO.Role.Converters;
-using MyBlogAPI.DTO.Tag;
-using MyBlogAPI.DTO.Tag.Converters;
-using MyBlogAPI.DTO.User;
-using MyBlogAPI.DTO.User.Converters;
+﻿using AutoMapper;
 
 namespace MyBlogAPI.Filters
 {

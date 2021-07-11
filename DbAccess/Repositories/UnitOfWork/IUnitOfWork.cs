@@ -1,5 +1,4 @@
 ﻿using System;
-using DbAccess.Repositories.User;
 
 namespace DbAccess.Repositories.UnitOfWork
 {
