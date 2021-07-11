@@ -17,20 +17,51 @@ namespace DBAccess.Test.Repositories
         [Fact]
         public async void AddCategoryAsync()
         {
+            // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-            var testCategory = new Category() {Name = "testCategory"};
+            var testCategory = new Category() {Name = "testAddCategoryAsync" };
+            
+            // Act
             await categoryRepository.AddAsync(testCategory);
             _fixture.UnitOfWork.Save();
 
+            // Assert
+            Assert.True(_fixture.Db.Categories.First(x => x.Name == testCategory.Name) != null);
+        }
+
+        [Fact]
+        public void AddCategory()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category() { Name = "testAddCategory" };
+
+            // Act
+            categoryRepository.Add(testCategory);
+            _fixture.UnitOfWork.Save();
+
+            // Assert
             Assert.True(_fixture.Db.Categories.First(x => x.Name == testCategory.Name) != null);
         }
 
         [Fact]
         public async void AddNullCategoryAsync()
         {
+            // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
+            // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.AddAsync(null));
+        }
+
+        [Fact]
+        public void AddNullCategory()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => categoryRepository.Add(null));
         }
 
         [Fact]
