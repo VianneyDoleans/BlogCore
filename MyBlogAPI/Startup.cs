@@ -59,7 +59,7 @@ namespace MyBlogAPI
             services.AddControllers();
 
             services.RegisterDataServices(Configuration);
-            services.AddAutoMapper(typeof(ValidatePagingAttribute));
+            services.AddAutoMapper(typeof(AutoMapperProfile));
 
             services.AddSwaggerGen(c =>
                 c.SwaggerDoc("v1", new OpenApiInfo() {Title = "MyBlog", Version = "v1"}));

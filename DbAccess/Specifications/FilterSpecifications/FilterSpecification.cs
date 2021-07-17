@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace DbAccess.Specifications
+namespace DbAccess.Specifications.FilterSpecifications
 {
     public abstract class FilterSpecification<T>
     {

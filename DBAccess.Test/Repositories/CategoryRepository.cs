@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using DbAccess.Data.POCO;
+using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.FilterSpecifications.Filters;
+using DbAccess.Specifications.SortSpecification;
 using Xunit;
 
 namespace DBAccess.Test.Repositories
@@ -53,7 +57,11 @@ namespace DBAccess.Test.Repositories
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.AddAsync(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await categoryRepository.AddAsync(null);
+                await _fixture.Db.SaveChangesAsync();
+            });
         }
 
         [Fact]
@@ -63,7 +71,11 @@ namespace DBAccess.Test.Repositories
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => categoryRepository.Add(null));
+            Assert.Throws<ArgumentNullException>(() =>
+            { 
+                categoryRepository.Add(null);
+                _fixture.Db.SaveChanges();
+            });
         }
 
         [Fact]
@@ -239,7 +251,7 @@ namespace DBAccess.Test.Repositories
             };
             var testCategory2 = new Category()
             {
-                Name = "RemoveRange1"
+                Name = "RemoveRange2"
             };
             categoryRepository.Add(testCategory);
             categoryRepository.Add(testCategory2);
@@ -252,7 +264,7 @@ namespace DBAccess.Test.Repositories
             
             // Assert
             var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
-            Assert.True(nbCategoriesAtBeginning + 1 == nbCategoriesAfterAdded &&
+            Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
                         nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
         }
 
@@ -270,8 +282,8 @@ namespace DBAccess.Test.Repositories
             {
                 Name = "RemoveRangeAsync2"
             };
-            categoryRepository.Add(testCategory);
-            categoryRepository.Add(testCategory2);
+            await categoryRepository.AddAsync(testCategory);
+            await categoryRepository.AddAsync(testCategory2);
             _fixture.UnitOfWork.Save();
             var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
 
@@ -281,12 +293,12 @@ namespace DBAccess.Test.Repositories
 
             // Assert
             var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
-            Assert.True(nbCategoriesAtBeginning + 1 == nbCategoriesAfterAdded &&
+            Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
                         nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
         }
 
         [Fact]
-        public async void CountAsync()
+        public async void CountAllAsync()
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
@@ -296,13 +308,49 @@ namespace DBAccess.Test.Repositories
         }
 
         [Fact]
-        public void Count()
+        public void CountAll()
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(_fixture.Db.Categories.Count() == categoryRepository.CountAll());
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsTrue()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category()
+            {
+                Name = "NameAlreadyExistsValid"
+            };
+            await categoryRepository.AddAsync(testCategory);
+            await _fixture.Db.SaveChangesAsync();
+
+            // Act & Assert
+            Assert.True(await categoryRepository.NameAlreadyExists(testCategory.Name));
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsFalse()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.True(!await categoryRepository.NameAlreadyExists("NameAlreadyExistsFalse"));
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsNull()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.True(!await categoryRepository.NameAlreadyExists(null));
         }
 
         [Fact]
@@ -384,6 +432,72 @@ namespace DBAccess.Test.Repositories
         }
 
         [Fact]
+        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category()
+            {
+                Name = "TwwooGetAsyncWithTwoSorts",
+            };
+            var testCategory2 = new Category()
+            {
+                Name = "GetAsyncWithTwoSorts2"
+            };
+            var testCategory3 = new Category()
+            {
+                Name = "GetAsyncWithTwoSorts3Twwoo"
+            };
+            var testCategory4 = new Category()
+            {
+                Name = "AGetTwwooAsyncWithTwoSorts4"
+            };
+            var testCategory5 = new Category()
+            {
+                Name = "GetAsyncTwwooWithTwoSorts5"
+            };
+            var testCategory6 = new Category()
+            {
+                Name = "GetAsyncWithTwoSorts6"
+            };
+            var testCategory7 = new Category()
+            {
+                Name = "TwwooGetAsyncWithTwoorts7"
+            };
+            await categoryRepository.AddAsync(testCategory);
+            await categoryRepository.AddAsync(testCategory2);
+            await categoryRepository.AddAsync(testCategory3);
+            await categoryRepository.AddAsync(testCategory4);
+            await categoryRepository.AddAsync(testCategory5);
+            await categoryRepository.AddAsync(testCategory6);
+            await categoryRepository.AddAsync(testCategory7);
+
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { EmailAddress = "TwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpec" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = testCategory, Content = "new post", Name = "TwoSortsAndTwoSpec1" });
+            var post2 = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = testCategory, Content = "new post", Name = "TwoSortsAndTwoSpec2" });
+            var post3 = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = testCategory3, Content = "new post", Name = "TwoSortsAndTwoSpec3" });
+            var post4 = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = testCategory3, Content = "new post", Name = "TwoSortsAndTwoSpec4" });
+            var post5 = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = testCategory4, Content = "new post", Name = "TwoSortsAndTwoSpec5" });
+
+            _fixture.UnitOfWork.Save();
+
+            // Act
+            var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("WithTwoSorts") 
+                                                            & new NameContainsSpecification<Category>("Twwoo"), new PagingSpecification(0, 20),
+                new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Posts.Count), SortingDirectionSpecification.Descending) &
+                new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Name), SortingDirectionSpecification.Ascending))).ToList();
+
+            // Assert
+            Assert.True(result.Count() == 4 && result.First().Name == testCategory3.Name);
+        }
+
+        [Fact]
         public async void GetAsyncWithNoArgument()
         {
             // Arrange
@@ -410,15 +524,15 @@ namespace DBAccess.Test.Repositories
             {
                 Name = "GetAsyncAKSpecification3WithAllArguments"
             };
-            var testCategory5 = new Category()
+            var testCategory4 = new Category()
             {
                 Name = "GetAsyncAKSpecification3WithAllArguments163"
             };
-            var testCategory6 = new Category()
+            var testCategory5 = new Category()
             {
                 Name = "GetAsyncAKSpecification3WithAllArguments2"
             };
-            var testCategory4 = new Category()
+            var testCategory6 = new Category()
             {
                 Name = "GetAsyncAWSpecification4WithAllArguments"
             };
@@ -433,10 +547,10 @@ namespace DBAccess.Test.Repositories
             // Act
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("AK") &
                 new NameContainsSpecification<Category>("WithAllArguments"),
-                new DbAccess.Specifications.PagingSpecification(0, 2),
-                new DbAccess.Specifications.SortSpecification.SortSpecification<Category>(
-                    new DbAccess.Specifications.SortSpecification.OrderBySpecification<Category>(x => x.Name), 
-                    DbAccess.Specifications.SortSpecification.SortingDirectionSpecification.Descending))).ToList();
+                new PagingSpecification(0, 2),
+                new SortSpecification<Category>(
+                    new OrderBySpecification<Category>(x => x.Name), 
+                    SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 2 && result.First().Name == testCategory5.Name);
@@ -459,15 +573,15 @@ namespace DBAccess.Test.Repositories
             {
                 Name = "1GetAsyncWithPagination3"
             };
-            var testCategory5 = new Category()
+            var testCategory4 = new Category()
             {
                 Name = "1GetAsyncWithPagination4"
             };
-            var testCategory6 = new Category()
+            var testCategory5 = new Category()
             {
                 Name = "1GetAsyncWithPagination5"
             };
-            var testCategory4 = new Category()
+            var testCategory6 = new Category()
             {
                 Name = "1GetAsyncWithPagination6"
             };
@@ -481,10 +595,10 @@ namespace DBAccess.Test.Repositories
 
             // Act
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("1GetAsyncWithPagination"),
-                new DbAccess.Specifications.PagingSpecification(2, 3),
-                new DbAccess.Specifications.SortSpecification.SortSpecification<Category>(
-                    new DbAccess.Specifications.SortSpecification.OrderBySpecification<Category>(x => x.Name),
-                    DbAccess.Specifications.SortSpecification.SortingDirectionSpecification.Ascending))).ToList();
+                new PagingSpecification(2, 3),
+                new SortSpecification<Category>(
+                    new OrderBySpecification<Category>(x => x.Name),
+                    SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 3);
@@ -535,10 +649,10 @@ namespace DBAccess.Test.Repositories
 
             // Act
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("GetAsyncWithPaginationTakeOutOfRange"),
-                new DbAccess.Specifications.PagingSpecification(2, 22),
-                new DbAccess.Specifications.SortSpecification.SortSpecification<Category>(
-                    new DbAccess.Specifications.SortSpecification.OrderBySpecification<Category>(x => x.Name),
-                    DbAccess.Specifications.SortSpecification.SortingDirectionSpecification.Ascending))).ToList();
+                new PagingSpecification(2, 22),
+                new SortSpecification<Category>(
+                    new OrderBySpecification<Category>(x => x.Name),
+                    SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 4);
@@ -591,10 +705,10 @@ namespace DBAccess.Test.Repositories
 
             // Act
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("GetAsyncWithPaginationTakeNegative"),
-                new DbAccess.Specifications.PagingSpecification(2, -2),
-                new DbAccess.Specifications.SortSpecification.SortSpecification<Category>(
-                    new DbAccess.Specifications.SortSpecification.OrderBySpecification<Category>(x => x.Name),
-                    DbAccess.Specifications.SortSpecification.SortingDirectionSpecification.Ascending))).ToList();
+                new PagingSpecification(2, -2),
+                new SortSpecification<Category>(
+                    new OrderBySpecification<Category>(x => x.Name),
+                    SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(!result.Any());
@@ -617,15 +731,15 @@ namespace DBAccess.Test.Repositories
             {
                 Name = "GetAsyncWithPaginationSkipNegative3"
             };
-            var testCategory5 = new Category()
+            var testCategory4 = new Category()
             {
                 Name = "GetAsyncWithPaginationSkipNegative4"
             };
-            var testCategory6 = new Category()
+            var testCategory5 = new Category()
             {
                 Name = "GetAsyncWithPaginationSkipSkipNegative5"
             };
-            var testCategory4 = new Category()
+            var testCategory6 = new Category()
             {
                 Name = "GetAsyncWithPaginationSkipSkipNegative6"
             };
@@ -639,19 +753,19 @@ namespace DBAccess.Test.Repositories
 
             // Act
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("GetAsyncWithPaginationSkipNegative"),
-                new DbAccess.Specifications.PagingSpecification(-2, 3),
-                new DbAccess.Specifications.SortSpecification.SortSpecification<Category>(
-                    new DbAccess.Specifications.SortSpecification.OrderBySpecification<Category>(x => x.Name),
-                    DbAccess.Specifications.SortSpecification.SortingDirectionSpecification.Ascending))).ToList();
+                new PagingSpecification(-2, 3),
+                new SortSpecification<Category>(
+                    new OrderBySpecification<Category>(x => x.Name),
+                    SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 3);
+            Assert.Contains(result, x => x.Id == testCategory.Id &&
+                                         x.Name == testCategory.Name);
+            Assert.Contains(result, x => x.Id == testCategory2.Id &&
+                                         x.Name == testCategory2.Name);
             Assert.Contains(result, x => x.Id == testCategory3.Id &&
                                          x.Name == testCategory3.Name);
-            Assert.Contains(result, x => x.Id == testCategory4.Id &&
-                                         x.Name == testCategory4.Name);
-            Assert.Contains(result, x => x.Id == testCategory5.Id &&
-                                         x.Name == testCategory5.Name);
         }
 
         [Fact]
@@ -693,10 +807,10 @@ namespace DBAccess.Test.Repositories
 
             // Act
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("GetAsyncWithPaginationSkipOutOfRange"),
-                new DbAccess.Specifications.PagingSpecification(7, 3),
-                new DbAccess.Specifications.SortSpecification.SortSpecification<Category>(
-                    new DbAccess.Specifications.SortSpecification.OrderBySpecification<Category>(x => x.Name),
-                    DbAccess.Specifications.SortSpecification.SortingDirectionSpecification.Ascending))).ToList();
+                new PagingSpecification(7, 3),
+                new SortSpecification<Category>(
+                    new OrderBySpecification<Category>(x => x.Name),
+                    SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(!result.Any());

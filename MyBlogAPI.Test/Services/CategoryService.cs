@@ -4,6 +4,7 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Category;
 using MyBlogAPI.Services.CategoryService;
@@ -178,8 +179,9 @@ namespace MyBlogAPI.Test.Services
             await _service.AddCategory(categoryToAdd4);
 
             // Act
-            var categories = (await _service.GetCategories(filter: new NameContainsSpecification<Category>("BGetE"), orderBy: new OrderBySpecification<Category>(x => x.Name),
-                sort: SortingDirectionSpecification.Ascending));
+            var categories = (await _service.GetCategories(new NameContainsSpecification<Category>("BGetE"), null, 
+                new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Name), 
+                    SortingDirectionSpecification.Ascending)));
 
             // Assert
             Assert.True(categories.First().Name == categoryToAdd2.Name);

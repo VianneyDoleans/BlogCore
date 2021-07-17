@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
 using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 

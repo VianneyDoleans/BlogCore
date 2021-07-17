@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using DbAccess.Data.POCO.Interface;
 
-namespace DbAccess.Specifications.FilterSpecifications
+namespace DbAccess.Specifications.FilterSpecifications.Filters
 {
     public class NameSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasName
     {

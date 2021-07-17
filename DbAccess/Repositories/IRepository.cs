@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
 
 namespace DbAccess.Repositories

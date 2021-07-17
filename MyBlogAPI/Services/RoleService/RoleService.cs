@@ -7,6 +7,7 @@ using DbAccess.Data.POCO;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Role;
 
