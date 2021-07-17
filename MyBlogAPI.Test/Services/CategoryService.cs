@@ -179,7 +179,7 @@ namespace MyBlogAPI.Test.Services
             await _service.AddCategory(categoryToAdd4);
 
             // Act
-            var categories = (await _service.GetCategories(new NameContainsSpecification<Category>("BGetE"), null, 
+            var categories = (await _service.GetCategories(new NameContainsSpecification<Category>("BGetC"), null, 
                 new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Name), 
                     SortingDirectionSpecification.Ascending)));
 

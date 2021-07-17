@@ -36,21 +36,6 @@ namespace DBAccess.Test.Repositories
         }
 
         [Fact]
-        public void AddCategory()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-            var testCategory = new Category() { Name = "testAddCategory" };
-
-            // Act
-            categoryRepository.Add(testCategory);
-            _fixture.UnitOfWork.Save();
-
-            // Assert
-            Assert.True(_fixture.Db.Categories.First(x => x.Name == testCategory.Name) != null);
-        }
-
-        [Fact]
         public async void AddNullCategoryAsync()
         {
             // Arrange
@@ -61,20 +46,6 @@ namespace DBAccess.Test.Repositories
             {
                 await categoryRepository.AddAsync(null);
                 await _fixture.Db.SaveChangesAsync();
-            });
-        }
-
-        [Fact]
-        public void AddNullCategory()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() =>
-            { 
-                categoryRepository.Add(null);
-                _fixture.Db.SaveChanges();
             });
         }
 
@@ -91,20 +62,6 @@ namespace DBAccess.Test.Repositories
             Assert.True(result == await _fixture.Db.Categories.FindAsync(1));
         }
 
-
-        [Fact]
-        public void GetCategory()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-
-            // Act
-            var result = categoryRepository.Get(1);
-
-            // Act & Assert
-            Assert.True(result == _fixture.Db.Categories.Find(1));
-        }
-
         [Fact]
         public async void GetCategoryOutOfRangeAsync()
         {
@@ -116,16 +73,6 @@ namespace DBAccess.Test.Repositories
         }
 
         [Fact]
-        public void GetCategoryOutOfRange()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-
-            // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>( () => categoryRepository.Get(100));
-        }
-
-        [Fact]
         public async void GetAllAsync()
         {
             // Arrange
@@ -133,19 +80,6 @@ namespace DBAccess.Test.Repositories
 
             // Act
             var result = await categoryRepository.GetAllAsync();
-
-            // Assert
-            Assert.True(result.Count() == _fixture.Db.Categories.Count());
-        }
-
-        [Fact]
-        public void GetAll()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-
-            // Act
-            var result = categoryRepository.GetAll();
 
             // Assert
             Assert.True(result.Count() == _fixture.Db.Categories.Count());
@@ -176,30 +110,6 @@ namespace DBAccess.Test.Repositories
         }
 
         [Fact]
-        public void Remove()
-        {
-            // Arrange
-            var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-            var testCategory = new Category()
-            {
-                Name = "Remove"
-            };
-            categoryRepository.Add(testCategory);
-            _fixture.UnitOfWork.Save();
-            var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
-
-            // Act
-            categoryRepository.Remove(testCategory);
-            _fixture.UnitOfWork.Save();
-            
-            // Assert
-            var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
-            Assert.True(nbCategoriesAtBeginning + 1 == nbCategoriesAfterAdded &&
-                        nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
-        }
-
-        [Fact]
         public async void RemoveNullAsync()
         {
             // Arrange
@@ -209,102 +119,35 @@ namespace DBAccess.Test.Repositories
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.RemoveAsync(null));
         }
 
+        // -----------------------------
+
         [Fact]
-        public void RemoveNull()
+        public void AddCategory()
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category() { Name = "testAddCategory" };
 
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => categoryRepository.Remove(null));
-        }
-
-        [Fact]
-        public async void RemoveRangeAsyncNull()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.RemoveRangeAsync(null));
-        }
-
-        [Fact]
-        public void RemoveRangeNull()
-        {
-            // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-
-            // Act & Assert
-            Assert.Throws<ArgumentNullException>(() => categoryRepository.RemoveRange(null));
-        }
-
-        [Fact]
-        public void RemoveRange()
-        {
-            // Arrange
-            var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-            var testCategory = new Category()
-            {
-                Name = "RemoveRange1"
-            };
-            var testCategory2 = new Category()
-            {
-                Name = "RemoveRange2"
-            };
+            // Act
             categoryRepository.Add(testCategory);
-            categoryRepository.Add(testCategory2);
-            _fixture.UnitOfWork.Save();
-            var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
-
-            // Act
-            categoryRepository.RemoveRange(new List<Category>() {testCategory, testCategory2});
-            _fixture.UnitOfWork.Save();
-            
-            // Assert
-            var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
-            Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
-                        nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
-        }
-
-        [Fact]
-        public async void RemoveRangeAsync()
-        {
-            // Arrange
-            var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
-            var testCategory = new Category()
-            {
-                Name = "RemoveRangeAsync1"
-            };
-            var testCategory2 = new Category()
-            {
-                Name = "RemoveRangeAsync2"
-            };
-            await categoryRepository.AddAsync(testCategory);
-            await categoryRepository.AddAsync(testCategory2);
-            _fixture.UnitOfWork.Save();
-            var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
-
-            // Act
-            await categoryRepository.RemoveRangeAsync(new List<Category>() { testCategory, testCategory2 });
             _fixture.UnitOfWork.Save();
 
             // Assert
-            var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
-            Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
-                        nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
+            Assert.True(_fixture.Db.Categories.First(x => x.Name == testCategory.Name) != null);
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public void AddNullCategory()
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.True(_fixture.Db.Categories.Count() == await categoryRepository.CountAllAsync());
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                categoryRepository.Add(null);
+                _fixture.Db.SaveChanges();
+            });
         }
 
         [Fact]
@@ -333,14 +176,29 @@ namespace DBAccess.Test.Repositories
             Assert.True(await categoryRepository.NameAlreadyExists(testCategory.Name));
         }
 
+
         [Fact]
-        public async void NameAlreadyExistsFalse()
+        public async void CountAllAsync()
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.True(!await categoryRepository.NameAlreadyExists("NameAlreadyExistsFalse"));
+            Assert.True(_fixture.Db.Categories.Count() == await categoryRepository.CountAllAsync());
+        }
+
+
+        [Fact]
+        public void GetAll()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act
+            var result = categoryRepository.GetAll();
+
+            // Assert
+            Assert.True(result.Count() == _fixture.Db.Categories.Count());
         }
 
         [Fact]
@@ -488,7 +346,7 @@ namespace DBAccess.Test.Repositories
             _fixture.UnitOfWork.Save();
 
             // Act
-            var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("WithTwoSorts") 
+            var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("WithTwoSorts")
                                                             & new NameContainsSpecification<Category>("Twwoo"), new PagingSpecification(0, 20),
                 new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Posts.Count), SortingDirectionSpecification.Descending) &
                 new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Name), SortingDirectionSpecification.Ascending))).ToList();
@@ -549,7 +407,7 @@ namespace DBAccess.Test.Repositories
                 new NameContainsSpecification<Category>("WithAllArguments"),
                 new PagingSpecification(0, 2),
                 new SortSpecification<Category>(
-                    new OrderBySpecification<Category>(x => x.Name), 
+                    new OrderBySpecification<Category>(x => x.Name),
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
@@ -814,6 +672,151 @@ namespace DBAccess.Test.Repositories
 
             // Assert
             Assert.True(!result.Any());
+        }
+
+        [Fact]
+        public void Remove()
+        {
+            // Arrange
+            var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category()
+            {
+                Name = "Remove"
+            };
+            categoryRepository.Add(testCategory);
+            _fixture.UnitOfWork.Save();
+            var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
+
+            // Act
+            categoryRepository.Remove(testCategory);
+            _fixture.UnitOfWork.Save();
+
+            // Assert
+            var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
+            Assert.True(nbCategoriesAtBeginning + 1 == nbCategoriesAfterAdded &&
+                        nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
+        }
+
+        [Fact]
+        public void GetCategory()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act
+            var result = categoryRepository.Get(1);
+
+            // Act & Assert
+            Assert.True(result == _fixture.Db.Categories.Find(1));
+        }
+
+        [Fact]
+        public void GetCategoryOutOfRange()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.Throws<IndexOutOfRangeException>(() => categoryRepository.Get(100));
+        }
+
+        [Fact]
+        public void RemoveNull()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => categoryRepository.Remove(null));
+        }
+
+        [Fact]
+        public async void RemoveRangeAsyncNull()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.RemoveRangeAsync(null));
+        }
+
+        [Fact]
+        public void RemoveRangeNull()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.Throws<ArgumentNullException>(() => categoryRepository.RemoveRange(null));
+        }
+
+        [Fact]
+        public void RemoveRange()
+        {
+            // Arrange
+            var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category()
+            {
+                Name = "RemoveRange1"
+            };
+            var testCategory2 = new Category()
+            {
+                Name = "RemoveRange2"
+            };
+            categoryRepository.Add(testCategory);
+            categoryRepository.Add(testCategory2);
+            _fixture.UnitOfWork.Save();
+            var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
+
+            // Act
+            categoryRepository.RemoveRange(new List<Category>() { testCategory, testCategory2 });
+            _fixture.UnitOfWork.Save();
+
+            // Assert
+            var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
+            Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
+                        nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
+        }
+
+        [Fact]
+        public async void RemoveRangeAsync()
+        {
+            // Arrange
+            var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var testCategory = new Category()
+            {
+                Name = "RemoveRangeAsync1"
+            };
+            var testCategory2 = new Category()
+            {
+                Name = "RemoveRangeAsync2"
+            };
+            await categoryRepository.AddAsync(testCategory);
+            await categoryRepository.AddAsync(testCategory2);
+            _fixture.UnitOfWork.Save();
+            var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
+
+            // Act
+            await categoryRepository.RemoveRangeAsync(new List<Category>() { testCategory, testCategory2 });
+            _fixture.UnitOfWork.Save();
+
+            // Assert
+            var nbCategoriesAfterRemoved = _fixture.Db.Categories.Count();
+            Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
+                        nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsFalse()
+        {
+            // Arrange
+            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.True(!await categoryRepository.NameAlreadyExists("NameAlreadyExistsFalse"));
         }
     }
 }
