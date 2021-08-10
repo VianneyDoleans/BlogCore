@@ -10,7 +10,7 @@ namespace DbAccess.Data.POCO
         Post = 1,
     }
 
-    public class Like : IPoco, IHasCreationDate
+    public class Like : IPoco, IHasCreationDate, IHasComment, IHasPost, IHasUser
     {
 
         [Key]

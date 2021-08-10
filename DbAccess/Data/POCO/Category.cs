@@ -5,7 +5,7 @@ using DbAccess.Data.POCO.Interface;
 
 namespace DbAccess.Data.POCO
 {
-    public class Category : IPoco, IHasName
+    public class Category : IPoco, IHasName, IHasPosts
     {
         [Key]
         public int Id { get; set; }

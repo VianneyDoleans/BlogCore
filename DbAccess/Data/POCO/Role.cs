@@ -6,7 +6,7 @@ using DbAccess.Data.POCO.JoiningEntity;
 
 namespace DbAccess.Data.POCO
 {
-    public class Role : IPoco, IHasName
+    public class Role : IPoco, IHasName, IHasUserRoles
     {
         [Key]
         public int Id { get; set; }

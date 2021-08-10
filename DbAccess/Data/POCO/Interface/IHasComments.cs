@@ -2,8 +2,8 @@
 
 namespace DbAccess.Data.POCO.Interface
 {
-    public interface IHasPosts
+    public interface IHasComments
     {
-        public ICollection<Post> Posts { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }
