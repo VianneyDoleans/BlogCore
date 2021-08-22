@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
 using Xunit;
@@ -332,15 +330,15 @@ namespace DBAccess.Test.Repositories
 
             var user = await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "TwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpec" });
-            var post = await _fixture.Db.Posts.AddAsync(
+            await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = testCategory, Content = "new post", Name = "TwoSortsAndTwoSpec1" });
-            var post2 = await _fixture.Db.Posts.AddAsync(
+            await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = testCategory, Content = "new post", Name = "TwoSortsAndTwoSpec2" });
-            var post3 = await _fixture.Db.Posts.AddAsync(
+            await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = testCategory3, Content = "new post", Name = "TwoSortsAndTwoSpec3" });
-            var post4 = await _fixture.Db.Posts.AddAsync(
+            await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = testCategory3, Content = "new post", Name = "TwoSortsAndTwoSpec4" });
-            var post5 = await _fixture.Db.Posts.AddAsync(
+            await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = testCategory4, Content = "new post", Name = "TwoSortsAndTwoSpec5" });
 
             _fixture.UnitOfWork.Save();

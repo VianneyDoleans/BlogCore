@@ -316,19 +316,19 @@ namespace DBAccess.Test.Repositories
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "TwoSortsAndTwoSpecCo" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "CommentTwoSortsAndTwoSpec", Content = "TwoSortsAndTwoSpecComment", Category = category.Entity });
-            var comment = await _fixture.Db.Comments.AddAsync(
+            await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "TwwooGetAsyncWithTwoSortsComment" });
-            var comment2 = await _fixture.Db.Comments.AddAsync(
+            await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user2.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts2Comment" });
-            var comment3 = await _fixture.Db.Comments.AddAsync(
+            await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts3TwwooComment" });
             var comment4 = await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user2.Entity, PostParent = post.Entity, Content = "AGetTwwooAsyncWithTwoSorts4Comment" });
-            var comment5 = await _fixture.Db.Comments.AddAsync(
+            await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user2.Entity, PostParent = post.Entity, Content = "GetAsyncTwwooWithTwoSorts5Comment" });
-            var comment6 = await _fixture.Db.Comments.AddAsync(
+            await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts6Comment" });
-            var comment7 = await _fixture.Db.Comments.AddAsync(
+            await _fixture.Db.Comments.AddAsync(
                 new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "TwwooGetAsyncWithTwoorts7Comment" });
             _fixture.UnitOfWork.Save();
 

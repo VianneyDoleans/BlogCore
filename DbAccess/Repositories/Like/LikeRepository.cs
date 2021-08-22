@@ -105,6 +105,8 @@ namespace DbAccess.Repositories.Like
 
         public async Task<bool> LikeAlreadyExists(Data.POCO.Like like)
         {
+            if (like == null)
+                return false;
             var result = await Context.Set<Data.POCO.Like>().FirstOrDefaultAsync(x => x.User == like.User && 
                 x.Comment == like.Comment &&
                 x.LikeableType == like.LikeableType &&

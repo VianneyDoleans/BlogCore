@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DbAccess.Data.POCO;
+using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
+using DbAccess.Specifications.SortSpecification;
 using Xunit;
 
 namespace DBAccess.Test.Repositories
@@ -161,10 +164,8 @@ namespace DBAccess.Test.Repositories
             // Arrange
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetASpecBasicCo@email.com", Password = "1234", Username = "GetASpecBasicCo" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetASpecBasicCo" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "GetASpecBasicCo", Content = "GetASpecBasicCo", Category = category.Entity });
+               new User() { EmailAddress = "GetASpecBasicPost@email.com", Password = "1234", Username = "GetASpecBasicPost" });
+            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetASpecBasicPost" });
             _fixture.Db.Users.Add(user.Entity);
             _fixture.Db.SaveChanges();
             var testPost = new Post()
@@ -214,48 +215,48 @@ namespace DBAccess.Test.Repositories
             // Arrange
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecPst@email.com", Password = "1234", Username = "GetAWiTwoSpecPst" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAWiTwoSpecPst" });
+               new User() { EmailAddress = "GetAWiTwoSpecPost@email.com", Password = "1234", Username = "GetAWiTwoSpecPost" });
+            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAWiTwoSpecPost" });
             _fixture.Db.SaveChanges();
             var testPost = new Post()
             {
                 Author = user.Entity,
-                Name = "GetAWiTwoSpecPst",
+                Name = "GetAWiTwoSpecPost",
                 Category = category.Entity,
                 Content = "PostGetAsyncABSpecification"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                Name = "GetAWiTwoSpecPst2",
+                Name = "GetAWiTwoSpecPost2",
                 Category = category.Entity,
                 Content = "PostGetAsyncAUSpecification2"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                Name = "GetAWiTwoSpecPst3",
+                Name = "GetAWiTwoSpecPost3",
                 Category = category.Entity,
                 Content = "PostGetAsyncAKSpecification3"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                Name = "GetAWiTwoSpecPst4",
+                Name = "GetAWiTwoSpecPost4",
                 Category = category.Entity,
                 Content = "PostGetAsyncAKSpecification3164"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                Name = "GetAWiTwoSpecPst5",
+                Name = "GetAWiTwoSpecPost5",
                 Category = category.Entity,
                 Content = "PostGetAsyncAKSpecification32"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                Name = "GetAWiTwoSpecPst6",
+                Name = "GetAWiTwoSpecPost6",
                 Category = category.Entity,
                 Content = "PostGetAsyncAWSpecification6"
             };
@@ -273,7 +274,7 @@ namespace DBAccess.Test.Repositories
             // Assert
             Assert.True(result.Count() == 1 && result.First().Content == testPost4.Content);
         }
-
+        
         [Fact]
         public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
@@ -285,22 +286,20 @@ namespace DBAccess.Test.Repositories
             var user2 = await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "PostAnotherTwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpecPst2" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "TwoSortsAndTwoSpecPst" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "PostTwoSortsAndTwoSpec", Content = "TwoSortsAndTwoSpecPost", Category = category.Entity });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, PostParent = post.Entity, Content = "TwwooGetAsyncWithTwoSortsPost" });
-            var post2 = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user2.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts2Post" });
-            var post3 = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts3TwwooPost" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Name = "TwwooGetAsyncWithTwoSortsPost", Category = category.Entity, Content = "TwwooGetAsyncWithTwoSortsPost" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user2.Entity, Name = "GetAsyncWithTwoSorts2Post", Category = category.Entity, Content = "GetAsyncWithTwoSorts2Post" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Name = "GetAsyncWithTwoSorts3TwwooPost", Category = category.Entity, Content = "GetAsyncWithTwoSorts3TwwooPost" });
             var post4 = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user2.Entity, PostParent = post.Entity, Content = "AGetTwwooAsyncWithTwoSorts4Post" });
-            var post5 = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user2.Entity, PostParent = post.Entity, Content = "GetAsyncTwwooWithTwoSorts5Post" });
-            var post6 = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts6Post" });
-            var post7 = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, PostParent = post.Entity, Content = "TwwooGetAsyncWithTwoorts7Post" });
+                new Post() { Author = user2.Entity, Name = "AGetTwwooAsyncWithTwoSorts4Post", Category = category.Entity, Content = "AGetTwwooAsyncWithTwoSorts4Post" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user2.Entity, Name = "GetAsyncTwwooWithTwoSorts5Post", Category = category.Entity, Content = "GetAsyncTwwooWithTwoSorts5Post" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Name = "GetAsyncWithTwoSorts6Post", Category = category.Entity, Content = "GetAsyncWithTwoSorts6Post" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Name = "TGetAsyncWithTwoorts7Post", Category = category.Entity, Content = "TwwooGetAsyncWithTwoorts7Post" });
             _fixture.UnitOfWork.Save();
 
             // Act
@@ -329,44 +328,42 @@ namespace DBAccess.Test.Repositories
             // Arrange
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "PostGetAsyncWithAllArguments@email.com", Password = "1234", Username = "ComGetAWithAllArgs" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithAllArgs" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWithAllArgs", Content = "ComGetAWithAllArgs", Category = category.Entity });
+                new User() { EmailAddress = "PostGetAsyncWithAllArguments@email.com", Password = "1234", Username = "PostGetAWithAllArgs" });
+            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "PostGetAWithAllArgs" });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncABSpecificationWithAllArguments", Category = category.Entity,
                 Content = "PostGetAsyncABSpecificationWithAllArguments"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncAUSpecification2WithAllArguments", Category = category.Entity,
                 Content = "PostGetAsyncAUSpecification2WithAllArguments"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncAKSpecification3WithAllArguments", Category = category.Entity,
                 Content = "PostGetAsyncAKSpecification3WithAllArguments"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncAKSpecification3WithAllArguments163", Category = category.Entity,
                 Content = "PostGetAsyncAKSpecification3WithAllArguments163"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncAKSpecification3WithAllArguments2", Category = category.Entity,
                 Content = "PostGetAsyncAKSpecification3WithAllArguments2"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncAWSpecification4WithAllArguments", Category = category.Entity,
                 Content = "PostGetAsyncAWSpecification4WithAllArguments"
             };
             await postRepository.AddAsync(testPost);
@@ -395,44 +392,44 @@ namespace DBAccess.Test.Repositories
             // Arrange
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "PostGetAsyncWithPagination@email.com", Password = "1234", Username = "GetAsyncWithPagination" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAsyncWithPagination" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "GetAsyncWithPagination", Content = "GetAsyncWithPagination", Category = category.Entity });
+                new User() { EmailAddress = "PostGetAsyncWithPagination@email.com", Password = "1234", Username = "PostGetAsyncWithPagination" });
+            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "PostGetAsyncWithPagination" });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Name = "PostGetAsyncWithPagination", Content = "PostGetAsyncWithPagination", Category = category.Entity });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "Post1GetAsyncWithPagination1", Category = category.Entity,
                 Content = "Post1GetAsyncWithPagination1"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "Post1GetAsyncWithPagination2", Category = category.Entity,
                 Content = "Post1GetAsyncWithPagination2"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "Post1GetAsyncWithPagination3", Category = category.Entity,
                 Content = "Post1GetAsyncWithPagination3"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "Post1GetAsyncWithPagination4", Category = category.Entity,
                 Content = "Post1GetAsyncWithPagination4"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "Post1GetAsyncWithPagination5", Category = category.Entity,
                 Content = "Post1GetAsyncWithPagination5"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "Post1GetAsyncWithPagination6", Category = category.Entity,
                 Content = "Post1GetAsyncWithPagination6"
             };
             await postRepository.AddAsync(testPost);
@@ -466,44 +463,42 @@ namespace DBAccess.Test.Repositories
             // Arrange
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CoGetAWithPagTaOfRg@email.com", Password = "1234", Username = "CoGetAWithPagTaOfRg" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "CoGetAWithPagTaOfRg" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "CoGetAWithPagTaOfRg", Content = "CoGetAWithPagTaOfRg", Category = category.Entity });
+                new User() { EmailAddress = "PostGetAWithPagTaOfRg@email.com", Password = "1234", Username = "PostGetAWithPagTaOfRg" });
+            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "PostGetAWithPagTaOfRg" });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeOutOfRange1", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeOutOfRange1"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeOutOfRange2", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeOutOfRange2"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeOutOfRange3", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeOutOfRange3"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeOutOfRange4", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeOutOfRange4"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeOutOfRange5", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeOutOfRange5"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeOutOfRange6", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeOutOfRange6"
             };
             await postRepository.AddAsync(testPost);
@@ -540,43 +535,41 @@ namespace DBAccess.Test.Repositories
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "PostGetAsyncWithPaginationTakeNegative@email.com", Password = "1234", Username = "ComGetAWithPagTakeNega" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithAllArgs" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWithAllArgs", Content = "ComGetAWithAllArgs", Category = category.Entity });
+            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "PostGetAWithAllArgs" });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeNegative1", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeNegative1"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeNegative2", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeNegative2"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeNegative3", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeNegative3"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeNegative4", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeNegative4"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeNegative5", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeNegative5"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationTakeNegative6", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationTakeNegative6"
             };
             await postRepository.AddAsync(testPost);
@@ -606,42 +599,42 @@ namespace DBAccess.Test.Repositories
             var user = await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "PostGetAsyncWithPaginationSkipNegative@email.com", Password = "1234", Username = "ComGetAWithPagSkipNega" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithPagSkipNega" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWithPagSkipNega", Content = "ComGetAWithPagSkipNega", Category = category.Entity });
+            await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Name = "PostGetAWithPagSkipNega", Content = "PostGetAWithPagSkipNega", Category = category.Entity });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipNegative", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipNegative"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipNegative2", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipNegative2"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipNegative3", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipNegative3"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipNegative4", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipNegative4"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipSkipNegative5", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipSkipNegative5"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipSkipNegative6", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipSkipNegative6"
             };
             await postRepository.AddAsync(testPost);
@@ -677,42 +670,40 @@ namespace DBAccess.Test.Repositories
             var user = await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "PostGetAsyncWithPaginationSkipOutOfRange@email.com", Password = "1234", Username = "ComGetAWiPagSkipOfRa" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWiPagSkipOfRa" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWiPagSkipOfRa", Content = "ComGetAWiPagSkipOfRa", Category = category.Entity });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipOutOfRange", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipOutOfRange"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipOutOfRange2", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipOutOfRange2"
             };
             var testPost3 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipOutOfRange3", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipOutOfRange3"
             };
             var testPost5 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipOutOfRange4", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipOutOfRange4"
             };
             var testPost6 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipOutOfRange5", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipOutOfRange5"
             };
             var testPost4 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostGetAsyncWithPaginationSkipOutOfRange6", Category = category.Entity,
                 Content = "PostGetAsyncWithPaginationSkipOutOfRange6"
             };
             await postRepository.AddAsync(testPost);
@@ -743,12 +734,10 @@ namespace DBAccess.Test.Repositories
             var user = _fixture.Db.Users.Add(
                 new User() { EmailAddress = "PostRemove@email.com", Password = "1234", Username = "PostRemove" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "CPostGetRemove" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "PostRemove", Content = "CommenRemove", Category = category.Entity });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "RemovePost", Category = category.Entity,
                 Content = "Remove"
             };
             postRepository.Add(testPost);
@@ -827,18 +816,16 @@ namespace DBAccess.Test.Repositories
             var category = _fixture.Db.Categories.Add(new Category() { Name = "PostRemoveRange" });
             var user = _fixture.Db.Users.Add(
                 new User() { EmailAddress = "PostRemoveRange@email.com", Password = "1234", Username = "PostGetRemoveRg" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "PostRemoveRange", Content = "PostRemoveRange", Category = category.Entity });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostRemoveRange1", Category = category.Entity,
                 Content = "PostRemoveRange1"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostRemoveRange2", Category = category.Entity,
                 Content = "PostRemoveRange2"
             };
             postRepository.Add(testPost);
@@ -864,19 +851,17 @@ namespace DBAccess.Test.Repositories
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
             var category = _fixture.Db.Categories.Add(new Category() { Name = "PostRemoveRange" });
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "ComRemoveRangeAsync@email.com", Password = "1234", Username = "ComRemoveRgAsync" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "ComRemoveRgAsync", Content = "ComRemoveRgAsync", Category = category.Entity });
+                new User() { EmailAddress = "PostRemoveRangeAsync@email.com", Password = "1234", Username = "PostRemoveRgAsync" });
             var testPost = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostRemoveRangeAsync1", Category = category.Entity,
                 Content = "PostRemoveRangeAsync1"
             };
             var testPost2 = new Post()
             {
                 Author = user.Entity,
-                PostParent = post.Entity,
+                Name = "PostRemoveRangeAsync2", Category = category.Entity,
                 Content = "PostRemoveRangeAsync2"
             };
             await postRepository.AddAsync(testPost);
@@ -892,6 +877,48 @@ namespace DBAccess.Test.Repositories
             var nbCategoriesAfterRemoved = _fixture.Db.Posts.Count();
             Assert.True(nbCategoriesAtBeginning + 2 == nbCategoriesAfterAdded &&
                         nbCategoriesAfterRemoved == nbCategoriesAtBeginning);
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsFalse()
+        {
+            // Arrange
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.True(!await postRepository.NameAlreadyExists("NameAlreadyExistsFalse"));
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsNull()
+        {
+            // Arrange
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+
+            // Act & Assert
+            Assert.True(!await postRepository.NameAlreadyExists(null));
+        }
+
+        [Fact]
+        public async void NameAlreadyExistsTrue()
+        {
+            // Arrange
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "NameAlreadyExistsTrue" });
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "NameAlreadyExistsTrue@email.com", Password = "1234", Username = "NameAlreadyExistsTrue" });
+            var testPost = new Post()
+            {
+                Author = user.Entity,
+                Name = "NameAlreadyExistsTrue",
+                Category = category.Entity,
+                Content = "NameAlreadyExistsTrue"
+            };
+            await postRepository.AddAsync(testPost);
+            await _fixture.Db.SaveChangesAsync();
+
+            // Act & Assert
+            Assert.True(await postRepository.NameAlreadyExists(testPost.Name));
         }
     }
 }

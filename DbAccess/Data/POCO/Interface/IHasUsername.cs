@@ -1,7 +1,7 @@
 ﻿
 namespace DbAccess.Data.POCO.Interface
 {
-    interface IHasUsername
+    public interface IHasUsername
     {
         public string Username { get; set; }
     }
