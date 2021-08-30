@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using DbAccess.Specifications;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Category;
+using MyBlogAPI.Filters.Comment;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 
@@ -28,16 +28,16 @@ namespace MyBlogAPI.Controllers
             return Ok(await _commentService.GetAllComments());
         }
 
-        /*[HttpGet()]
-        public async Task<IActionResult> Get(string sortingDirection = "ASC", int pageNumber = 1, int pageSize = 10,
-            string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
+        [HttpGet()]
+        public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int pageNumber = 1, 
+            int pageSize = 10, string authorUsername = null, string postParentName = null, string content = null)
         {
             var validFilter = new PaginationFilter(pageNumber, pageSize);
 
-            return Ok(await _commentService.GetComments(new CategoryQueryFilter(name, minimumPostNumber, maximumPostNumber).GetFilterSpecification(),
+            return Ok(await _commentService.GetComments(new CommentQueryFilter(authorUsername, postParentName, content).GetFilterSpecification(),
                 new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
-                new SortCategoryFilter(sortingDirection).GetSorting()));
-        }*/
+                new SortCommentFilter(sortingDirection, orderBy).GetSorting()));
+        }
 
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)

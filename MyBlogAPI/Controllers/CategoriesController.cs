@@ -29,7 +29,7 @@ namespace MyBlogAPI.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> Get(string sortingDirection = "ASC", int pageNumber = 1, int pageSize = 10, 
+        public async Task<IActionResult> GetCategories(string sortingDirection = "ASC", int pageNumber = 1, int pageSize = 10, 
             string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
         {
             var validFilter = new PaginationFilter(pageNumber, pageSize);

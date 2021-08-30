@@ -7,15 +7,13 @@ namespace MyBlogAPI.Filters.Comment
     {
         private readonly string _authorUsername;
         private readonly string _postParentName;
-        private readonly int? _minimumPostNumber;
-        private readonly int? _maximumPostNumber;
+        private readonly string _content;
 
-        public CommentQueryFilter(string authorUsername, string postParentName, int? minimumPostNumber, int? maximumPostNumber)
+        public CommentQueryFilter(string authorUsername, string postParentName, string content)
         {
             _authorUsername = authorUsername;
             _postParentName = postParentName;
-            _minimumPostNumber = minimumPostNumber;
-            _maximumPostNumber = maximumPostNumber;
+            _content = content;
         }
 
         public FilterSpecification<DbAccess.Data.POCO.Comment> GetFilterSpecification()
@@ -29,13 +27,12 @@ namespace MyBlogAPI.Filters.Comment
                     ? new PostParentNameContains<DbAccess.Data.POCO.Comment>(_postParentName)
                     : filter & new PostParentNameContains<DbAccess.Data.POCO.Comment>(_postParentName);
             }
-
-            /*if (_maximumPostNumber != null)
+            if (!string.IsNullOrEmpty(_content))
             {
                 filter = filter == null
-                    ? new MaximumPostNumberSpecification<DbAccess.Data.POCO.Category>(_maximumPostNumber.Value)
-                    : filter & new MaximumPostNumberSpecification<DbAccess.Data.POCO.Category>(_maximumPostNumber.Value);
-            }*/
+                    ? new ContentContainsSpecification<DbAccess.Data.POCO.Comment>(_content)
+                    : filter & new PostParentNameContains<DbAccess.Data.POCO.Comment>(_content);
+            }
 
             return filter;
         }
