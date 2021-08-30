@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Category;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 
@@ -19,13 +22,24 @@ namespace MyBlogAPI.Controllers
             _likeService = likeService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _commentService.GetAllComments());
         }
 
-        [HttpGet("{id}")]
+        /*[HttpGet()]
+        public async Task<IActionResult> Get(string sortingDirection = "ASC", int pageNumber = 1, int pageSize = 10,
+            string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
+        {
+            var validFilter = new PaginationFilter(pageNumber, pageSize);
+
+            return Ok(await _commentService.GetComments(new CategoryQueryFilter(name, minimumPostNumber, maximumPostNumber).GetFilterSpecification(),
+                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new SortCategoryFilter(sortingDirection).GetSorting()));
+        }*/
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _commentService.GetComment(id));
@@ -46,7 +60,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             if (await _commentService.GetComment(id) == null)
@@ -55,7 +69,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}/Likes/")]
+        [HttpGet("{id:int}/Likes/")]
         public async Task<IActionResult> GetLikesFromComment(int id)
         {
             return Ok(await _likeService.GetLikesFromComment(id));
