@@ -60,7 +60,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (await _categoryService.GetCategory(id) == null)

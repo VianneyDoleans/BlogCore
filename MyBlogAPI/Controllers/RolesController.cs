@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Role;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Role;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
@@ -19,19 +22,30 @@ namespace MyBlogAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll()
         {
             return Ok(await _roleService.GetAllRoles());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet()]
+        public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int pageNumber = 1,
+            int pageSize = 10)
+        {
+            var validFilter = new PaginationFilter(pageNumber, pageSize);
+
+            return Ok(await _roleService.GetRoles(null,
+                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new SortRoleFilter(sortingDirection).GetSorting()));
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _roleService.GetRole(id));
         }
 
-        [HttpGet("{id}/Users/")]
+        [HttpGet("{id:int}/Users/")]
         public async Task<IActionResult> GetUsersFromRole(int id)
         {
             return Ok(await _userService.GetUsersFromRole(id));
@@ -52,7 +66,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteRole(int id)
         {
             if (await _roleService.GetRole(id) == null)

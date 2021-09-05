@@ -29,5 +29,8 @@ namespace DbAccess.Data.POCO
 
         [ForeignKey("CommentId")]
         public ICollection<Like> Likes { get; set; }
+
+        [ForeignKey("CommentId")]
+        public ICollection<Comment> ChildrenComment { get; set; }
     }
 }
