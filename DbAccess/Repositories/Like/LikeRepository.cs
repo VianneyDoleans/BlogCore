@@ -20,16 +20,7 @@ namespace DbAccess.Repositories.Like
             PagingSpecification pagingSpecification = null,
             SortSpecification<Data.POCO.Like> sortSpecification = null)
         {
-            IQueryable<Data.POCO.Like> query = Context.Set<Data.POCO.Like>();
-            if (filterSpecification != null)
-                query = query.Where(filterSpecification);
-
-            if (sortSpecification != null)
-                query = SortQuery(sortSpecification, query);
-
-            if (pagingSpecification != null)
-                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
-
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.User)
                 .Include(x => x.Comment)
                 .Include(x => x.Post).ToListAsync();

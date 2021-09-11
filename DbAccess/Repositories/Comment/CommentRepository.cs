@@ -20,16 +20,7 @@ namespace DbAccess.Repositories.Comment
             PagingSpecification pagingSpecification = null,
             SortSpecification<Data.POCO.Comment> sortSpecification = null)
         {
-            IQueryable<Data.POCO.Comment> query = Context.Set<Data.POCO.Comment>();
-            if (filterSpecification != null)
-                query = query.Where(filterSpecification);
-
-            if (sortSpecification != null)
-                query = SortQuery(sortSpecification, query);
-
-            if (pagingSpecification != null)
-                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
-
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.PostParent)
                 .Include(x => x.Author).ToListAsync();
         }

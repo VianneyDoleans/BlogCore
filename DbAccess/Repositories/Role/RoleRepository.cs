@@ -20,16 +20,7 @@ namespace DbAccess.Repositories.Role
             PagingSpecification pagingSpecification = null,
             SortSpecification<Data.POCO.Role> sortSpecification = null)
         {
-            IQueryable<Data.POCO.Role> query = Context.Set<Data.POCO.Role>();
-            if (filterSpecification != null)
-                query = query.Where(filterSpecification);
-
-            if (sortSpecification != null)
-                query = SortQuery(sortSpecification, query);
-
-            if (pagingSpecification != null)
-                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
-
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.UserRoles).ToListAsync();
         }
 

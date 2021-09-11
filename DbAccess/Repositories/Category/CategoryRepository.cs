@@ -20,16 +20,7 @@ namespace DbAccess.Repositories.Category
             PagingSpecification pagingSpecification = null,
             SortSpecification<Data.POCO.Category> sortSpecification = null)
         {
-            IQueryable<Data.POCO.Category> query = Context.Set<Data.POCO.Category>();
-            if (filterSpecification != null)
-                query = query.Where(filterSpecification);
-
-            if (sortSpecification != null)
-                query = SortQuery(sortSpecification, query);
-
-            if (pagingSpecification != null)
-                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
-
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.Posts).ToListAsync();
         }
 
