@@ -38,7 +38,7 @@ namespace DbAccess.DataContext
             modelBuilder.Entity<Post>().HasOne(s => s.Author).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Comment>().HasOne(s => s.Author).WithMany(s => s.Comments).IsRequired().OnDelete(DeleteBehavior.NoAction);
             
-            modelBuilder.Entity<Comment>().HasOne(s => s.CommentParent).WithMany(s => s.ChildrenComment).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Comment>().HasOne(s => s.CommentParent).WithMany(s => s.ChildrenComments).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

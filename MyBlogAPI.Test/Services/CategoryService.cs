@@ -3,7 +3,6 @@ using System.Linq;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
-using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Category;

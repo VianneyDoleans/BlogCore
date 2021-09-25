@@ -20,7 +20,7 @@ namespace MyBlogAPI.Controllers
             _likeService = likeService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _likeService.GetAllLikes());

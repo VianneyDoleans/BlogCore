@@ -1,5 +1,4 @@
-﻿
-namespace MyBlogAPI.DTO.Comment
+﻿namespace MyBlogAPI.DTO.Comment
 {
     public interface ICommentDto
     {

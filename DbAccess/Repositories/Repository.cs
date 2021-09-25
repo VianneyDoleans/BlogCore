@@ -20,6 +20,22 @@ namespace DbAccess.Repositories
             Context = context;
         }
 
+        protected IQueryable<TEntity> GenerateQuery(FilterSpecification<TEntity> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<TEntity> sortSpecification = null)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+            if (filterSpecification != null)
+                query = query.Where(filterSpecification);
+
+            if (sortSpecification != null)
+                query = SortQuery(sortSpecification, query);
+
+            if (pagingSpecification != null)
+                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
+            return query;
+        }
+
         public virtual async Task<TEntity> GetAsync(int id)
         {
             var result = await Context.Set<TEntity>().FindAsync(id);

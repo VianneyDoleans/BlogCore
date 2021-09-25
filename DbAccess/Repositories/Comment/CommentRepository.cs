@@ -22,6 +22,7 @@ namespace DbAccess.Repositories.Comment
         {
             var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.PostParent)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToListAsync();
         }
 
@@ -31,6 +32,7 @@ namespace DbAccess.Repositories.Comment
             {
                 return await Context.Set<Data.POCO.Comment>()
                     .Include(x => x.PostParent)
+                    .Include(x => x.ChildrenComments)
                     .Include(x => x.Author).SingleAsync(x => x.Id == id);
             }
             catch
@@ -45,6 +47,7 @@ namespace DbAccess.Repositories.Comment
             {
                 return Context.Set<Data.POCO.Comment>()
                     .Include(x => x.PostParent)
+                    .Include(x => x.ChildrenComments)
                     .Include(x => x.Author).Single(x => x.Id == id);
             }
             catch
@@ -57,6 +60,7 @@ namespace DbAccess.Repositories.Comment
         {
             return Context.Set<Data.POCO.Comment>()
                 .Include(x => x.PostParent)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToList();
         }
 
@@ -64,6 +68,7 @@ namespace DbAccess.Repositories.Comment
         {
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.PostParent)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToListAsync();
         }
 
@@ -71,6 +76,7 @@ namespace DbAccess.Repositories.Comment
         {
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.Author)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.PostParent).Where(x => x.PostParent.Id == id).ToListAsync();
         }
 
@@ -78,6 +84,7 @@ namespace DbAccess.Repositories.Comment
         {
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.Author)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.PostParent).Where(x => x.Author.Id == id).ToListAsync();
         }
     }

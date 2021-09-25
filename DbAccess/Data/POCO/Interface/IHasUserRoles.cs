@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using DbAccess.Data.POCO.JoiningEntity;
 
 namespace DbAccess.Data.POCO.Interface

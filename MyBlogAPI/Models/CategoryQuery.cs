@@ -1,9 +1,4 @@
-﻿using DbAccess.Data.POCO;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-
-namespace MyBlogAPI.Models
+﻿namespace MyBlogAPI.Models
 {
     public class CategoryQuery
     {

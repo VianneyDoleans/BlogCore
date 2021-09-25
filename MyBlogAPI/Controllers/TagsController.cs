@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using DbAccess.Specifications;
 using MyBlogAPI.DTO.Tag;
 using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Role;
 using MyBlogAPI.Filters.Tag;
 using MyBlogAPI.Services.PostService;
 using MyBlogAPI.Services.TagService;
@@ -23,7 +22,7 @@ namespace MyBlogAPI.Controllers
             _postService = postService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _tagService.GetAllTags());

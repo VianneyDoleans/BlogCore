@@ -4,7 +4,6 @@ using DbAccess.Specifications;
 using Microsoft.AspNetCore.Mvc;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Post;
 using MyBlogAPI.Filters.User;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;

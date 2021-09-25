@@ -6,7 +6,7 @@ using DbAccess.Data.POCO.Interface;
 
 namespace DbAccess.Data.POCO
 {
-    public class Comment : IPoco, IHasAuthor, IHasCreationDate, IHasModificationDate, IHasContent, IHasCommentParent, IHasPostParent, IHasLikes
+    public class Comment : IPoco, IHasAuthor, IHasCreationDate, IHasModificationDate, IHasContent, IHasCommentParent, IHasPostParent, IHasLikes, IHasChildrenComments
     {
         [Key]
         public int Id { get; set; }
@@ -31,6 +31,6 @@ namespace DbAccess.Data.POCO
         public ICollection<Like> Likes { get; set; }
 
         [ForeignKey("CommentId")]
-        public ICollection<Comment> ChildrenComment { get; set; }
+        public ICollection<Comment> ChildrenComments { get; set; }
     }
 }

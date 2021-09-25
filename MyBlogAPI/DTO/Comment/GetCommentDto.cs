@@ -18,5 +18,7 @@ namespace MyBlogAPI.DTO.Comment
         public string Content { get; set; }
 
         public IEnumerable<int> Likes { get; set; }
+
+        public IEnumerable<int> ChildrenComments { get; set; }
     }
 }
