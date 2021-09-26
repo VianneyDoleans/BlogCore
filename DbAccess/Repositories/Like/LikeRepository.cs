@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.Like
@@ -11,6 +14,16 @@ namespace DbAccess.Repositories.Like
     {
         public LikeRepository(MyBlogContext context) : base(context)
         {
+        }
+
+        public override async Task<IEnumerable<Data.POCO.Like>> GetAsync(FilterSpecification<Data.POCO.Like> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.Like> sortSpecification = null)
+        {
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.Include(x => x.User)
+                .Include(x => x.Comment)
+                .Include(x => x.Post).ToListAsync();
         }
 
         public override async Task<Data.POCO.Like> GetAsync(int id)
@@ -47,16 +60,14 @@ namespace DbAccess.Repositories.Like
         {
             return Context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
-                .Include(x => x.Post)
-                .ToList();
+                .Include(x => x.Post).ToList();
         }
 
         public override async Task<IEnumerable<Data.POCO.Like>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
-                .Include(x => x.Post)
-                .ToListAsync();
+                .Include(x => x.Post).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromPost(int id)
@@ -85,6 +96,8 @@ namespace DbAccess.Repositories.Like
 
         public async Task<bool> LikeAlreadyExists(Data.POCO.Like like)
         {
+            if (like == null)
+                return false;
             var result = await Context.Set<Data.POCO.Like>().FirstOrDefaultAsync(x => x.User == like.User && 
                 x.Comment == like.Comment &&
                 x.LikeableType == like.LikeableType &&

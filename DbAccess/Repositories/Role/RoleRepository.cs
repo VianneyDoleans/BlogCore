@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.Role
@@ -11,6 +14,14 @@ namespace DbAccess.Repositories.Role
     {
         public RoleRepository(MyBlogContext context) : base(context)
         {
+        }
+
+        public override async Task<IEnumerable<Data.POCO.Role>> GetAsync(FilterSpecification<Data.POCO.Role> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.Role> sortSpecification = null)
+        {
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.Include(x => x.UserRoles).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)

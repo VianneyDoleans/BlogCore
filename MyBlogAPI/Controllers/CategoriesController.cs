@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Category;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Category;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.PostService;
 
@@ -19,13 +22,24 @@ namespace MyBlogAPI.Controllers
             _postService = postService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        [HttpGet("All")]
+        public async Task<IActionResult> GetAll()
         {
             return Ok(await _categoryService.GetAllCategories());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet()]
+        public async Task<IActionResult> GetCategories(string sortingDirection = "ASC", int pageNumber = 1, int pageSize = 10, 
+            string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
+        {
+            var validFilter = new PaginationFilter(pageNumber, pageSize);
+
+            return Ok(await _categoryService.GetCategories(new CategoryQueryFilter(name, minimumPostNumber, maximumPostNumber).GetFilterSpecification(),
+                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new SortCategoryFilter(sortingDirection).GetSorting()));
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _categoryService.GetCategory(id));
@@ -46,7 +60,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (await _categoryService.GetCategory(id) == null)
@@ -55,7 +69,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}/Posts")]
+        [HttpGet("{id:int}/Posts")]
         public async Task<IActionResult> GetPostFromCategory(int id)
         {
             return Ok(await _postService.GetPostsFromCategory(id));

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.User
@@ -11,6 +14,14 @@ namespace DbAccess.Repositories.User
     {
         public UserRepository(MyBlogContext context) : base(context)
         {
+        }
+
+        public override async Task<IEnumerable<Data.POCO.User>> GetAsync(FilterSpecification<Data.POCO.User> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.User> sortSpecification = null)
+        {
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.Include(x => x.UserRoles).ToListAsync();
         }
 
         public override async Task<Data.POCO.User> GetAsync(int id)
@@ -56,10 +67,9 @@ namespace DbAccess.Repositories.User
         {
             var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)
-                .Where(x => x.RoleId == id).ToList();
-                var users = userRole
-                .Select(y => y.User)
-                .ToList();
+                .Where(x => x.RoleId == id);
+                var users = await userRole
+                .Select(y => y.User).ToListAsync();
                 return users;
         }
 

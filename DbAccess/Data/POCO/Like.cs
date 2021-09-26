@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DbAccess.Data.POCO.Interface;
 
 namespace DbAccess.Data.POCO
 {
@@ -9,7 +10,7 @@ namespace DbAccess.Data.POCO
         Post = 1,
     }
 
-    public class Like
+    public class Like : IPoco, IHasCreationDate, IHasComment, IHasPost, IHasUser
     {
 
         [Key]

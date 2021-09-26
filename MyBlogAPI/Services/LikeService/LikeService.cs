@@ -9,6 +9,9 @@ using DbAccess.Repositories.Like;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Like;
 
 namespace MyBlogAPI.Services.LikeService
@@ -36,6 +39,13 @@ namespace MyBlogAPI.Services.LikeService
         public async Task<IEnumerable<GetLikeDto>> GetAllLikes()
         {
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetLikeDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetLikeDto>> GetLikes(FilterSpecification<Like> filter = null, 
+            PagingSpecification paging = null,
+            SortSpecification<Like> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetLikeDto>(x));
         }
 
         public async Task<GetLikeDto> GetLike(int id)

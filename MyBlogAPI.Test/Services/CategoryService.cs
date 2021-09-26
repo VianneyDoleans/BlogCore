@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Linq;
 using AutoMapper;
+using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
+using DbAccess.Specifications.FilterSpecifications.Filters;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Category;
 using MyBlogAPI.Services.CategoryService;
 using Xunit;
@@ -147,6 +150,40 @@ namespace MyBlogAPI.Test.Services
             // Assert
             Assert.Contains(categories, x => x.Name == categoryToAdd.Name);
             Assert.Contains(categories, x => x.Name == categoryToAdd2.Name);
+        }
+
+        [Fact]
+        public async void GetCategories()
+        {
+            // Arrange
+            var categoryToAdd = new AddCategoryDto()
+            {
+                Name = "ZGetCategories1"
+            };
+            var categoryToAdd2 = new AddCategoryDto()
+            {
+                Name = "BGetCategories"
+            };
+            var categoryToAdd3 = new AddCategoryDto()
+            {
+                Name = "BGetACategories"
+            };
+            var categoryToAdd4 = new AddCategoryDto()
+            {
+                Name = "EGetCategories"
+            };
+            await _service.AddCategory(categoryToAdd);
+            await _service.AddCategory(categoryToAdd2);
+            await _service.AddCategory(categoryToAdd3);
+            await _service.AddCategory(categoryToAdd4);
+
+            // Act
+            var categories = (await _service.GetCategories(new NameContainsSpecification<Category>("BGetC"), null, 
+                new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Name), 
+                    SortingDirectionSpecification.Ascending)));
+
+            // Assert
+            Assert.True(categories.First().Name == categoryToAdd2.Name);
         }
 
         [Fact]

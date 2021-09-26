@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Tag;
 
 namespace MyBlogAPI.Services.TagService
@@ -7,6 +11,10 @@ namespace MyBlogAPI.Services.TagService
     public interface ITagService
     {
         Task<IEnumerable<GetTagDto>> GetAllTags();
+
+        public Task<IEnumerable<GetTagDto>> GetTags(FilterSpecification<Tag> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Tag> sortSpecification = null);
 
         Task<GetTagDto> GetTag(int id);
 

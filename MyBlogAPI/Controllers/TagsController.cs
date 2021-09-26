@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Tag;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Tag;
 using MyBlogAPI.Services.PostService;
 using MyBlogAPI.Services.TagService;
 
@@ -19,19 +22,30 @@ namespace MyBlogAPI.Controllers
             _postService = postService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _tagService.GetAllTags());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet()]
+        public async Task<IActionResult> GetTags(string sortingDirection = "ASC", int pageNumber = 1,
+            int pageSize = 10, string name = null)
+        {
+            var validFilter = new PaginationFilter(pageNumber, pageSize);
+
+            return Ok(await _tagService.GetTags(new TagQueryFilter(name).GetFilterSpecification(),
+                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new SortTagFilter(sortingDirection).GetSorting()));
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _tagService.GetTag(id));
         }
 
-        [HttpGet("{id}/Posts/")]
+        [HttpGet("{id:int}/Posts/")]
         public async Task<IActionResult> GetPostsFromTag(int id)
         {
             return Ok(await _postService.GetPostsFromTag(id));
@@ -52,7 +66,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             if (await _tagService.GetTag(id) == null)

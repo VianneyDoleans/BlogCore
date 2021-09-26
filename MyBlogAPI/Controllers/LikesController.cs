@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Like;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Like;
 using MyBlogAPI.Services.LikeService;
 
 namespace MyBlogAPI.Controllers
@@ -16,13 +20,24 @@ namespace MyBlogAPI.Controllers
             _likeService = likeService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _likeService.GetAllLikes());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet()]
+        public async Task<IActionResult> GetLikes(string sortingDirection = "ASC", int pageNumber = 1,
+            int pageSize = 10, LikeableType? likeableType = null)
+        {
+            var validFilter = new PaginationFilter(pageNumber, pageSize);
+
+            return Ok(await _likeService.GetLikes(new LikeQueryFilter(likeableType).GetFilterSpecification(),
+                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new SortLikeFilter(sortingDirection).GetSorting()));
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _likeService.GetLike(id));
@@ -43,7 +58,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteLike(int id)
         {
             if (await _likeService.GetLike(id) == null)

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.Comment
@@ -13,12 +16,23 @@ namespace DbAccess.Repositories.Comment
         {
         }
 
+        public override async Task<IEnumerable<Data.POCO.Comment>> GetAsync(FilterSpecification<Data.POCO.Comment> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.Comment> sortSpecification = null)
+        {
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.Include(x => x.PostParent)
+                .Include(x => x.ChildrenComments)
+                .Include(x => x.Author).ToListAsync();
+        }
+
         public override async Task<Data.POCO.Comment> GetAsync(int id)
         {
             try
             {
                 return await Context.Set<Data.POCO.Comment>()
                     .Include(x => x.PostParent)
+                    .Include(x => x.ChildrenComments)
                     .Include(x => x.Author).SingleAsync(x => x.Id == id);
             }
             catch
@@ -33,6 +47,7 @@ namespace DbAccess.Repositories.Comment
             {
                 return Context.Set<Data.POCO.Comment>()
                     .Include(x => x.PostParent)
+                    .Include(x => x.ChildrenComments)
                     .Include(x => x.Author).Single(x => x.Id == id);
             }
             catch
@@ -45,6 +60,7 @@ namespace DbAccess.Repositories.Comment
         {
             return Context.Set<Data.POCO.Comment>()
                 .Include(x => x.PostParent)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToList();
         }
 
@@ -52,14 +68,15 @@ namespace DbAccess.Repositories.Comment
         {
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.PostParent)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromPost(int id)
         {
-
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.Author)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.PostParent).Where(x => x.PostParent.Id == id).ToListAsync();
         }
 
@@ -67,8 +84,8 @@ namespace DbAccess.Repositories.Comment
         {
             return await Context.Set<Data.POCO.Comment>()
                 .Include(x => x.Author)
+                .Include(x => x.ChildrenComments)
                 .Include(x => x.PostParent).Where(x => x.Author.Id == id).ToListAsync();
-
         }
     }
 }

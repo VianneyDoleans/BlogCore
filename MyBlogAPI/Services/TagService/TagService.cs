@@ -6,6 +6,9 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Tag;
 
 namespace MyBlogAPI.Services.TagService
@@ -27,6 +30,12 @@ namespace MyBlogAPI.Services.TagService
         public async Task<IEnumerable<GetTagDto>> GetAllTags()
         {
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<Tag, GetTagDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetTagDto>> GetTags(FilterSpecification<Tag> filter = null, PagingSpecification paging = null,
+            SortSpecification<Tag> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetTagDto>(x));
         }
 
         public async Task<GetTagDto> GetTag(int id)

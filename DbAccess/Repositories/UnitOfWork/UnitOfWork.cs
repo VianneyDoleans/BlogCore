@@ -1,13 +1,10 @@
 ﻿using DbAccess.DataContext;
-using DbAccess.Repositories.User;
 
 namespace DbAccess.Repositories.UnitOfWork
 {
     public class UnitOfWork : IUnitOfWork
     {
         private readonly MyBlogContext _context;
-
-        public IUserRepository Users { get; }
 
         public void Dispose()
         {
@@ -22,7 +19,6 @@ namespace DbAccess.Repositories.UnitOfWork
         public UnitOfWork(MyBlogContext context)
         {
             _context = context;
-            Users = new UserRepository(context);
         }
     }
 }

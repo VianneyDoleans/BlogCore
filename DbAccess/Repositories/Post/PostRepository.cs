@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.Post
@@ -11,6 +14,16 @@ namespace DbAccess.Repositories.Post
     {
         public PostRepository(MyBlogContext context) : base(context)
         {
+        }
+
+        public override async Task<IEnumerable<Data.POCO.Post>> GetAsync(FilterSpecification<Data.POCO.Post> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.Post> sortSpecification = null)
+        {
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.Include(x => x.Author)
+                .Include(x => x.PostTags)
+                .Include(x => x.Category).ToListAsync();
         }
 
         public override async Task<Data.POCO.Post> GetAsync(int id)
@@ -48,8 +61,7 @@ namespace DbAccess.Repositories.Post
             return Context.Set<Data.POCO.Post>()
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .ToList();
+                .Include(x => x.Category).ToList();
         }
 
         public override async Task<IEnumerable<Data.POCO.Post>> GetAllAsync()
@@ -57,26 +69,23 @@ namespace DbAccess.Repositories.Post
             return await Context.Set<Data.POCO.Post>()
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
-                .Include(x => x.Category)
-                .ToListAsync();
+                .Include(x => x.Category).ToListAsync();
         }
 
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromUser(int id)
         {
-            var posts = await Context.Set<Data.POCO.Post>().Include(x => x.PostTags)
+            return await Context.Set<Data.POCO.Post>().Include(x => x.PostTags)
                 .Include(x => x.Category)
                 .Include(x => x.Author)
                 .Where(x => x.Author.Id == id).ToListAsync();
-            return posts;
         }
 
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromTag(int id)
         {
-            var posts = Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
+            return await Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
                 .Include(x => x.Post.Category)
                 .Include(x => x.Tag)
                 .Where(x => x.TagId == id).Select(x => x.Post).ToListAsync();
-            return await posts;
         }
 
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromCategory(int id)
@@ -85,8 +94,7 @@ namespace DbAccess.Repositories.Post
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category)
-                .Where(x => x.Category.Id == id)
-                .ToListAsync();
+                .Where(x => x.Category.Id == id).ToListAsync();
         }
 
         public async Task<bool> NameAlreadyExists(string name)

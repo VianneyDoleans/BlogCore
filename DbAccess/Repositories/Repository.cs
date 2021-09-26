@@ -4,6 +4,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories
@@ -17,6 +20,22 @@ namespace DbAccess.Repositories
             Context = context;
         }
 
+        protected IQueryable<TEntity> GenerateQuery(FilterSpecification<TEntity> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<TEntity> sortSpecification = null)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+            if (filterSpecification != null)
+                query = query.Where(filterSpecification);
+
+            if (sortSpecification != null)
+                query = SortQuery(sortSpecification, query);
+
+            if (pagingSpecification != null)
+                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
+            return query;
+        }
+
         public virtual async Task<TEntity> GetAsync(int id)
         {
             var result = await Context.Set<TEntity>().FindAsync(id);
@@ -25,19 +44,69 @@ namespace DbAccess.Repositories
             return result;
         }
 
-        public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
-        }
-
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await Context.Set<TEntity>().ToListAsync();
         }
 
-        public virtual async Task<IEnumerable<TEntity>> FindAsync(Expression<Func<TEntity, bool>> predicate)
+        private static Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> SortOrderBy(Sort<TEntity> sortElement,
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> sort)
         {
-            return await Context.Set<TEntity>().Where(predicate).ToListAsync();
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> result = null;
+
+            if (sortElement.OrderBy != null &&
+                sortElement.SortingDirection == SortingDirectionSpecification.Ascending)
+                result = items => sort(items).ThenBy(sortElement.OrderBy.Order);
+
+            if (sortElement.OrderBy != null &&
+                sortElement.SortingDirection == SortingDirectionSpecification.Descending)
+                result = items => sort(items).ThenByDescending(sortElement.OrderBy.Order);
+            return result;
+        }
+
+        private static Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> SortThenBy(Sort<TEntity> sortElement)
+        {
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> result = null;
+
+            if (sortElement.OrderBy != null &&
+                sortElement.SortingDirection == SortingDirectionSpecification.Ascending)
+                result = items => items.OrderBy(sortElement.OrderBy.Order);
+
+            if (sortElement.OrderBy != null &&
+                sortElement.SortingDirection == SortingDirectionSpecification.Descending)
+                result = items => items.OrderByDescending(sortElement.OrderBy.Order);
+            return result;
+        }
+
+        protected static IQueryable<TEntity> SortQuery(SortSpecification<TEntity> sortSpecification, IQueryable<TEntity> query)
+        {
+            Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> sort = null;
+
+            foreach (var sortElement in sortSpecification.SortElements)
+            {
+                sort = sort != null ? SortOrderBy(sortElement, sort) : SortThenBy(sortElement);
+            }
+
+            if (sort != null)
+                query = sort(query);
+            return query;
+        }
+
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(FilterSpecification<TEntity> filterSpecification = null, 
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<TEntity> sortSpecification = null)
+        {
+            IQueryable<TEntity> query = Context.Set<TEntity>();
+            if (filterSpecification != null)
+                query = query.Where(filterSpecification);
+
+            if (sortSpecification != null)
+                query = SortQuery(sortSpecification, query);
+
+            if (pagingSpecification != null)
+                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
+
+            return await query.ToListAsync();
         }
 
         public virtual async Task<TEntity> AddAsync(TEntity entity)
@@ -45,14 +114,16 @@ namespace DbAccess.Repositories
             return (await Context.Set<TEntity>().AddAsync(entity)).Entity;
         }
 
-        public virtual async Task RemoveAsync(TEntity entity)
+        public virtual Task RemoveAsync(TEntity entity)
         {
             Context.Set<TEntity>().Remove(entity);
+            return Task.CompletedTask;
         }
 
-        public virtual async Task RemoveRangeAsync(IEnumerable<TEntity> entities)
+        public virtual Task RemoveRangeAsync(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
+            return Task.CompletedTask;
         }
 
         public Task<int> CountWhereAsync(Expression<Func<TEntity, bool>> predicate)
@@ -73,19 +144,9 @@ namespace DbAccess.Repositories
             return result;
         }
 
-        public IEnumerable<TEntity> GetWhere(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Context.Set<TEntity>().Where(predicate).ToList();
-        }
-
         public virtual IEnumerable<TEntity> GetAll()
         {
             return Context.Set<TEntity>().ToList();
-        }
-
-        public IEnumerable<TEntity> Find(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Context.Set<TEntity>().Where(predicate).ToList();
         }
 
         public virtual TEntity Add(TEntity entity)

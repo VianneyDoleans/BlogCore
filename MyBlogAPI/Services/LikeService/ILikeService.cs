@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Like;
 
 namespace MyBlogAPI.Services.LikeService
@@ -7,6 +11,10 @@ namespace MyBlogAPI.Services.LikeService
     public interface ILikeService
     {
         Task<IEnumerable<GetLikeDto>> GetAllLikes();
+
+        public Task<IEnumerable<GetLikeDto>> GetLikes(FilterSpecification<Like> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Like> sortSpecification = null);
 
         Task<GetLikeDto> GetLike(int id);
 

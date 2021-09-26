@@ -6,7 +6,6 @@ namespace MyBlogAPI.DTO.Category
     {
         public string Name { get; set; }
 
-        //[MapTo(nameof(DbAccess.Data.POCO.Post.Id))]
         public virtual IEnumerable<int> Posts { get; set; }
     }
 }

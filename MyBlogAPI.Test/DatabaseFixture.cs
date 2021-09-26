@@ -16,7 +16,7 @@ namespace MyBlogAPI.Test
     {
         public MyBlogContext Db { get; private set; }
         public IUnitOfWork UnitOfWork { get; private set; }
-        public AutoMapperProfile MapperProfile { get; private set; }
+        public AutoMapperTestProfile MapperProfile { get; private set; }
 
         public DatabaseFixture()
         {
@@ -24,7 +24,7 @@ namespace MyBlogAPI.Test
                 TestBootstrapper.GetInMemoryDbContextOptions());
             DbInitializer.Seed(Db);
             UnitOfWork = new UnitOfWork(Db);
-            MapperProfile = new AutoMapperProfile(new LikeRepository(Db), new UserRepository(Db), new CategoryRepository(Db),
+            MapperProfile = new AutoMapperTestProfile(new LikeRepository(Db), new UserRepository(Db), new CategoryRepository(Db),
                 new CommentRepository(Db), new RoleRepository(Db), new PostRepository(Db), new TagRepository(Db));
         }
 

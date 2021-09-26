@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Comment;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 
@@ -19,13 +22,24 @@ namespace MyBlogAPI.Controllers
             _likeService = likeService;
         }
 
-        [HttpGet]
+        [HttpGet("All")]
         public async Task<IActionResult> Get()
         {
             return Ok(await _commentService.GetAllComments());
         }
 
-        [HttpGet("{id}")]
+        [HttpGet()]
+        public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int pageNumber = 1, 
+            int pageSize = 10, string authorUsername = null, string postParentName = null, string content = null)
+        {
+            var validFilter = new PaginationFilter(pageNumber, pageSize);
+
+            return Ok(await _commentService.GetComments(new CommentQueryFilter(authorUsername, postParentName, content).GetFilterSpecification(),
+                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new SortCommentFilter(sortingDirection, orderBy).GetSorting()));
+        }
+
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _commentService.GetComment(id));
@@ -46,7 +60,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             if (await _commentService.GetComment(id) == null)
@@ -55,7 +69,7 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}/Likes/")]
+        [HttpGet("{id:int}/Likes/")]
         public async Task<IActionResult> GetLikesFromComment(int id)
         {
             return Ok(await _likeService.GetLikesFromComment(id));

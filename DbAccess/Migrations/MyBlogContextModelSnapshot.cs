@@ -3,6 +3,8 @@ using System;
 using DbAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace DbAccess.Migrations
 {
@@ -13,46 +15,16 @@ namespace DbAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.2");
+                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("DbAccess.Data.JoiningEntity.PostTag", b =>
-                {
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TagId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PostId", "TagId");
-
-                    b.HasIndex("TagId");
-
-                    b.ToTable("PostTags");
-                });
-
-            modelBuilder.Entity("DbAccess.Data.JoiningEntity.UserRole", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RoleId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("UserRoles");
-                });
-
-            modelBuilder.Entity("DbAccess.Data.Models.Category", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -64,14 +36,14 @@ namespace DbAccess.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Comment", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Comment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CommentParentId")
+                    b.Property<int?>("CommentId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
@@ -94,7 +66,7 @@ namespace DbAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CommentParentId");
+                    b.HasIndex("CommentId");
 
                     b.HasIndex("PostId");
 
@@ -103,12 +75,42 @@ namespace DbAccess.Migrations
                     b.ToTable("Comments");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Like", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.JoiningEntity.PostTag", b =>
+                {
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PostId", "TagId");
+
+                    b.HasIndex("TagId");
+
+                    b.ToTable("PostTags");
+                });
+
+            modelBuilder.Entity("DbAccess.Data.POCO.JoiningEntity.UserRole", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("DbAccess.Data.POCO.Like", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("CommentId")
                         .HasColumnType("int");
@@ -138,12 +140,12 @@ namespace DbAccess.Migrations
                     b.ToTable("Likes");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Post", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Post", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
@@ -177,12 +179,12 @@ namespace DbAccess.Migrations
                     b.ToTable("Posts");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Role", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Role", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -194,12 +196,12 @@ namespace DbAccess.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Tag", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -211,12 +213,12 @@ namespace DbAccess.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.User", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("EmailAddress")
                         .IsRequired()
@@ -243,65 +245,28 @@ namespace DbAccess.Migrations
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(12)
-                        .HasColumnType("nvarchar(12)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.JoiningEntity.PostTag", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Comment", b =>
                 {
-                    b.HasOne("DbAccess.Data.Models.Post", "Post")
-                        .WithMany("PostTags")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DbAccess.Data.POCO.Comment", "CommentParent")
+                        .WithMany("ChildrenComments")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.NoAction);
 
-                    b.HasOne("DbAccess.Data.Models.Tag", "Tag")
-                        .WithMany("PostTags")
-                        .HasForeignKey("TagId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
-
-                    b.Navigation("Tag");
-                });
-
-            modelBuilder.Entity("DbAccess.Data.JoiningEntity.UserRole", b =>
-                {
-                    b.HasOne("DbAccess.Data.Models.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DbAccess.Data.Models.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("DbAccess.Data.Models.Comment", b =>
-                {
-                    b.HasOne("DbAccess.Data.Models.Comment", "CommentParent")
-                        .WithMany()
-                        .HasForeignKey("CommentParentId");
-
-                    b.HasOne("DbAccess.Data.Models.Post", "PostParent")
+                    b.HasOne("DbAccess.Data.POCO.Post", "PostParent")
                         .WithMany("Comments")
                         .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DbAccess.Data.Models.User", "Author")
+                    b.HasOne("DbAccess.Data.POCO.User", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -314,17 +279,55 @@ namespace DbAccess.Migrations
                     b.Navigation("PostParent");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Like", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.JoiningEntity.PostTag", b =>
                 {
-                    b.HasOne("DbAccess.Data.Models.Comment", "Comment")
+                    b.HasOne("DbAccess.Data.POCO.Post", "Post")
+                        .WithMany("PostTags")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DbAccess.Data.POCO.Tag", "Tag")
+                        .WithMany("PostTags")
+                        .HasForeignKey("TagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Post");
+
+                    b.Navigation("Tag");
+                });
+
+            modelBuilder.Entity("DbAccess.Data.POCO.JoiningEntity.UserRole", b =>
+                {
+                    b.HasOne("DbAccess.Data.POCO.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DbAccess.Data.POCO.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("DbAccess.Data.POCO.Like", b =>
+                {
+                    b.HasOne("DbAccess.Data.POCO.Comment", "Comment")
                         .WithMany("Likes")
                         .HasForeignKey("CommentId");
 
-                    b.HasOne("DbAccess.Data.Models.Post", "Post")
+                    b.HasOne("DbAccess.Data.POCO.Post", "Post")
                         .WithMany("Likes")
                         .HasForeignKey("PostId");
 
-                    b.HasOne("DbAccess.Data.Models.User", "User")
+                    b.HasOne("DbAccess.Data.POCO.User", "User")
                         .WithMany("Likes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -337,15 +340,15 @@ namespace DbAccess.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Post", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Post", b =>
                 {
-                    b.HasOne("DbAccess.Data.Models.Category", "Category")
+                    b.HasOne("DbAccess.Data.POCO.Category", "Category")
                         .WithMany("Posts")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("DbAccess.Data.Models.User", "Author")
+                    b.HasOne("DbAccess.Data.POCO.User", "Author")
                         .WithMany("Posts")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.NoAction)
@@ -356,17 +359,19 @@ namespace DbAccess.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Category", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Category", b =>
                 {
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Comment", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Comment", b =>
                 {
+                    b.Navigation("ChildrenComments");
+
                     b.Navigation("Likes");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Post", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Post", b =>
                 {
                     b.Navigation("Comments");
 
@@ -375,17 +380,17 @@ namespace DbAccess.Migrations
                     b.Navigation("PostTags");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Role", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Role", b =>
                 {
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.Tag", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.Tag", b =>
                 {
                     b.Navigation("PostTags");
                 });
 
-            modelBuilder.Entity("DbAccess.Data.Models.User", b =>
+            modelBuilder.Entity("DbAccess.Data.POCO.User", b =>
                 {
                     b.Navigation("Comments");
 
