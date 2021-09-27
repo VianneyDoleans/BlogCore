@@ -11,6 +11,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories
 {
+    /// <summary>
+    /// Implementation of <see cref="IRepository{TEntity}"/> interface.
+    /// It implements the available generics methods necessary to manipulate the Resources from the database (CRUD and more).
+    /// It also defines some protected methods needed for Repositories class which inherited from <see cref="Repository{TEntity}"/>.
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         protected readonly MyBlogContext Context;
@@ -20,6 +26,15 @@ namespace DbAccess.Repositories
             Context = context;
         }
 
+        /// <summary>
+        /// Method used to generate <see cref="IQueryable{TEntity}"/> for a resource with Specifications.
+        /// This methods is used inside <see cref="GetAsync(FilterSpecification{TEntity}, PagingSpecification, SortSpecification{TEntity}"/> implementations.
+        /// Since this code is always the same for all the repositories, it was realized inside this class and made as protected.
+        /// </summary>
+        /// <param name="filterSpecification"></param>
+        /// <param name="pagingSpecification"></param>
+        /// <param name="sortSpecification"></param>
+        /// <returns></returns>
         protected IQueryable<TEntity> GenerateQuery(FilterSpecification<TEntity> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
             SortSpecification<TEntity> sortSpecification = null)
@@ -40,7 +55,7 @@ namespace DbAccess.Repositories
         {
             var result = await Context.Set<TEntity>().FindAsync(id);
             if (result == null)
-                throw new IndexOutOfRangeException("Element doesn't exists.");
+                throw new IndexOutOfRangeException("Element doesn't exist.");
             return result;
         }
 
@@ -96,16 +111,8 @@ namespace DbAccess.Repositories
             PagingSpecification pagingSpecification = null,
             SortSpecification<TEntity> sortSpecification = null)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
-            if (filterSpecification != null)
-                query = query.Where(filterSpecification);
 
-            if (sortSpecification != null)
-                query = SortQuery(sortSpecification, query);
-
-            if (pagingSpecification != null)
-                query = query.Skip(pagingSpecification.Skip).Take(pagingSpecification.Take);
-
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.ToListAsync();
         }
 

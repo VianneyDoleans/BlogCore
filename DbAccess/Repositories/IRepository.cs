@@ -8,6 +8,10 @@ using DbAccess.Specifications.SortSpecification;
 
 namespace DbAccess.Repositories
 {
+    /// <summary>
+    /// Interface of all Repositories. It defines the available generics methods necessary to manipulate the Resources from the database (CRUD and more).
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public interface IRepository<TEntity> where TEntity : class
     {
         Task<TEntity> GetAsync(int id);

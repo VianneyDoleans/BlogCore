@@ -37,13 +37,13 @@ namespace MyBlogAPI.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetUsers(string sortingDirection = "ASC", string orderBy = null, int pageNumber = 1,
-            int pageSize = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
+        public async Task<IActionResult> GetUsers(string sortingDirection = "ASC", string orderBy = null, int offset = 1,
+            int limit = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
         {
-            var validFilter = new PaginationFilter(pageNumber, pageSize);
+            var validFilter = new PaginationFilter(offset, limit);
 
             return Ok(await _userService.GetUsers(new UserQueryFilter(name, lastLoginBefore, registerBefore).GetFilterSpecification(),
-                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new PagingSpecification((validFilter.Offset - 1) * validFilter.Limit, validFilter.Limit),
                 new SortUserFilter(sortingDirection, orderBy).GetSorting()));
         }
 

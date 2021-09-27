@@ -4,12 +4,21 @@ using DbAccess.Specifications.FilterSpecifications.Filters;
 
 namespace MyBlogAPI.Filters.User
 {
+    /// <summary>
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.User"/>.
+    /// </summary>
     public class UserQueryFilter
     {
         private readonly string _username;
         private readonly DateTime? _lastLoginBefore;
         private readonly DateTime? _registerBefore;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserQueryFilter"/> class.
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="lastLoginBefore"></param>
+        /// <param name="registerBefore"></param>
         public UserQueryFilter(string username, DateTime? lastLoginBefore, DateTime? registerBefore)
         {
             _username = username;
@@ -17,6 +26,10 @@ namespace MyBlogAPI.Filters.User
             _registerBefore = registerBefore;
         }
 
+        /// <summary>
+        /// Get filter specification of <see cref="DbAccess.Data.POCO.User"/> based of internal properties defined.
+        /// </summary>
+        /// <returns></returns>
         public FilterSpecification<DbAccess.Data.POCO.User> GetFilterSpecification()
         {
 

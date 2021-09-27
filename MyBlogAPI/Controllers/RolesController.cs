@@ -29,13 +29,13 @@ namespace MyBlogAPI.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int pageNumber = 1,
-            int pageSize = 10)
+        public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int offset = 1,
+            int limit = 10)
         {
-            var validFilter = new PaginationFilter(pageNumber, pageSize);
+            var validFilter = new PaginationFilter(offset, limit);
 
             return Ok(await _roleService.GetRoles(null,
-                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new PagingSpecification((validFilter.Offset - 1) * validFilter.Limit, validFilter.Limit),
                 new SortRoleFilter(sortingDirection).GetSorting()));
         }
 

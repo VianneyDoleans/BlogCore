@@ -2,7 +2,7 @@
 using System;
 using System.Net;
 using Microsoft.AspNetCore.Diagnostics;
-using MyBlogAPI.Errors;
+using MyBlogAPI.Responses;
 
 namespace MyBlogAPI.Controllers
 {

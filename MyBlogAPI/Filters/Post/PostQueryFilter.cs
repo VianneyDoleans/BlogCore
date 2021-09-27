@@ -3,18 +3,30 @@ using DbAccess.Specifications.FilterSpecifications.Filters;
 
 namespace MyBlogAPI.Filters.Post
 {
+    /// <summary>
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Post"/>.
+    /// </summary>
     public class PostQueryFilter
     {
 
         private readonly string _name;
         private readonly string _content;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostQueryFilter"/> class.
+        /// </summary>
+        /// <param name="content"></param>
+        /// <param name="name"></param>
         public PostQueryFilter(string content, string name)
         {
             _content = content;
             _name = name;
         }
 
+        /// <summary>
+        /// Get filter specification of <see cref="DbAccess.Data.POCO.Post"/> based of internal properties defined.
+        /// </summary>
+        /// <returns></returns>
         public FilterSpecification<DbAccess.Data.POCO.Post> GetFilterSpecification()
         {
 

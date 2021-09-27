@@ -1,15 +1,29 @@
 ﻿namespace MyBlogAPI.Filters
 {
+    /// <summary>
+    /// Pagination filter used to execute Query on a resource.
+    /// </summary>
     public class PaginationFilter
     {
-        public int PageNumber { get; }
-        public int PageSize { get; }
+        /// <summary>
+        /// Offset of the query.
+        /// </summary>
+        public int Offset { get; }
 
+        /// <summary>
+        /// Limit of the query.
+        /// </summary>
+        public int Limit { get; }
 
-        public PaginationFilter(int pageNumber, int pageSize)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PaginationFilter"/> class.
+        /// </summary>
+        /// <param name="offset"></param>
+        /// <param name="limit"></param>
+        public PaginationFilter(int offset, int limit)
         {
-            PageNumber = pageNumber < 1 ? 1 : pageNumber;
-            PageSize = pageSize > 10 ? 10 : pageSize;
+            Offset = offset < 1 ? 1 : offset;
+            Limit = limit > 10 ? 10 : limit;
         }
     }
 }

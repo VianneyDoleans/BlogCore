@@ -4,8 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.DataContext
 {
+    /// <summary>
+    /// Context used for the API (Database, Entity Framework). It defined the tables and the relationship between them but also some default values.
+    /// It enables (with also the attributes inside resource classes) to realize a Database code first generation (Entity Framework).
+    /// </summary>
     public class MyBlogContext : DbContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MyBlogContext"/> class.
+        /// </summary>
+        /// <param name="options"></param>
         public MyBlogContext(DbContextOptions<MyBlogContext> options) : base(options) { }
 
         public DbSet<Post> Posts { get; set; }

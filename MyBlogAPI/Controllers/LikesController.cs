@@ -27,13 +27,13 @@ namespace MyBlogAPI.Controllers
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetLikes(string sortingDirection = "ASC", int pageNumber = 1,
-            int pageSize = 10, LikeableType? likeableType = null)
+        public async Task<IActionResult> GetLikes(string sortingDirection = "ASC", int offset = 1,
+            int limit = 10, LikeableType? likeableType = null)
         {
-            var validFilter = new PaginationFilter(pageNumber, pageSize);
+            var validFilter = new PaginationFilter(offset, limit);
 
             return Ok(await _likeService.GetLikes(new LikeQueryFilter(likeableType).GetFilterSpecification(),
-                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
+                new PagingSpecification((validFilter.Offset - 1) * validFilter.Limit, validFilter.Limit),
                 new SortLikeFilter(sortingDirection).GetSorting()));
         }
 

@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MyBlogAPI</name>
+    </assembly>
+    <members>
+        <member name="T:MyBlogAPI.Controllers.CategoriesController">
+            <summary>
+            Controller used to expose Category resources of the API.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.CategoriesController.#ctor(MyBlogAPI.Services.CategoryService.ICategoryService,MyBlogAPI.Services.PostService.IPostService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.CategoriesController"/> class.
+            </summary>
+            <param name="categoryService"></param>
+            <param name="postService"></param>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.CategoriesController.GetAll">
+            <summary>
+            
+            </summary>
+            <remarks></remarks>
+            <returns></returns>
+        </member>
+        <member name="T:MyBlogAPI.Responses.BlogErrorResponse">
+            <summary>
+            Error Response return from API to Client when the request couldn't be execute properly.
+            </summary>
+        </member>
+        <member name="P:MyBlogAPI.Responses.BlogErrorResponse.Type">
+            <summary>
+            Type of the exception raised.
+            </summary>
+        </member>
+        <member name="P:MyBlogAPI.Responses.BlogErrorResponse.Message">
+            <summary>
+            Message intended to the Client about the error description.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Responses.BlogErrorResponse.#ctor(System.Exception)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Responses.BlogErrorResponse"/> class.
+            </summary>
+            <param name="ex"></param>
+        </member>
+        <member name="T:MyBlogAPI.Responses.BlogResponse`1">
+            <summary>
+            Response return from API to Client when the request was executed properly.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Responses.BlogResponse`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Responses.BlogResponse`1"/> class.
+            </summary>
+            <param name="data"></param>
+        </member>
+        <member name="P:MyBlogAPI.Responses.BlogResponse`1.Data">
+            <summary>
+            Data returned to the Client after the execution of its request.
+            </summary>
+        </member>
+        <member name="T:MyBlogAPI.Responses.PagedBlogResponse`1">
+            <summary>
+            Class inherited from <see cref="T:MyBlogAPI.Responses.BlogResponse`1"/>.
+            This class return a response to the request of the Client with pagination information.
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Offset">
+            <summary>
+            Offset of query elements applied.
+            </summary>
+        </member>
+        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Limit">
+            <summary>
+            Limit of item numbers applied from the query requested.
+            </summary>
+        </member>
+        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Total">
+            <summary>
+            Total number of items existing in the query requested.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Responses.PagedBlogResponse`1.#ctor(System.Collections.Generic.IList{`0},System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Responses.PagedBlogResponse`1"/> class.
+            </summary>
+            <param name="data"></param>
+            <param name="offset"></param>
+            <param name="limit"></param>
+            <param name="total"></param>
+        </member>
+    </members>
+</doc>
