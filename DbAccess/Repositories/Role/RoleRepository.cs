@@ -12,10 +12,15 @@ namespace DbAccess.Repositories.Role
 {
     public class RoleRepository : Repository<Data.POCO.Role>, IRoleRepository
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RoleRepository"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public RoleRepository(MyBlogContext context) : base(context)
         {
         }
 
+        /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Role>> GetAsync(FilterSpecification<Data.POCO.Role> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
             SortSpecification<Data.POCO.Role> sortSpecification = null)
@@ -24,12 +29,14 @@ namespace DbAccess.Repositories.Role
             return await query.Include(x => x.UserRoles).ToListAsync();
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
         {
             return await Context.Set<Data.POCO.JoiningEntity.UserRole>()
                 .Where(x => x.UserId == id).Select(x => x.Role).ToListAsync();
         }
 
+        /// <inheritdoc />
         public override async Task<Data.POCO.Role> GetAsync(int id)
         {
             try
@@ -42,6 +49,7 @@ namespace DbAccess.Repositories.Role
             }
         }
 
+        /// <inheritdoc />
         public override Data.POCO.Role Get(int id)
         {
             try
@@ -54,17 +62,20 @@ namespace DbAccess.Repositories.Role
             }
         }
 
+        /// <inheritdoc />
         public override IEnumerable<Data.POCO.Role> GetAll()
         {
             return Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToList();
         }
 
+        /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
             var role = await Context.Set<Data.POCO.Role>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return role != null;
         }
 
+        /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Role>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToListAsync();

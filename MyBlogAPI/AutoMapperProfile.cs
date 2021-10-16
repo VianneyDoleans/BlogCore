@@ -17,8 +17,10 @@ using MyBlogAPI.DTO.User.Converters;
 
 namespace MyBlogAPI
 {
+    /// <inheritdoc />
     public class AutoMapperProfile : Profile
     {
+        /// <inheritdoc />
         public AutoMapperProfile()
         {
             CreateMap<AddCategoryDto, Category>();

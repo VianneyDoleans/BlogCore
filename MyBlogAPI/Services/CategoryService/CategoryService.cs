@@ -38,6 +38,12 @@ namespace MyBlogAPI.Services.CategoryService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCategoryDto>(x));
         }
 
+        /// <inheritdoc />
+        public async Task<int> CountCategoriesWhere(FilterSpecification<Category> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<GetCategoryDto> GetCategory(int id)
         {
             return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));

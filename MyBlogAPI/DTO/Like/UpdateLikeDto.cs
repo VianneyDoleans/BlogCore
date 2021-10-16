@@ -2,6 +2,9 @@
 
 namespace MyBlogAPI.DTO.Like
 {
+    /// <summary>
+    /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Like"/>.
+    /// </summary>
     public class UpdateLikeDto : ADto, ILikeDto
     {
         public LikeableType LikeableType { get; set; }

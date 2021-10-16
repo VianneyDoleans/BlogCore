@@ -45,6 +45,11 @@ namespace MyBlogAPI.Services.CommentService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCommentDto>(x));
         }
 
+        public async Task<int> CountCommentsWhere(FilterSpecification<Comment> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<GetCommentDto> GetComment(int id)
         {
             var comment = await _repository.GetAsync(id);

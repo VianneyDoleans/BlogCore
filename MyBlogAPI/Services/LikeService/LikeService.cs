@@ -48,6 +48,11 @@ namespace MyBlogAPI.Services.LikeService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetLikeDto>(x));
         }
 
+        public async Task<int> CountLikesWhere(FilterSpecification<Like> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<GetLikeDto> GetLike(int id)
         {
             return _mapper.Map<GetLikeDto>(await _repository.GetAsync(id));

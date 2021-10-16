@@ -4,6 +4,19 @@ using System.Linq.Expressions;
 
 namespace DbAccess.Specifications.FilterSpecifications
 {
+    /// <summary>
+    /// Class used to define a query based on DDD patterns.
+    /// The class enables to define multiple rules in order to search resources.
+    /// Each rule have to inherited <see cref="FilterSpecification{T}"/> in order to be usable.
+    /// You can make a long query by using multiple <see cref="FilterSpecification{T}"/> with '&' or '|' operands.
+    /// Operand '&' have the priority on '|' operand in query result.
+    /// You can use '!' to negate a <see cref="FilterSpecification{T}"/>.
+    /// </summary>
+    /// <example>
+    ///  var result = (await categoryRepository.GetAsync(new ContentContainsSpecification<Post>("lifeStyle") & new ContentContainsSpecification<Post>("holiday") & !new ContentContainsSpecification<Post>("rain"))).ToList();
+    /// </example>
+    /// see https://dotnetfalcon.com/using-the-specification-pattern-with-repository-and-unit-of-work/
+    /// <typeparam name="T"></typeparam>
     public abstract class FilterSpecification<T>
     {
         private class ConstructedSpecification<TType> : FilterSpecification<TType>

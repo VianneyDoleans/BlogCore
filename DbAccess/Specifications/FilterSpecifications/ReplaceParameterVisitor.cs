@@ -4,6 +4,10 @@ using System.Linq.Expressions;
 
 namespace DbAccess.Specifications.FilterSpecifications
 {
+    /// <summary>
+    /// This class is a component of <see cref="FilterSpecification{T}"/>
+    /// See https://dotnetfalcon.com/using-the-specification-pattern-with-repository-and-unit-of-work/
+    /// </summary>
     internal class ReplaceParameterVisitor : ExpressionVisitor, IEnumerable<KeyValuePair<ParameterExpression, ParameterExpression>>
     {
         private readonly Dictionary<ParameterExpression, ParameterExpression> _parameterMappings = new Dictionary<ParameterExpression, ParameterExpression>();

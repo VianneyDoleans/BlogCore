@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.LikeService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Like> sortSpecification = null);
 
+        public Task<int> CountLikesWhere(FilterSpecification<Like> filterSpecification = null);
+
         Task<GetLikeDto> GetLike(int id);
 
         Task<GetLikeDto> AddLike(AddLikeDto user);

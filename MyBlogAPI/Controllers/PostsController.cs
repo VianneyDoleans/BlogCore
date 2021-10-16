@@ -4,12 +4,16 @@ using DbAccess.Specifications;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Post;
+using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 using MyBlogAPI.Services.PostService;
 
 namespace MyBlogAPI.Controllers
 {
+    /// <summary>
+    /// Controller used to expose Post resources of the API.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class PostsController : ControllerBase
@@ -18,6 +22,12 @@ namespace MyBlogAPI.Controllers
         private readonly ICommentService _commentService;
         private readonly ILikeService _likeService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PostsController"/> class.
+        /// </summary>
+        /// <param name="postService"></param>
+        /// <param name="commentService"></param>
+        /// <param name="likeService"></param>
         public PostsController(IPostService postService, ICommentService commentService, ILikeService likeService)
         {
             _postService = postService;
@@ -25,35 +35,69 @@ namespace MyBlogAPI.Controllers
             _likeService = likeService;
         }
 
-        [HttpGet("All")]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _postService.GetAllPosts());
-        }
-
+        /// <summary>
+        /// Get list of posts.
+        /// </summary>
+        /// <remarks>
+        /// Get list of posts. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+        /// </remarks>
+        /// <param name="sortingDirection"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="name"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
         [HttpGet()]
-        public async Task<IActionResult> GetPosts(string sortingDirection = "ASC", string orderBy = null, int pageNumber = 1,
-            int pageSize = 10, string name = null, string content = null)
+        public async Task<IActionResult> GetPosts(string sortingDirection = "ASC", string orderBy = null, int page = 1,
+            int size = 10, string name = null, string content = null)
         {
-            var validFilter = new PaginationFilter(pageNumber, pageSize);
+            var validPagination = new PaginationFilter(page, size);
+            var filterSpecification = new PostQueryFilter(content, name).GetFilterSpecification();
+            var data = await _postService.GetPosts(filterSpecification,
+                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new SortPostFilter(sortingDirection, orderBy).GetSorting());
 
-            return Ok(await _postService.GetPosts(new PostQueryFilter(content, name).GetFilterSpecification(),
-                new PagingSpecification((validFilter.PageNumber - 1) * validFilter.PageSize, validFilter.PageSize),
-                new SortPostFilter(sortingDirection, orderBy).GetSorting()));
+            return Ok(new PagedBlogResponse<GetPostDto>(data, validPagination.Offset, validPagination.Limit,
+                await _postService.CountPostsWhere(filterSpecification)));
         }
 
+        /// <summary>
+        /// Get a post by giving its Id.
+        /// </summary>
+        /// <remarks>
+        /// Get a post by giving its Id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _postService.GetPost(id));
         }
 
+        /// <summary>
+        /// Add a post.
+        /// </summary>
+        /// <remarks>
+        /// Add a post.
+        /// </remarks>
+        /// <param name="post"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddPost(AddPostDto post)
         {
             return Ok(await _postService.AddPost(post));
         }
 
+        /// <summary>
+        /// Update a post.
+        /// </summary>
+        /// <remarks>
+        /// Update a post.
+        /// </remarks>
+        /// <param name="post"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdatePost(UpdatePostDto post)
         {
@@ -63,6 +107,14 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Delete a post by giving its id.
+        /// </summary>
+        /// <remarks>
+        /// Delete a post by giving its id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeletePost(int id)
         {
@@ -72,12 +124,28 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Get comments from a post by giving post's id.
+        /// </summary>
+        /// <remarks>
+        /// Get comments from a post by giving post's id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id:int}/Comments/")]
         public async Task<IActionResult> GetCommentsFromPost(int id)
         {
             return Ok(await _commentService.GetCommentsFromPost(id));
         }
 
+        /// <summary>
+        /// Get likes from a post by giving post's id.
+        /// </summary>
+        /// <remarks>
+        /// Get likes from a post by giving post's id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
         public async Task<IActionResult> GetLikesFromPost(int id)
         {

@@ -42,6 +42,11 @@ namespace MyBlogAPI.Services.RoleService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetRoleDto>(x));
         }
 
+        public async Task<int> CountRolesWhere(FilterSpecification<Role> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<GetRoleDto> GetRole(int id)
         {
             var role = await _repository.GetAsync(id);

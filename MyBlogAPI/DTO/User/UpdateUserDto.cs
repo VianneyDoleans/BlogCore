@@ -1,5 +1,8 @@
 ﻿namespace MyBlogAPI.DTO.User
 {
+    /// <summary>
+    /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.User"/>.
+    /// </summary>
     public class UpdateUserDto : ADto, IUserDto
     {
         public string Username { get; set; }

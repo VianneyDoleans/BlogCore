@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.CommentService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Comment> sortSpecification = null);
 
+        public Task<int> CountCommentsWhere(FilterSpecification<Comment> filterSpecification = null);
+
         Task<GetCommentDto> GetComment(int id);
 
         Task<GetCommentDto> AddComment(AddCommentDto comment);

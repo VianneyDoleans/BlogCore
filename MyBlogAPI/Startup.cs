@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using DbAccess.Repositories.Role;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
+using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.CommentService;
@@ -60,9 +62,15 @@ namespace MyBlogAPI
 
             services.RegisterDataServices(Configuration);
             services.AddAutoMapper(typeof(AutoMapperProfile));
-
             services.AddSwaggerGen(c =>
-                c.SwaggerDoc("v1", new OpenApiInfo() {Title = "MyBlog", Version = "v1"}));
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "MyBlog",
+                    Version = "v1"
+                });
+                c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}\MyBlogAPI.xml");
+            });
 
             ConfigureRepositoryServices(services);
             ConfigureServiceServices(services);
@@ -74,11 +82,10 @@ namespace MyBlogAPI
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseExceptionHandler("/error");
-            //app.UseHsts();
-            /*if (env.IsDevelopment())
-            {
+            if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
-            }*/
+            else
+                app.UseHsts();
 
             // Enable middleware to serve generated Swagger as a JSON Endpoint.
             app.UseSwagger();
@@ -87,7 +94,7 @@ namespace MyBlogAPI
             // specifying the Swagger JSON endpoint.    
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Blog API V1");
             });
 
             app.UseHttpsRedirection();

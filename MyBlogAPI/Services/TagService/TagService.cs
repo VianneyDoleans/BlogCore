@@ -38,6 +38,11 @@ namespace MyBlogAPI.Services.TagService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetTagDto>(x));
         }
 
+        public async Task<int> CountTagsWhere(FilterSpecification<Tag> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<GetTagDto> GetTag(int id)
         {
             return _mapper.Map<GetTagDto>(await _repository.GetAsync(id));
