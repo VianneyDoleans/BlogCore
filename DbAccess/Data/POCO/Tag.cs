@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbAccess.Data.POCO.Interface;
 using DbAccess.Data.POCO.JoiningEntity;
 
 namespace DbAccess.Data.POCO
 {
-    public class Tag
+    public class Tag : IPoco, IHasName, IHasPostTag
     {
         [Key]
         public int Id { get; set; }

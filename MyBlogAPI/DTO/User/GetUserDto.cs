@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MyBlogAPI.DTO.User
 {
+    /// <summary>
+    /// GET Dto type of <see cref="DbAccess.Data.POCO.User"/>.
+    /// </summary>
     public class GetUserDto : ADto
     {
         public string Username { get; set; }
@@ -16,11 +19,5 @@ namespace MyBlogAPI.DTO.User
         public string UserDescription { get; set; }
 
         public virtual IEnumerable<int> Roles { get; set; }
-
-        /*public virtual IEnumerable<int> Posts { get; set; }
-
-        public virtual IEnumerable<int> Comments { get; set; }
-
-        public virtual IEnumerable<int> Likes { get; set; }*/
     }
 }

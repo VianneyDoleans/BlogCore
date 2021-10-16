@@ -6,6 +6,9 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.UnitOfWork;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.Services.RoleService
@@ -31,6 +34,17 @@ namespace MyBlogAPI.Services.RoleService
                 roleDto.Users = c.UserRoles.Select(x => x.UserId);
                 return roleDto;
             }).ToList();
+        }
+
+        public async Task<IEnumerable<GetRoleDto>> GetRoles(FilterSpecification<Role> filter = null, PagingSpecification paging = null,
+            SortSpecification<Role> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetRoleDto>(x));
+        }
+
+        public async Task<int> CountRolesWhere(FilterSpecification<Role> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
         }
 
         public async Task<GetRoleDto> GetRole(int id)

@@ -24,9 +24,9 @@ using MyBlogAPI.DTO.User.Converters;
 
 namespace MyBlogAPI.Test
 {
-    public class AutoMapperProfile : Profile
+    public class AutoMapperTestProfile : Profile
     {
-        public AutoMapperProfile(ILikeRepository likeRepository,
+        public AutoMapperTestProfile(ILikeRepository likeRepository,
             IUserRepository userRepository,
             ICategoryRepository categoryRepository,
             ICommentRepository commentRepository,

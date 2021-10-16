@@ -6,6 +6,9 @@ using DbAccess.DataContext;
 
 namespace DbAccess.Data
 {
+    /// <summary>
+    /// Class used to initialize Database if the database is empty (test data).
+    /// </summary>
     public class DbInitializer
     {
         private static void GenerateRoles(MyBlogContext context)
@@ -204,6 +207,12 @@ namespace DbAccess.Data
             context.SaveChanges();
         }
 
+        /// <summary>
+        /// Fill the database with <see cref="MyBlogContext"/> (Entity Framework).
+        /// The methods will fill the database only if no <see cref="DbAccess.Data.POCO.Role"/> exists
+        /// (No existing roles means that the database is still empty / not used).
+        /// </summary>
+        /// <param name="context"></param>
         public static void Seed(MyBlogContext context)
         {
             if (!context.Roles.Any())

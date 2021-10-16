@@ -3,16 +3,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.User
 {
     public class UserRepository : Repository<Data.POCO.User>, IUserRepository
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public UserRepository(MyBlogContext context) : base(context)
         {
         }
 
+        /// <inheritdoc />
+        public override async Task<IEnumerable<Data.POCO.User>> GetAsync(FilterSpecification<Data.POCO.User> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Data.POCO.User> sortSpecification = null)
+        {
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.Include(x => x.UserRoles).ToListAsync();
+        }
+
+        /// <inheritdoc />
         public override async Task<Data.POCO.User> GetAsync(int id)
         {
             try
@@ -25,6 +42,7 @@ namespace DbAccess.Repositories.User
             }
         }
 
+        /// <inheritdoc />
         public override Data.POCO.User Get(int id)
         {
             try
@@ -37,38 +55,43 @@ namespace DbAccess.Repositories.User
             }
         }
 
+        /// <inheritdoc />
         public override IEnumerable<Data.POCO.User> GetAll()
         {
             return Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToList();
         }
 
+        /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.User>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToListAsync();
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.User>> GetUsersById(IEnumerable<int> ids)
         {
-            return await Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id)).ToListAsync();
+            return await Context.Set<Data.POCO.User>().Where(x => ids.Contains(x.Id)).Include(x => x.UserRoles).ToListAsync();
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id)
         {
             var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)
-                .Where(x => x.RoleId == id).ToList();
-                var users = userRole
-                .Select(y => y.User)
-                .ToList();
+                .Where(x => x.RoleId == id);
+                var users = await userRole
+                .Select(y => y.User).ToListAsync();
                 return users;
         }
 
+        /// <inheritdoc />
         public async Task<bool> UsernameAlreadyExists(string username)
         {
             var user = await Context.Set<Data.POCO.User>().Where(x => x.Username == username).FirstOrDefaultAsync();
             return user != null;
         }
 
+        /// <inheritdoc />
         public async Task<bool> EmailAddressAlreadyExists(string emailAddress)
         {
             var user = await Context.Set<Data.POCO.User>().Where(x => x.EmailAddress == emailAddress).FirstOrDefaultAsync();

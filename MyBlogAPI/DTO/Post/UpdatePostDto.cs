@@ -2,6 +2,9 @@
 
 namespace MyBlogAPI.DTO.Post
 {
+    /// <summary>
+    /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Post"/>.
+    /// </summary>
     public class UpdatePostDto : ADto, IPostDto
     {
         public string Content { get; set; }

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace MyBlogAPI.DTO.Post
 {
+    /// <summary>
+    /// GET Dto type of <see cref="DbAccess.Data.POCO.Post"/>.
+    /// </summary>
     public class GetPostDto : ADto, IPostDto
     {
         public string Content { get; set; }
@@ -18,9 +21,5 @@ namespace MyBlogAPI.DTO.Post
         public DateTime? ModifiedAt { get; set; }
 
         public virtual IEnumerable<int> Tags { get; set; }
-
-        /*public virtual IEnumerable<int> Likes { get; set; }
-
-        public virtual IEnumerable<int> Comments { get; set; }*/
     }
 }

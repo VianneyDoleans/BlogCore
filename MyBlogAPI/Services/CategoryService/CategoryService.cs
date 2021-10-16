@@ -6,6 +6,9 @@ using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.UnitOfWork;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Category;
 
 namespace MyBlogAPI.Services.CategoryService
@@ -26,6 +29,19 @@ namespace MyBlogAPI.Services.CategoryService
         public async Task<IEnumerable<GetCategoryDto>> GetAllCategories()
         {
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCategoryDto>(x)).ToList();
+        }
+
+        public async Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filter = null,
+            PagingSpecification paging = null,
+            SortSpecification<Category> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCategoryDto>(x));
+        }
+
+        /// <inheritdoc />
+        public async Task<int> CountCategoriesWhere(FilterSpecification<Category> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
         }
 
         public async Task<GetCategoryDto> GetCategory(int id)

@@ -1,11 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
 using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Comment;
+using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 
 namespace MyBlogAPI.Controllers
 {
+    /// <summary>
+    /// Controller used to expose Comment resources of the API.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class CommentsController : ControllerBase
@@ -13,30 +20,81 @@ namespace MyBlogAPI.Controllers
         private readonly ICommentService _commentService;
         private readonly ILikeService _likeService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentsController"/> class.
+        /// </summary>
+        /// <param name="commentService"></param>
+        /// <param name="likeService"></param>
         public CommentsController(ICommentService commentService, ILikeService likeService)
         {
             _commentService = commentService;
             _likeService = likeService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        /// <summary>
+        /// Get list of comments.
+        /// </summary>
+        /// <remarks>
+        /// Get list of comments. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+        /// </remarks>
+        /// <param name="sortingDirection"></param>
+        /// <param name="orderBy"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="authorUsername"></param>
+        /// <param name="postParentName"></param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        [HttpGet()]
+        public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int page = 1, 
+            int size = 10, string authorUsername = null, string postParentName = null, string content = null)
         {
-            return Ok(await _commentService.GetAllComments());
+            var validPagination = new PaginationFilter(page, size);
+            var filterSpecification = new CommentQueryFilter(authorUsername, postParentName, content).GetFilterSpecification();
+            var data = await _commentService.GetComments(filterSpecification,
+                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new SortCommentFilter(sortingDirection, orderBy).GetSorting());
+
+            return Ok(new PagedBlogResponse<GetCommentDto>(data, validPagination.Offset, validPagination.Limit,
+                await _commentService.CountCommentsWhere(filterSpecification)));
         }
 
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Get a comment by giving its Id.
+        /// </summary>
+        /// <remarks>
+        /// Get a comment by giving its Id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _commentService.GetComment(id));
         }
 
+        /// <summary>
+        /// Add a comment.
+        /// </summary>
+        /// <remarks>
+        /// Add a comment.
+        /// </remarks>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
             return Ok(await _commentService.AddComment(comment));
         }
 
+        /// <summary>
+        /// Update a comment.
+        /// </summary>
+        /// <remarks>
+        /// Update a comment.
+        /// </remarks>
+        /// <param name="comment"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> UpdateComment(UpdateCommentDto comment)
         {
@@ -46,7 +104,15 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        /// <summary>
+        /// Delete a comment by giving its id.
+        /// </summary>
+        /// <remarks>
+        /// Delete a comment by giving its id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
         public async Task<IActionResult> DeleteComment(int id)
         {
             if (await _commentService.GetComment(id) == null)
@@ -55,7 +121,15 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}/Likes/")]
+        /// <summary>
+        /// Get likes from a comment by giving comment's id.
+        /// </summary>
+        /// <remarks>
+        /// Get likes from a comment by giving comment's id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:int}/Likes/")]
         public async Task<IActionResult> GetLikesFromComment(int id)
         {
             return Ok(await _likeService.GetLikesFromComment(id));

@@ -3,6 +3,9 @@ using DbAccess.Data.POCO;
 
 namespace MyBlogAPI.DTO.Like
 {
+    /// <summary>
+    /// GET Dto type of <see cref="DbAccess.Data.POCO.Like"/>.
+    /// </summary>
     public class GetLikeDto : ADto, ILikeDto
     {
         public DateTime PublishedAt { get; set; }

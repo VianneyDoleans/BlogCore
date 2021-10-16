@@ -1,11 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Specifications;
+using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Category;
+using MyBlogAPI.DTO.Post;
+using MyBlogAPI.Filters;
+using MyBlogAPI.Filters.Category;
+using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.PostService;
 
 namespace MyBlogAPI.Controllers
 {
+    /// <summary>
+    /// Controller used to expose Category resources of the API.
+    /// </summary>
     [ApiController]
     [Route("[controller]")]
     public class CategoriesController : ControllerBase
@@ -13,32 +23,87 @@ namespace MyBlogAPI.Controllers
         private readonly ICategoryService _categoryService;
         private readonly IPostService _postService;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CategoriesController"/> class.
+        /// </summary>
+        /// <param name="categoryService"></param>
+        /// <param name="postService"></param>
         public CategoriesController(ICategoryService categoryService, IPostService postService)
         {
             _categoryService = categoryService;
             _postService = postService;
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        /// <summary>
+        /// Get list of categories.
+        /// </summary>
+        /// <remarks>
+        /// Get list of categories. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+        /// </remarks>
+        /// <param name="sortingDirection"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="name"></param>
+        /// <param name="minimumPostNumber"></param>
+        /// <param name="maximumPostNumber"></param>
+        /// <returns></returns>
+        [HttpGet()]
+        [ProducesResponseType(typeof(PagedBlogResponse<GetCategoryDto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetCategories(string sortingDirection = "ASC", int page = 1, int size = 10, 
+            string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
         {
-            return Ok(await _categoryService.GetAllCategories());
+            var validPagination = new PaginationFilter(page, size);
+
+            var filterSpecification = new CategoryQueryFilter(name, minimumPostNumber, maximumPostNumber).GetFilterSpecification();
+            var data = await _categoryService.GetCategories(filterSpecification,
+                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new SortCategoryFilter(sortingDirection).GetSorting());
+
+            return Ok(new PagedBlogResponse<GetCategoryDto>(data, validPagination.Offset, validPagination.Limit, 
+                await _categoryService.CountCategoriesWhere(filterSpecification)));
         }
 
-        [HttpGet("{id}")]
+        /// <summary>
+        /// Get a category by giving its Id.
+        /// </summary>
+        /// <remarks>
+        /// Get a category by giving its Id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(GetCategoryDto), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _categoryService.GetCategory(id));
         }
 
+        /// <summary>
+        /// Add a category.
+        /// </summary>
+        /// <remarks>
+        /// Add a category.
+        /// </remarks>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<IActionResult> AddUser(AddCategoryDto user)
+        [ProducesResponseType(typeof(GetCategoryDto), StatusCodes.Status200OK)]
+        public async Task<IActionResult> AddCategory(AddCategoryDto user)
         {
             return Ok(await _categoryService.AddCategory(user));
         }
 
+        /// <summary>
+        /// Update a category.
+        /// </summary>
+        /// <remarks>
+        /// Update a category.
+        /// </remarks>
+        /// <param name="category"></param>
+        /// <returns></returns>
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UpdateCategoryDto category)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> UpdateCategory(UpdateCategoryDto category)
         {
             if (await _categoryService.GetCategory(category.Id) == null)
                 return NotFound();
@@ -46,7 +111,16 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpDelete("{id}")]
+        /// <summary>
+        /// Delete a category by giving its id.
+        /// </summary>
+        /// <remarks>
+        /// Delete a category by giving its id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (await _categoryService.GetCategory(id) == null)
@@ -55,7 +129,16 @@ namespace MyBlogAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("{id}/Posts")]
+        /// <summary>
+        /// Get posts from a category by giving category's id.
+        /// </summary>
+        /// <remarks>
+        /// Get posts from a category by giving category's id.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("{id:int}/Posts")]
+        [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPostFromCategory(int id)
         {
             return Ok(await _postService.GetPostsFromCategory(id));

@@ -2,6 +2,9 @@
 
 namespace MyBlogAPI.DTO.Role
 {
+    /// <summary>
+    /// GET Dto type of <see cref="DbAccess.Data.POCO.Role"/>.
+    /// </summary>
     public class GetRoleDto : ADto, IRoleDto
     {
         public string Name { get; set; }

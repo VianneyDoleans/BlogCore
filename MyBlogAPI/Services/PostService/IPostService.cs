@@ -1,5 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.Services.PostService
@@ -7,6 +11,12 @@ namespace MyBlogAPI.Services.PostService
     public interface IPostService
     {
         Task<IEnumerable<GetPostDto>> GetAllPosts();
+
+        public Task<IEnumerable<GetPostDto>> GetPosts(FilterSpecification<Post> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Post> sortSpecification = null);
+
+        public Task<int> CountPostsWhere(FilterSpecification<Post> filterSpecification = null);
 
         Task<IEnumerable<GetPostDto>> GetPostsFromUser(int id);
 

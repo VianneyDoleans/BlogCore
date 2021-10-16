@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DbAccess.Data.POCO.Interface;
 using DbAccess.Data.POCO.JoiningEntity;
 
 namespace DbAccess.Data.POCO
 {
-    public class User
+    public class User : IPoco, IHasUsername, IHasEmailAddress, IHasRegisteredAt, IHasLastLogin, IHasUserRoles, IHasPosts, IHasComments, IHasLikes
     {
         [Key]
         public int Id { get; set; }

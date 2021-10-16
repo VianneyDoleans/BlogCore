@@ -4,8 +4,16 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.DataContext
 {
+    /// <summary>
+    /// Context used for the API (Database, Entity Framework). It defined the tables and the relationship between them but also some default values.
+    /// It enables (with also the attributes inside resource classes) to realize a Database code first generation (Entity Framework).
+    /// </summary>
     public class MyBlogContext : DbContext
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MyBlogContext"/> class.
+        /// </summary>
+        /// <param name="options"></param>
         public MyBlogContext(DbContextOptions<MyBlogContext> options) : base(options) { }
 
         public DbSet<Post> Posts { get; set; }
@@ -18,7 +26,7 @@ namespace DbAccess.DataContext
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
-
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PostTag>()
@@ -37,6 +45,8 @@ namespace DbAccess.DataContext
             modelBuilder.Entity<Post>().HasOne(s => s.Category).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Post>().HasOne(s => s.Author).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Comment>().HasOne(s => s.Author).WithMany(s => s.Comments).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            
+            modelBuilder.Entity<Comment>().HasOne(s => s.CommentParent).WithMany(s => s.ChildrenComments).OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

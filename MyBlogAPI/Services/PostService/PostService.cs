@@ -10,6 +10,9 @@ using DbAccess.Repositories.Post;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
+using DbAccess.Specifications;
+using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.Post;
 
 namespace MyBlogAPI.Services.PostService
@@ -42,6 +45,18 @@ namespace MyBlogAPI.Services.PostService
                 postDto.Tags = x.PostTags.Select(y => y.TagId);
                 return postDto;
             }).ToList();
+        }
+
+        public async Task<IEnumerable<GetPostDto>> GetPosts(FilterSpecification<Post> filter = null, 
+            PagingSpecification paging = null,
+            SortSpecification<Post> sort = null)
+        {
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetPostDto>(x));
+        }
+
+        public async Task<int> CountPostsWhere(FilterSpecification<Post> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
         }
 
         public async Task<IEnumerable<GetPostDto>> GetPostsFromUser(int id)
