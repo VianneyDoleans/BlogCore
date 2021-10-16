@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.PostService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Post> sortSpecification = null);
 
+        public Task<int> CountPostsWhere(FilterSpecification<Post> filterSpecification = null);
+
         Task<IEnumerable<GetPostDto>> GetPostsFromUser(int id);
 
         Task<IEnumerable<GetPostDto>> GetPostsFromTag(int id);

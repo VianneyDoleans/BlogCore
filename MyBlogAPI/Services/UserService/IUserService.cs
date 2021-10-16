@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.UserService
             PagingSpecification pagingSpecification = null,
             SortSpecification<User> sortSpecification = null);
 
+        public Task<int> CountUsersWhere(FilterSpecification<User> filterSpecification = null);
+
         Task<GetUserDto> GetUser(int id);
 
         Task<GetUserDto> AddUser(AddUserDto user);

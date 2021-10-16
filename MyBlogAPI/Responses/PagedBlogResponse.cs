@@ -28,13 +28,13 @@ namespace MyBlogAPI.Responses
         /// Initializes a new instance of the <see cref="PagedBlogResponse{T}"/> class.
         /// </summary>
         /// <param name="data"></param>
-        /// <param name="offset"></param>
-        /// <param name="limit"></param>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
         /// <param name="total"></param>
-        public PagedBlogResponse(IList<T> data, int offset, int limit, int total) : base(data)
+        public PagedBlogResponse(IEnumerable<T> data, int page, int size, int total) : base(data)
         {
-            Offset = offset;
-            Limit = limit;
+            Offset = page;
+            Limit = size;
             Data = data;
             Total = total;
         }

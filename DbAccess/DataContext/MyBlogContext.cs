@@ -26,7 +26,7 @@ namespace DbAccess.DataContext
         public DbSet<PostTag> PostTags { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
-
+        /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<PostTag>()

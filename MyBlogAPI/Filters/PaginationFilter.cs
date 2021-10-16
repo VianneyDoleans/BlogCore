@@ -18,12 +18,12 @@
         /// <summary>
         /// Initializes a new instance of the <see cref="PaginationFilter"/> class.
         /// </summary>
-        /// <param name="offset"></param>
-        /// <param name="limit"></param>
-        public PaginationFilter(int offset, int limit)
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        public PaginationFilter(int page, int size)
         {
-            Offset = offset < 1 ? 1 : offset;
-            Limit = limit > 10 ? 10 : limit;
+            Offset = page < 1 ? 1 : page;
+            Limit = size > 10 ? 10 : size;
         }
     }
 }

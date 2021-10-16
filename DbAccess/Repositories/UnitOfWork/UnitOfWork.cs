@@ -19,6 +19,10 @@ namespace DbAccess.Repositories.UnitOfWork
             _context.SaveChanges();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UnitOfWork"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public UnitOfWork(MyBlogContext context)
         {
             _context = context;

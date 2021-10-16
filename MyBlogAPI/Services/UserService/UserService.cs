@@ -44,6 +44,11 @@ namespace MyBlogAPI.Services.UserService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetUserDto>(x));
         }
 
+        public async Task<int> CountUsersWhere(FilterSpecification<User> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<GetUserDto> GetUser(int id)
         {
             var user = await _repository.GetAsync(id);

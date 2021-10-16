@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.CategoryService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Category> sortSpecification = null);
 
+        public Task<int> CountCategoriesWhere(FilterSpecification<Category> filterSpecification = null);
+
         Task<GetCategoryDto> GetCategory(int id);
 
         Task<GetCategoryDto> AddCategory(AddCategoryDto category);

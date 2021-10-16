@@ -54,6 +54,11 @@ namespace MyBlogAPI.Services.PostService
             return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetPostDto>(x));
         }
 
+        public async Task<int> CountPostsWhere(FilterSpecification<Post> filterSpecification = null)
+        {
+            return await _repository.CountWhereAsync(filterSpecification);
+        }
+
         public async Task<IEnumerable<GetPostDto>> GetPostsFromUser(int id)
         {
             var posts = await _repository.GetPostsFromUser(id);

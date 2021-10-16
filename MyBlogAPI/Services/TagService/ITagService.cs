@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.TagService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Tag> sortSpecification = null);
 
+        public Task<int> CountTagsWhere(FilterSpecification<Tag> filterSpecification = null);
+
         Task<GetTagDto> GetTag(int id);
 
         Task<GetTagDto> AddTag(AddTagDto user);

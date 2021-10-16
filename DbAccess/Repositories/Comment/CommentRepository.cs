@@ -12,10 +12,15 @@ namespace DbAccess.Repositories.Comment
 {
     public class CommentRepository : Repository<Data.POCO.Comment>, ICommentRepository
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommentRepository"/> class.
+        /// </summary>
+        /// <param name="context"></param>
         public CommentRepository(MyBlogContext context) : base(context)
         {
         }
 
+        /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Comment>> GetAsync(FilterSpecification<Data.POCO.Comment> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
             SortSpecification<Data.POCO.Comment> sortSpecification = null)
@@ -26,6 +31,7 @@ namespace DbAccess.Repositories.Comment
                 .Include(x => x.Author).ToListAsync();
         }
 
+        /// <inheritdoc />
         public override async Task<Data.POCO.Comment> GetAsync(int id)
         {
             try
@@ -41,6 +47,7 @@ namespace DbAccess.Repositories.Comment
             }
         }
 
+        /// <inheritdoc />
         public override Data.POCO.Comment Get(int id)
         {
             try
@@ -56,6 +63,7 @@ namespace DbAccess.Repositories.Comment
             }
         }
 
+        /// <inheritdoc />
         public override IEnumerable<Data.POCO.Comment> GetAll()
         {
             return Context.Set<Data.POCO.Comment>()
@@ -64,6 +72,7 @@ namespace DbAccess.Repositories.Comment
                 .Include(x => x.Author).ToList();
         }
 
+        /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Comment>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.Comment>()
@@ -72,6 +81,7 @@ namespace DbAccess.Repositories.Comment
                 .Include(x => x.Author).ToListAsync();
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromPost(int id)
         {
             return await Context.Set<Data.POCO.Comment>()
@@ -80,6 +90,7 @@ namespace DbAccess.Repositories.Comment
                 .Include(x => x.PostParent).Where(x => x.PostParent.Id == id).ToListAsync();
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromUser(int id)
         {
             return await Context.Set<Data.POCO.Comment>()

@@ -8,7 +8,7 @@ namespace DbAccess.Repositories.Category
     public interface ICategoryRepository : IRepository<Data.POCO.Category>
     {
         /// <summary>
-        /// Method used to check if a name already exists inside database for a <see cref="Data.POCO.Category"/>.
+        /// Method used to check if a name already exists inside database for a category.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>

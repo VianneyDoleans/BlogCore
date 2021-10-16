@@ -16,6 +16,8 @@ namespace MyBlogAPI.Services.RoleService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Role> sortSpecification = null);
 
+        public Task<int> CountRolesWhere(FilterSpecification<Role> filterSpecification = null);
+
         Task<GetRoleDto> GetRole(int id);
 
         Task<GetRoleDto> AddRole(AddRoleDto role);
