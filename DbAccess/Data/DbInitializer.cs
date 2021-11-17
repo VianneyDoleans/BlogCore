@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.JoiningEntity;
@@ -215,6 +217,10 @@ namespace DbAccess.Data
         /// <param name="context"></param>
         public static void Seed(MyBlogContext context)
         {
+            Console.WriteLine("DEBUG HERE");
+            if (context?.Roles == null)
+                Console.WriteLine("role is null.");
+            Console.WriteLine("role number : " + context.Roles.Count());
             if (!context.Roles.Any())
             {
                 GenerateRoles(context);

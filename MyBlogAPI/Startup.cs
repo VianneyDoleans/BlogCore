@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -69,7 +70,7 @@ namespace MyBlogAPI
                     Title = "MyBlog",
                     Version = "v1"
                 });
-                c.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}\MyBlogAPI.xml");
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "MyBlogAPI.xml"));
             });
 
             ConfigureRepositoryServices(services);

@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Users\VianneyDoleans\Desktop\MyBlog\MyBlogAPI\MyBlogAPI.xml</DocumentationFile>
+    <DocumentationFile>MyBlogAPI.xml</DocumentationFile>
+    <WarningLevel>5</WarningLevel>
   </PropertyGroup>
 
   <ItemGroup>
