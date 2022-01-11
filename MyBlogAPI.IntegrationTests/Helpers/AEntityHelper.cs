@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using MyBlogAPI.DTO;
+using MyBlogAPI.Responses;
 using Newtonsoft.Json;
 
 namespace MyBlogAPI.IntegrationTests.Helpers
@@ -43,13 +45,31 @@ namespace MyBlogAPI.IntegrationTests.Helpers
             return entity;
         }
 
-        public async Task<IEnumerable<TGet>> GetAll()
+        private async Task<PagedBlogResponse<TGet>> GetEntities(int page, int limit)
         {
-            var httpGetResponse = await _client.GetAsync(_baseUrl);
+            var httpGetResponse = await _client.GetAsync(_baseUrl + "?size=" + limit + "&page=" + page);
             httpGetResponse.EnsureSuccessStatusCode();
             var stringResponse = await httpGetResponse.Content.ReadAsStringAsync();
-            var entity = JsonConvert.DeserializeObject<IEnumerable<TGet>>(stringResponse);
-            return entity;
+            var result = JsonConvert.DeserializeObject<PagedBlogResponse<TGet>>(stringResponse);
+            return result;
+        }
+
+        public async Task<IEnumerable<TGet>> GetAll()
+        {
+            var entities = new List<TGet>();
+            const int limit = 10;
+
+            var result = await GetEntities(1, limit);
+            entities.AddRange(result.Data);
+            for (var x = 2; (x - 1) * limit < result.Total; x += 1)
+            {
+                result = await GetEntities(x, limit);
+                entities.AddRange(result.Data);
+            }
+
+            if (entities.Count != result.Total)
+                throw new Exception("Error inside getAll, there are too many entities or not enough.");
+            return entities;
         }
 
         public async Task UpdateRandomEntity(TUpdate entity)
