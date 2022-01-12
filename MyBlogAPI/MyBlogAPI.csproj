@@ -22,5 +22,11 @@
     <ProjectReference Include="..\DbAccess\DbAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="MyBlogAPI.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 
 </Project>
