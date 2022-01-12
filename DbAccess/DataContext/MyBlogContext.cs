@@ -34,12 +34,12 @@ namespace DbAccess.DataContext
             modelBuilder.Entity<UserRole>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
 
-            modelBuilder.Entity<User>().Property(b => b.RegisteredAt).HasDefaultValueSql("GETUTCDATE()");
-            modelBuilder.Entity<User>().Property(b => b.LastLogin).HasDefaultValueSql("GETUTCDATE()");
-            modelBuilder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("GETUTCDATE()");
-            modelBuilder.Entity<Post>().Property(b => b.PublishedAt).HasDefaultValueSql("GETUTCDATE()");
-            modelBuilder.Entity<Like>().Property(b => b.PublishedAt).HasDefaultValueSql("GETUTCDATE()");
-            modelBuilder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("GETUTCDATE()");
+            modelBuilder.Entity<User>().Property(b => b.RegisteredAt).HasDefaultValueSql("NOW()");
+            modelBuilder.Entity<User>().Property(b => b.LastLogin).HasDefaultValueSql("NOW()");
+            modelBuilder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            modelBuilder.Entity<Post>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            modelBuilder.Entity<Like>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            modelBuilder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
 
             modelBuilder.Entity<Like>().HasOne(s => s.User).WithMany(s => s.Likes).IsRequired().OnDelete(DeleteBehavior.NoAction);
             modelBuilder.Entity<Post>().HasOne(s => s.Category).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
