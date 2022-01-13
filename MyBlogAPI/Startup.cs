@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DbAccess;
+using DbAccess.DataContext;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Like;
@@ -61,7 +62,7 @@ namespace MyBlogAPI
         {
             services.AddControllers();
 
-            services.RegisterDataServices(Configuration);
+            services.RegisterDatabaseProvider(Configuration);
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddSwaggerGen(c =>
             {

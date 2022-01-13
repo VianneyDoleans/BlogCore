@@ -20,7 +20,7 @@ namespace MyBlogAPI.Test
 
         public DatabaseFixture()
         {
-            Db = new MyBlogContext(
+            Db = new MsSqlDbContext(
                 TestBootstrapper.GetInMemoryDbContextOptions());
             DbInitializer.Seed(Db);
             UnitOfWork = new UnitOfWork(Db);

@@ -217,10 +217,6 @@ namespace DbAccess.Data
         /// <param name="context"></param>
         public static void Seed(MyBlogContext context)
         {
-            Console.WriteLine("DEBUG HERE");
-            if (context?.Roles == null)
-                Console.WriteLine("role is null.");
-            Console.WriteLine("role number : " + context.Roles.Count());
             if (!context.Roles.Any())
             {
                 GenerateRoles(context);
