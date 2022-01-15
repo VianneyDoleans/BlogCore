@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DbAccess", "DbAccess\DbAccess.csproj", "{6E0393D3-AD03-4637-8CED-1B8F6BB837E1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlogAPI", "MyBlogAPI\MyBlogAPI.csproj", "{4D795706-FECC-4072-8BBB-DD377D3E76D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBAccess.Test", "DBAccess.Test\DBAccess.Test.csproj", "{0EB28CC3-3C67-42EF-9E02-62092B6473E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBAccess.Tests", "DBAccess.Tests\DBAccess.Tests.csproj", "{0EB28CC3-3C67-42EF-9E02-62092B6473E1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlogAPI.Test", "MyBlogAPI.Test\MyBlogAPI.Test.csproj", "{7B6298DE-2AFA-4F54-8231-78DFB9E8F633}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlogAPI.Tests", "MyBlogAPI.Tests\MyBlogAPI.Tests.csproj", "{7B6298DE-2AFA-4F54-8231-78DFB9E8F633}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlogAPI.IntegrationTests", "MyBlogAPI.IntegrationTests\MyBlogAPI.IntegrationTests.csproj", "{6EC30574-099B-42B1-8CCF-171DFB4DD209}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyBlogAPI.FunctionalTests", "MyBlogAPI.FunctionalTests\MyBlogAPI.FunctionalTests.csproj", "{6EC30574-099B-42B1-8CCF-171DFB4DD209}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
