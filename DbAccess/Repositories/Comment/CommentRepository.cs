@@ -26,7 +26,8 @@ namespace DbAccess.Repositories.Comment
             SortSpecification<Data.POCO.Comment> sortSpecification = null)
         {
             var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
-            return await query.Include(x => x.PostParent)
+            return await query.Include(x => x.Likes)
+                .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToListAsync();
         }
@@ -37,6 +38,7 @@ namespace DbAccess.Repositories.Comment
             try
             {
                 return await Context.Set<Data.POCO.Comment>()
+                    .Include(x => x.Likes)
                     .Include(x => x.PostParent)
                     .Include(x => x.ChildrenComments)
                     .Include(x => x.Author).SingleAsync(x => x.Id == id);
@@ -53,6 +55,7 @@ namespace DbAccess.Repositories.Comment
             try
             {
                 return Context.Set<Data.POCO.Comment>()
+                    .Include(x => x.Likes)
                     .Include(x => x.PostParent)
                     .Include(x => x.ChildrenComments)
                     .Include(x => x.Author).Single(x => x.Id == id);
@@ -67,6 +70,7 @@ namespace DbAccess.Repositories.Comment
         public override IEnumerable<Data.POCO.Comment> GetAll()
         {
             return Context.Set<Data.POCO.Comment>()
+                .Include(x => x.Likes)
                 .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToList();
@@ -76,6 +80,7 @@ namespace DbAccess.Repositories.Comment
         public override async Task<IEnumerable<Data.POCO.Comment>> GetAllAsync()
         {
             return await Context.Set<Data.POCO.Comment>()
+                .Include(x => x.Likes)
                 .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
                 .Include(x => x.Author).ToListAsync();
@@ -85,6 +90,7 @@ namespace DbAccess.Repositories.Comment
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromPost(int id)
         {
             return await Context.Set<Data.POCO.Comment>()
+                .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.ChildrenComments)
                 .Include(x => x.PostParent).Where(x => x.PostParent.Id == id).ToListAsync();
@@ -94,6 +100,7 @@ namespace DbAccess.Repositories.Comment
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromUser(int id)
         {
             return await Context.Set<Data.POCO.Comment>()
+                .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.ChildrenComments)
                 .Include(x => x.PostParent).Where(x => x.Author.Id == id).ToListAsync();
