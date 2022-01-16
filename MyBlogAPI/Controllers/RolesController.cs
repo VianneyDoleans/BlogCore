@@ -75,13 +75,11 @@ namespace MyBlogAPI.Controllers
         }
 
         /// <summary>
-        /// /// <summary>
         /// Add a role.
         /// </summary>
         /// <remarks>
         /// Add a role.
         /// </remarks>
-        /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpPost]
