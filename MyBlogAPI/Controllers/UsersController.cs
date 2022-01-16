@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTO.Like;
+using MyBlogAPI.DTO.Post;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.User;
@@ -56,6 +61,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="lastLoginBefore"></param>
         /// <returns></returns>
         [HttpGet()]
+        [ProducesResponseType(typeof(PagedBlogResponse<GetUserDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsers(string sortingDirection = "ASC", string orderBy = null, int page = 1,
             int size = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
         {
@@ -78,6 +84,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _userService.GetUser(id));
@@ -92,6 +100,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddUser(AddUserDto user)
         {
             return Ok(await _userService.AddUser(user));
@@ -106,6 +117,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateUser(UpdateUserDto user)
         {
             if (await _userService.GetUser(user.Id) == null)
@@ -123,6 +137,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)
         {
             if (await _userService.GetUser(id) == null)
@@ -140,6 +156,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Posts/")]
+        [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostsFromUser(int id)
         {
             return Ok(await _postService.GetPostsFromUser(id));
@@ -154,6 +172,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Comments/")]
+        [ProducesResponseType(typeof(IEnumerable<GetCommentDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommentsFromUser(int id)
         {
             return Ok(await _commentService.GetCommentsFromUser(id));
@@ -168,6 +188,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
+        [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromUser(int id)
         {
             return Ok(await _likeService.GetLikesFromUser(id));

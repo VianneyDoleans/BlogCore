@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Http;
+using MyBlogAPI.DTO.Post;
 using MyBlogAPI.DTO.Tag;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Tag;
@@ -43,6 +46,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="name"></param>
         /// <returns></returns>
         [HttpGet()]
+        [ProducesResponseType(typeof(PagedBlogResponse<GetTagDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTags(string sortingDirection = "ASC", int page = 1,
             int size = 10, string name = null)
         {
@@ -65,6 +69,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(GetTagDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _tagService.GetTag(id));
@@ -77,6 +83,9 @@ namespace MyBlogAPI.Controllers
         /// Add a tag.
         /// </remarks>
         [HttpPost]
+        [ProducesResponseType(typeof(GetTagDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddTag(AddTagDto user)
         {
             return Ok(await _tagService.AddTag(user));
@@ -91,6 +100,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="tag"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateTag(UpdateTagDto tag)
         {
             if (await _tagService.GetTag(tag.Id) == null)
@@ -108,6 +120,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)
         {
             if (await _tagService.GetTag(id) == null)
@@ -125,6 +139,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Posts/")]
+        [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostsFromTag(int id)
         {
             return Ok(await _postService.GetPostsFromTag(id));

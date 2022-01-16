@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Comment;
 using MyBlogAPI.Responses;
@@ -46,6 +49,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpGet()]
+        [ProducesResponseType(typeof(PagedBlogResponse<GetCommentDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int page = 1, 
             int size = 10, string authorUsername = null, string postParentName = null, string content = null)
         {
@@ -68,6 +72,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(GetCommentDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _commentService.GetComment(id));
@@ -82,6 +88,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="comment"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(GetCommentDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
             return Ok(await _commentService.AddComment(comment));
@@ -96,6 +105,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="comment"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateComment(UpdateCommentDto comment)
         {
             if (await _commentService.GetComment(comment.Id) == null)
@@ -113,6 +125,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteComment(int id)
         {
             if (await _commentService.GetComment(id) == null)
@@ -130,6 +144,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
+        [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromComment(int id)
         {
             return Ok(await _likeService.GetLikesFromComment(id));

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Like;
@@ -40,6 +41,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="likeableType"></param>
         /// <returns></returns>
         [HttpGet()]
+        [ProducesResponseType(typeof(PagedBlogResponse<GetLikeDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLikes(string sortingDirection = "ASC", int page = 1,
             int size = 10, LikeableType? likeableType = null)
         {
@@ -62,6 +64,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(GetLikeDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _likeService.GetLike(id));
@@ -76,6 +80,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="like"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(GetLikeDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddLikes(AddLikeDto like)
         {
             return Ok(await _likeService.AddLike(like));
@@ -90,6 +97,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="like"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateLike(UpdateLikeDto like)
         {
             if (await _likeService.GetLike(like.Id) == null)
@@ -107,6 +117,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteLike(int id)
         {
             if (await _likeService.GetLike(id) == null)

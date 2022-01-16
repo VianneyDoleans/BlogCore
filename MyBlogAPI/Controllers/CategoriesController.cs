@@ -73,6 +73,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [ProducesResponseType(typeof(GetCategoryDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _categoryService.GetCategory(id));
@@ -88,6 +89,8 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(GetCategoryDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddCategory(AddCategoryDto user)
         {
             return Ok(await _categoryService.AddCategory(user));
@@ -103,6 +106,8 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto category)
         {
             if (await _categoryService.GetCategory(category.Id) == null)
@@ -121,6 +126,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpDelete("{id:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             if (await _categoryService.GetCategory(id) == null)
@@ -139,6 +145,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Posts")]
         [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostFromCategory(int id)
         {
             return Ok(await _postService.GetPostsFromCategory(id));

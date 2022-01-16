@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTO.User;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Role;
 using MyBlogAPI.Responses;
@@ -42,6 +45,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="size"></param>
         /// <returns></returns>
         [HttpGet()]
+        [ProducesResponseType(typeof(PagedBlogResponse<GetRoleDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int page = 1,
             int size = 10)
         {
@@ -63,6 +67,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [ProducesResponseType(typeof(GetRoleDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _roleService.GetRole(id));
@@ -79,6 +85,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpPost]
+        [ProducesResponseType(typeof(GetRoleDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddRole(AddRoleDto role)
         {
             return Ok(await _roleService.AddRole(role));
@@ -93,6 +102,9 @@ namespace MyBlogAPI.Controllers
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpPut]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateRole(UpdateRoleDto role)
         {
             if (await _roleService.GetRole(role.Id) == null)
@@ -110,6 +122,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteRole(int id)
         {
             if (await _roleService.GetRole(id) == null)
@@ -127,6 +141,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Users/")]
+        [ProducesResponseType(typeof(IEnumerable<GetUserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUsersFromRole(int id)
         {
             return Ok(await _userService.GetUsersFromRole(id));
