@@ -56,10 +56,10 @@ namespace MyBlogAPI.Controllers
 
             var filterSpecification = new CategoryQueryFilter(name, minimumPostNumber, maximumPostNumber).GetFilterSpecification();
             var data = await _categoryService.GetCategories(filterSpecification,
-                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
                 new SortCategoryFilter(sortingDirection).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetCategoryDto>(data, validPagination.Offset, validPagination.Limit, 
+            return Ok(new PagedBlogResponse<GetCategoryDto>(data, validPagination.Page, validPagination.Limit, 
                 await _categoryService.CountCategoriesWhere(filterSpecification)));
         }
 

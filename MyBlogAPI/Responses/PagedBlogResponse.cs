@@ -10,9 +10,9 @@ namespace MyBlogAPI.Responses
     public class PagedBlogResponse<T> : BlogResponse<T>
     {
         /// <summary>
-        /// Offset of query elements applied.
+        /// Page of query elements applied.
         /// </summary>
-        public int Offset { get; set; }
+        public int Page { get; set; }
 
         /// <summary>
         /// Limit of item numbers applied from the query requested.
@@ -33,7 +33,7 @@ namespace MyBlogAPI.Responses
         /// <param name="total"></param>
         public PagedBlogResponse(IEnumerable<T> data, int page, int size, int total) : base(data)
         {
-            Offset = page;
+            Page = page;
             Limit = size;
             Data = data;
             Total = total;

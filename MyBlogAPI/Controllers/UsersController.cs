@@ -62,10 +62,10 @@ namespace MyBlogAPI.Controllers
             var validPagination = new PaginationFilter(page, size);
             var filterSpecification = new UserQueryFilter(name, lastLoginBefore, registerBefore).GetFilterSpecification();
             var data = await _userService.GetUsers(filterSpecification,
-                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
                 new SortUserFilter(sortingDirection, orderBy).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetUserDto>(data, validPagination.Offset, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetUserDto>(data, validPagination.Page, validPagination.Limit,
                 await _userService.CountUsersWhere(filterSpecification)));
         }
 

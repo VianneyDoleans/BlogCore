@@ -1017,9 +1017,9 @@
             Pagination filter used to execute Query on a resource.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Filters.PaginationFilter.Offset">
+        <member name="P:MyBlogAPI.Filters.PaginationFilter.Page">
             <summary>
-            Offset of the query.
+            Page of the query.
             </summary>
         </member>
         <member name="P:MyBlogAPI.Filters.PaginationFilter.Limit">
@@ -1219,9 +1219,9 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Offset">
+        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Page">
             <summary>
-            Offset of query elements applied.
+            Page of query elements applied.
             </summary>
         </member>
         <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Limit">

@@ -52,10 +52,10 @@ namespace MyBlogAPI.Controllers
             var validPagination = new PaginationFilter(page, size);
             var filterSpecification = new CommentQueryFilter(authorUsername, postParentName, content).GetFilterSpecification();
             var data = await _commentService.GetComments(filterSpecification,
-                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
                 new SortCommentFilter(sortingDirection, orderBy).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetCommentDto>(data, validPagination.Offset, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetCommentDto>(data, validPagination.Page, validPagination.Limit,
                 await _commentService.CountCommentsWhere(filterSpecification)));
         }
 

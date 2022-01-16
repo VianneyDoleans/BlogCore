@@ -49,10 +49,10 @@ namespace MyBlogAPI.Controllers
             var validPagination = new PaginationFilter(page, size);
             var filterSpecification = new TagQueryFilter(name).GetFilterSpecification();
             var data = await _tagService.GetTags(filterSpecification,
-                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
                 new SortTagFilter(sortingDirection).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetTagDto>(data, validPagination.Offset, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetTagDto>(data, validPagination.Page, validPagination.Limit,
                 await _tagService.CountTagsWhere(filterSpecification)));
         }
 

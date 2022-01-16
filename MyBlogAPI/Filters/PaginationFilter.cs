@@ -6,9 +6,9 @@
     public class PaginationFilter
     {
         /// <summary>
-        /// Offset of the query.
+        /// Page of the query.
         /// </summary>
-        public int Offset { get; }
+        public int Page { get; }
 
         /// <summary>
         /// Limit of the query.
@@ -22,7 +22,7 @@
         /// <param name="size"></param>
         public PaginationFilter(int page, int size)
         {
-            Offset = page < 1 ? 1 : page;
+            Page = page < 1 ? 1 : page;
             Limit = size > 10 ? 10 : size;
         }
     }

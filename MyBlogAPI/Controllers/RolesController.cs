@@ -47,10 +47,10 @@ namespace MyBlogAPI.Controllers
         {
             var validPagination = new PaginationFilter(page, size);
             var data = await _roleService.GetRoles(null,
-                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
                 new SortRoleFilter(sortingDirection).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetRoleDto>(data, validPagination.Offset, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetRoleDto>(data, validPagination.Page, validPagination.Limit,
                 await _roleService.CountRolesWhere()));
         }
 

@@ -46,10 +46,10 @@ namespace MyBlogAPI.Controllers
             var validPagination = new PaginationFilter(page, size);
             var filterSpecification = new LikeQueryFilter(likeableType).GetFilterSpecification();
             var data = await _likeService.GetLikes(filterSpecification,
-                new PagingSpecification((validPagination.Offset - 1) * validPagination.Limit, validPagination.Limit),
+                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
                 new SortLikeFilter(sortingDirection).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetLikeDto>(data, validPagination.Offset, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetLikeDto>(data, validPagination.Page, validPagination.Limit,
                 await _likeService.CountLikesWhere(filterSpecification)));
         }
 
