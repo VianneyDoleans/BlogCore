@@ -26,7 +26,8 @@ namespace DbAccess.Repositories.Post
             SortSpecification<Data.POCO.Post> sortSpecification = null)
         {
             var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
-            return await query.Include(x => x.Author)
+            return await query.Include(x => x.Likes)
+                .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category).ToListAsync();
         }
@@ -36,7 +37,8 @@ namespace DbAccess.Repositories.Post
         {
             try
             {
-                return await Context.Set<Data.POCO.Post>().Include(x => x.Author)
+                return await Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+                    .Include(x => x.Author)
                     .Include(x => x.PostTags)
                     .Include(x => x.Category)
                     .SingleAsync(x => x.Id == id);
@@ -52,7 +54,8 @@ namespace DbAccess.Repositories.Post
         {
             try
             {
-                return Context.Set<Data.POCO.Post>().Include(x => x.Author)
+                return Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+                    .Include(x => x.Author)
                     .Include(x => x.PostTags)
                     .Include(x => x.Category)
                     .Single(x => x.Id == id);
@@ -66,7 +69,7 @@ namespace DbAccess.Repositories.Post
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Post> GetAll()
         {
-            return Context.Set<Data.POCO.Post>()
+            return Context.Set<Data.POCO.Post>().Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category).ToList();
@@ -75,7 +78,7 @@ namespace DbAccess.Repositories.Post
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Post>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Post>()
+            return await Context.Set<Data.POCO.Post>().Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category).ToListAsync();
@@ -84,7 +87,8 @@ namespace DbAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromUser(int id)
         {
-            return await Context.Set<Data.POCO.Post>().Include(x => x.PostTags)
+            return await Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+                .Include(x => x.PostTags)
                 .Include(x => x.Category)
                 .Include(x => x.Author)
                 .Where(x => x.Author.Id == id).ToListAsync();
@@ -93,7 +97,8 @@ namespace DbAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromTag(int id)
         {
-            return await Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Author)
+            return await Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Likes)
+                .Include(x => x.Post.Author)
                 .Include(x => x.Post.Category)
                 .Include(x => x.Tag)
                 .Where(x => x.TagId == id).Select(x => x.Post).ToListAsync();
@@ -103,6 +108,7 @@ namespace DbAccess.Repositories.Post
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromCategory(int id)
         {
             return await Context.Set<Data.POCO.Post>()
+                .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category)
