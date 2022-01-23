@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Data.Models.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,6 @@ using MyBlogAPI.DTO.Post;
 using MyBlogAPI.DTO.Tag;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Tag;
-using MyBlogAPI.Models;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.PostService;
 using MyBlogAPI.Services.TagService;
@@ -50,7 +50,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Tag)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetTagDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTags(string sortingDirection = "ASC", int page = 1,
             int size = 10, string name = null)
@@ -75,7 +75,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Tag)]
         [ProducesResponseType(typeof(GetTagDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -90,7 +90,7 @@ namespace MyBlogAPI.Controllers
         /// Add a tag.
         /// </remarks>
         [HttpPost]
-        [PermissionRequired(Permission.CanCreate)]
+        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.Tag)]
         [ProducesResponseType(typeof(GetTagDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -108,7 +108,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="tag"></param>
         /// <returns></returns>
         [HttpPut]
-        [PermissionRequired(Permission.CanUpdate)]
+        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Tag)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -129,7 +129,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        [PermissionRequired(Permission.CanDelete)]
+        [Attributes.PermissionRequired(PermissionAction.CanDelete, PermissionTarget.Tag)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)
@@ -150,7 +150,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Posts/")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Tag)]
         [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostsFromTag(int id)

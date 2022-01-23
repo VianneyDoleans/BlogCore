@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Data.Models.Permission;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Like;
-using MyBlogAPI.Models;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.LikeService;
 
@@ -45,7 +45,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Like)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetLikeDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLikes(string sortingDirection = "ASC", int page = 1,
             int size = 10, LikeableType? likeableType = null)
@@ -70,7 +70,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Like)]
         [ProducesResponseType(typeof(GetLikeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -87,7 +87,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="like"></param>
         /// <returns></returns>
         [HttpPost]
-        [PermissionRequired(Permission.CanCreate)]
+        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.Like)]
         [ProducesResponseType(typeof(GetLikeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -105,7 +105,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="like"></param>
         /// <returns></returns>
         [HttpPut]
-        [PermissionRequired(Permission.CanUpdate)]
+        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Like)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -126,7 +126,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        [PermissionRequired(Permission.CanDelete)]
+        [Attributes.PermissionRequired(PermissionAction.CanDelete, PermissionTarget.Like)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteLike(int id)

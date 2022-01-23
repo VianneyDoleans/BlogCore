@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using DbAccess.Data.Models.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -11,7 +12,6 @@ using MyBlogAPI.DTO.Post;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.User;
-using MyBlogAPI.Models;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
@@ -65,7 +65,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetUserDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsers(string sortingDirection = "ASC", string orderBy = null, int page = 1,
             int size = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
@@ -90,7 +90,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -107,7 +107,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
-        [PermissionRequired(Permission.CanCreate)]
+        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -125,7 +125,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut]
-        [PermissionRequired(Permission.CanUpdate)]
+        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -145,7 +145,7 @@ namespace MyBlogAPI.Controllers
         /// </remarks>
         /// <param name="id"></param>
         /// <returns></returns>
-        [PermissionRequired(Permission.CanDelete)]
+        [Attributes.PermissionRequired(PermissionAction.CanDelete, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)
@@ -166,7 +166,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Posts/")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostsFromUser(int id)
@@ -184,7 +184,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Comments/")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(IEnumerable<GetCommentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommentsFromUser(int id)
@@ -202,7 +202,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
         [AllowAnonymous]
-        [PermissionRequired(Permission.CanRead)]
+        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromUser(int id)

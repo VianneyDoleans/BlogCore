@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.Collections.Generic;
 using System.Linq;
+using DbAccess.Data.Models.Permission;
 using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.JoiningEntity;
 using DbAccess.DataContext;
@@ -15,9 +14,80 @@ namespace DbAccess.Data
     {
         private static void GenerateRoles(MyBlogContext context)
         {
-            var userRole = new Role() { Name = "User" };
-            var redactorRole = new Role() { Name = "Redactor" };
-            var adminRole = new Role() { Name = "Admin" };
+            var userRole = new Role() { Name = "User", PermissionAccess = new List<Permission>() 
+            {
+                // Read
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All },
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All },
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All },
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
+
+                // Create
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.Own }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.Own },
+
+                // Update
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.Own },
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.Own },
+
+                // Delete
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.Own },
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.Own }
+            }}; 
+            var redactorRole = new Role() { Name = "Redactor", PermissionAccess = new List<Permission>() 
+            {
+                // Create
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All },
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All },
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.Own },
+
+                // Update
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.Own },
+
+                // Delete
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.Own }
+            }}; 
+            var adminRole = new Role() { Name = "Admin", PermissionAccess = new List<Permission>() 
+            { 
+                // Read
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
+                    
+                // Create
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
+                    
+                // Update
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
+                    
+                // Delete
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
+                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
+            }};
             context.Roles.AddRange(userRole, adminRole, redactorRole);
             context.SaveChanges();
         }
