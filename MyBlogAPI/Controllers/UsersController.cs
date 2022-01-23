@@ -145,6 +145,7 @@ namespace MyBlogAPI.Controllers
         /// </remarks>
         /// <param name="id"></param>
         /// <returns></returns>
+        [HttpDelete("{id:int}")]
         [Attributes.PermissionRequired(PermissionAction.CanDelete, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
