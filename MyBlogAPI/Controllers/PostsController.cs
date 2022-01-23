@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Post;
+using MyBlogAPI.Models;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
@@ -19,6 +21,7 @@ namespace MyBlogAPI.Controllers
     /// Controller used to expose Post resources of the API.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class PostsController : ControllerBase
     {
@@ -53,6 +56,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpGet()]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetPostDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPosts(string sortingDirection = "ASC", string orderBy = null, int page = 1,
             int size = 10, string name = null, string content = null)
@@ -76,6 +81,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(GetPostDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -92,6 +99,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPost]
+        [PermissionRequired(Permission.CanCreate)]
         [ProducesResponseType(typeof(GetPostDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -109,6 +117,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPut]
+        [PermissionRequired(Permission.CanUpdate)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -129,6 +138,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [PermissionRequired(Permission.CanDelete)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePost(int id)
@@ -148,6 +158,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Comments/")]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(IEnumerable<GetCommentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommentsFromPost(int id)
@@ -164,6 +176,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromPost(int id)

@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using MyBlogAPI.DTO.Category;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Category;
+using MyBlogAPI.Models;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.PostService;
@@ -17,6 +19,7 @@ namespace MyBlogAPI.Controllers
     /// Controller used to expose Category resources of the API.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class CategoriesController : ControllerBase
     {
@@ -48,6 +51,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="maximumPostNumber"></param>
         /// <returns></returns>
         [HttpGet()]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCategoryDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetCategories(string sortingDirection = "ASC", int page = 1, int size = 10, 
             string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
@@ -72,6 +77,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(GetCategoryDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -88,6 +95,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
+        [PermissionRequired(Permission.CanCreate)]
         [ProducesResponseType(typeof(GetCategoryDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -106,6 +114,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
+        [PermissionRequired(Permission.CanUpdate)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateCategory(UpdateCategoryDto category)
@@ -125,6 +134,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [PermissionRequired(Permission.CanDelete)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteCategory(int id)
@@ -144,6 +154,8 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Posts")]
+        [AllowAnonymous]
+        [PermissionRequired(Permission.CanRead)]
         [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostFromCategory(int id)

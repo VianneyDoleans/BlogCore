@@ -1173,6 +1173,34 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:MyBlogAPI.Models.Permission">
+            <summary>
+            Permission enum allowing to define the permission of a <see cref="T:DbAccess.Data.POCO.Role"/> for a specific resource.
+            </summary>
+            <example>
+            User can read post, comment, like...
+            Writer can do the same, but also create/update post, tag, etc.
+            </example>
+        </member>
+        <member name="T:MyBlogAPI.Models.PermissionTargetEnum">
+            <summary>
+            Enum complementary to <see cref="T:MyBlogAPI.Models.Permission"/> allowing to define the target of the permission.
+            </summary>
+            <example>
+            Writer can create/update own resources.
+            Admin can create/update all resources (not only own).
+            </example>
+        </member>
+        <member name="F:MyBlogAPI.Models.PermissionTargetEnum.Own">
+            <summary>
+            the permission is valid only for own resources
+            </summary>
+        </member>
+        <member name="F:MyBlogAPI.Models.PermissionTargetEnum.All">
+            <summary>
+            the permission is valid for all the resources
+            </summary>
+        </member>
         <member name="T:MyBlogAPI.Responses.BlogErrorResponse">
             <summary>
             Error Response return from API to Client when the request couldn't be execute properly.
