@@ -16,6 +16,7 @@ namespace MyBlogAPI.Attributes
         /// Initializes a new instance of the <see cref="PermissionRequiredAttribute"/> class.
         /// </summary>
         /// <param name="permission"></param>
+        /// <param name="permissionTarget"></param>
         public PermissionRequiredAttribute(PermissionAction permission, PermissionTarget permissionTarget)
         {
                 Permission = permission;
