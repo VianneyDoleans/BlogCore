@@ -1256,5 +1256,24 @@
         <member name="M:MyBlogAPI.Services.CategoryService.CategoryService.CountCategoriesWhere(DbAccess.Specifications.FilterSpecifications.FilterSpecification{DbAccess.Data.POCO.Category})">
             <inheritdoc />
         </member>
+        <member name="T:MyBlogAPI.Services.ServiceCollectionExtensions">
+            <summary> 
+            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject MyBlog Services 
+            </summary> 
+        </member>
+        <member name="M:MyBlogAPI.Services.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register repository services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:MyBlogAPI.Services.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
     </members>
 </doc>

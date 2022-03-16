@@ -13,6 +13,6 @@ namespace DbAccess.Specifications.FilterSpecifications.Filters
             _username = username;
         }
 
-        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.Username.Contains(_username);
+        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.UserName.Contains(_username);
     }
 }

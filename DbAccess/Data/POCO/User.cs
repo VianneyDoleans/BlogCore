@@ -4,17 +4,15 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using DbAccess.Data.POCO.Interface;
 using DbAccess.Data.POCO.JoiningEntity;
+using Microsoft.AspNetCore.Identity;
 
 namespace DbAccess.Data.POCO
 {
-    public class User : IPoco, IHasUsername, IHasEmailAddress, IHasRegisteredAt, IHasLastLogin, IHasUserRoles, IHasPosts, IHasComments, IHasLikes
+    public class User : IdentityUser<int>, IPoco, IHasUsername, IHasEmailAddress, IHasRegisteredAt, IHasLastLogin, IHasUserRoles, IHasPosts, IHasComments, IHasLikes
     {
-        [Key]
-        public int Id { get; set; }
-
         [Required]
         [MinLength(3), MaxLength(20)]
-        public string Username { get; set; }
+        public override string UserName { get; set; }
 
         [Required]
         [MaxLength(320)]

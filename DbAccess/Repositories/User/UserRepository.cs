@@ -87,7 +87,7 @@ namespace DbAccess.Repositories.User
         /// <inheritdoc />
         public async Task<bool> UsernameAlreadyExists(string username)
         {
-            var user = await Context.Set<Data.POCO.User>().Where(x => x.Username == username).FirstOrDefaultAsync();
+            var user = await Context.Set<Data.POCO.User>().Where(x => x.UserName == username).FirstOrDefaultAsync();
             return user != null;
         }
 

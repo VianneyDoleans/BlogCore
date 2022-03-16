@@ -97,32 +97,32 @@ namespace DbAccess.Data
             var sam = new User()
             {
                 EmailAddress = "Sam@email.com",
-                Username = "Sam",
+                UserName = "Sam",
                 Password = "1234"
             };
             var frodon = new User()
             {
                 EmailAddress = "fredon@email.com",
-                Username = "Frodon",
+                UserName = "Frodon",
                 Password = "0000"
             };
             var jamy = new User()
             {
                 EmailAddress = "jamy@email.com",
-                Username = "Jamy",
+                UserName = "Jamy",
                 Password = "JamyRedact",
                 UserDescription = "Hello, my name is Jamy, I love food"
             };
             var fred = new User()
             {
                 EmailAddress = "fred@email.com",
-                Username = "Fred",
+                UserName = "Fred",
                 Password = "FredRedact",
             };
             var admin = new User()
             {
                 EmailAddress = "admin@gmail.com",
-                Username = "AdminUser",
+                UserName = "AdminUser",
                 Password = "adminPassword",
                 UserDescription = "I'm admin, I manage this blog"
             };
@@ -136,14 +136,14 @@ namespace DbAccess.Data
             var user = context.Roles.Single(x => x.Name == "User");
             var redactor = context.Roles.Single(x => x.Name == "Redactor");
             context.UserRoles.AddRange(
-                new UserRole() {Role = user, User = context.Users.Single(x => x.Username == "Jamy")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.Username == "Fred")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.Username == "Frodon")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.Username == "Sam")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.Username == "AdminUser")},
-                new UserRole() {Role = admin, User = context.Users.Single(x => x.Username == "AdminUser")},
-                new UserRole() {Role = redactor, User = context.Users.Single(x => x.Username == "Fred")},
-                new UserRole() {Role = redactor, User = context.Users.Single(x => x.Username == "Jamy")});
+                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Jamy")},
+                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Fred")},
+                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Frodon")},
+                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Sam")},
+                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "AdminUser")},
+                new UserRole() {Role = admin, User = context.Users.Single(x => x.UserName == "AdminUser")},
+                new UserRole() {Role = redactor, User = context.Users.Single(x => x.UserName == "Fred")},
+                new UserRole() {Role = redactor, User = context.Users.Single(x => x.UserName == "Jamy")});
             context.SaveChanges();
         }
 
@@ -194,7 +194,7 @@ namespace DbAccess.Data
             
             var failFoodPost = new Post()
             {
-                Author = context.Users.Single(x => x.Username == "Jamy"), 
+                Author = context.Users.Single(x => x.UserName == "Jamy"), 
                 Content = "This is a mess !",
                 Name = "I failed my pumpkin soup :'(",
                 Category = context.Categories.Single(x => x.Name == "HealthyFood")
@@ -202,7 +202,7 @@ namespace DbAccess.Data
             
             var volcanoes = new Post()
             {
-                Author = context.Users.Single(x => x.Username == "Fred"), 
+                Author = context.Users.Single(x => x.UserName == "Fred"), 
                 Content = "They are so cool !",
                 Name = "Volcanoes are cool",
                 Category = context.Categories.Single(x => x.Name == "Discovery"),
@@ -210,7 +210,7 @@ namespace DbAccess.Data
             
             var roadTrip = new Post()
             {
-                Author = context.Users.Single(x => x.Username == "Fred"),
+                Author = context.Users.Single(x => x.UserName == "Fred"),
                 Content = "Wellllllllcommmme ! =D End.",
                 Name = "Welcome to japan !",
                 Category = context.Categories.Single(x => x.Name == "HealthyFood"),
@@ -221,19 +221,19 @@ namespace DbAccess.Data
 
         private static void GenerateLikes(MyBlogContext context)
         {
-            var fredAddDetail = context.Comments.Single(x => x.Author.Username == "Fred" && x.Content == "Also, they are beautiful !");
+            var fredAddDetail = context.Comments.Single(x => x.Author.UserName == "Fred" && x.Content == "Also, they are beautiful !");
             var volcanoes = context.Posts.Single(x => x.Name == "Volcanoes are cool");
             var frodonLike = new Like()
             {
                 Comment = fredAddDetail,
                 LikeableType = LikeableType.Comment,
-                User = context.Users.Single(x => x.Username == "Frodon"),
+                User = context.Users.Single(x => x.UserName == "Frodon"),
             };
             var adminLike = new Like()
             {
                 Post = volcanoes,
                 LikeableType = LikeableType.Post,
-                User = context.Users.Single(x => x.Username == "AdminUser"),
+                User = context.Users.Single(x => x.UserName == "AdminUser"),
             };
             volcanoes.Likes = new List<Like>() { adminLike };
             fredAddDetail.Likes = new List<Like>() { frodonLike };
@@ -245,27 +245,27 @@ namespace DbAccess.Data
             var volcanoes = context.Posts.Single(x => x.Name == "Volcanoes are cool");
             var scaryVolcanoes = new Comment()
             {
-                Author = context.Users.Single(x => x.Username == "Sam"),
+                Author = context.Users.Single(x => x.UserName == "Sam"),
                 Content = "I don't like volcanoes, they are scary :'(",
                 PostParent = volcanoes
             };
             var weHaveToGo = new Comment()
             {
-                Author = context.Users.Single(x => x.Username == "Frodon"),
+                Author = context.Users.Single(x => x.UserName == "Frodon"),
                 CommentParent = scaryVolcanoes,
                 Content = "Don't say that, We have to go to the ****** !",
                 PostParent = volcanoes
             };
             var samResponse = new Comment()
             {
-                Author = context.Users.Single(x => x.Username == "Sam"),
+                Author = context.Users.Single(x => x.UserName == "Sam"),
                 CommentParent = scaryVolcanoes,
                 Content = "No way !!",
                 PostParent = volcanoes
             };
             var fredAddDetail = new Comment()
             {
-                Author = context.Users.Single(x => x.Username == "Fred"),
+                Author = context.Users.Single(x => x.UserName == "Fred"),
                 Content = "Also, they are beautiful !",
                 PostParent = volcanoes
             };

@@ -30,7 +30,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() {EmailAddress = "AddComment@email.com", Password = "1234", Username = "AddComment"});
+                new User() {EmailAddress = "AddComment@email.com", Password = "1234", UserName = "AddComment"});
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() {Name = "AddCommentName"});
             var post = await _fixture.Db.Posts.AddAsync(
@@ -54,7 +54,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddComWithComParent@email.com", Password = "1234", Username = "AddComWithComPa" });
+                new User() { EmailAddress = "AddComWithComParent@email.com", Password = "1234", UserName = "AddComWithComPa" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddComWithComPa" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -86,7 +86,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddComWithInvalidComPa@email.com", Password = "1234", Username = "AddComWiInvComPa" });
+                new User() { EmailAddress = "AddComWithInvalidComPa@email.com", Password = "1234", UserName = "AddComWiInvComPa" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddComWiInvComPa" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -109,7 +109,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddNullContentCategory@email.com", Password = "1234", Username = "AddNullCom" });
+                new User() { EmailAddress = "AddNullContentCategory@email.com", Password = "1234", UserName = "AddNullCom" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddNulContentComment" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -126,7 +126,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateComWithSelfComPa@email.com", Password = "1234", Username = "UpComWiSelfComPa" });
+                new User() { EmailAddress = "UpdateComWithSelfComPa@email.com", Password = "1234", UserName = "UpComWiSelfComPa" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpComWiSelfComPa" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -151,7 +151,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddCommentNotFoundParent@email.com", Password = "1234", Username = "AddBadParent" });
+                new User() { EmailAddress = "AddCommentNotFoundParent@email.com", Password = "1234", UserName = "AddBadParent" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddBadComPa" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -175,7 +175,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateCommentOnlyOneProperty@email.com", Password = "1234", Username = "UptCmtOnlyOProp" });
+                new User() { EmailAddress = "UpdateCommentOnlyOneProperty@email.com", Password = "1234", UserName = "UptCmtOnlyOProp" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptCmtOnlyOProp" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
@@ -211,7 +211,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateCommentInvalid@email.com", Password = "1234", Username = "UptCmtInvalid" });
+                new User() { EmailAddress = "UpdateCommentInvalid@email.com", Password = "1234", UserName = "UptCmtInvalid" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptCmtInvalid" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
@@ -239,7 +239,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateCommentMissingContent@email.com", Password = "1234", Username = "UptCmtMisContent" });
+                new User() { EmailAddress = "UpdateCommentMissingContent@email.com", Password = "1234", UserName = "UptCmtMisContent" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptCmtMisContent" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
@@ -283,7 +283,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddCommentWithNullAuthor@email.com", Password = "1234", Username = "AddComWithNullA" });
+                new User() { EmailAddress = "AddCommentWithNullAuthor@email.com", Password = "1234", UserName = "AddComWithNullA" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddComWithNullA" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
@@ -304,7 +304,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddCommentWithNullPostParent@email.com", Password = "1234", Username = "AddComWithNullP" });
+                new User() { EmailAddress = "AddCommentWithNullPostParent@email.com", Password = "1234", UserName = "AddComWithNullP" });
             _fixture.UnitOfWork.Save();
             var commentToAdd = new AddCommentDto()
             {
@@ -321,7 +321,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetComment@email.com", Password = "1234", Username = "GetComment" });
+                new User() { EmailAddress = "GetComment@email.com", Password = "1234", UserName = "GetComment" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetComment" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -346,7 +346,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateComment@email.com", Password = "1234", Username = "UpdateComment" });
+                new User() { EmailAddress = "UpdateComment@email.com", Password = "1234", UserName = "UpdateComment" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpdateComment" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -373,7 +373,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateComment@email.com", Password = "1234", Username = "UpdateComment" });
+                new User() { EmailAddress = "UpdateComment@email.com", Password = "1234", UserName = "UpdateComment" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpdateComment" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -391,7 +391,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateComWithSameExistingProp@email.com", Password = "1234", Username = "UpComSaExtProp" });
+                new User() { EmailAddress = "UpdateComWithSameExistingProp@email.com", Password = "1234", UserName = "UpComSaExtProp" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpComSaExtProp" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -418,7 +418,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "DeleteComment@email.com", Password = "1234", Username = "DeleteComment" });
+                new User() { EmailAddress = "DeleteComment@email.com", Password = "1234", UserName = "DeleteComment" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "DeleteComment" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -446,7 +446,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetAllComments@email.com", Password = "1234", Username = "GetAllComments" });
+                new User() { EmailAddress = "GetAllComments@email.com", Password = "1234", UserName = "GetAllComments" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetAllComments" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -481,9 +481,9 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetCommentsFromPost@email.com", Password = "1234", Username = "GetCommentsFromPost" });
+                new User() { EmailAddress = "GetCommentsFromPost@email.com", Password = "1234", UserName = "GetCommentsFromPost" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetCommentsFromPost2@email.com", Password = "1234", Username = "GetCommentsFromPost2" });
+                new User() { EmailAddress = "GetCommentsFromPost2@email.com", Password = "1234", UserName = "GetCommentsFromPost2" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetCommentsFromPost" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -517,7 +517,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetCommentsFromUser@email.com", Password = "1234", Username = "GetCommentsFromUser" });
+                new User() { EmailAddress = "GetCommentsFromUser@email.com", Password = "1234", UserName = "GetCommentsFromUser" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetCommentsFromUser" });
             var post = await _fixture.Db.Posts.AddAsync(

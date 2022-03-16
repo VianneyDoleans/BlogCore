@@ -5,24 +5,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DbAccess;
-using DbAccess.DataContext;
-using DbAccess.Repositories.Category;
-using DbAccess.Repositories.Comment;
-using DbAccess.Repositories.Like;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MyBlogAPI.Services.CategoryService;
-using MyBlogAPI.Services.CommentService;
-using MyBlogAPI.Services.LikeService;
-using MyBlogAPI.Services.PostService;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.TagService;
-using MyBlogAPI.Services.UserService;
+using MyBlogAPI.Services;
 
 namespace MyBlogAPI
 {
@@ -35,34 +21,14 @@ namespace MyBlogAPI
 
         public IConfiguration Configuration { get; }
 
-        private static void ConfigureRepositoryServices(IServiceCollection services)
-        {
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICommentRepository, CommentRepository>();
-            services.AddScoped<ILikeRepository, LikeRepository>();
-            services.AddScoped<IPostRepository, PostRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-            services.AddScoped<ITagRepository, TagRepository>();
-            services.AddScoped<IUserRepository, UserRepository>();
-        }
-
-        private static void ConfigureServiceServices(IServiceCollection services)
-        {
-            services.AddScoped<ICategoryService, CategoryService>();
-            services.AddScoped<ICommentService, CommentService>();
-            services.AddScoped<ILikeService, LikeService>();
-            services.AddScoped<IPostService, PostService>();
-            services.AddScoped<IRoleService, RoleService>();
-            services.AddScoped<ITagService, TagService>();
-            services.AddScoped<IUserService, UserService>();
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
             services.RegisterDatabaseProvider(Configuration);
+            services.RegisterIdentityService();
+
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddSwaggerGen(c =>
             {
@@ -74,8 +40,8 @@ namespace MyBlogAPI
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "MyBlogAPI.xml"));
             });
 
-            ConfigureRepositoryServices(services);
-            ConfigureServiceServices(services);
+            services.RegisterRepositoryServices();
+            services.RegisterResourceServices();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
@@ -103,6 +69,7 @@ namespace MyBlogAPI
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -32,7 +32,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLike@email.com", Password = "1234", Username = "AddLike" });
+                new User() { EmailAddress = "AddLike@email.com", Password = "1234", UserName = "AddLike" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLike" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -57,7 +57,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeTwoTimes@email.com", Password = "1234", Username = "AddLikeTwoT" });
+                new User() { EmailAddress = "AddLikeTwoTimes@email.com", Password = "1234", UserName = "AddLikeTwoT" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeTwoT" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -76,7 +76,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeNullElementPost@email.com", Password = "1234", Username = "AddLikeNullEP" });
+                new User() { EmailAddress = "AddLikeNullElementPost@email.com", Password = "1234", UserName = "AddLikeNullEP" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeNullEP" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -96,7 +96,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeNullElementC@email.com", Password = "1234", Username = "AddLikeNullEC" });
+                new User() { EmailAddress = "AddLikeNullElementC@email.com", Password = "1234", UserName = "AddLikeNullEC" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeNullEC" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -114,7 +114,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeTwElement@email.com", Password = "1234", Username = "AddLikeTwE" });
+                new User() { EmailAddress = "AddLikeTwElement@email.com", Password = "1234", UserName = "AddLikeTwE" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeTwE" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -134,7 +134,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddLikeNullU@email.com", Password = "1234", Username = "AddLikeNullU" });
+                new User() { EmailAddress = "AddLikeNullU@email.com", Password = "1234", UserName = "AddLikeNullU" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeNullU" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -163,7 +163,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() {EmailAddress = "GetLike@email.com", Password = "1234", Username = "GetLike" });
+                new User() {EmailAddress = "GetLike@email.com", Password = "1234", UserName = "GetLike" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() {Name = "GetLike" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -193,7 +193,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateLike@email.com", Password = "1234", Username = "UpdateLike" });
+                new User() { EmailAddress = "UpdateLike@email.com", Password = "1234", UserName = "UpdateLike" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddLikeNullU" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -223,7 +223,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateLikeNotFound@email.com", Password = "1234", Username = "UpdateLikeNotFound" });
+                new User() { EmailAddress = "UpdateLikeNotFound@email.com", Password = "1234", UserName = "UpdateLikeNotFound" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpdateLikeNotFound" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -240,7 +240,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateLikeWithSameExistingPropertie@email.com", Password = "1234", Username = "UpLikeWithSmExtPro" });
+                new User() { EmailAddress = "UpdateLikeWithSameExistingPropertie@email.com", Password = "1234", UserName = "UpLikeWithSmExtPro" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpLikeWithSmExtPro" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -269,7 +269,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdateLikeInvalid@email.com", Password = "1234", Username = "UpdateLikeInvalid" });
+                new User() { EmailAddress = "UpdateLikeInvalid@email.com", Password = "1234", UserName = "UpdateLikeInvalid" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpdateLikeInvalid" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -289,7 +289,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "DeleteLike@email.com", Password = "1234", Username = "DeleteLike" });
+                new User() { EmailAddress = "DeleteLike@email.com", Password = "1234", UserName = "DeleteLike" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "DeleteLike" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -318,7 +318,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetAllLikes@email.com", Password = "1234", Username = "GetAllLikes" });
+                new User() { EmailAddress = "GetAllLikes@email.com", Password = "1234", UserName = "GetAllLikes" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetAllLikes" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -352,9 +352,9 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetLikesFromComment@email.com", Password = "1234", Username = "GetLikesFromComment" });
+                new User() { EmailAddress = "GetLikesFromComment@email.com", Password = "1234", UserName = "GetLikesFromComment" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetLikesFromComment2@email.com", Password = "1234", Username = "GetLikesFromComment2" });
+                new User() { EmailAddress = "GetLikesFromComment2@email.com", Password = "1234", UserName = "GetLikesFromComment2" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetLikesFromComment" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -388,9 +388,9 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetLikesFromPost@email.com", Password = "1234", Username = "GetLikesFromPost" });
+                new User() { EmailAddress = "GetLikesFromPost@email.com", Password = "1234", UserName = "GetLikesFromPost" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetLikesFromPost2@email.com", Password = "1234", Username = "GetLikesFromPost2" });
+                new User() { EmailAddress = "GetLikesFromPost2@email.com", Password = "1234", UserName = "GetLikesFromPost2" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetLikesFromPost" });
             var post = await _fixture.Db.Posts.AddAsync(
@@ -422,7 +422,7 @@ namespace MyBlogAPI.Tests.Services
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetLikesFromUser@email.com", Password = "1234", Username = "GetLikesFromUser" });
+                new User() { EmailAddress = "GetLikesFromUser@email.com", Password = "1234", UserName = "GetLikesFromUser" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetLikesFromUser" });
             var post = await _fixture.Db.Posts.AddAsync(

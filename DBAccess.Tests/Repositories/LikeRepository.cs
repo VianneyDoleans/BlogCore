@@ -106,7 +106,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "AddLike@email.com", Password = "1234", Username = "AddLike" });
+                new User() { EmailAddress = "AddLike@email.com", Password = "1234", UserName = "AddLike" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "AddLike" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "AddLike", Content = "AddLike", Category = category.Entity });
@@ -176,7 +176,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "LikeGetASpecBasic@email.com", Password = "1234", Username = "LikeGetASpecBasic" });
+               new User() { EmailAddress = "LikeGetASpecBasic@email.com", Password = "1234", UserName = "LikeGetASpecBasic" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LikeGetASpecBasic" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LikeGetASpecBasic", Content = "LikeGetASpecBasic", Category = category.Entity });
@@ -231,19 +231,19 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecLi1@email.com", Password = "1234", Username = "GetAWiTwoSpecLi" });
+               new User() { EmailAddress = "GetAWiTwoSpecLi1@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi" });
             var user2 = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecLi2@email.com", Password = "1234", Username = "GetAWiTwoSpecLi2" });
+               new User() { EmailAddress = "GetAWiTwoSpecLi2@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecLi3@email.com", Password = "1234", Username = "GetAWiTwoSpecLi3" });
+               new User() { EmailAddress = "GetAWiTwoSpecLi3@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecLi4@email.com", Password = "1234", Username = "GetAWiTwoSpecLi4" });
+               new User() { EmailAddress = "GetAWiTwoSpecLi4@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecLi5@email.com", Password = "1234", Username = "GetAWiTwoSpecLi5" });
+               new User() { EmailAddress = "GetAWiTwoSpecLi5@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecLi6@email.com", Password = "1234", Username = "GetAWiTwoSpecLi6" });
+               new User() { EmailAddress = "GetAWiTwoSpecLi6@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi6" });
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetAWiTwoSpecLi7@email.com", Password = "1234", Username = "GetAWiTwoSpecLi7" });
+                new User() { EmailAddress = "GetAWiTwoSpecLi7@email.com", Password = "1234", UserName = "GetAWiTwoSpecLi7" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAWiTwoSpecLi" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "GetAWiTwoSpecLi", Content = "GetAWiTwoSpecLi", Category = category.Entity });
@@ -305,17 +305,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa@email.com", Password = "1234", Username = "LiToSosAdTwoSpcWiPa" });
+                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa@email.com", Password = "1234", UserName = "LiToSosAdTwoSpcWiPa" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa2@email.com", Password = "1234", Username = "LiToSosAdTwoSpcWiPa2" });
+                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa2@email.com", Password = "1234", UserName = "LiToSosAdTwoSpcWiPa2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa3@email.com", Password = "1234", Username = "LiToSosAdTwoSpcWiPa3" });
+                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa3@email.com", Password = "1234", UserName = "LiToSosAdTwoSpcWiPa3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa4@email.com", Password = "1234", Username = "LiToSosAdTwoSpcWiPa4" });
+                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa4@email.com", Password = "1234", UserName = "LiToSosAdTwoSpcWiPa4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa5@email.com", Password = "1234", Username = "LiToSosAdTwoSpcWiPa5" });
+                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa5@email.com", Password = "1234", UserName = "LiToSosAdTwoSpcWiPa5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa6@email.com", Password = "1234", Username = "ALiToSosAdTwoSpcWiPe6" });
+                new User() { EmailAddress = "LiToSosAdTwoSpcWiPa6@email.com", Password = "1234", UserName = "ALiToSosAdTwoSpcWiPe6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiToSosAdTwoSpcWiPa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LikeTwoSortsAndTwoSpecApa", Content = "GeLiToSosAdTwoSpcWiPa", Category = category.Entity });
@@ -340,7 +340,7 @@ namespace DBAccess.Tests.Repositories
             // Act
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("SpcWiPa")
                                                             & new PostNameSpecification<Like>("LikeTwoSortsAndTwoSpecApa"), new PagingSpecification(1, 2),
-                new SortSpecification<Like>(new OrderBySpecification<Like>(x => x.User.Username), SortingDirectionSpecification.Ascending))).ToList();
+                new SortSpecification<Like>(new OrderBySpecification<Like>(x => x.User.UserName), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 2);
@@ -365,17 +365,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "BLiGetAWiAllArg@email.com", Password = "1234", Username = "LiGetAWiAllArg" });
+                new User() { EmailAddress = "BLiGetAWiAllArg@email.com", Password = "1234", UserName = "LiGetAWiAllArg" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiAllArg2@email.com", Password = "1234", Username = "LiGetAWiAllArg2" });
+                new User() { EmailAddress = "ALiGetAWiAllArg2@email.com", Password = "1234", UserName = "LiGetAWiAllArg2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ELiGetAWiAllArg3@email.com", Password = "1234", Username = "LiGetAWiAllArg3" });
+                new User() { EmailAddress = "ELiGetAWiAllArg3@email.com", Password = "1234", UserName = "LiGetAWiAllArg3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GLiGetAWiAllArg4@email.com", Password = "1234", Username = "LiGetAWiAllArg4" });
+                new User() { EmailAddress = "GLiGetAWiAllArg4@email.com", Password = "1234", UserName = "LiGetAWiAllArg4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ELiGetAWiAllArg5@email.com", Password = "1234", Username = "LiGetAWiAllArg5" });
+                new User() { EmailAddress = "ELiGetAWiAllArg5@email.com", Password = "1234", UserName = "LiGetAWiAllArg5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiAllArg6@email.com", Password = "1234", Username = "LiGetAWiAllArg6" });
+                new User() { EmailAddress = "ALiGetAWiAllArg6@email.com", Password = "1234", UserName = "LiGetAWiAllArg6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiAllArgCa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LikeTwoSortsAndTwoSpecApa", Content = "LiGetAWiAllArgPo", Category = category.Entity });
@@ -422,17 +422,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiPa@email.com", Password = "1234", Username = "LiGetAWiPa" });
+                new User() { EmailAddress = "ALiGetAWiPa@email.com", Password = "1234", UserName = "LiGetAWiPa" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiPa2@email.com", Password = "1234", Username = "LiGetAWiPa2" });
+                new User() { EmailAddress = "ALiGetAWiPa2@email.com", Password = "1234", UserName = "LiGetAWiPa2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPa3@email.com", Password = "1234", Username = "LiGetAWiPa3" });
+                new User() { EmailAddress = "LiGetAWiPa3@email.com", Password = "1234", UserName = "LiGetAWiPa3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiPa4@email.com", Password = "1234", Username = "LiGetAWiPa4" });
+                new User() { EmailAddress = "ALiGetAWiPa4@email.com", Password = "1234", UserName = "LiGetAWiPa4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPa5@email.com", Password = "1234", Username = "LiGetAWiPa5" });
+                new User() { EmailAddress = "LiGetAWiPa5@email.com", Password = "1234", UserName = "LiGetAWiPa5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPa6@email.com", Password = "1234", Username = "LiGetAWiPa6" });
+                new User() { EmailAddress = "LiGetAWiPa6@email.com", Password = "1234", UserName = "LiGetAWiPa6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaCa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LiGetAWiPaPo", Content = "LiGetAWiPaPo", Category = category.Entity });
@@ -462,17 +462,17 @@ namespace DBAccess.Tests.Repositories
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPa"),
                 new PagingSpecification(2, 3),
                 new SortSpecification<Like>(
-                    new OrderBySpecification<Like>(x => x.User.Username),
+                    new OrderBySpecification<Like>(x => x.User.UserName),
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 3);
             Assert.Contains(result, x => x.Id == like3.Entity.Id &&
-                                         x.User.Username == like3.Entity.User.Username);
+                                         x.User.UserName == like3.Entity.User.UserName);
             Assert.Contains(result, x => x.Id == like4.Entity.Id &&
-                                          x.User.Username == like4.Entity.User.Username);
+                                          x.User.UserName == like4.Entity.User.UserName);
             Assert.Contains(result, x => x.Id == like5.Entity.Id &&
-                                         x.User.Username == like5.Entity.User.Username);
+                                         x.User.UserName == like5.Entity.User.UserName);
         }
 
         [Fact]
@@ -482,17 +482,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa@email.com", Password = "1234", Username = "LiGetAWiPaTafRa" });
+                new User() { EmailAddress = "LiGetAWiPaTafRa@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa2@email.com", Password = "1234", Username = "LiGetAWiPaTafRa2" });
+                new User() { EmailAddress = "LiGetAWiPaTafRa2@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa3@email.com", Password = "1234", Username = "LiGetAWiPaTafRa3" });
+                new User() { EmailAddress = "LiGetAWiPaTafRa3@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa4@email.com", Password = "1234", Username = "LiGetAWiPaTafRa4" });
+                new User() { EmailAddress = "LiGetAWiPaTafRa4@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa5@email.com", Password = "1234", Username = "LiGetAWiPaTafRa5" });
+                new User() { EmailAddress = "LiGetAWiPaTafRa5@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa6@email.com", Password = "1234", Username = "LiGetAWiPaTafRa6" });
+                new User() { EmailAddress = "LiGetAWiPaTafRa6@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaTafRaCa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LiGetAWiPaTafRaPo", Content = "LiGetAWiPaTafRaPo", Category = category.Entity });
@@ -522,21 +522,21 @@ namespace DBAccess.Tests.Repositories
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaTafRa"),
                 new PagingSpecification(2, 22),
                 new SortSpecification<Like>(
-                    new OrderBySpecification<Like>(x => x.User.Username),
+                    new OrderBySpecification<Like>(x => x.User.UserName),
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 5);
             Assert.Contains(result, x => x.Id == like3.Entity.Id &&
-                                         x.User.Username == like3.Entity.User.Username);
+                                         x.User.UserName == like3.Entity.User.UserName);
             Assert.Contains(result, x => x.Id == like4.Entity.Id &&
-                                         x.User.Username == like4.Entity.User.Username);
+                                         x.User.UserName == like4.Entity.User.UserName);
             Assert.Contains(result, x => x.Id == like5.Entity.Id &&
-                                         x.User.Username == like5.Entity.User.Username);
+                                         x.User.UserName == like5.Entity.User.UserName);
             Assert.Contains(result, x => x.Id == like6.Entity.Id &&
-                                         x.User.Username == like6.Entity.User.Username);
+                                         x.User.UserName == like6.Entity.User.UserName);
             Assert.Contains(result, x => x.Id == like7.Entity.Id &&
-                                         x.User.Username == like7.Entity.User.Username);
+                                         x.User.UserName == like7.Entity.User.UserName);
         }
 
         [Fact]
@@ -546,17 +546,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe@email.com", Password = "1234", Username = "LiGetAWiPaTaNe" });
+                new User() { EmailAddress = "LiGetAWiPaTaNe@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe2@email.com", Password = "1234", Username = "LiGetAWiPaTaNe2" });
+                new User() { EmailAddress = "LiGetAWiPaTaNe2@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe3@email.com", Password = "1234", Username = "LiGetAWiPaTaNe3" });
+                new User() { EmailAddress = "LiGetAWiPaTaNe3@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe4@email.com", Password = "1234", Username = "LiGetAWiPaTaNe4" });
+                new User() { EmailAddress = "LiGetAWiPaTaNe4@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe5@email.com", Password = "1234", Username = "LiGetAWiPaTaNe5" });
+                new User() { EmailAddress = "LiGetAWiPaTaNe5@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe6@email.com", Password = "1234", Username = "LiGetAWiPaTaNe6" });
+                new User() { EmailAddress = "LiGetAWiPaTaNe6@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaTaNeCa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LiGetAWiPaTaNePo", Content = "LiGetAWiPaTaNePo", Category = category.Entity });
@@ -586,7 +586,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaTaNe"),
                 new PagingSpecification(2, -2),
                 new SortSpecification<Like>(
-                    new OrderBySpecification<Like>(x => x.User.Username),
+                    new OrderBySpecification<Like>(x => x.User.UserName),
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
@@ -600,17 +600,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN@email.com", Password = "1234", Username = "LiGetAWiPaSkiN" });
+                new User() { EmailAddress = "LiGetAWiPaSkiN@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN2@email.com", Password = "1234", Username = "LiGetAWiPaSkiN2" });
+                new User() { EmailAddress = "LiGetAWiPaSkiN2@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN3@email.com", Password = "1234", Username = "LiGetAWiPaSkiN3" });
+                new User() { EmailAddress = "LiGetAWiPaSkiN3@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN4@email.com", Password = "1234", Username = "LiGetAWiPaSkiN4" });
+                new User() { EmailAddress = "LiGetAWiPaSkiN4@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN5@email.com", Password = "1234", Username = "LiGetAWiPaSkiN5" });
+                new User() { EmailAddress = "LiGetAWiPaSkiN5@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN6@email.com", Password = "1234", Username = "LiGetAWiPaSkiN6" });
+                new User() { EmailAddress = "LiGetAWiPaSkiN6@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaSkiNCa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LiGetAWiPaSkiNPo", Content = "LiGetAWiPaSkiNPo", Category = category.Entity });
@@ -640,17 +640,17 @@ namespace DBAccess.Tests.Repositories
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaSkiN"),
                 new PagingSpecification(-2, 3),
                 new SortSpecification<Like>(
-                    new OrderBySpecification<Like>(x => x.User.Username),
+                    new OrderBySpecification<Like>(x => x.User.UserName),
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
             Assert.True(result.Count() == 3);
             Assert.Contains(result, x => x.Id == like.Entity.Id &&
-                                         x.User.Username == like.Entity.User.Username && like.Entity.LikeableType == LikeableType.Post);
+                                         x.User.UserName == like.Entity.User.UserName && like.Entity.LikeableType == LikeableType.Post);
             Assert.Contains(result, x => x.Id == like2.Entity.Id &&
-                                         x.User.Username == like2.Entity.User.Username && like2.Entity.LikeableType == LikeableType.Comment);
+                                         x.User.UserName == like2.Entity.User.UserName && like2.Entity.LikeableType == LikeableType.Comment);
             Assert.Contains(result, x => x.Id == like3.Entity.Id &&
-                                         x.User.Username == like3.Entity.User.Username);
+                                         x.User.UserName == like3.Entity.User.UserName);
         }
 
         [Fact]
@@ -660,17 +660,17 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkORa@email.com", Password = "1234", Username = "LiGetAWiPaSkORaN" });
+                new User() { EmailAddress = "LiGetAWiPaSkORa@email.com", Password = "1234", UserName = "LiGetAWiPaSkORaN" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkORa2@email.com", Password = "1234", Username = "LiGetAWiPaSkORa2" });
+                new User() { EmailAddress = "LiGetAWiPaSkORa2@email.com", Password = "1234", UserName = "LiGetAWiPaSkORa2" });
             var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkORa3@email.com", Password = "1234", Username = "LiGetAWiPaSkORa3" });
+                new User() { EmailAddress = "LiGetAWiPaSkORa3@email.com", Password = "1234", UserName = "LiGetAWiPaSkORa3" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkORa4@email.com", Password = "1234", Username = "LiGetAWiPaSkORa4" });
+                new User() { EmailAddress = "LiGetAWiPaSkORa4@email.com", Password = "1234", UserName = "LiGetAWiPaSkORa4" });
             var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkORa5@email.com", Password = "1234", Username = "LiGetAWiPaSkORa5" });
+                new User() { EmailAddress = "LiGetAWiPaSkORa5@email.com", Password = "1234", UserName = "LiGetAWiPaSkORa5" });
             var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkORa6@email.com", Password = "1234", Username = "LiGetAWiPaSkORa6" });
+                new User() { EmailAddress = "LiGetAWiPaSkORa6@email.com", Password = "1234", UserName = "LiGetAWiPaSkORa6" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaSkORaCa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "LiGetAWiPaSkORaPo", Content = "LiGetAWiPaSkORaPo", Category = category.Entity });
@@ -700,7 +700,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaSkORa"),
                 new PagingSpecification(7, 3),
                 new SortSpecification<Like>(
-                    new OrderBySpecification<Like>(x => x.User.Username),
+                    new OrderBySpecification<Like>(x => x.User.UserName),
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
@@ -715,7 +715,7 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "LiRemove@email.com", Password = "1234", Username = "LiRemove" });
+                new User() { EmailAddress = "LiRemove@email.com", Password = "1234", UserName = "LiRemove" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "LiRemoveCa" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "LiRemovePo", Content = "LiRemovePo", Category = category.Entity });
@@ -795,7 +795,7 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "LiRemoveRa@email.com", Password = "1234", Username = "LiRemoveRa" });
+                new User() { EmailAddress = "LiRemoveRa@email.com", Password = "1234", UserName = "LiRemoveRa" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "LiRemoveRaCa" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "LiRemoveRaPo", Content = "LiRemoveRaPo", Category = category.Entity });
@@ -830,7 +830,7 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "LiRemoveRaAs@email.com", Password = "1234", Username = "LiRemoveRaAs" });
+                new User() { EmailAddress = "LiRemoveRaAs@email.com", Password = "1234", UserName = "LiRemoveRaAs" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "LiRemoveRaAsCa" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "LiRemoveRaAsPo", Content = "LiRemoveRaAsPo", Category = category.Entity });
@@ -864,7 +864,7 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
             var category = _fixture.Db.Categories.Add(new Category() { Name = "LikeAlreadyExistsFalse" });
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "LikeAlreadyExistsFalse@email.com", Password = "1234", Username = "LikeAlreadyExistsFalse" });
+                new User() { EmailAddress = "LikeAlreadyExistsFalse@email.com", Password = "1234", UserName = "LikeAlreadyExistsFalse" });
             var post = _fixture.Db.Posts.Add(
                 new Post()
                 {
@@ -901,7 +901,7 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
             var category = _fixture.Db.Categories.Add(new Category() { Name = "LikeAlreadyExistsTrue" });
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "LikeAlreadyExistsTrue@email.com", Password = "1234", Username = "LikeAlreadyExistsTrue" });
+                new User() { EmailAddress = "LikeAlreadyExistsTrue@email.com", Password = "1234", UserName = "LikeAlreadyExistsTrue" });
             var post = _fixture.Db.Posts.Add(
                 new Post()
                 {

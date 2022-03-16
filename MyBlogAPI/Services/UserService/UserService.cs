@@ -113,7 +113,7 @@ namespace MyBlogAPI.Services.UserService
             var userDb = _repository.GetAsync(user.Id);
             CheckUserValidity((IUserDto)user);
             if (await _repository.UsernameAlreadyExists(user.Username) &&
-                (await userDb).Username != user.Username)
+                (await userDb).UserName != user.Username)
                 throw new InvalidOperationException("Username already exists.");
             if (await _repository.EmailAddressAlreadyExists(user.EmailAddress) &&
                 (await userDb).EmailAddress != user.EmailAddress)
@@ -161,7 +161,7 @@ namespace MyBlogAPI.Services.UserService
             if (user == null)
                 throw new ArgumentNullException();
             var userDb = await _repository.GetAsync(user.Id);
-            return userDb.Username == user.Username &&
+            return userDb.UserName == user.Username &&
                    userDb.EmailAddress == user.EmailAddress &&
                    user.Password == userDb.Password &&
                    user.UserDescription == userDb.UserDescription;

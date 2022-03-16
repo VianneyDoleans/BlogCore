@@ -329,7 +329,7 @@ namespace DBAccess.Tests.Repositories
             await categoryRepository.AddAsync(testCategory7);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpec" });
+                new User() { EmailAddress = "TwoSortsAndTwoSpec@email.com", Password = "1234", UserName = "TwoSortsAndTwoSpec" });
             await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Category = testCategory, Content = "new post", Name = "TwoSortsAndTwoSpec1" });
             await _fixture.Db.Posts.AddAsync(

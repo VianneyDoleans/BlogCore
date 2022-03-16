@@ -5,18 +5,16 @@ using System.Text.Json;
 using DbAccess.Data.Models.Permission;
 using DbAccess.Data.POCO.Interface;
 using DbAccess.Data.POCO.JoiningEntity;
+using Microsoft.AspNetCore.Identity;
 
 namespace DbAccess.Data.POCO
 {
 
-    public class Role : IPoco, IHasName, IHasUserRoles
+    public class Role : IdentityRole<int>, IPoco, IHasName, IHasUserRoles
     {
-        [Key]
-        public int Id { get; set; }
-        
         [Required]
         [MaxLength(20)]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
         [ForeignKey("RoleId")]
         public virtual ICollection<UserRole> UserRoles { get; set; }

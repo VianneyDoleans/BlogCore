@@ -24,7 +24,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddCommentAsync@email.com", Password = "1234", Username = "AddCommentAsync" });
+                new User() { EmailAddress = "AddCommentAsync@email.com", Password = "1234", UserName = "AddCommentAsync" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "AddCommentAsync" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "AddCommentAsync", Content = "AddCommentAsync", Category = category.Entity });
@@ -92,7 +92,7 @@ namespace DBAccess.Tests.Repositories
             var nbCommentsAtBeginning = _fixture.Db.Comments.Count();
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ComRemoveAsync@email.com", Password = "1234", Username = "ComRemoveAsync" });
+                new User() { EmailAddress = "ComRemoveAsync@email.com", Password = "1234", UserName = "ComRemoveAsync" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComRemoveAsync" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "ComRemoveAsync", Content = "ComRemoveAsync", Category = category.Entity });
@@ -129,7 +129,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "AddComment@email.com", Password = "1234", Username = "AddComment" });
+                new User() { EmailAddress = "AddComment@email.com", Password = "1234", UserName = "AddComment" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "AddComment" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "AddComment", Content = "AddComment", Category = category.Entity });
@@ -199,7 +199,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetASpecBasicCo@email.com", Password = "1234", Username = "GetASpecBasicCo" });
+               new User() { EmailAddress = "GetASpecBasicCo@email.com", Password = "1234", UserName = "GetASpecBasicCo" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetASpecBasicCo" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "GetASpecBasicCo", Content = "GetASpecBasicCo", Category = category.Entity });
@@ -248,7 +248,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecCo@email.com", Password = "1234", Username = "GetAWiTwoSpecCo" });
+               new User() { EmailAddress = "GetAWiTwoSpecCo@email.com", Password = "1234", UserName = "GetAWiTwoSpecCo" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAWiTwoSpecCo" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "GetAWiTwoSpecCo", Content = "GetAWiTwoSpecCo", Category = category.Entity });
@@ -310,9 +310,9 @@ namespace DBAccess.Tests.Repositories
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentTwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpecCo" });
+                new User() { EmailAddress = "CommentTwoSortsAndTwoSpec@email.com", Password = "1234", UserName = "TwoSortsAndTwoSpecCo" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentAnotherTwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpecCo2" });
+                new User() { EmailAddress = "CommentAnotherTwoSortsAndTwoSpec@email.com", Password = "1234", UserName = "TwoSortsAndTwoSpecCo2" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "TwoSortsAndTwoSpecCo" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "CommentTwoSortsAndTwoSpec", Content = "TwoSortsAndTwoSpecComment", Category = category.Entity });
@@ -335,7 +335,7 @@ namespace DBAccess.Tests.Repositories
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("WithTwoSorts")
                                                             & new ContentContainsSpecification<Comment>("Twwoo"), new PagingSpecification(0, 20),
-                new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Author.Username), SortingDirectionSpecification.Descending) &
+                new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Author.UserName), SortingDirectionSpecification.Descending) &
                 new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Content), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
@@ -358,7 +358,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithAllArguments@email.com", Password = "1234", Username = "ComGetAWithAllArgs" });
+                new User() { EmailAddress = "CommentGetAsyncWithAllArguments@email.com", Password = "1234", UserName = "ComGetAWithAllArgs" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithAllArgs" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "ComGetAWithAllArgs", Content = "ComGetAWithAllArgs", Category = category.Entity });
@@ -424,7 +424,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPagination@email.com", Password = "1234", Username = "GetAsyncWithPagination" });
+                new User() { EmailAddress = "CommentGetAsyncWithPagination@email.com", Password = "1234", UserName = "GetAsyncWithPagination" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAsyncWithPagination" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "GetAsyncWithPagination", Content = "GetAsyncWithPagination", Category = category.Entity });
@@ -495,7 +495,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CoGetAWithPagTaOfRg@email.com", Password = "1234", Username = "CoGetAWithPagTaOfRg" });
+                new User() { EmailAddress = "CoGetAWithPagTaOfRg@email.com", Password = "1234", UserName = "CoGetAWithPagTaOfRg" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "CoGetAWithPagTaOfRg" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "CoGetAWithPagTaOfRg", Content = "CoGetAWithPagTaOfRg", Category = category.Entity });
@@ -568,7 +568,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPaginationTakeNegative@email.com", Password = "1234", Username = "ComGetAWithPagTakeNega" });
+                new User() { EmailAddress = "CommentGetAsyncWithPaginationTakeNegative@email.com", Password = "1234", UserName = "ComGetAWithPagTakeNega" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithAllArgs" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "ComGetAWithAllArgs", Content = "ComGetAWithAllArgs", Category = category.Entity });
@@ -633,7 +633,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPaginationSkipNegative@email.com", Password = "1234", Username = "ComGetAWithPagSkipNega" });
+                new User() { EmailAddress = "CommentGetAsyncWithPaginationSkipNegative@email.com", Password = "1234", UserName = "ComGetAWithPagSkipNega" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithPagSkipNega" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "ComGetAWithPagSkipNega", Content = "ComGetAWithPagSkipNega", Category = category.Entity });
@@ -704,7 +704,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPaginationSkipOutOfRange@email.com", Password = "1234", Username = "ComGetAWiPagSkipOfRa" });
+                new User() { EmailAddress = "CommentGetAsyncWithPaginationSkipOutOfRange@email.com", Password = "1234", UserName = "ComGetAWiPagSkipOfRa" });
             var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWiPagSkipOfRa" });
             var post = await _fixture.Db.Posts.AddAsync(
                 new Post() { Author = user.Entity, Name = "ComGetAWiPagSkipOfRa", Content = "ComGetAWiPagSkipOfRa", Category = category.Entity });
@@ -770,7 +770,7 @@ namespace DBAccess.Tests.Repositories
             var nbCategoriesAtBeginning = _fixture.Db.Comments.Count();
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "CommentRemove@email.com", Password = "1234", Username = "CommentRemove" });
+                new User() { EmailAddress = "CommentRemove@email.com", Password = "1234", UserName = "CommentRemove" });
             var category = _fixture.Db.Categories.Add(new Category() { Name = "CCommentGetRemove" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "CommentRemove", Content = "CommenRemove", Category = category.Entity });
@@ -855,7 +855,7 @@ namespace DBAccess.Tests.Repositories
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var category = _fixture.Db.Categories.Add(new Category() { Name = "CommentRemoveRange" });
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "CommentRemoveRange@email.com", Password = "1234", Username = "CommentGetRemoveRg" });
+                new User() { EmailAddress = "CommentRemoveRange@email.com", Password = "1234", UserName = "CommentGetRemoveRg" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "CommentRemoveRange", Content = "CommentRemoveRange", Category = category.Entity });
             var testComment = new Comment()
@@ -893,7 +893,7 @@ namespace DBAccess.Tests.Repositories
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
             var category = _fixture.Db.Categories.Add(new Category() { Name = "CommentRemoveRange" });
             var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "ComRemoveRangeAsync@email.com", Password = "1234", Username = "ComRemoveRgAsync" });
+                new User() { EmailAddress = "ComRemoveRangeAsync@email.com", Password = "1234", UserName = "ComRemoveRgAsync" });
             var post = _fixture.Db.Posts.Add(
                 new Post() { Author = user.Entity, Name = "ComRemoveRgAsync", Content = "ComRemoveRgAsync", Category = category.Entity });
             var testComment = new Comment()

@@ -45,7 +45,7 @@ namespace MyBlogAPI.Tests.Services
             Assert.Contains(_fixture.Db.Users, x => x.Id == user.Id &&
                                                     x.EmailAddress == user.EmailAddress &&
                                                     x.UserDescription == user.UserDescription &&
-                                                    x.Username == user.Username);
+                                                    x.UserName == user.Username);
         }
 
         [Fact]
@@ -483,13 +483,13 @@ namespace MyBlogAPI.Tests.Services
             var user1 = new User()
                 {
                     EmailAddress = "GetUsersFromRole@email.com",
-                    Username = "GetUsFromRole",
+                    UserName = "GetUsFromRole",
                     Password = "1234"
                 };
             var user2 = new User()
             {
                 EmailAddress = "GetUsersFromRole2@email.com",
-                Username = "GetUsFromRole2",
+                UserName = "GetUsFromRole2",
                 Password = "1234"
             };
             await _fixture.Db.Users.AddAsync(user1);
@@ -504,10 +504,10 @@ namespace MyBlogAPI.Tests.Services
 
             // Assert
             Assert.True(users.Length == 2);
-            Assert.Contains(users, x => x.Username == user1.Username &&
+            Assert.Contains(users, x => x.Username == user1.UserName &&
                                         x.UserDescription == user1.UserDescription &&
                                         x.EmailAddress == user1.EmailAddress);
-            Assert.Contains(users, x => x.Username == user2.Username &&
+            Assert.Contains(users, x => x.Username == user2.UserName &&
                                         x.UserDescription == user2.UserDescription &&
                                         x.EmailAddress == user2.EmailAddress);
         }

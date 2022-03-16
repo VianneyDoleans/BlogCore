@@ -13,7 +13,7 @@ namespace MyBlogAPI.DTO.User.Converters
         {
             destination.UserDescription = source.UserDescription;
             destination.EmailAddress = source.EmailAddress;
-            destination.Username = source.Username;
+            destination.UserName = source.Username;
             destination.Password = source.Password;
             return destination;
         }
