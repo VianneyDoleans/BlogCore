@@ -1,4 +1,4 @@
-﻿namespace DbAccess.Data.Models.Permission
+﻿namespace DbAccess.Data.POCO.Permission
 {
     /// <summary>
     /// Enum complementary to <see cref="PermissionAction"/> allowing to define the range of the permission.

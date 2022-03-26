@@ -22,7 +22,7 @@ namespace MyBlogAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db), new PostRepository(_fixture.Db));
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new PostRepository(_fixture.Db));
         }
 
         [Fact]
@@ -179,7 +179,7 @@ namespace MyBlogAPI.Tests.Services
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptCmtOnlyOProp" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
-                {Author = user.Entity, Category = category.Entity, Content = "UpdateCommentOnlyOneProperty"});
+                {Author = user.Entity, Category = category.Entity, Content = "UpdateCommentOnlyOneProperty", Name = "UpdateCommentOnlyOneProperty" });
 
             _fixture.UnitOfWork.Save();
             var comment = await _service.AddComment(new AddCommentDto()
@@ -215,7 +215,7 @@ namespace MyBlogAPI.Tests.Services
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptCmtInvalid" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
-                { Author = user.Entity, Category = category.Entity, Content = "UpdateCommentInvalid" });
+                { Author = user.Entity, Category = category.Entity, Content = "UpdateCommentInvalid", Name = "UpdateCommentInvalid" });
             _fixture.UnitOfWork.Save();
             var comment = await _service.AddComment(new AddCommentDto()
             {
@@ -243,7 +243,7 @@ namespace MyBlogAPI.Tests.Services
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptCmtMisContent" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
-                { Author = user.Entity, Category = category.Entity, Content = "UptCmtMisContent" });
+                { Author = user.Entity, Category = category.Entity, Content = "UptCmtMisContent", Name = "UpdateCommentMissingContent" });
             _fixture.UnitOfWork.Save();
             var comment = await _service.AddComment(new AddCommentDto()
             {
@@ -287,7 +287,7 @@ namespace MyBlogAPI.Tests.Services
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddComWithNullA" });
             var post = await _fixture.Db.Posts.AddAsync(new Post()
-                { Author = user.Entity, Category = category.Entity, Content = "AddComWithNullA" });
+                { Author = user.Entity, Category = category.Entity, Content = "AddComWithNullA", Name = "AddCommentWithNullAuthor" });
             _fixture.UnitOfWork.Save();
             var commentToAdd = new AddCommentDto()
             {

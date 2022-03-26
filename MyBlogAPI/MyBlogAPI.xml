@@ -9,7 +9,7 @@
              Attribute allowing to define the corresponding permission needed for an resource endpoint.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Attributes.PermissionRequiredAttribute.#ctor(DbAccess.Data.Models.Permission.PermissionAction,DbAccess.Data.Models.Permission.PermissionTarget)">
+        <member name="M:MyBlogAPI.Attributes.PermissionRequiredAttribute.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
             <summary>
             Initializes a new instance of the <see cref="T:MyBlogAPI.Attributes.PermissionRequiredAttribute"/> class.
             </summary>

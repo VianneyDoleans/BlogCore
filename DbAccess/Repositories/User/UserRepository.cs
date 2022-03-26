@@ -6,18 +6,23 @@ using DbAccess.DataContext;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.User
 {
     public class UserRepository : Repository<Data.POCO.User>, IUserRepository
     {
+        private readonly UserManager<Data.POCO.User> _userManager;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public UserRepository(MyBlogContext context) : base(context)
+        /// <param name="userManager"></param>
+        public UserRepository(MyBlogContext context, UserManager<Data.POCO.User> userManager) : base(context)
         {
+            _userManager = userManager;
         }
 
         /// <inheritdoc />
@@ -52,6 +57,34 @@ namespace DbAccess.Repositories.User
             catch
             {
                 throw new IndexOutOfRangeException("User doesn't exist.");
+            }
+        }
+
+        /// <inheritdoc />
+        public override async Task<Data.POCO.User> AddAsync(Data.POCO.User user)
+        {
+            var result = await _userManager.CreateAsync(user);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+            return await _userManager.FindByNameAsync(user.UserName);
+        }
+
+        /// <inheritdoc />
+        public override async Task RemoveAsync(Data.POCO.User user)
+        {
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        /// <inheritdoc />
+        public override async Task RemoveRangeAsync(IEnumerable<Data.POCO.User> users)
+        {
+            if (users == null)
+                throw new ArgumentNullException(nameof(users));
+            foreach (var user in users)
+            {
+                await RemoveAsync(user);
             }
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DbAccess.Data.POCO;
+using DbAccess.Repositories;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
@@ -21,7 +22,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async void AddUserAsync()
         {
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "test@test.com",
@@ -39,7 +40,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async void AddNullUserAsync()
         {
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await userRepository.AddAsync(null));
         }
@@ -47,16 +48,25 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async void GetUserAsync()
         {
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
-            var result = await userRepository.GetAsync(1);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var testUser = new User()
+            {
+                EmailAddress = "GetUserAsync@test.test",
+                Password = "test",
+                UserName = "GetUserAsync"
+            };
+            await userRepository.AddAsync(testUser);
+            _fixture.UnitOfWork.Save();
+
+            var result = await userRepository.GetAsync(testUser.Id);
             
-            Assert.True(result == await _fixture.Db.Users.FindAsync(1));
+            Assert.True(result == await _fixture.Db.Users.FindAsync(testUser.Id));
         }
 
         [Fact]
         public async void GetUserOutOfRangeAsync()
         {
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await userRepository.GetAsync(100));
         }
@@ -64,7 +74,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async void GetAllAsync()
         {
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var result = await userRepository.GetAllAsync();
 
             Assert.True(result.Count() == _fixture.Db.Users.Count());
@@ -74,7 +84,7 @@ namespace DBAccess.Tests.Repositories
         public async void RemoveAsync()
         {
             var nbUsersAtBeginning = _fixture.Db.Users.Count();
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "test@test.com",
@@ -96,7 +106,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async void RemoveNullAsync()
         {
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await userRepository.RemoveAsync(null));
         }
@@ -107,7 +117,7 @@ namespace DBAccess.Tests.Repositories
         public void AddUser()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
             var testUser = new User() { EmailAddress = "", Password = "test", UserName = "AddUser" };
 
@@ -123,7 +133,7 @@ namespace DBAccess.Tests.Repositories
         public void AddNullUser()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -137,7 +147,7 @@ namespace DBAccess.Tests.Repositories
         public void CountAll()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True(_fixture.Db.Users.Count() == userRepository.CountAll());
@@ -147,7 +157,7 @@ namespace DBAccess.Tests.Repositories
         public async void CountAllAsync()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True(_fixture.Db.Users.Count() == await userRepository.CountAllAsync());
@@ -158,7 +168,7 @@ namespace DBAccess.Tests.Repositories
         public void GetAll()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act
             var result = userRepository.GetAll();
@@ -171,7 +181,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncSpecificationBasic()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
             var testUser = new User()
             {
@@ -206,7 +216,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithTwoSpecifications()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
             var testUser = new User()
             {
@@ -251,7 +261,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser@test.test", Password = "test", UserName = "TwwooGetAsyncWithTwoSortsUser" });
             await _fixture.Db.Users.AddAsync(
@@ -282,7 +292,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithNoArgument()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True((await userRepository.GetAsync()).ToList().Count() == _fixture.Db.Users.Count());
@@ -292,7 +302,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithAllArguments()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserGetAsyncWithAllArguments@test.test", Password = "test", UserName = "UserGetAsyncWithAllArguments"
@@ -341,7 +351,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithPagination()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             await _fixture.Db.Users.AddAsync(
                 new User() { EmailAddress = "UserGetAsyncWithPagination@test.test", Password = "test", UserName = "UserGetAsyncWithPagination" });
             var testUser = new User()
@@ -397,7 +407,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange1@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange1"
@@ -453,7 +463,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserGetAsyncWithPaginationTakeNegative1@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative1"
@@ -501,7 +511,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserGetAsyncWithPaginationSkipNegative@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipNegative"
@@ -555,7 +565,7 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange"
@@ -604,7 +614,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Users.Count();
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "RemoveUser@test.test", Password = "test", UserName = "RemoveUser"
@@ -627,20 +637,28 @@ namespace DBAccess.Tests.Repositories
         public void GetUser()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var testUser = new User()
+            {
+                EmailAddress = "GetUser@test.test",
+                Password = "test",
+                UserName = "GetUser"
+            };
+            userRepository.Add(testUser);
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = userRepository.Get(1);
+            var result = userRepository.Get(testUser.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Users.Find(1));
+            Assert.True(result == _fixture.Db.Users.Find(testUser.Id));
         }
 
         [Fact]
         public void GetCategoryOutOfRange()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.Throws<IndexOutOfRangeException>(() => userRepository.Get(100));
@@ -650,7 +668,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveNull()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => userRepository.Remove(null));
@@ -660,7 +678,7 @@ namespace DBAccess.Tests.Repositories
         public async void RemoveRangeAsyncNull()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await userRepository.RemoveRangeAsync(null));
@@ -670,7 +688,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveRangeNull()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => userRepository.RemoveRange(null));
@@ -681,7 +699,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Users.Count();
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserRemoveRange1@test.test", Password = "test", UserName = "UserRemoveRange1"
@@ -710,7 +728,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Users.Count();
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 EmailAddress = "UserRemoveRangeAsync1@test.test", Password = "test", UserName = "UserRemoveRangeAsync1"
@@ -738,7 +756,7 @@ namespace DBAccess.Tests.Repositories
         public async void UsernameAlreadyExistsFalse()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True(!await userRepository.UsernameAlreadyExists("UsernameAlreadyExistsFalse"));
@@ -748,7 +766,7 @@ namespace DBAccess.Tests.Repositories
         public async void EmailAddressAlreadyExistsFalse()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True(!await userRepository.EmailAddressAlreadyExists("EmailAddressAlreadyExistsFalse@test.test"));
@@ -758,7 +776,7 @@ namespace DBAccess.Tests.Repositories
         public async void UsernameAlreadyExistsNull()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True(!await userRepository.UsernameAlreadyExists(null));
@@ -768,7 +786,7 @@ namespace DBAccess.Tests.Repositories
         public async void EmailAddressAlreadyExistsNull()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
             Assert.True(!await userRepository.EmailAddressAlreadyExists(null));
@@ -778,7 +796,7 @@ namespace DBAccess.Tests.Repositories
         public async void UsernameAlreadyExistsTrue()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 UserName = "UsernameAlreadyExistsValid",
@@ -796,7 +814,7 @@ namespace DBAccess.Tests.Repositories
         public async void EmailAddressAlreadyExistsTrue()
         {
             // Arrange
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 UserName = "EmailAddressAlreadyExistsValid",

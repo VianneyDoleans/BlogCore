@@ -101,7 +101,7 @@ namespace MyBlogAPI.Services.PostService
         private async Task<bool> PostAlreadyExistsWithSameProperties(UpdatePostDto post)
         {
             if (post == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(post));
             var postDb = await _repository.GetAsync(post.Id);
             if (postDb.PostTags != null && post.Tags != null &&
                 !postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
@@ -115,7 +115,7 @@ namespace MyBlogAPI.Services.PostService
         public async Task CheckPostValidity(IPostDto post)
         {
             if (post == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(post));
             if (string.IsNullOrWhiteSpace(post.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
             if (string.IsNullOrWhiteSpace(post.Name))

@@ -24,7 +24,11 @@ namespace MyBlogAPI.FunctionalTests.GenericTests
         [Fact]
         public async Task CanGetEntities()
         {
-            // Arrange & Act
+            // Arrange
+            await AddRandomEntity();
+            await AddRandomEntity();
+
+            // Act 
             var entities = await Helper.GetAll();
 
             // Assert

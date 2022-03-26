@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Linq;
+using DbAccess.Data.POCO;
 using DbAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,7 +16,7 @@ namespace MyBlogAPI.FunctionalTests
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
-            builder.ConfigureServices(services =>
+            builder.ConfigureServices(async services =>
             {
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
@@ -36,23 +38,13 @@ namespace MyBlogAPI.FunctionalTests
                 services.AddAutoMapper(typeof(AutoMapperProfile));
 
                 var sp = services.BuildServiceProvider();
-                using (var scope = sp.CreateScope())
-                {
-                    using (var context = scope.ServiceProvider.GetRequiredService<MyBlogContext>())
-                    {
-                        try
-                        {
-                            context.Database.EnsureCreated();
-                            // Fill Db with data
-                            DbAccess.Data.DbInitializer.Seed(context);
-
-                        }
-                        catch (Exception ex)
-                        {
-                            throw;
-                        }
-                    }
-                }
+                using var scope = sp.CreateScope();
+                using var context = scope.ServiceProvider.GetRequiredService<MyBlogContext>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+                context.Database.EnsureCreatedAsync();
+                // Fill Db with data
+                await DbAccess.Data.DbInitializer.Seed(context, roleManager, userManager);
             });
         }
     }

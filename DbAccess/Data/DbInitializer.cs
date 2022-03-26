@@ -1,9 +1,13 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
-using DbAccess.Data.Models.Permission;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.JoiningEntity;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.DataContext;
+using Microsoft.AspNetCore.Identity;
 
 namespace DbAccess.Data
 {
@@ -12,122 +16,336 @@ namespace DbAccess.Data
     /// </summary>
     public class DbInitializer
     {
-        private static void GenerateRoles(MyBlogContext context)
+        private static async Task GenerateRoles(RoleManager<Role> roleManager)
         {
-            var userRole = new Role() { Name = "User", PermissionAccess = new List<Permission>() 
+            var userRole = new Role() { Name = "User" };
+            await roleManager.CreateAsync(userRole);
+            var userPermissions = new List<Permission>()
             {
                 // Read
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All },
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All },
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All },
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Category,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Role,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Tag,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.User,
+                    PermissionRange = PermissionRange.All
+                },
 
                 // Create
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.Own }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.Own },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.Own
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.Own
+                },
 
                 // Update
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.Own },
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.Own },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.Own
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.Own
+                },
 
                 // Delete
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.Own },
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.Own }
-            }}; 
-            var redactorRole = new Role() { Name = "Redactor", PermissionAccess = new List<Permission>() 
-            {
-                // Create
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All },
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All },
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.Own },
-
-                // Update
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.Own },
-
-                // Delete
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.Own }
-            }}; 
-            var adminRole = new Role() { Name = "Admin", PermissionAccess = new List<Permission>() 
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.Own
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.Own
+                }
+            };
+            foreach (var permission in userPermissions)
             { 
-                // Read
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
-                    
+                await roleManager.AddClaimAsync(userRole, 
+                    new Claim("Permission", JsonSerializer.Serialize(permission)));
+            }
+
+            var redactorRole = new Role() { Name = "Redactor" };
+            await roleManager.CreateAsync(redactorRole);
+            var redactorPermissions = new List<Permission>()
+            {
                 // Create
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
-                    
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Category,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Tag,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.Own
+                },
+
                 // Update
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
-                    
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.Own
+                },
+
                 // Delete
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Category, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Comment, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Like, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Post, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Role, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Tag, PermissionRange = PermissionRange.All }, 
-                new Permission() { PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.User, PermissionRange = PermissionRange.All },
-            }};
-            context.Roles.AddRange(userRole, adminRole, redactorRole);
-            context.SaveChanges();
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.Own
+                }
+            };
+            foreach (var permission in redactorPermissions)
+            {
+                await roleManager.AddClaimAsync(redactorRole,
+                    new Claim("Permission", JsonSerializer.Serialize(permission)));
+            }
+
+            var adminRole = new Role() { Name = "Admin" };
+            await roleManager.CreateAsync(adminRole);
+            var adminPermissions = new List<Permission>()
+            {
+                // Read
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Category,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Role,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.Tag,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanRead, PermissionTarget = PermissionTarget.User,
+                    PermissionRange = PermissionRange.All
+                },
+
+                // Create
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Category,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Role,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.Tag,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanCreate, PermissionTarget = PermissionTarget.User,
+                    PermissionRange = PermissionRange.All
+                },
+
+                // Update
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Category,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Role,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Tag,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.User,
+                    PermissionRange = PermissionRange.All
+                },
+
+                // Delete
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Category,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Comment,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Like,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Post,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Role,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.Tag,
+                    PermissionRange = PermissionRange.All
+                },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanDelete, PermissionTarget = PermissionTarget.User,
+                    PermissionRange = PermissionRange.All
+                },
+            };
+            foreach (var permission in adminPermissions)
+            {
+                var result = await roleManager.AddClaimAsync(adminRole,
+                    new Claim("Permission", JsonSerializer.Serialize(permission)));
+            }
+            /*context.Roles.AddRange(userRole, adminRole, redactorRole);
+            context.SaveChanges();*/
         }
 
-        private static void GenerateUsers(MyBlogContext context)
+        private static async Task GenerateUsers(UserManager<User> userManager)
         {
-            var sam = new User()
+            var users = new List<User>()
             {
-                EmailAddress = "Sam@email.com",
-                UserName = "Sam",
-                Password = "1234"
+                new User()
+                {
+                    EmailAddress = "Sam@email.com",
+                    UserName = "Sam",
+                    Password = "1234"
+                },
+                new User()
+                {
+                    EmailAddress = "fredon@email.com",
+                    UserName = "Frodon",
+                    Password = "0000"
+                },
+                new User()
+                {
+                    EmailAddress = "jamy@email.com",
+                    UserName = "Jamy",
+                    Password = "JamyRedact",
+                    UserDescription = "Hello, my name is Jamy, I love food"
+                },
+                new User()
+                {
+                    EmailAddress = "fred@email.com",
+                    UserName = "Fred",
+                    Password = "FredRedact",
+                },
+                new User()
+                {
+                    EmailAddress = "admin@gmail.com",
+                    UserName = "AdminUser",
+                    Password = "adminPassword",
+                    UserDescription = "I'm admin, I manage this blog"
+                }
             };
-            var frodon = new User()
+            foreach (var user in users)
             {
-                EmailAddress = "fredon@email.com",
-                UserName = "Frodon",
-                Password = "0000"
-            };
-            var jamy = new User()
-            {
-                EmailAddress = "jamy@email.com",
-                UserName = "Jamy",
-                Password = "JamyRedact",
-                UserDescription = "Hello, my name is Jamy, I love food"
-            };
-            var fred = new User()
-            {
-                EmailAddress = "fred@email.com",
-                UserName = "Fred",
-                Password = "FredRedact",
-            };
-            var admin = new User()
-            {
-                EmailAddress = "admin@gmail.com",
-                UserName = "AdminUser",
-                Password = "adminPassword",
-                UserDescription = "I'm admin, I manage this blog"
-            };
-            context.Users.AddRange(jamy, fred, sam, frodon, admin);
-            context.SaveChanges();
+                await userManager.CreateAsync(user);
+            }
+            //context.Users.AddRange(jamy, fred, sam, frodon, admin);
+            //context.SaveChanges();
         }
 
         private static void GenerateUserRoles(MyBlogContext context)
@@ -136,14 +354,14 @@ namespace DbAccess.Data
             var user = context.Roles.Single(x => x.Name == "User");
             var redactor = context.Roles.Single(x => x.Name == "Redactor");
             context.UserRoles.AddRange(
-                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Jamy")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Fred")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Frodon")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "Sam")},
-                new UserRole() {Role = user, User = context.Users.Single(x => x.UserName == "AdminUser")},
-                new UserRole() {Role = admin, User = context.Users.Single(x => x.UserName == "AdminUser")},
-                new UserRole() {Role = redactor, User = context.Users.Single(x => x.UserName == "Fred")},
-                new UserRole() {Role = redactor, User = context.Users.Single(x => x.UserName == "Jamy")});
+                new UserRole() { Role = user, User = context.Users.Single(x => x.UserName == "Jamy") },
+                new UserRole() { Role = user, User = context.Users.Single(x => x.UserName == "Fred") },
+                new UserRole() { Role = user, User = context.Users.Single(x => x.UserName == "Frodon") },
+                new UserRole() { Role = user, User = context.Users.Single(x => x.UserName == "Sam") },
+                new UserRole() { Role = user, User = context.Users.Single(x => x.UserName == "AdminUser") },
+                new UserRole() { Role = admin, User = context.Users.Single(x => x.UserName == "AdminUser") },
+                new UserRole() { Role = redactor, User = context.Users.Single(x => x.UserName == "Fred") },
+                new UserRole() { Role = redactor, User = context.Users.Single(x => x.UserName == "Jamy") });
             context.SaveChanges();
         }
 
@@ -178,36 +396,42 @@ namespace DbAccess.Data
             var volcanoes = context.Posts.Single(x => x.Name == "Volcanoes are cool");
             var roadTrip = context.Posts.Single(x => x.Name == "Welcome to japan !");
 
-            var failureFailFoodPost = new PostTag() {Tag = context.Tags.Single(x => x.Name == "Failure"), Post = failFoodPost};
-            var foodFailFoodPost = new PostTag() {Tag = context.Tags.Single(x => x.Name == "Food"), Post = failFoodPost};
-            var volcanoesScience = new PostTag() {Post = volcanoes, Tag = context.Tags.Single(x => x.Name == "Science")};
-            var volcanoesNature = new PostTag() {Post = volcanoes, Tag = context.Tags.Single(x => x.Name == "Nature")};
-            var japanRoadTrip = new PostTag() {Post = roadTrip, Tag = context.Tags.Single(x => x.Name == "Japan")};
-            var volcanoesJourney = new PostTag() {Post = volcanoes, Tag = context.Tags.Single(x => x.Name == "Journey")};
+            var failureFailFoodPost = new PostTag()
+                { Tag = context.Tags.Single(x => x.Name == "Failure"), Post = failFoodPost };
+            var foodFailFoodPost = new PostTag()
+                { Tag = context.Tags.Single(x => x.Name == "Food"), Post = failFoodPost };
+            var volcanoesScience = new PostTag()
+                { Post = volcanoes, Tag = context.Tags.Single(x => x.Name == "Science") };
+            var volcanoesNature = new PostTag()
+                { Post = volcanoes, Tag = context.Tags.Single(x => x.Name == "Nature") };
+            var japanRoadTrip = new PostTag() { Post = roadTrip, Tag = context.Tags.Single(x => x.Name == "Japan") };
+            var volcanoesJourney = new PostTag()
+                { Post = volcanoes, Tag = context.Tags.Single(x => x.Name == "Journey") };
 
-            context.PostTags.AddRange(japanRoadTrip, volcanoesJourney, volcanoesNature, volcanoesScience, foodFailFoodPost, failureFailFoodPost);
+            context.PostTags.AddRange(japanRoadTrip, volcanoesJourney, volcanoesNature, volcanoesScience,
+                foodFailFoodPost, failureFailFoodPost);
             context.SaveChanges();
         }
 
         private static void GeneratePosts(MyBlogContext context)
         {
-            
+
             var failFoodPost = new Post()
             {
-                Author = context.Users.Single(x => x.UserName == "Jamy"), 
+                Author = context.Users.Single(x => x.UserName == "Jamy"),
                 Content = "This is a mess !",
                 Name = "I failed my pumpkin soup :'(",
                 Category = context.Categories.Single(x => x.Name == "HealthyFood")
             };
-            
+
             var volcanoes = new Post()
             {
-                Author = context.Users.Single(x => x.UserName == "Fred"), 
+                Author = context.Users.Single(x => x.UserName == "Fred"),
                 Content = "They are so cool !",
                 Name = "Volcanoes are cool",
                 Category = context.Categories.Single(x => x.Name == "Discovery"),
             };
-            
+
             var roadTrip = new Post()
             {
                 Author = context.Users.Single(x => x.UserName == "Fred"),
@@ -221,7 +445,8 @@ namespace DbAccess.Data
 
         private static void GenerateLikes(MyBlogContext context)
         {
-            var fredAddDetail = context.Comments.Single(x => x.Author.UserName == "Fred" && x.Content == "Also, they are beautiful !");
+            var fredAddDetail = context.Comments.Single(x =>
+                x.Author.UserName == "Fred" && x.Content == "Also, they are beautiful !");
             var volcanoes = context.Posts.Single(x => x.Name == "Volcanoes are cool");
             var frodonLike = new Like()
             {
@@ -285,12 +510,15 @@ namespace DbAccess.Data
         /// (No existing roles means that the database is still empty / not used).
         /// </summary>
         /// <param name="context"></param>
-        public static void Seed(MyBlogContext context)
+        /// <param name="roleManager"></param>
+        /// <param name="userManager"></param>
+        public static async Task Seed(MyBlogContext context, RoleManager<Role> roleManager,
+            UserManager<User> userManager)
         {
             if (!context.Roles.Any())
             {
-                GenerateRoles(context);
-                GenerateUsers(context);
+                await GenerateRoles(roleManager);
+                await GenerateUsers(userManager);
                 GenerateUserRoles(context);
                 GenerateTags(context);
                 GenerateCategories(context);

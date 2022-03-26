@@ -22,7 +22,7 @@ namespace DBAccess.Tests.Repositories
         public async void AddPostsAsync()
         {
             var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
-            var testPosts = new Post() { Name = "This is a test for post" };
+            var testPosts = new Post() { Name = "This is a test for post", Content = "a content" };
             await repository.AddAsync(testPosts);
             _fixture.UnitOfWork.Save();
 
@@ -41,9 +41,22 @@ namespace DBAccess.Tests.Repositories
         public async void GetPostsAsync()
         {
             var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
-            var result = await repository.GetAsync(1);
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "GetPostsAsync@email.com", Password = "1234", UserName = "GetPostsAsync" });
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "GetPostsAsync" });
+            var testPost = new Post()
+            {
+                Author = user.Entity,
+                Name = "GetPostsAsync",
+                Category = category.Entity,
+                Content = "GetPostsAsync"
+            };
+            await repository.AddAsync(testPost);
+            _fixture.UnitOfWork.Save();
 
-            Assert.True(result == await _fixture.Db.Posts.FindAsync(1));
+            var result = await repository.GetAsync(testPost.Id);
+
+            Assert.True(result == await _fixture.Db.Posts.FindAsync(testPost.Id));
         }
 
         [Fact]
@@ -68,7 +81,7 @@ namespace DBAccess.Tests.Repositories
         {
             var nbPostsAtBeginning = _fixture.Db.Posts.Count();
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
-            var testPosts = new Post() { Name = "This is a test post" };
+            var testPosts = new Post() { Name = "This is a test post", Content = "a content" };
 
             await postRepository.AddAsync(testPosts);
             _fixture.UnitOfWork.Save();
@@ -759,12 +772,24 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "GetPost@email.com", Password = "1234", UserName = "GetPost" });
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "GetPost" });
+            var testPost = new Post()
+            {
+                Author = user.Entity,
+                Name = "GetPost",
+                Category = category.Entity,
+                Content = "GetPost"
+            };
+            postRepository.Add(testPost);
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = postRepository.Get(1);
+            var result = postRepository.Get(testPost.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Posts.Find(1));
+            Assert.True(result == _fixture.Db.Posts.Find(testPost.Id));
         }
 
         [Fact]

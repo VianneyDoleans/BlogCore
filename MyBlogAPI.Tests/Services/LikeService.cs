@@ -24,7 +24,7 @@ namespace MyBlogAPI.Tests.Services
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.LikeService.LikeService(new LikeRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork, new CommentRepository(_fixture.Db), new PostRepository(_fixture.Db), 
-                new UserRepository(_fixture.Db));
+                new UserRepository(_fixture.Db, _fixture.UserManager));
         }
 
         [Fact]

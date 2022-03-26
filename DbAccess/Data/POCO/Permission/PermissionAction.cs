@@ -1,4 +1,4 @@
-﻿namespace DbAccess.Data.Models.Permission
+﻿namespace DbAccess.Data.POCO.Permission
 {
     /// <summary>
     /// Permission enum allowing to define a permission action for a specific resource.

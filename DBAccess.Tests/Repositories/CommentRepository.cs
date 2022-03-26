@@ -54,12 +54,25 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "GetCommentAsync@email.com", Password = "1234", UserName = "GetCommentAsync" });
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "GetCommentAsync" });
+            var post = _fixture.Db.Posts.Add(
+                new Post() { Author = user.Entity, Name = "GetCommentAsync", Content = "GetCommentAsync", Category = category.Entity });
+            var testComment = new Comment()
+            {
+                Author = user.Entity,
+                PostParent = post.Entity,
+                Content = "GetCommentAsync"
+            };
+            commentRepository.Add(testComment);
+            _fixture.UnitOfWork.Save();
+
             // Act
-            var result = await commentRepository.GetAsync(1);
+            var result = await commentRepository.GetAsync(testComment.Id);
 
             // Assert
-            Assert.True(result == await _fixture.Db.Comments.FindAsync(1));
+            Assert.True(result == await _fixture.Db.Comments.FindAsync(testComment.Id));
         }
 
         [Fact]
@@ -799,12 +812,25 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "GetComment@email.com", Password = "1234", UserName = "GetComment" });
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "GetComment" });
+            var post = _fixture.Db.Posts.Add(
+                new Post() { Author = user.Entity, Name = "GetComment", Content = "GetComment", Category = category.Entity });
+            var testComment = new Comment()
+            {
+                Author = user.Entity,
+                PostParent = post.Entity,
+                Content = "GetComment"
+            };
+            commentRepository.Add(testComment);
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = commentRepository.Get(1);
+            var result = commentRepository.Get(testComment.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Comments.Find(1));
+            Assert.True(result == _fixture.Db.Comments.Find(testComment.Id));
         }
 
         [Fact]

@@ -24,7 +24,7 @@ namespace MyBlogAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db), new CategoryRepository(_fixture.Db),
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new CategoryRepository(_fixture.Db),
                 new TagRepository(_fixture.Db));
         }
 

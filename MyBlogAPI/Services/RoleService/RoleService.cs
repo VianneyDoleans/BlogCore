@@ -58,7 +58,7 @@ namespace MyBlogAPI.Services.RoleService
         public void CheckRoleValidity(IRoleDto role)
         {
             if (role == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(role));
             if (string.IsNullOrWhiteSpace(role.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (role.Name.Length > 20)
@@ -107,7 +107,7 @@ namespace MyBlogAPI.Services.RoleService
         private async Task<bool> RoleAlreadyExistsWithSameProperties(UpdateRoleDto role)
         {
             if (role == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(role));
             var roleDb = await _repository.GetAsync(role.Id);
             return role.Name == roleDb.Name;
         }

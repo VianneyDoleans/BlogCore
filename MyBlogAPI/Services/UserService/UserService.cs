@@ -92,7 +92,7 @@ namespace MyBlogAPI.Services.UserService
         private static void CheckUserValidity(IUserDto user)
         {
             if (user == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(user));
             CheckEmailAddressValidity(user.EmailAddress);
             CheckUsernameValidity(user.Username);
             CheckPasswordValidity(user.Password);
@@ -159,7 +159,7 @@ namespace MyBlogAPI.Services.UserService
         private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateUserDto user)
         {
             if (user == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(user));
             var userDb = await _repository.GetAsync(user.Id);
             return userDb.UserName == user.Username &&
                    userDb.EmailAddress == user.EmailAddress &&

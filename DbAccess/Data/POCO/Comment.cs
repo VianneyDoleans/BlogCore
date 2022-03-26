@@ -30,7 +30,7 @@ namespace DbAccess.Data.POCO
         [ForeignKey("CommentId")]
         public ICollection<Like> Likes { get; set; }
 
-        [ForeignKey("CommentId")]
+        [ForeignKey("CommentParentId")]
         public ICollection<Comment> ChildrenComments { get; set; }
     }
 }

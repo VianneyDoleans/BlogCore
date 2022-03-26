@@ -18,7 +18,7 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db),
+            _service = new MyBlogAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db, _fixture.RoleManager),
                 mapper, _fixture.UnitOfWork);
         }
 

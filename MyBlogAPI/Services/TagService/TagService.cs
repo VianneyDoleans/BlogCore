@@ -51,7 +51,7 @@ namespace MyBlogAPI.Services.TagService
         public void CheckTagValidity(ITagDto tag)
         {
             if (tag == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(tag));
             if (string.IsNullOrWhiteSpace(tag.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (tag.Name.Length > 50)
@@ -100,7 +100,7 @@ namespace MyBlogAPI.Services.TagService
         private async Task<bool> TagAlreadyExistsWithSameProperties(UpdateTagDto tag)
         {
             if (tag == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(tag));
             var tagDb = await _repository.GetAsync(tag.Id);
             return tagDb.Name == tag.Name;
         }

@@ -62,7 +62,7 @@ namespace MyBlogAPI.Services.LikeService
         {
             // TODO maybe remove LikeableType (not so much useful)
             if (like == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(like));
             if (await _userRepository.GetAsync(like.User) == null)
                 throw new IndexOutOfRangeException("User doesn't exist.");
             if (like.Comment != null && like.Post != null)
@@ -115,7 +115,7 @@ namespace MyBlogAPI.Services.LikeService
         {
             // TODO maybe remove LikeableType (not so much useful)
             if (like == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(like));
             var likeDb = await _repository.GetAsync(like.Id);
             // TODO check ?.Id in every "if comparison" conditions (null) (only if property have the right to be null)
             return likeDb.Comment?.Id == like.Comment &&

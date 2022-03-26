@@ -1,5 +1,5 @@
 ﻿using System;
-using DbAccess.Data.Models.Permission;
+using DbAccess.Data.POCO.Permission;
 
 namespace MyBlogAPI.Attributes
 {

@@ -45,9 +45,18 @@ namespace DBAccess.Tests.Repositories
         public async void GetLikesAsync()
         {
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
-            var result = await repository.GetAsync(1);
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "GetLikesAsync@email.com", Password = "1234", UserName = "GetLikesAsync" });
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "GetLikesAsync" });
+            var post = _fixture.Db.Posts.Add(
+                new Post() { Author = user.Entity, Name = "GetLikesAsync", Content = "GetLikesAsync", Category = category.Entity });
+            var like = _fixture.Db.Likes.Add(
+                new Like() { User = user.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
+            _fixture.UnitOfWork.Save();
 
-            Assert.True(result == await _fixture.Db.Likes.FindAsync(1));
+            var result = await repository.GetAsync(like.Entity.Id);
+
+            Assert.True(result == await _fixture.Db.Likes.FindAsync(like.Entity.Id));
         }
 
         [Fact]
@@ -739,12 +748,20 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
+            var user = _fixture.Db.Users.Add(
+                new User() { EmailAddress = "GetLike@email.com", Password = "1234", UserName = "GetLike" });
+            var category = _fixture.Db.Categories.Add(new Category() { Name = "GetLike" });
+            var post = _fixture.Db.Posts.Add(
+                new Post() { Author = user.Entity, Name = "GetLike", Content = "GetLike", Category = category.Entity });
+            var like = _fixture.Db.Likes.Add(
+                new Like() { User = user.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = likeRepository.Get(1);
+            var result = likeRepository.Get(like.Entity.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Likes.Find(1));
+            Assert.True(result == _fixture.Db.Likes.Find(like.Entity.Id));
         }
 
         [Fact]

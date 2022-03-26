@@ -52,9 +52,11 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var entity = _fixture.Db.Categories.Add(new Category() { Name = "GetCategoryAsync" });
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = await categoryRepository.GetAsync(1);
+            var result = await categoryRepository.GetAsync(entity.Entity.Id);
 
             // Act & Assert
             Assert.True(result == await _fixture.Db.Categories.FindAsync(1));
@@ -701,9 +703,11 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var entity = _fixture.Db.Categories.Add(new Category() { Name = "GetCategory" });
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = categoryRepository.Get(1);
+            var result = categoryRepository.Get(entity.Entity.Id);
 
             // Act & Assert
             Assert.True(result == _fixture.Db.Categories.Find(1));

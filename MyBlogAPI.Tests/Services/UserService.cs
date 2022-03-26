@@ -23,7 +23,7 @@ namespace MyBlogAPI.Tests.Services
                 cfg.AddProfile(databaseFixture.MapperProfile);
             });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db), 
+            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), 
                 mapper, _fixture.UnitOfWork);
         }
 
@@ -424,9 +424,9 @@ namespace MyBlogAPI.Tests.Services
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUser@newEmail.com",
+                EmailAddress = "DeleteUser@newEmail.com",
                 Password = "16453",
-                Username = "UpdateUser"
+                Username = "DeleteUser"
             });
 
             // Act

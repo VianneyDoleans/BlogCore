@@ -1,5 +1,5 @@
 ﻿
-namespace DbAccess.Data.Models.Permission
+namespace DbAccess.Data.POCO.Permission
 {
     /// <summary>
     /// Enum defining the target of a <see cref="PermissionAction"/>

@@ -41,9 +41,16 @@ namespace DBAccess.Tests.Repositories
         public async void GetTagsAsync()
         {
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var result = await repository.GetAsync(1);
+            var testTag = new Tag()
+            {
+                Name = "GetTagsAsync"
+            };
+            await repository.AddAsync(testTag);
+            _fixture.UnitOfWork.Save();
 
-            Assert.True(result == await _fixture.Db.Tags.FindAsync(1));
+            var result = await repository.GetAsync(testTag.Id);
+
+            Assert.True(result == await _fixture.Db.Tags.FindAsync(testTag.Id));
         }
 
         [Fact]
@@ -618,12 +625,18 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
+            var testTag = new Tag()
+            {
+                Name = "GetTag"
+            };
+            tagRepository.Add(testTag);
+            _fixture.UnitOfWork.Save();
 
             // Act
-            var result = tagRepository.Get(1);
+            var result = tagRepository.Get(testTag.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Tags.Find(1));
+            Assert.True(result == _fixture.Db.Tags.Find(testTag.Id));
         }
 
         [Fact]
