@@ -250,6 +250,7 @@ namespace DBAccess.Tests.Repositories
             var user4 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiToSosAdTwoSpcWiPa4").Build();
             var user5 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiToSosAdTwoSpcWiPa5").Build();
             var user6 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("ALiToSosAdTwoSpcWiPe6").Build();
+            
             var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithName("LikeTwoSortsAndTwoSpecApa").WithAuthor(user).Build();
             var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithAuthor(user).Build();
             
@@ -297,8 +298,8 @@ namespace DBAccess.Tests.Repositories
             var user4 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiAllArg4").WithEmailAddress("GLiGetAWiAllArg4@email.com").Build();
             var user5 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiAllArg5").WithEmailAddress("ELiGetAWiAllArg5@email.com").Build();
             var user6 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiAllArg6").WithEmailAddress("ALiGetAWiAllArg6@email.com").Build();
-            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithName("LikeTwoSortsAndTwoSpecApa").WithAuthor(user).Build();
-            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithAuthor(user).WithContent("LiGetAWiAllArgCo").Build();
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
 
             new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithPost(post).Build();
             new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithComment(comment).Build();
@@ -326,44 +327,29 @@ namespace DBAccess.Tests.Repositories
         public async void GetAsyncWithPagination()
         {
             // Arrange
-            var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
+            var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db); 
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiPa@email.com", Password = "1234", UserName = "LiGetAWiPa" });
-            var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiPa2@email.com", Password = "1234", UserName = "LiGetAWiPa2" });
-            var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPa3@email.com", Password = "1234", UserName = "LiGetAWiPa3" });
-            var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ALiGetAWiPa4@email.com", Password = "1234", UserName = "LiGetAWiPa4" });
-            var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPa5@email.com", Password = "1234", UserName = "LiGetAWiPa5" });
-            var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPa6@email.com", Password = "1234", UserName = "LiGetAWiPa6" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaCa" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "LiGetAWiPaPo", Content = "LiGetAWiPaPo", Category = category.Entity });
-            var comment = await _fixture.Db.Comments.AddAsync(new Comment()
-            {
-                Author = user.Entity,
-                Content = "LiGetAWiPaCo",
-                PostParent = post.Entity
-            });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            var like3 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user2.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            var like4 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user3.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            var like5 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user4.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user5.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user6.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            _fixture.UnitOfWork.Save();
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPa").Build();
+            var user2 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPa2").Build();
+            var user3 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPa3").Build();
+            var user4 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPa4").Build();
+            var user5 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPa5").Build();
+            var user6 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPa6").Build();
+
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+
+
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithComment(comment).Build();
+            var like3 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user2).WithPost(post).Build();
+            var like4 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user3).WithComment(comment).Build();
+            var like5 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user4).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user5).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user6).WithComment(comment).Build();
 
             // Act
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPa"),
@@ -374,12 +360,12 @@ namespace DBAccess.Tests.Repositories
 
             // Assert
             Assert.True(result.Count() == 3);
-            Assert.Contains(result, x => x.Id == like3.Entity.Id &&
-                                         x.User.UserName == like3.Entity.User.UserName);
-            Assert.Contains(result, x => x.Id == like4.Entity.Id &&
-                                          x.User.UserName == like4.Entity.User.UserName);
-            Assert.Contains(result, x => x.Id == like5.Entity.Id &&
-                                         x.User.UserName == like5.Entity.User.UserName);
+            Assert.Contains(result, x => x.Id == like3.Id &&
+                                         x.User.UserName == like3.User.UserName);
+            Assert.Contains(result, x => x.Id == like4.Id &&
+                                          x.User.UserName == like4.User.UserName);
+            Assert.Contains(result, x => x.Id == like5.Id &&
+                                         x.User.UserName == like5.User.UserName);
         }
 
         [Fact]
@@ -387,43 +373,27 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa" });
-            var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa2@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa2" });
-            var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa3@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa3" });
-            var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa4@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa4" });
-            var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa5@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa5" });
-            var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTafRa6@email.com", Password = "1234", UserName = "LiGetAWiPaTafRa6" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaTafRaCa" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "LiGetAWiPaTafRaPo", Content = "LiGetAWiPaTafRaPo", Category = category.Entity });
-            var comment = await _fixture.Db.Comments.AddAsync(new Comment()
-            {
-                Author = user.Entity,
-                Content = "LiGetAWiPaTafRaCo",
-                PostParent = post.Entity
-            });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            var like3 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user2.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            var like4 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user3.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            var like5 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user4.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            var like6 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user5.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            var like7 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user6.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            _fixture.UnitOfWork.Save();
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTafRa").Build();
+            var user2 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTafRa2").Build();
+            var user3 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTafRa3").Build();
+            var user4 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTafRa4").Build();
+            var user5 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTafRa5").Build();
+            var user6 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTafRa6").Build();
+
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithComment(comment).Build();
+            var like3 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user2).WithPost(post).Build();
+            var like4 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user3).WithComment(comment).Build();
+            var like5 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user4).WithPost(post).Build();
+            var like6 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user5).WithPost(post).Build();
+            var like7 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user6).WithComment(comment).Build();
 
             // Act
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaTafRa"),
@@ -434,16 +404,16 @@ namespace DBAccess.Tests.Repositories
 
             // Assert
             Assert.True(result.Count() == 5);
-            Assert.Contains(result, x => x.Id == like3.Entity.Id &&
-                                         x.User.UserName == like3.Entity.User.UserName);
-            Assert.Contains(result, x => x.Id == like4.Entity.Id &&
-                                         x.User.UserName == like4.Entity.User.UserName);
-            Assert.Contains(result, x => x.Id == like5.Entity.Id &&
-                                         x.User.UserName == like5.Entity.User.UserName);
-            Assert.Contains(result, x => x.Id == like6.Entity.Id &&
-                                         x.User.UserName == like6.Entity.User.UserName);
-            Assert.Contains(result, x => x.Id == like7.Entity.Id &&
-                                         x.User.UserName == like7.Entity.User.UserName);
+            Assert.Contains(result, x => x.Id == like3.Id &&
+                                         x.User.UserName == like3.User.UserName);
+            Assert.Contains(result, x => x.Id == like4.Id &&
+                                         x.User.UserName == like4.User.UserName);
+            Assert.Contains(result, x => x.Id == like5.Id &&
+                                         x.User.UserName == like5.User.UserName);
+            Assert.Contains(result, x => x.Id == like6.Id &&
+                                         x.User.UserName == like6.User.UserName);
+            Assert.Contains(result, x => x.Id == like7.Id &&
+                                         x.User.UserName == like7.User.UserName);
         }
 
         [Fact]
@@ -451,43 +421,27 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe" });
-            var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe2@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe2" });
-            var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe3@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe3" });
-            var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe4@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe4" });
-            var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe5@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe5" });
-            var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaTaNe6@email.com", Password = "1234", UserName = "LiGetAWiPaTaNe6" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaTaNeCa" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "LiGetAWiPaTaNePo", Content = "LiGetAWiPaTaNePo", Category = category.Entity });
-            var comment = await _fixture.Db.Comments.AddAsync(new Comment()
-            {
-                Author = user.Entity,
-                Content = "LiGetAWiPaTafRaCo",
-                PostParent = post.Entity
-            });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user2.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user3.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user4.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user5.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user6.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            _fixture.UnitOfWork.Save();
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTaNe").Build();
+            var user2 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTaNe2").Build();
+            var user3 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTaNe3").Build();
+            var user4 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTaNe4").Build();
+            var user5 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTaNe5").Build();
+            var user6 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaTaNe6").Build();
+
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithComment(comment).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user2).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user3).WithComment(comment).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user4).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user5).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user6).WithComment(comment).Build();
 
             // Act
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaTaNe"),
@@ -505,43 +459,27 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN" });
-            var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN2@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN2" });
-            var user3 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN3@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN3" });
-            var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN4@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN4" });
-            var user5 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN5@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN5" });
-            var user6 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "LiGetAWiPaSkiN6@email.com", Password = "1234", UserName = "LiGetAWiPaSkiN6" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "LiGetAWiPaSkiNCa" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "LiGetAWiPaSkiNPo", Content = "LiGetAWiPaSkiNPo", Category = category.Entity });
-            var comment = await _fixture.Db.Comments.AddAsync(new Comment()
-            {
-                Author = user.Entity,
-                Content = "LiGetAWiPaSkiNCo",
-                PostParent = post.Entity
-            });
-            var like = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            var like2 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            var like3 = await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user2.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user3.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user4.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user5.Entity, Post = post.Entity, LikeableType = LikeableType.Post });
-            await _fixture.Db.Likes.AddAsync(
-                new Like() { User = user6.Entity, Comment = comment.Entity, LikeableType = LikeableType.Comment });
-            _fixture.UnitOfWork.Save();
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaSkiN").Build();
+            var user2 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaSkiN2").Build();
+            var user3 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaSkiN3").Build();
+            var user4 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaSkiN4").Build();
+            var user5 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaSkiN5").Build();
+            var user6 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("LiGetAWiPaSkiN6").Build();
+
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+
+            var like = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithPost(post).Build();
+            var like2 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user).WithComment(comment).Build();
+            var like3 = new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user2).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user3).WithComment(comment).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user4).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user5).WithPost(post).Build();
+            new LikeBuilder(likeRepository, _fixture.UnitOfWork, _fixture.Db).WithUser(user6).WithComment(comment).Build();
 
             // Act
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("LiGetAWiPaSkiN"),
@@ -552,12 +490,12 @@ namespace DBAccess.Tests.Repositories
 
             // Assert
             Assert.True(result.Count() == 3);
-            Assert.Contains(result, x => x.Id == like.Entity.Id &&
-                                         x.User.UserName == like.Entity.User.UserName && like.Entity.LikeableType == LikeableType.Post);
-            Assert.Contains(result, x => x.Id == like2.Entity.Id &&
-                                         x.User.UserName == like2.Entity.User.UserName && like2.Entity.LikeableType == LikeableType.Comment);
-            Assert.Contains(result, x => x.Id == like3.Entity.Id &&
-                                         x.User.UserName == like3.Entity.User.UserName);
+            Assert.Contains(result, x => x.Id == like.Id &&
+                                         x.User.UserName == like.User.UserName && like.LikeableType == LikeableType.Post);
+            Assert.Contains(result, x => x.Id == like2.Id &&
+                                         x.User.UserName == like2.User.UserName && like2.LikeableType == LikeableType.Comment);
+            Assert.Contains(result, x => x.Id == like3.Id &&
+                                         x.User.UserName == like3.User.UserName);
         }
 
         [Fact]
