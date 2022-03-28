@@ -14,6 +14,7 @@ namespace DBAccess.Tests.Builders
         private string _name;
         private User _user;
         private Category _category;
+        private string _content;
 
         public PostBuilder(IPostRepository postRepository, IUnitOfWork unitOfWork, MyBlogContext db)
         {
@@ -40,6 +41,12 @@ namespace DBAccess.Tests.Builders
             return this;
         }
 
+        public PostBuilder WithContent(string content)
+        {
+            _content = content;
+            return this;
+        }
+
         public Post Build()
         {
             var user = _db.Users.Add(
@@ -63,7 +70,8 @@ namespace DBAccess.Tests.Builders
                 testPost.Category = _category;
             if (_user != null)
                 testPost.Author = _user;
-
+            if (_content != null)
+                testPost.Content = _content;
             _postRepository.Add(testPost);
             _unitOfWork.Save();
             return testPost;
