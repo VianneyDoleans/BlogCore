@@ -9,11 +9,18 @@ namespace DBAccess.Tests.Builders
     {
         private readonly ITagRepository _tagRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private string _name;
 
         public TagBuilder(ITagRepository tagRepository, IUnitOfWork unitOfWork)
         {
             _tagRepository = tagRepository;
             _unitOfWork = unitOfWork;
+        }
+
+        public TagBuilder WithName(string name)
+        {
+            _name = name;
+            return this;
         }
 
         public Tag Build()
@@ -22,6 +29,8 @@ namespace DBAccess.Tests.Builders
             {
                 Name = Guid.NewGuid().ToString()[..50]
             };
+            if (string.IsNullOrEmpty(_name))
+                testTag.Name = _name;
             _tagRepository.Add(testTag);
             _unitOfWork.Save();
             return testTag;
