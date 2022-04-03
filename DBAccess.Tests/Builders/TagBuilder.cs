@@ -27,9 +27,9 @@ namespace DBAccess.Tests.Builders
         {
             var testTag = new Tag()
             {
-                Name = Guid.NewGuid().ToString()[..50]
+                Name = Guid.NewGuid().ToString()
             };
-            if (string.IsNullOrEmpty(_name))
+            if (!string.IsNullOrEmpty(_name))
                 testTag.Name = _name;
             _tagRepository.Add(testTag);
             _unitOfWork.Save();

@@ -181,10 +181,10 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncSpecification").Build();
-            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncSpecification2").Build();
-            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncSpecification3").Build();
-            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncSpecification4").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
 
             // Act
             var result = await tagRepository.GetAsync(new IdSpecification<Tag>(testTag.Id));
