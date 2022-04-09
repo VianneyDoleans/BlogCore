@@ -16,6 +16,7 @@ using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
 using MyBlogAPI.Services.PostService;
+using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Controllers
@@ -29,6 +30,7 @@ namespace MyBlogAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
         private readonly ILikeService _likeService;
         private readonly IPostService _postService;
         private readonly ICommentService _commentService;
@@ -40,13 +42,15 @@ namespace MyBlogAPI.Controllers
         /// <param name="likeService"></param>
         /// <param name="postService"></param>
         /// <param name="commentService"></param>
+        /// <param name="roleService"></param>
         public UsersController(IUserService userService, ILikeService likeService, IPostService postService, 
-            ICommentService commentService)
+            ICommentService commentService, IRoleService roleService)
         {
             _userService = userService;
             _likeService = likeService;
             _postService = postService;
             _commentService = commentService;
+            _roleService = roleService;
         }
 
         /// <summary>
@@ -117,15 +121,71 @@ namespace MyBlogAPI.Controllers
             return Ok(await _userService.AddUser(user));
         }
 
+        /// <summary>
+        /// Sign In as a user.
+        /// </summary>
+        /// <remarks>
+        /// Sign In as a user.
+        /// </remarks>
+        /// <param name="userLogin"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
-        [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType( StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> SignIn(UserLoginDto userLogin)
         {
-            return Ok(_userService.signIn(userLogin));
+            if (await _userService.SignIn(userLogin)) 
+                return Ok();
+            return BadRequest("Bad username or password.");
+        }
+
+        /// <summary>
+        /// Add role to a user.
+        /// </summary>
+        /// <remarks>
+        /// Add role to a user.
+        /// </remarks>
+        /// <param name="userRole"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
+        [ProducesResponseType( StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> AddRoleToUser(UserRoleDto userRole)
+        {
+            if (await _userService.GetUser(userRole.UserId) == null)
+                return NotFound("Doesn't found the user.");
+            if (await _roleService.GetRole(userRole.RoleId) == null)
+                return NotFound("Doesn't found the role.");
+            await _userService.AddUserRole(userRole);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Add role to a user.
+        /// </summary>
+        /// <remarks>
+        /// Add role to a user.
+        /// </remarks>
+        /// <param name="userRole"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> RemoveRoleToUser(UserRoleDto userRole)
+        {
+            if (await _userService.GetUser(userRole.UserId) == null)
+                return NotFound("Doesn't found the user.");
+            if (await _roleService.GetRole(userRole.RoleId) == null)
+                return NotFound("Doesn't found the role.");
+            await _userService.RemoveUserRole(userRole);
+            return Ok();
         }
 
         /// <summary>

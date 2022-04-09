@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
@@ -110,6 +111,21 @@ namespace MyBlogAPI.Services.RoleService
                 throw new ArgumentNullException(nameof(role));
             var roleDb = await _repository.GetAsync(role.Id);
             return role.Name == roleDb.Name;
+        }
+
+        public async Task AddPermissionAsync(int roleId, Permission permission)
+        {
+            await _repository.AddPermissionAsync(await _repository.GetAsync(roleId), permission);
+        }
+
+        public async Task RemovePermissionAsync(int roleId, Permission permission)
+        {
+            await _repository.RemovePermissionAsync(await _repository.GetAsync(roleId), permission);
+        }
+
+        public async Task<IEnumerable<Permission>> GetPermissionsAsync(int roleId)
+        {
+            return await _repository.GetPermissionsAsync(await _repository.GetAsync(roleId));
         }
     }
 }

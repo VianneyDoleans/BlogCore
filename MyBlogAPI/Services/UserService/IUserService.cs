@@ -22,7 +22,11 @@ namespace MyBlogAPI.Services.UserService
 
         Task<GetUserDto> AddUser(AddUserDto user);
 
-        Task<GetUserDto> SignIn(UserLoginDto user);
+        Task AddUserRole(UserRoleDto userRole);
+
+        Task RemoveUserRole(UserRoleDto userRole);
+
+        Task<bool> SignIn(UserLoginDto userLogin);
 
         Task UpdateUser(UpdateUserDto user);
 

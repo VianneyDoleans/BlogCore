@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
@@ -25,5 +26,11 @@ namespace MyBlogAPI.Services.RoleService
         Task UpdateRole(UpdateRoleDto role);
 
         Task DeleteRole(int id);
+
+        Task AddPermissionAsync(int roleId, Permission permission);
+
+        Task RemovePermissionAsync(int roleId, Permission permission);
+
+        Task<IEnumerable<Permission>> GetPermissionsAsync(int roleId);
     }
 }

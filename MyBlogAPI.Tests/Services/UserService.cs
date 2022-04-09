@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.JoiningEntity;
+using DbAccess.Repositories.Role;
 using DbAccess.Repositories.User;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Services.UserService;
@@ -24,7 +25,7 @@ namespace MyBlogAPI.Tests.Services
                 cfg.AddProfile(databaseFixture.MapperProfile);
             });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), 
+            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
                 mapper, _fixture.UnitOfWork);
         }
 

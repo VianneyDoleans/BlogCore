@@ -394,6 +394,27 @@
             <param name="role"></param>
             <returns></returns>
         </member>
+        <member name="M:MyBlogAPI.Controllers.RolesController.GetPermissions(System.Int32)">
+            <summary>
+            Get permissions from an existing role.
+            </summary>
+            <remarks>
+            Get permissions from an existing role.
+            </remarks>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.RolesController.AddPermission(System.Int32,DbAccess.Data.POCO.Permission.Permission)">
+            <summary>
+            Get permissions from an existing role.
+            </summary>
+            <remarks>
+            Get permissions from an existing role.
+            </remarks>
+            <param name="roleId"></param>
+            <param name="permission"></param>
+            <returns></returns>
+        </member>
         <member name="M:MyBlogAPI.Controllers.RolesController.DeleteRole(System.Int32)">
             <summary>
             Delete a role by giving its id.
@@ -492,7 +513,7 @@
             Controller used to expose User resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.LikeService.ILikeService,MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService)">
+        <member name="M:MyBlogAPI.Controllers.UsersController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.LikeService.ILikeService,MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.RoleService.IRoleService)">
             <summary>
             Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
             </summary>
@@ -500,6 +521,7 @@
             <param name="likeService"></param>
             <param name="postService"></param>
             <param name="commentService"></param>
+            <param name="roleService"></param>
         </member>
         <member name="M:MyBlogAPI.Controllers.UsersController.GetUsers(System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
@@ -527,14 +549,44 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.AddUser(MyBlogAPI.DTO.User.AddUserDto)">
+        <member name="M:MyBlogAPI.Controllers.UsersController.SignUp(MyBlogAPI.DTO.User.AddUserDto)">
             <summary>
-            Add a user.
+            Create a user.
             </summary>
             <remarks>
-            Add a user.
+            Create a user.
             </remarks>
             <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.UsersController.SignIn(MyBlogAPI.DTO.User.UserLoginDto)">
+            <summary>
+            Sign In as a user.
+            </summary>
+            <remarks>
+            Sign In as a user.
+            </remarks>
+            <param name="userLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.UsersController.AddRoleToUser(MyBlogAPI.DTO.User.UserRoleDto)">
+            <summary>
+            Add role to a user.
+            </summary>
+            <remarks>
+            Add role to a user.
+            </remarks>
+            <param name="userRole"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.UsersController.RemoveRoleToUser(MyBlogAPI.DTO.User.UserRoleDto)">
+            <summary>
+            Add role to a user.
+            </summary>
+            <remarks>
+            Add role to a user.
+            </remarks>
+            <param name="userRole"></param>
             <returns></returns>
         </member>
         <member name="M:MyBlogAPI.Controllers.UsersController.UpdateUser(MyBlogAPI.DTO.User.UpdateUserDto)">

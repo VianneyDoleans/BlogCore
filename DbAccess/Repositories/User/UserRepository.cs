@@ -132,5 +132,26 @@ namespace DbAccess.Repositories.User
             var user = await Context.Set<Data.POCO.User>().Where(x => x.Email == emailAddress).FirstOrDefaultAsync();
             return user != null;
         }
+
+        /// <inheritdoc />
+        public async Task<bool> CheckPasswordAsync(Data.POCO.User user)
+        {
+            var userSigninResult = await _userManager.CheckPasswordAsync(user, user.Password);
+            return userSigninResult;
+        }
+
+        public async Task AddRoleToUser(Data.POCO.User user, Data.POCO.Role role)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role.Name);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        public async Task RemoveRoleToUser(Data.POCO.User user, Data.POCO.Role role)
+        {
+            var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
     }
 }

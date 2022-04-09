@@ -5,6 +5,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Repositories.Role;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
 using DbAccess.Specifications;
@@ -18,12 +19,14 @@ namespace MyBlogAPI.Services.UserService
     public class UserService : IUserService
     {
         private readonly IUserRepository _repository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
 
-        public UserService(IUserRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository repository, IRoleRepository roleRepository, IMapper mapper, IUnitOfWork unitOfWork)
         {
             _repository = repository;
+            _roleRepository = roleRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
@@ -129,23 +132,57 @@ namespace MyBlogAPI.Services.UserService
            return _mapper.Map<GetUserDto>(result);
         }
 
-        public async Task<GetUserDto> SignIn(UserLoginDto userLogin)
+        public async Task AddUserRole(UserRoleDto userRole)
         {
-            var user = await _repository.GetAsync(new UsernameSpecification<User>(userLogin.UserName));
+            var user = (await _repository.GetAsync(userRole.UserId));
+            if (user == null)
+            {
+                throw new IndexOutOfRangeException("User doesn't exists.");
+            }
+
+            var role = (await _roleRepository.GetAsync(userRole.RoleId));
+            if (role == null)
+            {
+                throw new IndexOutOfRangeException("Role doesn't exists.");
+            }
+
+            if (user.UserRoles.Any(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId))
+                throw new InvalidOperationException("User already have the role.");
+            await _repository.AddRoleToUser(user, role);
+            _unitOfWork.Save();
+        }
+
+        public async Task RemoveUserRole(UserRoleDto userRole)
+        {
+            var user = (await _repository.GetAsync(userRole.UserId));
+            if (user == null)
+            {
+                throw new IndexOutOfRangeException("User doesn't exists.");
+            }
+
+            var role = (await _roleRepository.GetAsync(userRole.RoleId));
+            if (role == null)
+            {
+                throw new IndexOutOfRangeException("Role doesn't exists.");
+            }
+
+            if (!user.UserRoles.Any(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId))
+                throw new InvalidOperationException("User doesn't have the role.");
+            await _repository.RemoveRoleToUser(user, role);
+            _unitOfWork.Save();
+        }
+
+        public async Task<bool> SignIn(UserLoginDto userLogin)
+        {
+            var user = (await _repository.GetAsync(new UsernameSpecification<User>(userLogin.UserName))).ToList();
 
             if (user == null || user.Count() != 1)
             {
                 throw new IndexOutOfRangeException("User doesn't exists.");
             }
 
-            //var userSigninResult = await _userManager.CheckPasswordAsync(user, userLoginResource.Password);
-
-                //if (userSigninResult)
-                //{
-                //    return Ok();
-                //}
-
-                //return BadRequest("Email or password incorrect.");
+            var isValidPassword = await _repository.CheckPasswordAsync(user.First());
+            return isValidPassword;
         }
 
         public async Task UpdateUser(UpdateUserDto user)
