@@ -305,44 +305,39 @@ namespace DbAccess.Data
 
         private static async Task GenerateUsers(UserManager<User> userManager)
         {
-            var users = new List<User>()
+            var users = new List<(User, string)>()
             {
-                new User()
+                (new User
                 {
-                    EmailAddress = "Sam@email.com",
+                    Email = "Sam@email.com",
                     UserName = "Sam",
-                    Password = "1234"
-                },
-                new User()
+                }, "0a1234A@"),
+                (new User()
                 {
-                    EmailAddress = "fredon@email.com",
+                    Email = "fredon@email.com",
                     UserName = "Frodon",
-                    Password = "0000"
-                },
-                new User()
+                }, "0a0000A@"),
+                (new User()
                 {
-                    EmailAddress = "jamy@email.com",
+                    Email = "jamy@email.com",
                     UserName = "Jamy",
-                    Password = "JamyRedact",
                     UserDescription = "Hello, my name is Jamy, I love food"
-                },
-                new User()
+                }, "0JamyRedactA@"),
+                (new User()
                 {
-                    EmailAddress = "fred@email.com",
+                    Email = "fred@email.com",
                     UserName = "Fred",
-                    Password = "FredRedact",
-                },
-                new User()
+                }, "0FredRedactA@"),
+                (new User()
                 {
-                    EmailAddress = "admin@gmail.com",
+                    Email = "admin@gmail.com",
                     UserName = "AdminUser",
-                    Password = "adminPassword",
                     UserDescription = "I'm admin, I manage this blog"
-                }
+                }, "0adminPasswordA@")
             };
             foreach (var user in users)
             {
-                await userManager.CreateAsync(user);
+                await userManager.CreateAsync(user.Item1, user.Item2);
             }
             //context.Users.AddRange(jamy, fred, sam, frodon, admin);
             //context.SaveChanges();

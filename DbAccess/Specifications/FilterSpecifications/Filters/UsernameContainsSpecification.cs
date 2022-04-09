@@ -4,7 +4,7 @@ using DbAccess.Data.POCO.Interface;
 
 namespace DbAccess.Specifications.FilterSpecifications.Filters
 {
-    public class UsernameContainsSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasUsername
+    public class UsernameContainsSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasUserName
     {
         private readonly string _username;
 

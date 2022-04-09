@@ -14,10 +14,10 @@ namespace MyBlogAPI.FunctionalTests.Controllers
         {
             var user = new AddUserDto()
             {
-                EmailAddress = Guid.NewGuid().ToString("N") + "@user.com",
+                Email = Guid.NewGuid().ToString("N") + "@user.com",
                 Password = "abcdh",
                 UserDescription = "My description",
-                Username = Guid.NewGuid().ToString()[..20]
+                UserName = Guid.NewGuid().ToString()[..20]
             };
             return await Helper.AddEntity(user);
         }

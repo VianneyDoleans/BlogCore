@@ -34,14 +34,14 @@ namespace DBAccess.Tests.Builders
         {
             var testUser = new User()
             {
-                EmailAddress = Guid.NewGuid().ToString("N") + "@test.com",
+                Email = Guid.NewGuid().ToString("N") + "@test.com",
                 UserName = Guid.NewGuid().ToString()[..20],
                 Password = "testPassword"
             };
             if (!string.IsNullOrEmpty(_userName))
                 testUser.UserName = _userName;
             if (!string.IsNullOrEmpty(_emailAddress))
-                testUser.EmailAddress = _emailAddress;
+                testUser.Email = _emailAddress;
             _userRepository.Add(testUser);
             _unitOfWork.Save();
             return testUser;

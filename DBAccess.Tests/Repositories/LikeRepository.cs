@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
@@ -20,7 +21,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddLikesAsync()
+        public async Task AddLikesAsync()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -44,7 +45,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddNullLikesAsync()
+        public async Task AddNullLikesAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -54,7 +55,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetLikesAsync()
+        public async Task GetLikesAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -68,7 +69,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetLikesOutOfRangeAsync()
+        public async Task GetLikesOutOfRangeAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -78,7 +79,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -89,7 +90,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
             // Arrange
             var nbLikesAtBeginning = _fixture.Db.Likes.Count();
@@ -108,7 +109,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -168,7 +169,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -192,7 +193,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -209,7 +210,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -236,7 +237,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -274,7 +275,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -284,7 +285,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -314,17 +315,17 @@ namespace DBAccess.Tests.Repositories
                                                         new UserUsernameContainsSpecification<Like>("AllArg"),
                 new PagingSpecification(1, 2),
                 new SortSpecification<Like>(
-                    new OrderBySpecification<Like>(x => x.User.EmailAddress),
+                    new OrderBySpecification<Like>(x => x.User.Email),
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().User.EmailAddress == "ELiGetAWiAllArg5@email.com");
+            Assert.True(result.Count() == 2 && result.First().User.Email == "ELiGetAWiAllArg5@email.com");
             Assert.Contains(result, x => x.Id == like6.Id);
             Assert.Contains(result, x => x.Id == like4.Id);
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db); 
@@ -369,7 +370,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -417,7 +418,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -455,7 +456,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -499,7 +500,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -590,7 +591,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -631,7 +632,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbLikesAtBeginning = _fixture.Db.Likes.Count();
@@ -651,7 +652,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void LikeAlreadyExistsFalse()
+        public async Task LikeAlreadyExistsFalse()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -671,7 +672,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void LikeAlreadyExistsNull()
+        public async Task LikeAlreadyExistsNull()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
@@ -681,7 +682,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void LikeAlreadyExistsTrue()
+        public async Task LikeAlreadyExistsTrue()
         {
             // Arrange
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);

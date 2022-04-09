@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace DbAccess.Data.POCO
 {
-    public class User : IdentityUser<int>, IPoco, IHasUsername, IHasEmailAddress, IHasRegisteredAt, IHasLastLogin, IHasUserRoles, IHasPosts, IHasComments, IHasLikes
+    public class User : IdentityUser<int>, IPoco, IHasUserName, IHasEmail, IHasRegisteredAt, IHasLastLogin, IHasUserRoles, IHasPosts, IHasComments, IHasLikes
     {
         [Required]
         [MinLength(3), MaxLength(20)]
@@ -16,9 +16,10 @@ namespace DbAccess.Data.POCO
 
         [Required]
         [MaxLength(320)]
-        public string EmailAddress { get; set; }
+        public override string Email { get; set; }
 
         [Required]
+        [NotMapped]
         public string Password { get; set; }
 
         [Required]

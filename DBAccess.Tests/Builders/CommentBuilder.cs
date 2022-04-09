@@ -38,7 +38,7 @@ namespace DBAccess.Tests.Builders
             var user = _db.Users.Add(
                 new User()
                 {
-                    EmailAddress = Guid.NewGuid().ToString("N") + "@email.com",
+                    Email = Guid.NewGuid().ToString("N") + "@email.com",
                     Password = "1234",
                     UserName = Guid.NewGuid().ToString("N")[..20]
                 });

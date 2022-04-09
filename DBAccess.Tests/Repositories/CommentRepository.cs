@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
@@ -20,7 +21,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddCommentAsync()
+        public async Task AddCommentAsync()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
@@ -39,7 +40,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddNullCommentAsync()
+        public async Task AddNullCommentAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -49,7 +50,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetCommentAsync()
+        public async Task GetCommentAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -63,7 +64,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetCommentOutOfRangeAsync()
+        public async Task GetCommentOutOfRangeAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -73,7 +74,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -86,7 +87,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
             // Arrange
             var nbCommentsAtBeginning = _fixture.Db.Comments.Count();
@@ -105,7 +106,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -158,7 +159,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -182,7 +183,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -199,7 +200,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -218,7 +219,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -244,7 +245,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -254,7 +255,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -278,7 +279,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -307,7 +308,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -338,7 +339,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -361,7 +362,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -390,7 +391,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -466,7 +467,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -506,7 +507,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Comments.Count();

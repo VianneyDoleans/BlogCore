@@ -24,13 +24,13 @@ namespace DbAccess.Repositories.User
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        Task<bool> UsernameAlreadyExists(string username);
+        Task<bool> UserNameAlreadyExists(string username);
 
         /// <summary>
         /// Method used to check if an emailAddress already exists inside database.
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>
-        Task<bool> EmailAddressAlreadyExists(string emailAddress);
+        Task<bool> EmailAlreadyExists(string emailAddress);
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
-using DbAccess.Repositories;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
@@ -20,7 +20,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddRolesAsync()
+        public async Task AddRolesAsync()
         {
             var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRoles = new Role() { Name = "This is a test for role" };
@@ -31,7 +31,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddNullRolesAsync()
+        public async Task AddNullRolesAsync()
         {
             var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
 
@@ -39,7 +39,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetRolesAsync()
+        public async Task GetRolesAsync()
         {
             var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
@@ -55,7 +55,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetRolesOutOfRangeAsync()
+        public async Task GetRolesOutOfRangeAsync()
         {
             var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
 
@@ -63,7 +63,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
             var result = await repository.GetAllAsync();
@@ -72,7 +72,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
             var nbRolesAtBeginning = _fixture.Db.Roles.Count();
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -90,7 +90,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
             var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
 
@@ -140,7 +140,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -164,7 +164,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -199,7 +199,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -244,7 +244,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -275,7 +275,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -285,7 +285,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -334,7 +334,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -390,7 +390,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -446,7 +446,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -494,7 +494,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -550,7 +550,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -661,7 +661,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -710,7 +710,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Roles.Count();
@@ -739,7 +739,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsFalse()
+        public async Task NameAlreadyExistsFalse()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -749,7 +749,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsNull()
+        public async Task NameAlreadyExistsNull()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
@@ -759,7 +759,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsTrue()
+        public async Task NameAlreadyExistsTrue()
         {
             // Arrange
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);

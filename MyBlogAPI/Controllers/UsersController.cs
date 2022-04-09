@@ -99,21 +99,33 @@ namespace MyBlogAPI.Controllers
         }
 
         /// <summary>
-        /// Add a user.
+        /// Create a user.
         /// </summary>
         /// <remarks>
-        /// Add a user.
+        /// Create a user.
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPost]
+        [AllowAnonymous]
         [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> AddUser(AddUserDto user)
+        public async Task<IActionResult> SignUp(AddUserDto user)
         {
             return Ok(await _userService.AddUser(user));
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
+        [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> SignIn(UserLoginDto userLogin)
+        {
+            return Ok(_userService.signIn(userLogin));
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
@@ -20,7 +21,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddTagsAsync()
+        public async Task AddTagsAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -35,7 +36,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddNullTagsAsync()
+        public async Task AddNullTagsAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -45,7 +46,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetTagsAsync()
+        public async Task GetTagsAsync()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -59,7 +60,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetTagsOutOfRangeAsync()
+        public async Task GetTagsOutOfRangeAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -69,7 +70,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -82,7 +83,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
             // Arrange
             var nbTagsAtBeginning = _fixture.Db.Tags.Count();
@@ -101,7 +102,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
             // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -153,7 +154,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -177,7 +178,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -194,7 +195,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -213,7 +214,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -236,7 +237,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -246,7 +247,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -270,7 +271,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -299,7 +300,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -330,7 +331,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -353,7 +354,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -382,7 +383,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db); 
@@ -458,7 +459,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -498,7 +499,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Tags.Count();
@@ -518,7 +519,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsFalse()
+        public async Task NameAlreadyExistsFalse()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -528,7 +529,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsNull()
+        public async Task NameAlreadyExistsNull()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -538,7 +539,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsTrue()
+        public async Task NameAlreadyExistsTrue()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);

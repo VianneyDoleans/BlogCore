@@ -12,8 +12,8 @@ namespace MyBlogAPI.DTO.User.Converters
             ResolutionContext context)
         {
             destination.UserDescription = source.UserDescription;
-            destination.EmailAddress = source.EmailAddress;
-            destination.UserName = source.Username;
+            destination.Email = source.Email;
+            destination.UserName = source.UserName;
             destination.Password = source.Password;
             return destination;
         }

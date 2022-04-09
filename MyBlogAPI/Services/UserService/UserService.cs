@@ -9,6 +9,7 @@ using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Repositories.User;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
+using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
 using MyBlogAPI.DTO.User;
 
@@ -60,9 +61,9 @@ namespace MyBlogAPI.Services.UserService
         private static void CheckUsernameValidity(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
-                throw new ArgumentException("Username cannot be null or empty.");
+                throw new ArgumentException("UserName cannot be null or empty.");
             if (!Regex.Match(username, @"^(?!.*[._()\[\]-]{2})[A-Za-z0-9._()\[\]-]{3,20}$").Success)
-                throw new ArgumentException("Username must consist of between 3 to 20 allowed characters (A-Z, a-z, 0-9, .-_()[]) and cannot contain two consecutive symbols.");
+                throw new ArgumentException("UserName must consist of between 3 to 20 allowed characters (A-Z, a-z, 0-9, .-_()[]) and cannot contain two consecutive symbols.");
         }
 
         private static void CheckEmailAddressValidity(string emailAddress)
@@ -93,8 +94,8 @@ namespace MyBlogAPI.Services.UserService
         {
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
-            CheckEmailAddressValidity(user.EmailAddress);
-            CheckUsernameValidity(user.Username);
+            CheckEmailAddressValidity(user.Email);
+            CheckUsernameValidity(user.UserName);
             CheckPasswordValidity(user.Password);
             CheckUserDescription(user.UserDescription);
         }
@@ -102,9 +103,9 @@ namespace MyBlogAPI.Services.UserService
         private async Task CheckUserValidity(AddUserDto user)
         {
             CheckUserValidity((IUserDto) user);
-            if (await _repository.UsernameAlreadyExists(user.Username))
-                throw new InvalidOperationException("Username already exists.");
-            if (await _repository.EmailAddressAlreadyExists(user.EmailAddress))
+            if (await _repository.UserNameAlreadyExists(user.UserName))
+                throw new InvalidOperationException("UserName already exists.");
+            if (await _repository.EmailAlreadyExists(user.Email))
                 throw new InvalidOperationException("Email Address already exists.");
         }
 
@@ -112,11 +113,11 @@ namespace MyBlogAPI.Services.UserService
         {
             var userDb = _repository.GetAsync(user.Id);
             CheckUserValidity((IUserDto)user);
-            if (await _repository.UsernameAlreadyExists(user.Username) &&
-                (await userDb).UserName != user.Username)
-                throw new InvalidOperationException("Username already exists.");
-            if (await _repository.EmailAddressAlreadyExists(user.EmailAddress) &&
-                (await userDb).EmailAddress != user.EmailAddress)
+            if (await _repository.UserNameAlreadyExists(user.UserName) &&
+                (await userDb).UserName != user.UserName)
+                throw new InvalidOperationException("UserName already exists.");
+            if (await _repository.EmailAlreadyExists(user.Email) &&
+                (await userDb).Email != user.Email)
                 throw new InvalidOperationException("Email Address already exists.");
         }
 
@@ -126,6 +127,25 @@ namespace MyBlogAPI.Services.UserService
             var result = await _repository.AddAsync(_mapper.Map<User>(user));
            _unitOfWork.Save();
            return _mapper.Map<GetUserDto>(result);
+        }
+
+        public async Task<GetUserDto> SignIn(UserLoginDto userLogin)
+        {
+            var user = await _repository.GetAsync(new UsernameSpecification<User>(userLogin.UserName));
+
+            if (user == null || user.Count() != 1)
+            {
+                throw new IndexOutOfRangeException("User doesn't exists.");
+            }
+
+            //var userSigninResult = await _userManager.CheckPasswordAsync(user, userLoginResource.Password);
+
+                //if (userSigninResult)
+                //{
+                //    return Ok();
+                //}
+
+                //return BadRequest("Email or password incorrect.");
         }
 
         public async Task UpdateUser(UpdateUserDto user)
@@ -161,9 +181,8 @@ namespace MyBlogAPI.Services.UserService
             if (user == null)
                 throw new ArgumentNullException(nameof(user));
             var userDb = await _repository.GetAsync(user.Id);
-            return userDb.UserName == user.Username &&
-                   userDb.EmailAddress == user.EmailAddress &&
-                   user.Password == userDb.Password &&
+            return userDb.UserName == user.UserName &&
+                   userDb.Email == user.Email &&
                    user.UserDescription == userDb.UserDescription;
         }
     }

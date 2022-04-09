@@ -22,10 +22,10 @@ namespace MyBlogAPI.FunctionalTests.Controllers
         {
             var user = new AddUserDto()
             {
-                EmailAddress = Guid.NewGuid().ToString("N") + "@user.com",
+                Email = Guid.NewGuid().ToString("N") + "@user.com",
                 Password = "abcdh",
                 UserDescription = "My description",
-                Username = Guid.NewGuid().ToString("N")[..20]
+                UserName = Guid.NewGuid().ToString("N")[..20]
             };
             var userId = (await _userHelper.AddEntity(user)).Id;
             var category = new AddCategoryDto()

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Repositories.Tag;
 using MyBlogAPI.DTO.Tag;
@@ -23,7 +24,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddTag()
+        public async Task AddTag()
         {
             // Arrange
             var tag = new AddTagDto() {Name = "AddTagTest22"};
@@ -37,7 +38,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddTagWithAlreadyExistingName()
+        public async Task AddTagWithAlreadyExistingName()
         {
             // Arrange
             var tag = new AddTagDto()
@@ -51,7 +52,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddTagWithTooLongName()
+        public async Task AddTagWithTooLongName()
         {
             // Arrange
             var tag = new AddTagDto() {Name = "Ths is a long long long long long long long name !!"};
@@ -61,7 +62,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddTagWithNullName()
+        public async Task AddTagWithNullName()
         {
             // Arrange
             var tag = new AddTagDto();
@@ -71,7 +72,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddTagWithEmptyName()
+        public async Task AddTagWithEmptyName()
         {
             // Arrange
             var tag = new AddTagDto() {Name = "  "};
@@ -81,14 +82,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetTagNotFound()
+        public async Task GetTagNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetTag(685479));
         }
 
         [Fact]
-        public async void DeleteTag()
+        public async Task DeleteTag()
         {
             // Arrange
             var tag = await _service.AddTag(new AddTagDto()
@@ -104,14 +105,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeleteTagNotFound()
+        public async Task DeleteTagNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteTag(175574));
         }
 
         [Fact]
-        public async void GetAllTags()
+        public async Task GetAllTags()
         {
             // Arrange
             var tagToAdd = new AddTagDto()
@@ -134,7 +135,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetTag()
+        public async Task GetTag()
         {
             // Arrange
             var tagToAdd = new AddTagDto()
@@ -150,7 +151,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateTag()
+        public async Task UpdateTag()
         {
             // Arrange
             var tag = await _service.AddTag(new AddTagDto()
@@ -172,7 +173,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateTagInvalid()
+        public async Task UpdateTagInvalid()
         {
             // Arrange
             var tag = await _service.AddTag(new AddTagDto()
@@ -190,7 +191,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateTagMissingName()
+        public async Task UpdateTagMissingName()
         {
             // Arrange
             var tag = await _service.AddTag(new AddTagDto()
@@ -207,7 +208,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateTagNotFound()
+        public async Task UpdateTagNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateTag(new UpdateTagDto()
@@ -215,7 +216,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateTagWithSameExistingProperties()
+        public async Task UpdateTagWithSameExistingProperties()
         {
             // Arrange
             var tag = await _service.AddTag(new AddTagDto()
@@ -237,7 +238,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateTagWithSomeUniqueExistingUniquePropertiesFromAnotherTag()
+        public async Task UpdateTagWithSomeUniqueExistingUniquePropertiesFromAnotherTag()
         {
             // Arrange
             await _service.AddTag(new AddTagDto()
@@ -259,7 +260,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddNullTag()
+        public async Task AddNullTag()
         {
 
             // Arrange & Act & Assert
@@ -267,7 +268,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateNullTag()
+        public async Task UpdateNullTag()
         {
 
             // Arrange & Act & Assert

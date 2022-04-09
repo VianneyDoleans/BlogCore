@@ -63,7 +63,9 @@ namespace DbAccess.Repositories.User
         /// <inheritdoc />
         public override async Task<Data.POCO.User> AddAsync(Data.POCO.User user)
         {
-            var result = await _userManager.CreateAsync(user);
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+            var result = await _userManager.CreateAsync(user, user.Password);
             if (!result.Succeeded)
                 throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
             return await _userManager.FindByNameAsync(user.UserName);
@@ -118,16 +120,16 @@ namespace DbAccess.Repositories.User
         }
 
         /// <inheritdoc />
-        public async Task<bool> UsernameAlreadyExists(string username)
+        public async Task<bool> UserNameAlreadyExists(string username)
         {
             var user = await Context.Set<Data.POCO.User>().Where(x => x.UserName == username).FirstOrDefaultAsync();
             return user != null;
         }
 
         /// <inheritdoc />
-        public async Task<bool> EmailAddressAlreadyExists(string emailAddress)
+        public async Task<bool> EmailAlreadyExists(string emailAddress)
         {
-            var user = await Context.Set<Data.POCO.User>().Where(x => x.EmailAddress == emailAddress).FirstOrDefaultAsync();
+            var user = await Context.Set<Data.POCO.User>().Where(x => x.Email == emailAddress).FirstOrDefaultAsync();
             return user != null;
         }
     }

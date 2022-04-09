@@ -15,11 +15,11 @@ namespace MyBlogAPI.FunctionalTests.Helpers
         {
             return new UpdateUserDto()
             {
-                EmailAddress = entity.EmailAddress,
+                Email = entity.Email,
                 Id = entity.Id,
                 Password = Guid.NewGuid().ToString("N"),
                 UserDescription = entity.UserDescription,
-                Username = Guid.NewGuid().ToString("N")[..20]
+                UserName = Guid.NewGuid().ToString("N")[..20]
             };
         }
 
@@ -31,11 +31,11 @@ namespace MyBlogAPI.FunctionalTests.Helpers
                 first.Roles != null && second.Roles == null)
                 return false;
             if (first.Roles == null || second.Roles == null)
-                return first.EmailAddress == second.EmailAddress &&
+                return first.Email == second.Email &&
                        first.LastLogin == second.LastLogin &&
                        first.RegisteredAt == second.RegisteredAt &&
                        first.UserDescription == second.UserDescription &&
-                       first.Username == second.Username;
+                       first.UserName == second.UserName;
             return first.Roles.SequenceEqual(second.Roles);
         }
     }

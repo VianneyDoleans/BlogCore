@@ -22,6 +22,8 @@ namespace MyBlogAPI.Services.UserService
 
         Task<GetUserDto> AddUser(AddUserDto user);
 
+        Task<GetUserDto> SignIn(UserLoginDto user);
+
         Task UpdateUser(UpdateUserDto user);
 
         Task DeleteUser(int id);

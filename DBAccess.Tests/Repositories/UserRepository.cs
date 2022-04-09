@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories;
 using DbAccess.Specifications;
@@ -20,25 +21,24 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddUserAsync()
+        public async Task AddUserAsync()
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "test@test.com",
+                Email = "test@test.com",
                 UserName = "test",
-                Password = "testPassword"
+                Password = "testPassword-7"
             };
             await userRepository.AddAsync(testUser);
             _fixture.UnitOfWork.Save();
 
-            Assert.True(_fixture.Db.Users.First(x => x.EmailAddress == testUser.EmailAddress &&
-                                                     x.UserName == testUser.UserName &&
-                                                     x.Password == testUser.Password) != null);
+            Assert.True(_fixture.Db.Users.First(x => x.Email == testUser.Email &&
+                                                     x.UserName == testUser.UserName) != null);
         }
 
         [Fact]
-        public async void AddNullUserAsync()
+        public async Task AddNullUserAsync()
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
@@ -46,13 +46,13 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetUserAsync()
+        public async Task GetUserAsync()
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "GetUserAsync@test.test",
-                Password = "test",
+                Email = "GetUserAsync@test.test",
+                Password = "testA-007",
                 UserName = "GetUserAsync"
             };
             await userRepository.AddAsync(testUser);
@@ -64,7 +64,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetUserOutOfRangeAsync()
+        public async Task GetUserOutOfRangeAsync()
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
@@ -72,7 +72,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var result = await userRepository.GetAllAsync();
@@ -81,15 +81,15 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
             var nbUsersAtBeginning = _fixture.Db.Users.Count();
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "test@test.com",
+                Email = "test@test.com",
                 UserName = "test",
-                Password = "testPassword"
+                Password = "testPasswordA-007"
             };
 
             await userRepository.AddAsync(testUser);
@@ -104,7 +104,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
@@ -119,7 +119,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
-            var testUser = new User() { EmailAddress = "", Password = "test", UserName = "AddUser" };
+            var testUser = new User() { Email = "", Password = "test", UserName = "AddUser" };
 
             // Act
             userRepository.Add(testUser);
@@ -154,7 +154,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
@@ -178,26 +178,26 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncSpecification@test.test", Password = "test", UserName = "UserGetAsyncSpecification"
+                Email = "UserGetAsyncSpecification@test.test", Password = "test", UserName = "UserGetAsyncSpecification"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncSpecification2@test.test", Password = "test", UserName = "UserGetAsyncSpecification2"
+                Email = "UserGetAsyncSpecification2@test.test", Password = "test", UserName = "UserGetAsyncSpecification2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncSpecification3@test.test", Password = "test", UserName = "UserGetAsyncSpecification3"
+                Email = "UserGetAsyncSpecification3@test.test", Password = "test", UserName = "UserGetAsyncSpecification3"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncSpecification4@test.test", Password = "test", UserName = "UserGetAsyncSpecification4"
+                Email = "UserGetAsyncSpecification4@test.test", Password = "test", UserName = "UserGetAsyncSpecification4"
             };
             userRepository.Add(testUser);
             userRepository.Add(testUser2);
@@ -213,34 +213,34 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
             var testUser = new User()
             {
-                EmailAddress = "GetAWiTwoSpecUser@test.test", Password = "test", UserName = "GetAWiTwoSpecUser"
+                Email = "GetAWiTwoSpecUser@test.test", Password = "testA-007", UserName = "GetAWiTwoSpecUser"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "GetAWiTwoSpecUser2@test.test", Password = "test", UserName = "GetAWiTwoSpecAKUser2"
+                Email = "GetAWiTwoSpecUser2@test.test", Password = "testA-007", UserName = "GetAWiTwoSpecAKUser2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "GetAWiTwoSpecUser3@test.test", Password = "test", UserName = "AKGetAWiTwoSpecUser3"
+                Email = "GetAWiTwoSpecUser3@test.test", Password = "testA-007", UserName = "AKGetAWiTwoSpecUser3"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "GetAWiTwoSpecUser4@test.test", Password = "test", UserName = "GetAWiTwoSpecPst4"
+                Email = "GetAWiTwoSpecUser4@test.test", Password = "testA-007", UserName = "GetAWiTwoSpecPst4"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "GetAWiTwoSpecUser5@test.test", Password = "test", UserName = "GetAWiTwoSpecUserAK5164"
+                Email = "GetAWiTwoSpecUser5@test.test", Password = "testA-007", UserName = "GetAWiTwoSpecUserAK5164"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "GetAWiTwoSpecUser6@test.test", Password = "test", UserName = "GetAWiTwoSpecUser6"
+                Email = "GetAWiTwoSpecUser6@test.test", Password = "testA-007", UserName = "GetAWiTwoSpecUser6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -258,24 +258,24 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser@test.test", Password = "test", UserName = "TwwooGetAsyncWithTwoSortsUser" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser@test.test", Password = "test", UserName = "TwwooGetAsyncWithTwoSortsUser" });
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser2@test.test", Password = "test", UserName = "GetAsyncWithTwoSorts2User" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser2@test.test", Password = "test", UserName = "GetAsyncWithTwoSorts2User" });
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser3@test.test", Password = "test", UserName = "GetAsyncWithTwoSorts3TwwooUser" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser3@test.test", Password = "test", UserName = "GetAsyncWithTwoSorts3TwwooUser" });
             var user4 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser4@test.test", Password = "test", UserName = "AGetTwwooAsyncWithTwoSorts4User" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser4@test.test", Password = "test", UserName = "AGetTwwooAsyncWithTwoSorts4User" });
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser5@test.test", Password = "test", UserName = "GetAsyncTwwooWithTwoSorts5User" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser5@test.test", Password = "test", UserName = "GetAsyncTwwooWithTwoSorts5User" });
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser6@test.test", Password = "test", UserName = "GetAsyncWithTwoSorts6User" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser6@test.test", Password = "test", UserName = "GetAsyncWithTwoSorts6User" });
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "TwwooGetAsyncWithTwoSortsUser7@test.test", Password = "test", UserName = "TGetAsyncWithTwoorts7User" });
+                new User() { Email = "TwwooGetAsyncWithTwoSortsUser7@test.test", Password = "test", UserName = "TGetAsyncWithTwoorts7User" });
             _fixture.UnitOfWork.Save();
 
             // Act
@@ -289,7 +289,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
@@ -299,33 +299,33 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncWithAllArguments@test.test", Password = "test", UserName = "UserGetAsyncWithAllArguments"
+                Email = "UserGetAsyncWithAllArguments@test.test", Password = "testA-7", UserName = "UserGetAsyncWithAllArguments"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncWithAllArguments2@test.test", Password = "test", UserName = "UserGetAsyncAKWithAllArguments2"
+                Email = "UserGetAsyncWithAllArguments2@test.test", Password = "testA-7", UserName = "UserGetAsyncAKWithAllArguments2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncWithAllArguments3@test.test", Password = "test", UserName = "UserGetAsyncAkWithAllArguments3"
+                Email = "UserGetAsyncWithAllArguments3@test.test", Password = "testA-7", UserName = "UserGetAsyncAkWithAllArguments3"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncWithAllArguments4@test.test", Password = "test", UserName = "UserGetAsyncWithAllArguments4"
+                Email = "UserGetAsyncWithAllArguments4@test.test", Password = "testA-7", UserName = "UserGetAsyncWithAllArguments4"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "UserGetAsyncWithAllArguments5@test.test", Password = "test", UserName = "UserAKGetAsyncWithAllArguments5"
+                Email = "UserGetAsyncWithAllArguments5@test.test", Password = "testA-7", UserName = "UserAKGetAsyncWithAllArguments5"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "UserGetAsyncWithAllArguments6@test.test", Password = "test", UserName = "UserGetAsyncWithAllArguments6"
+                Email = "UserGetAsyncWithAllArguments6@test.test", Password = "testA-7", UserName = "UserGetAsyncWithAllArguments6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -348,35 +348,35 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UserGetAsyncWithPagination@test.test", Password = "test", UserName = "UserGetAsyncWithPagination" });
+                new User() { Email = "UserGetAsyncWithPagination@test.test", Password = "testA-7", UserName = "UserGetAsyncWithPagination" });
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncWithPagination1@test.test", Password = "test", UserName = "User1GetAsyncWithPagination1"
+                Email = "UserGetAsyncWithPagination1@test.test", Password = "testA-007", UserName = "User1GetAsyncWithPagination1"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPagination2@test.test", Password = "test", UserName = "User1GetAsyncWithPagination2"
+                Email = "UserGetAsyncWithPagination2@test.test", Password = "testA-007", UserName = "User1GetAsyncWithPagination2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPagination3@test.test", Password = "test", UserName = "User1GetAsyncWithPagination3"
+                Email = "UserGetAsyncWithPagination3@test.test", Password = "testA-007", UserName = "User1GetAsyncWithPagination3"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPagination4@test.test", Password = "test", UserName = "User1GetAsyncWithPagination4"
+                Email = "UserGetAsyncWithPagination4@test.test", Password = "testA-007", UserName = "User1GetAsyncWithPagination4"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPagination5@test.test", Password = "test", UserName = "User1GetAsyncWithPagination5"
+                Email = "UserGetAsyncWithPagination5@test.test", Password = "testA-007", UserName = "User1GetAsyncWithPagination5"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPagination6@test.test", Password = "test", UserName = "User1GetAsyncWithPagination6"
+                Email = "UserGetAsyncWithPagination6@test.test", Password = "testA-007", UserName = "User1GetAsyncWithPagination6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -404,33 +404,33 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange1@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange1"
+                Email = "UserGetAsyncWithPaginationTakeOutOfRange1@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeOutOfRange1"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange2@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange2"
+                Email = "UserGetAsyncWithPaginationTakeOutOfRange2@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeOutOfRange2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange3@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange3"
+                Email = "UserGetAsyncWithPaginationTakeOutOfRange3@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeOutOfRange3"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange4@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange4"
+                Email = "UserGetAsyncWithPaginationTakeOutOfRange4@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeOutOfRange4"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange5@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange5"
+                Email = "UserGetAsyncWithPaginationTakeOutOfRange5@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeOutOfRange5"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeOutOfRange5@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeOutOfRange6"
+                Email = "UserGetAsyncWithPaginationTakeOutOfRange5@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeOutOfRange6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -460,33 +460,33 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeNegative1@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative1"
+                Email = "UserGetAsyncWithPaginationTakeNegative1@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeNegative1"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeNegative2@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative2"
+                Email = "UserGetAsyncWithPaginationTakeNegative2@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeNegative2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeNegative3@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative3"
+                Email = "UserGetAsyncWithPaginationTakeNegative3@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeNegative3"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeNegative4@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative4"
+                Email = "UserGetAsyncWithPaginationTakeNegative4@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeNegative4"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeNegative5@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative5"
+                Email = "UserGetAsyncWithPaginationTakeNegative5@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeNegative5"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationTakeNegative6@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationTakeNegative6"
+                Email = "UserGetAsyncWithPaginationTakeNegative6@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationTakeNegative6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -508,33 +508,33 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipNegative@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipNegative"
+                Email = "UserGetAsyncWithPaginationSkipNegative@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipNegative"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipNegative2@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipNegative2"
+                Email = "UserGetAsyncWithPaginationSkipNegative2@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipNegative2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipNegative3@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipNegative3"
+                Email = "UserGetAsyncWithPaginationSkipNegative3@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipNegative3"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipNegative4@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipNegative4"
+                Email = "UserGetAsyncWithPaginationSkipNegative4@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipNegative4"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipNegative5@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipSkipNegative5"
+                Email = "UserGetAsyncWithPaginationSkipNegative5@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipSkipNegative5"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipNegative6@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipSkipNegative6"
+                Email = "UserGetAsyncWithPaginationSkipNegative6@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipSkipNegative6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -562,33 +562,33 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange"
+                Email = "UserGetAsyncWithPaginationSkipOutOfRange@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipOutOfRange"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange2@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange2"
+                Email = "UserGetAsyncWithPaginationSkipOutOfRange2@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipOutOfRange2"
             };
             var testUser3 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange3@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange3"
+                Email = "UserGetAsyncWithPaginationSkipOutOfRange3@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipOutOfRange3"
             };
             var testUser5 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange4@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange4"
+                Email = "UserGetAsyncWithPaginationSkipOutOfRange4@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipOutOfRange4"
             };
             var testUser6 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange5@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange5"
+                Email = "UserGetAsyncWithPaginationSkipOutOfRange5@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipOutOfRange5"
             };
             var testUser4 = new User()
             {
-                EmailAddress = "UserGetAsyncWithPaginationSkipOutOfRange6@test.test", Password = "test", UserName = "UserGetAsyncWithPaginationSkipOutOfRange6"
+                Email = "UserGetAsyncWithPaginationSkipOutOfRange6@test.test", Password = "testA-007", UserName = "UserGetAsyncWithPaginationSkipOutOfRange6"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -617,7 +617,7 @@ namespace DBAccess.Tests.Repositories
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "RemoveUser@test.test", Password = "test", UserName = "RemoveUser"
+                Email = "RemoveUser@test.test", Password = "test", UserName = "RemoveUser"
             };
             userRepository.Add(testUser);
             _fixture.UnitOfWork.Save();
@@ -640,7 +640,7 @@ namespace DBAccess.Tests.Repositories
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "GetUser@test.test",
+                Email = "GetUser@test.test",
                 Password = "test",
                 UserName = "GetUser"
             };
@@ -675,7 +675,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
@@ -702,11 +702,11 @@ namespace DBAccess.Tests.Repositories
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserRemoveRange1@test.test", Password = "test", UserName = "UserRemoveRange1"
+                Email = "UserRemoveRange1@test.test", Password = "test", UserName = "UserRemoveRange1"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserRemoveRange2@test.test", Password = "test", UserName = "UserRemoveRange2"
+                Email = "UserRemoveRange2@test.test", Password = "test", UserName = "UserRemoveRange2"
             };
             userRepository.Add(testUser);
             userRepository.Add(testUser2);
@@ -724,18 +724,18 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Users.Count();
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
-                EmailAddress = "UserRemoveRangeAsync1@test.test", Password = "test", UserName = "UserRemoveRangeAsync1"
+                Email = "UserRemoveRangeAsync1@test.test", Password = "testA-007", UserName = "UserRemoveRangeAsync1"
             };
             var testUser2 = new User()
             {
-                EmailAddress = "UserRemoveRangeAsync2@test.test", Password = "test", UserName = "UserRemoveRangeAsync2"
+                Email = "UserRemoveRangeAsync2@test.test", Password = "testA-007", UserName = "UserRemoveRangeAsync2"
             };
             await userRepository.AddAsync(testUser);
             await userRepository.AddAsync(testUser2);
@@ -753,79 +753,79 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void UsernameAlreadyExistsFalse()
+        public async Task UsernameAlreadyExistsFalse()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
-            Assert.True(!await userRepository.UsernameAlreadyExists("UsernameAlreadyExistsFalse"));
+            Assert.True(!await userRepository.UserNameAlreadyExists("UsernameAlreadyExistsFalse"));
         }
 
         [Fact]
-        public async void EmailAddressAlreadyExistsFalse()
+        public async Task EmailAddressAlreadyExistsFalse()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
-            Assert.True(!await userRepository.EmailAddressAlreadyExists("EmailAddressAlreadyExistsFalse@test.test"));
+            Assert.True(!await userRepository.EmailAlreadyExists("EmailAddressAlreadyExistsFalse@test.test"));
         }
 
         [Fact]
-        public async void UsernameAlreadyExistsNull()
+        public async Task UsernameAlreadyExistsNull()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
-            Assert.True(!await userRepository.UsernameAlreadyExists(null));
+            Assert.True(!await userRepository.UserNameAlreadyExists(null));
         }
 
         [Fact]
-        public async void EmailAddressAlreadyExistsNull()
+        public async Task EmailAddressAlreadyExistsNull()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
-            Assert.True(!await userRepository.EmailAddressAlreadyExists(null));
+            Assert.True(!await userRepository.EmailAlreadyExists(null));
         }
 
         [Fact]
-        public async void UsernameAlreadyExistsTrue()
+        public async Task UsernameAlreadyExistsTrue()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 UserName = "UsernameAlreadyExistsValid",
-                EmailAddress = "UsernameAlreadyExistsValid@test.test",
-                Password = "test"
+                Email = "UsernameAlreadyExistsValid@test.test",
+                Password = "testA-007"
             };
             await userRepository.AddAsync(testUser);
             await _fixture.Db.SaveChangesAsync();
 
             // Act & Assert
-            Assert.True(await userRepository.UsernameAlreadyExists(testUser.UserName));
+            Assert.True(await userRepository.UserNameAlreadyExists(testUser.UserName));
         }
 
         [Fact]
-        public async void EmailAddressAlreadyExistsTrue()
+        public async Task EmailAddressAlreadyExistsTrue()
         {
             // Arrange
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
             {
                 UserName = "EmailAddressAlreadyExistsValid",
-                EmailAddress = "EmailAddressAlreadyExistsValid@test.test",
-                Password = "test"
+                Email = "EmailAddressAlreadyExistsValid@test.test",
+                Password = "testA-7"
             };
             await userRepository.AddAsync(testUser);
             await _fixture.Db.SaveChangesAsync();
 
             // Act & Assert
-            Assert.True(await userRepository.EmailAddressAlreadyExists(testUser.EmailAddress));
+            Assert.True(await userRepository.EmailAlreadyExists(testUser.Email));
         }
     }
 }
