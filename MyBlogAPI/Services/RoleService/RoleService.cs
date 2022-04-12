@@ -10,6 +10,7 @@ using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
+using MyBlogAPI.DTO.Permission;
 using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.Services.RoleService
@@ -123,9 +124,9 @@ namespace MyBlogAPI.Services.RoleService
             await _repository.RemovePermissionAsync(await _repository.GetAsync(roleId), permission);
         }
 
-        public async Task<IEnumerable<Permission>> GetPermissionsAsync(int roleId)
+        public async Task<IEnumerable<PermissionDto>> GetPermissionsAsync(int roleId)
         {
-            return await _repository.GetPermissionsAsync(await _repository.GetAsync(roleId));
+            return  (await _repository.GetPermissionsAsync(await _repository.GetAsync(roleId))).Select(x => _mapper.Map<PermissionDto>(x)).ToList();
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Like;
@@ -13,6 +14,8 @@ using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Comment.Converters;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.DTO.Like.Converters;
+using MyBlogAPI.DTO.Permission;
+using MyBlogAPI.DTO.Permission.Converters;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.DTO.Post.Converters;
 using MyBlogAPI.DTO.Role;
@@ -79,6 +82,10 @@ namespace MyBlogAPI.Tests
             CreateMap<UpdateCommentDto, Comment>().ConvertUsing(new UpdateCommentConverter(commentRepository, postRepository, userRepository));
             CreateMap<UpdateLikeDto, Like>().ConvertUsing(new UpdateLikeConverter(commentRepository, postRepository, userRepository));
             CreateMap<UpdatePostDto, Post>().ConvertUsing(new UpdatePostConverter(userRepository, categoryRepository));
+
+            CreateMap<PermissionAction, PermissionActionDto>().ConvertUsing(new PermissionActionConverter());
+            CreateMap<PermissionRange, PermissionRangeDto>().ConvertUsing(new PermissionRangeConverter());
+            CreateMap<PermissionTarget, PermissionTargetDto>().ConvertUsing(new PermissionTargetConverter());
         }
     }
 }

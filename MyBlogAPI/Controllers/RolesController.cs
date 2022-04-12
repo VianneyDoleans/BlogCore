@@ -126,61 +126,60 @@ namespace MyBlogAPI.Controllers
         /// <remarks>
         /// Get permissions from an existing role.
         /// </remarks>
-        /// <param name="roleId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        [HttpPut]
-        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Role)]
+        [HttpGet("/Roles/{id:int}/Permissions")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Permission>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> GetPermissions(int roleId)
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPermissions(int id)
         {
-            if (await _roleService.GetRole(roleId) == null)
+            if (await _roleService.GetRole(id) == null)
                 return NotFound();
-            return Ok(_roleService.GetPermissionsAsync(roleId));
+            return Ok(_roleService.GetPermissionsAsync(id));
         }
 
         /// <summary>
-        /// Add permission to an existing role.
+        /// Add a permission to an existing role.
         /// </summary>
         /// <remarks>
-        /// Add permission to an existing role.
+        /// Add a permission to an existing role.
         /// </remarks>
-        /// <param name="roleId"></param>
+        /// <param name="id"></param>
         /// <param name="permission"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpPost("/Roles/{id:int}/Permissions")]
         [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Role)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> AddPermission(int roleId, Permission permission)
+        public async Task<IActionResult> AddPermission(int id, Permission permission)
         {
-            if (await _roleService.GetRole(roleId) == null)
+            if (await _roleService.GetRole(id) == null)
                 return NotFound();
-            await _roleService.AddPermissionAsync(roleId, permission);
+            await _roleService.AddPermissionAsync(id, permission);
             return Ok();
         }
 
         /// <summary>
-        /// Remove permission to an existing role.
+        /// Remove a permission to an existing role.
         /// </summary>
         /// <remarks>
-        /// Remove permission to an existing role.
+        /// Remove a permission to an existing role.
         /// </remarks>
-        /// <param name="roleId"></param>
+        /// <param name="id"></param>
         /// <param name="permission"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpDelete("/Roles/{id:int}/Permissions")]
         [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Role)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> RemovePermission(int roleId, Permission permission)
+        public async Task<IActionResult> RemovePermission(int id, Permission permission)
         {
-            if (await _roleService.GetRole(roleId) == null)
+            if (await _roleService.GetRole(id) == null)
                 return NotFound();
-            await _roleService.RemovePermissionAsync(roleId, permission);
+            await _roleService.RemovePermissionAsync(id, permission);
             return Ok();
         }
 

@@ -5,6 +5,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
+using MyBlogAPI.DTO.Permission;
 using MyBlogAPI.DTO.Role;
 
 namespace MyBlogAPI.Services.RoleService
@@ -31,6 +32,6 @@ namespace MyBlogAPI.Services.RoleService
 
         Task RemovePermissionAsync(int roleId, Permission permission);
 
-        Task<IEnumerable<Permission>> GetPermissionsAsync(int roleId);
+        Task<IEnumerable<PermissionDto>> GetPermissionsAsync(int roleId);
     }
 }

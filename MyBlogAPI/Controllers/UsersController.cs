@@ -110,7 +110,7 @@ namespace MyBlogAPI.Controllers
         /// </remarks>
         /// <param name="user"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("SignUp")]
         [AllowAnonymous]
         [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
@@ -129,62 +129,63 @@ namespace MyBlogAPI.Controllers
         /// </remarks>
         /// <param name="userLogin"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("SignIn")]
         [AllowAnonymous]
         [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
-        [ProducesResponseType( StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> SignIn(UserLoginDto userLogin)
         {
-            if (await _userService.SignIn(userLogin)) 
+            if (await _userService.SignIn(userLogin))
                 return Ok();
             return BadRequest("Bad username or password.");
         }
 
         /// <summary>
-        /// Add role to a user.
+        /// Add a role to a user.
         /// </summary>
         /// <remarks>
-        /// Add role to a user.
+        /// Add a role to a user.
         /// </remarks>
-        /// <param name="userRole"></param>
+        /// <param name="id"></param>
+        /// <param name="roleId"></param>
         /// <returns></returns>
-        [HttpPost]
-        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
-        [ProducesResponseType( StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> AddRoleToUser(UserRoleDto userRole)
-        {
-            if (await _userService.GetUser(userRole.UserId) == null)
-                return NotFound("Doesn't found the user.");
-            if (await _roleService.GetRole(userRole.RoleId) == null)
-                return NotFound("Doesn't found the role.");
-            await _userService.AddUserRole(userRole);
-            return Ok();
-        }
-
-        /// <summary>
-        /// Add role to a user.
-        /// </summary>
-        /// <remarks>
-        /// Add role to a user.
-        /// </remarks>
-        /// <param name="userRole"></param>
-        /// <returns></returns>
-        [HttpPost]
+        [HttpPost("{id:int}/Role/{roleId:int}")]
         [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> RemoveRoleToUser(UserRoleDto userRole)
+        public async Task<IActionResult> AddRoleToUser(int id, int roleId)
         {
-            if (await _userService.GetUser(userRole.UserId) == null)
+            if (await _userService.GetUser(id) == null)
                 return NotFound("Doesn't found the user.");
-            if (await _roleService.GetRole(userRole.RoleId) == null)
+            if (await _roleService.GetRole(roleId) == null)
                 return NotFound("Doesn't found the role.");
-            await _userService.RemoveUserRole(userRole);
+            await _userService.AddUserRole(new UserRoleDto() {UserId = id, RoleId = roleId});
+            return Ok();
+        }
+
+        /// <summary>
+        /// Remove a role to a user.
+        /// </summary>
+        /// <remarks>
+        /// Remove a role to a user.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        [HttpDelete("{id:int}/Role/{roleId:int}")]
+        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> RemoveRoleToUser(int id, int roleId)
+        {
+            if (await _userService.GetUser(id) == null)
+                return NotFound("Doesn't found the user.");
+            if (await _roleService.GetRole(roleId) == null)
+                return NotFound("Doesn't found the role.");
+            await _userService.RemoveUserRole(new UserRoleDto {UserId = id, RoleId = roleId});
             return Ok();
         }
 

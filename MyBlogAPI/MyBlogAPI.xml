@@ -401,17 +401,28 @@
             <remarks>
             Get permissions from an existing role.
             </remarks>
-            <param name="roleId"></param>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:MyBlogAPI.Controllers.RolesController.AddPermission(System.Int32,DbAccess.Data.POCO.Permission.Permission)">
             <summary>
-            Get permissions from an existing role.
+            Add a permission to an existing role.
             </summary>
             <remarks>
-            Get permissions from an existing role.
+            Add a permission to an existing role.
             </remarks>
-            <param name="roleId"></param>
+            <param name="id"></param>
+            <param name="permission"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.RolesController.RemovePermission(System.Int32,DbAccess.Data.POCO.Permission.Permission)">
+            <summary>
+            Remove a permission to an existing role.
+            </summary>
+            <remarks>
+            Remove a permission to an existing role.
+            </remarks>
+            <param name="id"></param>
             <param name="permission"></param>
             <returns></returns>
         </member>
@@ -569,24 +580,26 @@
             <param name="userLogin"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.AddRoleToUser(MyBlogAPI.DTO.User.UserRoleDto)">
+        <member name="M:MyBlogAPI.Controllers.UsersController.AddRoleToUser(System.Int32,System.Int32)">
             <summary>
-            Add role to a user.
+            Add a role to a user.
             </summary>
             <remarks>
-            Add role to a user.
+            Add a role to a user.
             </remarks>
-            <param name="userRole"></param>
+            <param name="id"></param>
+            <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.RemoveRoleToUser(MyBlogAPI.DTO.User.UserRoleDto)">
+        <member name="M:MyBlogAPI.Controllers.UsersController.RemoveRoleToUser(System.Int32,System.Int32)">
             <summary>
-            Add role to a user.
+            Remove a role to a user.
             </summary>
             <remarks>
-            Add role to a user.
+            Remove a role to a user.
             </remarks>
-            <param name="userRole"></param>
+            <param name="id"></param>
+            <param name="roleId"></param>
             <returns></returns>
         </member>
         <member name="M:MyBlogAPI.Controllers.UsersController.UpdateUser(MyBlogAPI.DTO.User.UpdateUserDto)">
@@ -806,6 +819,35 @@
         <member name="T:MyBlogAPI.DTO.Like.UpdateLikeDto">
             <summary>
             UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Like"/>.
+            </summary>
+        </member>
+        <member name="T:MyBlogAPI.DTO.Permission.Converters.PermissionActionConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> to <see cref="T:MyBlogAPI.DTO.Permission.PermissionActionDto"/>.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.DTO.Permission.Converters.PermissionActionConverter.Convert(DbAccess.Data.POCO.Permission.PermissionAction,MyBlogAPI.DTO.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.DTO.Permission.Converters.PermissionRangeConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Permission.PermissionRange"/> to <see cref="T:MyBlogAPI.DTO.Permission.PermissionRangeDto"/>.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.DTO.Permission.Converters.PermissionRangeConverter.Convert(DbAccess.Data.POCO.Permission.PermissionRange,MyBlogAPI.DTO.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.DTO.Permission.Converters.PermissionTargetConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> to <see cref="T:MyBlogAPI.DTO.Permission.PermissionTargetDto"/>.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.DTO.Permission.Converters.PermissionTargetConverter.Convert(DbAccess.Data.POCO.Permission.PermissionTarget,MyBlogAPI.DTO.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.DTO.Permission.PermissionDto">
+            <summary>
+            GET Dto type of <see cref="T:DbAccess.Data.POCO.Permission.Permission"/>
             </summary>
         </member>
         <member name="T:MyBlogAPI.DTO.Post.AddPostDto">
