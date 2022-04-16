@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using DbAccess;
 using DbAccess.Data.POCO;
 using DbAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
@@ -44,7 +45,7 @@ namespace MyBlogAPI.FunctionalTests
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                 context.Database.EnsureCreatedAsync();
                 // Fill Db with data
-                await DbAccess.Data.DbInitializer.Seed(context, roleManager, userManager);
+                await DbInitializer.Seed(context, roleManager, userManager);
             });
         }
     }

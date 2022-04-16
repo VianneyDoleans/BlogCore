@@ -3,7 +3,7 @@
 namespace DbAccess.Data.POCO.Permission
 {
     /// <summary>
-    /// Permission enum allowing to define a permission for a <see cref="POCO.Role"/>.
+    /// Permission enum allowing to define a permission for a <see cref="Role"/>.
     /// </summary>
     /// <example>
     /// User can read own post, create own like.

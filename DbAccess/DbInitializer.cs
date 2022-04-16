@@ -9,7 +9,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
 
-namespace DbAccess.Data
+namespace DbAccess
 {
     /// <summary>
     /// Class used to initialize Database if the database is empty (test data).

@@ -22,6 +22,37 @@
         <member name="M:MyBlogAPI.AutoMapperProfile.#ctor">
             <inheritdoc />
         </member>
+        <member name="T:MyBlogAPI.Controllers.AccountController">
+            <summary>
+            Controller used to enables account action such as login / log out.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.AccountController.#ctor(MyBlogAPI.Services.UserService.IUserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
+            </summary>
+            <param name="userService"></param>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.AccountController.SignUp(MyBlogAPI.DTO.User.AddUserDto)">
+            <summary>
+            Create an account (a user).
+            </summary>
+            <remarks>
+            Create a user.
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:MyBlogAPI.Controllers.AccountController.SignIn(MyBlogAPI.DTO.User.UserLoginDto)">
+            <summary>
+            Sign In as a user.
+            </summary>
+            <remarks>
+            Sign In as a user.
+            </remarks>
+            <param name="userLogin"></param>
+            <returns></returns>
+        </member>
         <member name="T:MyBlogAPI.Controllers.CategoriesController">
             <summary>
             Controller used to expose Category resources of the API.
@@ -558,26 +589,6 @@
             Get a user by giving its Id.
             </remarks>
             <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.SignUp(MyBlogAPI.DTO.User.AddUserDto)">
-            <summary>
-            Create a user.
-            </summary>
-            <remarks>
-            Create a user.
-            </remarks>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.SignIn(MyBlogAPI.DTO.User.UserLoginDto)">
-            <summary>
-            Sign In as a user.
-            </summary>
-            <remarks>
-            Sign In as a user.
-            </remarks>
-            <param name="userLogin"></param>
             <returns></returns>
         </member>
         <member name="M:MyBlogAPI.Controllers.UsersController.AddRoleToUser(System.Int32,System.Int32)">
