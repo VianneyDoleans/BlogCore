@@ -73,26 +73,32 @@ namespace DbAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Permission>> GetPermissionsAsync(Data.POCO.Role role)
+        public async Task<IEnumerable<Permission>> GetPermissionsAsync(int roleId)
         {
+            var role = await GetAsync(roleId);
             var claims = await _roleManager.GetClaimsAsync(role);
 
             return claims.Select(claim => JsonSerializer.Deserialize<Permission>(claim.Value)).ToList();
         }
 
         /// <inheritdoc />
-        public async Task AddPermissionAsync(Data.POCO.Role role, Permission permission)
+        public async Task AddPermissionAsync(int roleId, Permission permission)
         {
+            if (permission == null)
+                throw new ArgumentNullException(nameof(permission),"permission cannot be null.");
+            var role = await GetAsync(roleId);
             var allClaims = await _roleManager.GetClaimsAsync(role);
-            if (!allClaims.Any(x => x.Type == "Permission" && permission.Equals(JsonSerializer.Deserialize<Permission>(x.Value))))
-            {
-                await _roleManager.AddClaimAsync(role, new Claim("Permission", JsonSerializer.Serialize(permission)));
-            }
+            if (allClaims.Any(x => x.Type == "Permission" && permission.Equals(JsonSerializer.Deserialize<Permission>(x.Value)))) 
+                throw new InvalidOperationException("This permission already exists for this role.");
+            await _roleManager.AddClaimAsync(role, new Claim("Permission", JsonSerializer.Serialize(permission)));
         }
 
         /// <inheritdoc />
-        public async Task RemovePermissionAsync(Data.POCO.Role role, Permission permission)
+        public async Task RemovePermissionAsync(int roleId, Permission permission)
         {
+            if (permission == null)
+                throw new ArgumentNullException(nameof(permission), "permission cannot be null.");
+            var role = await GetAsync(roleId);
             var allClaims = await _roleManager.GetClaimsAsync(role);
             var claim =  allClaims.FirstOrDefault(x => x.Type == "Permission" && permission.Equals(JsonSerializer.Deserialize<Permission>(x.Value)));
             if (claim != null)

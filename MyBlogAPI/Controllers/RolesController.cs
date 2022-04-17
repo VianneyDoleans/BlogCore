@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using MyBlogAPI.DTO.Permission;
 using MyBlogAPI.DTO.Role;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Filters;
@@ -130,13 +132,13 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("/Roles/{id:int}/Permissions")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(IEnumerable<Permission>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<PermissionDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPermissions(int id)
         {
             if (await _roleService.GetRole(id) == null)
                 return NotFound();
-            return Ok(_roleService.GetPermissionsAsync(id));
+            return Ok(JsonSerializer.Serialize(await _roleService.GetPermissionsAsync(id)));
         }
 
         /// <summary>

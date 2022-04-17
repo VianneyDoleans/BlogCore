@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Role;
 using MyBlogAPI.DTO.Role;
 using MyBlogAPI.Services.RoleService;
@@ -275,7 +276,5 @@ namespace MyBlogAPI.Tests.Services
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateRole(null));
         }
-
-
     }
 }

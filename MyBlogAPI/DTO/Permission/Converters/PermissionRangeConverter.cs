@@ -12,6 +12,7 @@ namespace MyBlogAPI.DTO.Permission.Converters
         public PermissionRangeDto Convert(PermissionRange source, PermissionRangeDto destination,
             ResolutionContext context)
         {
+            destination ??= new PermissionRangeDto();
             destination.Name = source.ToString();
             destination.Id = (int)source;
             return destination;

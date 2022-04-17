@@ -116,17 +116,18 @@ namespace MyBlogAPI.Services.RoleService
 
         public async Task AddPermissionAsync(int roleId, Permission permission)
         {
-            await _repository.AddPermissionAsync(await _repository.GetAsync(roleId), permission);
+            await _repository.AddPermissionAsync(roleId, permission);
         }
 
         public async Task RemovePermissionAsync(int roleId, Permission permission)
         {
-            await _repository.RemovePermissionAsync(await _repository.GetAsync(roleId), permission);
+            await _repository.RemovePermissionAsync(roleId, permission);
         }
 
         public async Task<IEnumerable<PermissionDto>> GetPermissionsAsync(int roleId)
         {
-            return  (await _repository.GetPermissionsAsync(await _repository.GetAsync(roleId))).Select(x => _mapper.Map<PermissionDto>(x)).ToList();
+            var permissions = await _repository.GetPermissionsAsync(roleId);
+            return permissions.ToList().Select(x => _mapper.Map<PermissionDto>(x)).ToList();
         }
     }
 }

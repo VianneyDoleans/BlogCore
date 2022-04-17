@@ -790,7 +790,7 @@ namespace DBAccess.Tests.Repositories
             };
 
             // Act
-            await roleRepository.AddPermissionAsync(testRole, permission);
+            await roleRepository.AddPermissionAsync(testRole.Id, permission);
             await _fixture.Db.SaveChangesAsync();
 
             // Assert
@@ -806,34 +806,7 @@ namespace DBAccess.Tests.Repositories
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.AddPermissionAsync(testRole, null));
-        }
-
-        [Fact]
-        public async Task AddPermissionWithNullRole()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-            new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
-            var permission = new Permission()
-            {
-                PermissionAction = PermissionAction.CanCreate,
-                PermissionRange = PermissionRange.Own,
-                PermissionTarget = PermissionTarget.Comment
-            };
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.AddPermissionAsync(null, permission));
-        }
-
-        [Fact]
-        public async Task AddPermissionWithNullRoleAndNullPermission()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.AddPermissionAsync(null, null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.AddPermissionAsync(testRole.Id, null));
         }
 
         [Fact]
@@ -849,55 +822,7 @@ namespace DBAccess.Tests.Repositories
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.AddPermissionAsync(new Role() { Name = Guid.NewGuid().ToString()[..20], Id = 99991 }, permission));
-        }
-
-        [Fact]
-        public async Task AddPermissionWithoutPermissionRange()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-            var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
-            var permission = new Permission()
-            {
-                PermissionAction = PermissionAction.CanCreate,
-                PermissionTarget = PermissionTarget.Comment
-            };
-
-            // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.AddPermissionAsync(testRole, permission));
-        }
-
-        [Fact]
-        public async Task AddPermissionWithoutPermissionAction()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-            var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
-            var permission = new Permission()
-            {
-                PermissionRange = PermissionRange.Own,
-                PermissionTarget = PermissionTarget.Comment
-            };
-
-            // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.AddPermissionAsync(testRole, permission));
-        }
-
-        [Fact]
-        public async Task AddPermissionWithoutPermissionTarget()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-            var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
-            var permission = new Permission()
-            {
-                PermissionAction = PermissionAction.CanCreate,
-                PermissionRange = PermissionRange.Own,
-            };
-
-            // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.AddPermissionAsync(testRole, permission));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.AddPermissionAsync(99991, permission));
         }
 
         [Fact]
@@ -912,11 +837,11 @@ namespace DBAccess.Tests.Repositories
                 PermissionRange = PermissionRange.Own,
                 PermissionTarget = PermissionTarget.Comment
             };
-            await roleRepository.AddPermissionAsync(testRole, permission);
+            await roleRepository.AddPermissionAsync(testRole.Id, permission);
             await _fixture.Db.SaveChangesAsync();
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.AddPermissionAsync(testRole, permission));
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.AddPermissionAsync(testRole.Id, permission));
         }
 
         [Fact]
@@ -937,28 +862,18 @@ namespace DBAccess.Tests.Repositories
                 PermissionRange = PermissionRange.Own,
                 PermissionTarget = PermissionTarget.Post
             };
-            await roleRepository.AddPermissionAsync(testRole, commentPermission);
-            await roleRepository.AddPermissionAsync(testRole, postPermission);
+            await roleRepository.AddPermissionAsync(testRole.Id, commentPermission);
+            await roleRepository.AddPermissionAsync(testRole.Id, postPermission);
             await _fixture.Db.SaveChangesAsync();
 
             // Act
-            var permissions = (await roleRepository.GetPermissionsAsync(testRole)).ToList();
+            var permissions = (await roleRepository.GetPermissionsAsync(testRole.Id)).ToList();
 
             // Assert
             Assert.NotNull(permissions);
             Assert.True(permissions.Count == 2);
             Assert.Contains(permissions, x => x.Equals(commentPermission));
             Assert.Contains(permissions, x => x.Equals(postPermission));
-        }
-
-        [Fact]
-        public async Task GetPermissionsAsyncWithNullRole()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.GetPermissionsAsync(null));
         }
 
         [Fact]
@@ -969,7 +884,7 @@ namespace DBAccess.Tests.Repositories
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
 
             // Act
-            var permissions = (await roleRepository.GetPermissionsAsync(testRole)).ToList();
+            var permissions = (await roleRepository.GetPermissionsAsync(testRole.Id)).ToList();
 
             // Assert
             Assert.NotNull(permissions);
@@ -983,7 +898,7 @@ namespace DBAccess.Tests.Repositories
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.GetPermissionsAsync(new Role() { Name = Guid.NewGuid().ToString()[..20], Id = 99991 }));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.GetPermissionsAsync(99991));
         }
 
         [Fact]
@@ -1010,40 +925,21 @@ namespace DBAccess.Tests.Repositories
                 PermissionRange = PermissionRange.All,
                 PermissionTarget = PermissionTarget.Like
             };
-            await roleRepository.AddPermissionAsync(testRole, commentPermission);
-            await roleRepository.AddPermissionAsync(testRole, postPermission);
-            await roleRepository.AddPermissionAsync(testRole, likePermission);
+            await roleRepository.AddPermissionAsync(testRole.Id, commentPermission);
+            await roleRepository.AddPermissionAsync(testRole.Id, postPermission);
+            await roleRepository.AddPermissionAsync(testRole.Id, likePermission);
             await _fixture.Db.SaveChangesAsync();
 
             // Act
-            await roleRepository.RemovePermissionAsync(testRole, likePermission);
+            await roleRepository.RemovePermissionAsync(testRole.Id, likePermission);
 
             // Assert
-            var permissions = (await roleRepository.GetPermissionsAsync(testRole)).ToList();
+            var permissions = (await roleRepository.GetPermissionsAsync(testRole.Id)).ToList();
             Assert.NotNull(permissions);
             Assert.True(permissions.Count == 2);
             Assert.Contains(permissions, x => x.Equals(commentPermission));
             Assert.Contains(permissions, x => x.Equals(postPermission));
             Assert.DoesNotContain(permissions, x => x.Equals(likePermission));
-        }
-
-        [Fact]
-        public async Task RemovePermissionAsyncWithNullRole()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-            var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
-            var likePermission = new Permission()
-            {
-                PermissionAction = PermissionAction.CanRead,
-                PermissionRange = PermissionRange.All,
-                PermissionTarget = PermissionTarget.Like
-            };
-            await roleRepository.AddPermissionAsync(testRole, likePermission);
-            await _fixture.Db.SaveChangesAsync();
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.RemovePermissionAsync(null, likePermission));
         }
 
         [Fact]
@@ -1055,17 +951,7 @@ namespace DBAccess.Tests.Repositories
             await _fixture.Db.SaveChangesAsync();
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.RemovePermissionAsync(testRole, null));
-        }
-
-        [Fact]
-        public async Task RemovePermissionAsyncWithNullRoleAndNullPermission()
-        {
-            // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.RemovePermissionAsync(null, null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.RemovePermissionAsync(testRole.Id, null));
         }
 
         [Fact]
@@ -1081,7 +967,7 @@ namespace DBAccess.Tests.Repositories
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.RemovePermissionAsync(new Role() { Name = Guid.NewGuid().ToString()[..20], Id = 99991 }, commentPermission));
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.RemovePermissionAsync(99991, commentPermission));
         }
     }
 }

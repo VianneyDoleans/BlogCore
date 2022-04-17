@@ -72,6 +72,7 @@ namespace MyBlogAPI
             CreateMap<UpdateLikeDto, Like>().ConvertUsing<UpdateLikeConverter>();
             CreateMap<UpdatePostDto, Post>().ConvertUsing<UpdatePostConverter>();
 
+            CreateMap<Permission, PermissionDto>();
             CreateMap<PermissionAction, PermissionActionDto>().ConvertUsing(new PermissionActionConverter());
             CreateMap<PermissionRange, PermissionRangeDto>().ConvertUsing(new PermissionRangeConverter());
             CreateMap<PermissionTarget, PermissionTargetDto>().ConvertUsing(new PermissionTargetConverter());
