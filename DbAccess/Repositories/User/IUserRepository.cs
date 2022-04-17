@@ -37,8 +37,9 @@ namespace DbAccess.Repositories.User
         /// Check if password given is valid for this user (sign up).
         /// </summary>
         /// <param name="user"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
-        Task<bool> CheckPasswordAsync(Data.POCO.User user);
+        Task<bool> CheckPasswordAsync(Data.POCO.User user, string password);
 
         /// <summary>
         /// Add a role to a user.

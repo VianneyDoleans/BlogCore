@@ -61,6 +61,25 @@ namespace MyBlogAPI.Services.UserService
                 return userDto;
         }
 
+        private async Task<User> FindUser(string userName)
+        {
+            var user = (await _repository.GetAsync(new UsernameSpecification<User>(userName))).ToList();
+
+            if (user == null || user.Count() != 1)
+            {
+                throw new IndexOutOfRangeException("User doesn't exists.");
+            }
+            return user.First();
+        }
+
+        public async Task<GetUserDto> GetUser(string userName)
+        {
+            var user = await FindUser(userName);
+            var userDto = _mapper.Map<GetUserDto>(user);
+            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            return userDto;
+        }
+
         private static void CheckUsernameValidity(string username)
         {
             if (string.IsNullOrWhiteSpace(username))
@@ -174,14 +193,9 @@ namespace MyBlogAPI.Services.UserService
 
         public async Task<bool> SignIn(UserLoginDto userLogin)
         {
-            var user = (await _repository.GetAsync(new UsernameSpecification<User>(userLogin.UserName))).ToList();
+            var user = await FindUser(userLogin.UserName);
 
-            if (user == null || user.Count() != 1)
-            {
-                throw new IndexOutOfRangeException("User doesn't exists.");
-            }
-
-            var isValidPassword = await _repository.CheckPasswordAsync(user.First());
+            var isValidPassword = await _repository.CheckPasswordAsync(user, userLogin.Password);
             return isValidPassword;
         }
 

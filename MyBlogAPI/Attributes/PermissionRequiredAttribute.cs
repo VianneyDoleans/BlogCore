@@ -1,5 +1,6 @@
 ﻿using System;
 using DbAccess.Data.POCO.Permission;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MyBlogAPI.Attributes
 {
@@ -7,10 +8,10 @@ namespace MyBlogAPI.Attributes
     ///  Attribute allowing to define the corresponding permission needed for an resource endpoint.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class PermissionRequiredAttribute : Attribute
+    public class PermissionRequiredAttribute : Attribute, IAuthorizationRequirement
     {
-        private PermissionAction Permission { get; }
-        private PermissionTarget PermissionTarget { get; }
+        public PermissionAction Permission { get; }
+        public PermissionTarget PermissionTarget { get; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PermissionRequiredAttribute"/> class.

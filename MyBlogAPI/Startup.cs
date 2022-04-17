@@ -1,14 +1,20 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DbAccess;
+using DbAccess.Data.POCO.Jwt;
 using DbAccess.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using MyBlogAPI.Extensions;
+using MyBlogAPI.Permissions;
 using MyBlogAPI.Services;
+using MyBlogAPI.Services.JwtService;
 
 namespace MyBlogAPI
 {
@@ -38,12 +44,41 @@ namespace MyBlogAPI
                     Version = "v1"
                 });
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "MyBlogAPI.xml"));
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Description = "JWT",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey,
+                }); var security =
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                                UnresolvedReference = true
+                            },
+                            new List<string>()
+                        }
+                    }; c.AddSecurityRequirement(security);
             });
 
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             services.RegisterRepositoryServices();
             services.RegisterResourceServices();
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddAuth(jwtSettings);
+            //services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -69,8 +104,9 @@ namespace MyBlogAPI
 
             app.UseRouting();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
+            app.UseAuth();
+            //app.UseAuthentication();
+            //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

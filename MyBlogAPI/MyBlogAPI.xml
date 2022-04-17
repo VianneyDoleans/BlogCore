@@ -27,7 +27,7 @@
             Controller used to enables account action such as login / log out.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.AccountController.#ctor(MyBlogAPI.Services.UserService.IUserService)">
+        <member name="M:MyBlogAPI.Controllers.AccountController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.JwtService.IJwtService)">
             <summary>
             Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
             </summary>
@@ -1020,6 +1020,25 @@
             UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.User"/>.
             </summary>
         </member>
+        <member name="T:MyBlogAPI.Extensions.ServiceCollectionExtensions">
+            <summary> 
+            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject MyBlog Services 
+            </summary> 
+        </member>
+        <member name="M:MyBlogAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register repository services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:MyBlogAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
         <member name="T:MyBlogAPI.Filters.Category.CategoryQueryFilter">
             <summary>
             Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Category"/>.
@@ -1361,24 +1380,20 @@
         <member name="M:MyBlogAPI.Services.CategoryService.CategoryService.CountCategoriesWhere(DbAccess.Specifications.FilterSpecifications.FilterSpecification{DbAccess.Data.POCO.Category})">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Services.ServiceCollectionExtensions">
-            <summary> 
-            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject MyBlog Services 
-            </summary> 
+        <member name="T:MyBlogAPI.Services.JwtService.IJwtService">
+            <summary>
+            Service used to manipulate JWT
+            </summary>
         </member>
-        <member name="M:MyBlogAPI.Services.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register repository services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
+        <member name="M:MyBlogAPI.Services.JwtService.IJwtService.GenerateJwt(System.Int32)">
+            <summary>
+            Generate a unique JWT for a user.
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Services.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
+        <member name="M:MyBlogAPI.Services.JwtService.JwtService.GenerateJwt(System.Int32)">
+            <inheritdoc />
         </member>
     </members>
 </doc>

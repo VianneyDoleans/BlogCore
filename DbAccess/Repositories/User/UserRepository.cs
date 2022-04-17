@@ -134,9 +134,9 @@ namespace DbAccess.Repositories.User
         }
 
         /// <inheritdoc />
-        public async Task<bool> CheckPasswordAsync(Data.POCO.User user)
+        public async Task<bool> CheckPasswordAsync(Data.POCO.User user, string password)
         {
-            var userSigninResult = await _userManager.CheckPasswordAsync(user, user.Password);
+            var userSigninResult = await _userManager.CheckPasswordAsync(user, password);
             return userSigninResult;
         }
 

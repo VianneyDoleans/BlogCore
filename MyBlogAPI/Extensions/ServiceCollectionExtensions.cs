@@ -8,13 +8,14 @@ using DbAccess.Repositories.User;
 using Microsoft.Extensions.DependencyInjection;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.CommentService;
+using MyBlogAPI.Services.JwtService;
 using MyBlogAPI.Services.LikeService;
 using MyBlogAPI.Services.PostService;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.TagService;
 using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Services
+namespace MyBlogAPI.Extensions
 {
     /// <summary> 
     /// Extension of <see cref="IServiceCollection"/> adding methods to inject MyBlog Services 
@@ -45,13 +46,13 @@ namespace MyBlogAPI.Services
         /// <returns></returns> 
         public static IServiceCollection RegisterResourceServices(this IServiceCollection services)
         {
-            services.AddScoped<ICategoryService, CategoryService.CategoryService>();
-            services.AddScoped<ICommentService, CommentService.CommentService>();
-            services.AddScoped<ILikeService, LikeService.LikeService>();
-            services.AddScoped<IPostService, PostService.PostService>();
-            services.AddScoped<IRoleService, RoleService.RoleService>();
-            services.AddScoped<ITagService, TagService.TagService>();
-            services.AddScoped<IUserService, UserService.UserService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<ILikeService, LikeService>();
+            services.AddScoped<IPostService, PostService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<ITagService, TagService>();
+            services.AddScoped<IUserService, UserService>();
             return services;
         }
     }
