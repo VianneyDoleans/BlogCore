@@ -8,7 +8,7 @@ namespace MyBlogAPI.Attributes
     ///  Attribute allowing to define the corresponding permission needed for an resource endpoint.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class PermissionRequiredAttribute : Attribute, IAuthorizationRequirement
+    public class PermissionRequiredAttribute : AuthorizeAttribute
     {
         public PermissionAction Permission { get; }
         public PermissionTarget PermissionTarget { get; }

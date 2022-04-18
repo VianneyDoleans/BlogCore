@@ -5,6 +5,7 @@ using DbAccess.Specifications.FilterSpecifications.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MyBlogAPI.Attributes;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.JwtService;
@@ -62,7 +63,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignIn")]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
+        [PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(UserLoginDto userLogin)

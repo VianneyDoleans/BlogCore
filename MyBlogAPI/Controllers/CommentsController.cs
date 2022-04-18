@@ -53,7 +53,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Comment)]
+        [PermissionRequired(PermissionAction.CanRead, PermissionTarget.Comment)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCommentDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int page = 1, 
             int size = 10, string authorUsername = null, string postParentName = null, string content = null)

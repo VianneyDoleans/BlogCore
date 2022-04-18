@@ -12,9 +12,6 @@ namespace MyBlogAPI.Permissions
 
         public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
         {
-            // There can only be one policy provider in ASP.NET Core.
-            // We only handle permissions related policies, for the rest
-            /// we will use the default provider.
             FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
         }
 
