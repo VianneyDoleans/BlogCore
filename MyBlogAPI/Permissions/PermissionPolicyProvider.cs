@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using MyBlogAPI.Attributes;
 
 namespace MyBlogAPI.Permissions
 {
@@ -23,16 +24,15 @@ namespace MyBlogAPI.Permissions
         // The policy name must match the permission that is needed.
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-            /* if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
+             if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
              {
                  var policy = new AuthorizationPolicyBuilder();
-                 policy.AddRequirements(new PermissionRequirement(policyName));
+                 policy.AddRequirements(new PermissionRequiredAttribute(policyName));
                  return Task.FromResult(policy.Build());
              }
 
              // Policy is not for permissions, try the default provider.
-             return FallbackPolicyProvider.GetPolicyAsync(policyName);*/
-            return null;
+             return FallbackPolicyProvider.GetPolicyAsync(policyName);
         }
 
         public Task<AuthorizationPolicy> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();

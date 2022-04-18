@@ -77,7 +77,7 @@ namespace MyBlogAPI
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             services.AddScoped<IJwtService, JwtService>();
             services.AddAuth(jwtSettings);
-            //services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
             services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
