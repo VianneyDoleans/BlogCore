@@ -22,9 +22,9 @@ namespace MyBlogAPI.Permissions
         public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
              if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
-             {
-                 var policy = new AuthorizationPolicyBuilder();
-                 policy.AddRequirements(new PermissionRequiredAttribute(policyName));
+             { 
+                 var policy = new AuthorizationPolicyBuilder(); 
+                 policy.AddRequirements(/*new PermissionRequirement(policyName)*/ new PermissionRequirement(DbAccess.Data.POCO.Permission.PermissionAction.CanCreate, DbAccess.Data.POCO.Permission.PermissionTarget.Category)); 
                  return Task.FromResult(policy.Build());
              }
 

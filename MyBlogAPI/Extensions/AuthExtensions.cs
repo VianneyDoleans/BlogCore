@@ -36,14 +36,5 @@ namespace MyBlogAPI.Extensions
 
             return services;
         }
-
-        public static IApplicationBuilder UseAuth(this IApplicationBuilder app)
-        {
-            app.UseAuthentication();
-
-            app.UseAuthorization();
-
-            return app;
-        }
     }
 }

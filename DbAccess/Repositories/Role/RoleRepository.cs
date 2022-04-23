@@ -40,8 +40,11 @@ namespace DbAccess.Repositories.Role
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
         {
-            return await Context.Set<Data.POCO.JoiningEntity.UserRole>()
-                .Where(x => x.UserId == id).Select(x => x.Role).ToListAsync();
+            var userRoles = await Context.Set<Data.POCO.JoiningEntity.UserRole>()
+                .Include(x => x.Role)
+                .Include(x => x.User)
+                .Where(x => x.UserId == id).ToListAsync();
+            return userRoles.Select(x => x.Role);
         }
 
         /// <inheritdoc />

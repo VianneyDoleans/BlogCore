@@ -969,5 +969,24 @@ namespace DBAccess.Tests.Repositories
             // Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.RemovePermissionAsync(99991, commentPermission));
         }
+
+        [Fact]
+        public async Task GetRolesFromUser()
+        {
+            // Arrange
+            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var role1 = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
+            var role2 = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithRole(role1).WithRole(role2).Build();
+
+            // Act
+            var roles = (await roleRepository.GetRolesFromUser(user.Id)).ToList();
+
+            // Assert
+            Assert.NotNull(roles);
+            Assert.Contains(roles, x => x.Id == role1.Id && x.Name == role1.Name);
+            Assert.Contains(roles, x => x.Id == role2.Id && x.Name == role2.Name);
+        }
     }
 }

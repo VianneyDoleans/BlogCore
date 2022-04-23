@@ -9,15 +9,23 @@ using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Permissions
 {
-    public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequiredAttribute>
+    public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
         //private readonly UserService _userService;
-        public PermissionAuthorizationHandler(UserService userService)
+        public PermissionAuthorizationHandler(/*UserService userService*/)
         {
             //_userService = userService;
         }
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequiredAttribute requirement)
+        public override async Task HandleAsync(AuthorizationHandlerContext context)
+        {
+            foreach (var req in context.Requirements.OfType<PermissionRequirement>())
+            {
+                await HandleRequirementAsync(context, req);
+            }
+        }
+
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
             var userPermissions =  context.User.Claims.Where(x => x.Type == "Permission" && x.Issuer == "LOCAL AUTHORITY").Select(x => JsonSerializer.Deserialize<Permission>(x.Value)).ToList();
 

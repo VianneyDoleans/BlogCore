@@ -111,12 +111,10 @@ namespace DbAccess.Repositories.User
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id)
         {
-            var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
+            var userRoles = await Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)
-                .Where(x => x.RoleId == id);
-                var users = await userRole
-                .Select(y => y.User).ToListAsync();
-                return users;
+                .Where(x => x.RoleId == id).ToListAsync();
+            return userRoles.Select(y => y.User);
         }
 
         /// <inheritdoc />

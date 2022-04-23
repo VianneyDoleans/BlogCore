@@ -16,6 +16,13 @@
             <param name="permission"></param>
             <param name="permissionTarget"></param>
         </member>
+        <member name="M:MyBlogAPI.Attributes.PermissionRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Attributes.PermissionRequiredAttribute"/> class.
+            </summary>
+            <param name="permission"></param>
+            <param name="permissionTarget"></param>
+        </member>
         <member name="T:MyBlogAPI.AutoMapperProfile">
             <inheritdoc />
         </member>

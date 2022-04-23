@@ -30,10 +30,22 @@ namespace MyBlogAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
+            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
+            services.AddScoped<IJwtService, JwtService>();
+
             services.AddControllers();
+            
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>(); 
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
+
 
             services.RegisterDatabaseProvider(Configuration);
             services.RegisterIdentityService();
+
+            services.RegisterRepositoryServices();
+            services.RegisterResourceServices();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddSwaggerGen(c =>
@@ -69,16 +81,7 @@ namespace MyBlogAPI
                     }; c.AddSecurityRequirement(security);
             });
 
-            services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
-            services.RegisterRepositoryServices();
-            services.RegisterResourceServices();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
-            services.AddScoped<IJwtService, JwtService>();
             services.AddAuth(jwtSettings);
-            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
-            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -104,9 +107,8 @@ namespace MyBlogAPI
 
             app.UseRouting();
 
-            app.UseAuth();
-            //app.UseAuthentication();
-            //app.UseAuthorization();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
