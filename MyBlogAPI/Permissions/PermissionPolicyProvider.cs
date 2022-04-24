@@ -6,32 +6,23 @@ using MyBlogAPI.Attributes;
 
 namespace MyBlogAPI.Permissions
 {
-    internal class PermissionPolicyProvider : IAuthorizationPolicyProvider
+    public class PermissionPolicyProvider : DefaultAuthorizationPolicyProvider
     {
-        public DefaultAuthorizationPolicyProvider FallbackPolicyProvider { get; }
+        private readonly AuthorizationOptions _options;
 
-        public PermissionPolicyProvider(IOptions<AuthorizationOptions> options)
+        public PermissionPolicyProvider(IOptions<AuthorizationOptions> options) : base(options)
         {
-            FallbackPolicyProvider = new DefaultAuthorizationPolicyProvider(options);
+            _options = options.Value;
         }
-
-        public Task<AuthorizationPolicy> GetDefaultPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
 
         // Dynamically creates a policy with a requirement that contains the permission.
         // The policy name must match the permission that is needed.
-        public Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
+        public override async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
-             if (policyName.StartsWith("Permission", StringComparison.OrdinalIgnoreCase))
-             { 
-                 var policy = new AuthorizationPolicyBuilder(); 
-                 policy.AddRequirements(/*new PermissionRequirement(policyName)*/ new PermissionRequirement(DbAccess.Data.POCO.Permission.PermissionAction.CanCreate, DbAccess.Data.POCO.Permission.PermissionTarget.Category)); 
-                 return Task.FromResult(policy.Build());
-             }
-
-             // Policy is not for permissions, try the default provider.
-             return FallbackPolicyProvider.GetPolicyAsync(policyName);
+            return await base.GetPolicyAsync(policyName)
+                   ?? new AuthorizationPolicyBuilder()
+                       .AddRequirements(new PermissionRequirement(DbAccess.Data.POCO.Permission.PermissionAction.CanCreate, DbAccess.Data.POCO.Permission.PermissionTarget.Category))
+                       .Build();
         }
-
-        public Task<AuthorizationPolicy> GetFallbackPolicyAsync() => FallbackPolicyProvider.GetDefaultPolicyAsync();
     }
 }

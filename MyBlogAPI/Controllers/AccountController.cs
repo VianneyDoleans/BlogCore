@@ -44,7 +44,7 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignUp")]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
+        [PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]

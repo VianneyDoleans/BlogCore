@@ -57,29 +57,6 @@ namespace MyBlogAPI
                 });
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "MyBlogAPI.xml"));
 
-                //c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-                //{
-                //    Description = "JWT",
-                //    Name = "Authorization",
-                //    In = ParameterLocation.Header,
-                //    Type = SecuritySchemeType.ApiKey,
-                //}); var security =
-                //    new OpenApiSecurityRequirement
-                //    {
-                //        {
-                //            new OpenApiSecurityScheme
-                //            {
-                //                Reference = new OpenApiReference
-                //                {
-                //                    Id = "Bearer",
-                //                    Type = ReferenceType.SecurityScheme
-                //                },
-                //                UnresolvedReference = true
-                //            },
-                //            new List<string>()
-                //        }
-                //    }; c.AddSecurityRequirement(security);
-
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Name = "Authorization",
@@ -97,7 +74,7 @@ namespace MyBlogAPI
                                 Id = "Bearer"
                             }
                         },
-                        new string[] {}
+                        Array.Empty<string>()
                     }
                 });
             });

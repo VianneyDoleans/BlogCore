@@ -10,18 +10,13 @@ namespace MyBlogAPI.Attributes
     [AttributeUsage(AttributeTargets.Method)]
     public class PermissionRequiredAttribute : AuthorizeAttribute
     {
-        public PermissionAction Permission { get; }
-        public PermissionTarget PermissionTarget { get; }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="PermissionRequiredAttribute"/> class.
         /// </summary>
         /// <param name="permission"></param>
         /// <param name="permissionTarget"></param>
-        public PermissionRequiredAttribute(PermissionAction permission, PermissionTarget permissionTarget)
+        public PermissionRequiredAttribute(PermissionAction permission, PermissionTarget permissionTarget) : base(permission + "." + permissionTarget)
         {
-                Permission = permission;
-                PermissionTarget = permissionTarget;
         }
     }
 }
