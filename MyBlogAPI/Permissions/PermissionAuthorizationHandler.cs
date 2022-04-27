@@ -1,22 +1,30 @@
 ﻿using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using AutoMapper;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
 using MyBlogAPI.Attributes;
+using MyBlogAPI.DTO.Permission;
+using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Permissions
 {
     public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
     {
-        //private readonly UserService _userService;
-        public PermissionAuthorizationHandler(/*UserService userService*/)
+        private readonly IUserService _userService;
+        private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
+
+        public PermissionAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
-            //_userService = userService;
+            _userService = userService;
+            _roleService = roleService;
+            _mapper = mapper;
         }
 
         public override async Task HandleAsync(AuthorizationHandlerContext context)
@@ -29,28 +37,33 @@ namespace MyBlogAPI.Permissions
 
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
         {
-            var routeValues = (context.Resource as HttpContext).Request.RouteValues;
-            var controllerName = routeValues["controller"].ToString();
-            var actionName = routeValues["action"].ToString();
+            var userId = context.User.Claims
+                .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
 
-            if (context.Resource is HttpContext httpContext)
+            var user = await _userService.GetUser(int.Parse(userId));
+            if (user.Roles.Any())
             {
-                var value = httpContext.GetRouteValue("key");
-            }
+                var requirementAction = _mapper.Map<PermissionActionDto>(requirement.Permission);
+                var requirementTarget = _mapper.Map<PermissionTargetDto>(requirement.PermissionTarget);
 
-            var userPermissions =  context.User.Claims.Where(x => x.Type == "Permission" && x.Issuer == "LOCAL AUTHORITY").Select(x => JsonSerializer.Deserialize<Permission>(x.Value)).ToList();
+                foreach (var role in user.Roles)
+                {
+                    var permissions = await _roleService.GetPermissionsAsync(role);
+
+                    if (permissions != null && permissions.Any(permission =>
+                            requirementAction.Id == permission.PermissionAction.Id &&
+                            requirementTarget.Id == permission.PermissionTarget.Id))
+                    {
+                        context.Succeed(requirement);
+                        return;
+                    }
+                }
+            }
 
             //var permissions = context.User.Claims.Where(x => x.Type == "Permission" &&
             //                                                 x.Value == requirement.Permission &&
             //                                                 x.Issuer == "LOCAL AUTHORITY");
 
-            if (userPermissions.Any(x =>
-                    x.PermissionTarget == requirement.PermissionTarget &&
-                    x.PermissionAction == requirement.Permission))
-            {
-                context.Succeed(requirement);
-                return;
-            }
         }
     }
 }

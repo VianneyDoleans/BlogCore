@@ -35,10 +35,6 @@ namespace MyBlogAPI
             services.AddScoped<IJwtService, JwtService>();
 
             services.AddControllers();
-            
-            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>(); 
-            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
 
             services.RegisterDatabaseProvider(Configuration);
             services.RegisterIdentityService();
@@ -78,6 +74,9 @@ namespace MyBlogAPI
                     }
                 });
             });
+
+            services.AddSingleton<IAuthorizationPolicyProvider, PermissionPolicyProvider>();
+            services.AddScoped<IAuthorizationHandler, PermissionAuthorizationHandler>();
 
             services.AddAuth(jwtSettings);
         }
