@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Interface;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Attributes;
@@ -12,16 +13,17 @@ using MyBlogAPI.Services.UserService;
 namespace MyBlogAPI.Permissions
 {
     /// <summary>
-    /// Authorization Handler used to authorize <see cref="Comment"/> resource.
+    /// Authorization Handler used to authorize a resource when the user is the author of this resource.
     /// </summary>
-    public class CommentAuthorizationHandler : AuthorizationHandler<PermissionRequirement, Comment>
+    public class OwnershipAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
+    where TEntity : IHasAuthor
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public CommentAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
+        public OwnershipAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
             _roleService = roleService;
@@ -29,7 +31,7 @@ namespace MyBlogAPI.Permissions
         }
 
         /// <inheritdoc />
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, Comment comment)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, TEntity entity)
         {
             var userId = int.Parse(context.User.Claims
                 .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
@@ -46,9 +48,9 @@ namespace MyBlogAPI.Permissions
 
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
-                            requirementTarget.Id == permission.PermissionTarget.Id &&
-                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && comment.Author.Id == userId) 
-                             || permission.PermissionRange.Id == (int)PermissionRange.All)))
+                            requirementTarget.Id == permission.PermissionTarget.Id && 
+                            permission.PermissionRange.Id == (int)PermissionRange.Own && 
+                            entity.Author.Id == userId))
                     {
                         context.Succeed(requirement);
                         return;
