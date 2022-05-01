@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Attributes;
 using MyBlogAPI.DTO.Permission;
@@ -47,18 +48,14 @@ namespace MyBlogAPI.Permissions
 
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
-                            requirementTarget.Id == permission.PermissionTarget.Id))
+                            requirementTarget.Id == permission.PermissionTarget.Id &&
+                            permission.PermissionRange.Id == (int)PermissionRange.All))
                     {
                         context.Succeed(requirement);
                         return;
                     }
                 }
             }
-
-            //var permissions = context.User.Claims.Where(x => x.Type == "Permission" &&
-            //                                                 x.Value == requirement.Permission &&
-            //                                                 x.Issuer == "LOCAL AUTHORITY");
-
         }
     }
 }
