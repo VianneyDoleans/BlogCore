@@ -1,11 +1,14 @@
-﻿using DbAccess.Repositories.Category;
+﻿using DbAccess.Data.POCO;
+using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Like;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.User;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using MyBlogAPI.Permissions;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.JwtService;
@@ -53,6 +56,30 @@ namespace MyBlogAPI.Extensions
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
+            return services;
+        }
+
+        /// <summary> 
+        /// class used to register resource services 
+        /// </summary> 
+        /// <param name="services"></param> 
+        /// <returns></returns> 
+        public static IServiceCollection RegisterAuthorizationHandlers(this IServiceCollection services)
+        {
+            // Resource Handlers
+            services.AddScoped<IAuthorizationHandler, AllPermissionRangeAuthorizationHandler<Role>>();
+            services.AddScoped<IAuthorizationHandler, AllPermissionRangeAuthorizationHandler<Tag>>();
+            services.AddScoped<IAuthorizationHandler, AllPermissionRangeAuthorizationHandler<Category>>();
+
+            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasAuthorAuthorizationHandler<Comment>>();
+            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasAuthorAuthorizationHandler<Post>>();
+            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasUserAuthorizationHandler<Like>>();
+
+            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForUserResourceAuthorizationHandler>();
+
+            // Resource Attribute Handler
+            services.AddScoped<IAuthorizationHandler, PermissionWithRangeAuthorizationHandler>();
+
             return services;
         }
     }

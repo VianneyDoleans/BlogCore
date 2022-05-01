@@ -12,17 +12,17 @@ using MyBlogAPI.Services.UserService;
 namespace MyBlogAPI.Permissions
 {
     /// <summary>
-    /// Authorization Handler used to authorize a resource when the user is the author of this resource.
+    /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="AllPermissionRangeAuthorizationHandler{TEntity}"/>.
     /// </summary>
-    public class OwnershipAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
-    where TEntity : class, IHasAuthor
+    public class OwnOrAllPermissionRangeForHasUserAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
+    where TEntity : IHasUser
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public OwnershipAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
+        public OwnOrAllPermissionRangeForHasUserAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
             _roleService = roleService;
@@ -47,9 +47,9 @@ namespace MyBlogAPI.Permissions
 
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
-                            requirementTarget.Id == permission.PermissionTarget.Id && 
-                            permission.PermissionRange.Id == (int)PermissionRange.Own && 
-                            entity.Author.Id == userId))
+                            requirementTarget.Id == permission.PermissionTarget.Id &&
+                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && entity.User.Id == userId) 
+                             || permission.PermissionRange.Id == (int)PermissionRange.All)))
                     {
                         context.Succeed(requirement);
                         return;

@@ -8,14 +8,14 @@ namespace MyBlogAPI.Attributes
     ///  Attribute allowing to define the corresponding permission needed for an resource endpoint.
     /// </summary>
     [AttributeUsage(AttributeTargets.Method)]
-    public class PermissionRequiredAttribute : AuthorizeAttribute
+    public class PermissionWithPermissionRangeAllRequiredAttribute : AuthorizeAttribute
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionRequiredAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PermissionWithPermissionRangeAllRequiredAttribute"/> class.
         /// </summary>
         /// <param name="permission"></param>
         /// <param name="permissionTarget"></param>
-        public PermissionRequiredAttribute(PermissionAction permission, PermissionTarget permissionTarget) : base("permission" + "." + permission + "." + permissionTarget)
+        public PermissionWithPermissionRangeAllRequiredAttribute(PermissionAction permission, PermissionTarget permissionTarget) : base("permission" + "." + permission + "." + permissionTarget + "." + PermissionRange.All)
         {
         }
     }

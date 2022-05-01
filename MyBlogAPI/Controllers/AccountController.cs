@@ -44,7 +44,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignUp")]
         [AllowAnonymous]
-        [PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -63,7 +62,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignIn")]
         [AllowAnonymous]
-        [PermissionRequired(PermissionAction.CanCreate, PermissionTarget.User)]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(UserLoginDto userLogin)

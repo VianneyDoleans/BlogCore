@@ -16,7 +16,7 @@ namespace MyBlogAPI.Permissions
             _options = options.Value;
         }
 
-        private static PermissionRequirement GetPermissionRequirement(string policyName)
+        private static PermissionRequirement GetPermissionWithoutRangeRequirement(string policyName)
         {
             if (policyName.StartsWith("permission."))
             {
@@ -32,11 +32,29 @@ namespace MyBlogAPI.Permissions
             return null;
         }
 
+        private static PermissionWithRangeRequirement GetPermissionWithRangeRequirement(string policyName)
+        {
+            if (policyName.StartsWith("permission."))
+            {
+                var values = policyName.Split('.');
+                if (values.Length == 4)
+                {
+                    Enum.TryParse(values[1], out PermissionAction permissionAction);
+                    Enum.TryParse(values[2], out PermissionTarget permissionTarget);
+                    Enum.TryParse(values[3], out PermissionRange permissionRange);
+                    var permissionRequirement = new PermissionWithRangeRequirement(permissionAction, permissionTarget, permissionRange);
+                    return permissionRequirement;
+                }
+            }
+            return null;
+        }
+
         public override async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
             return await base.GetPolicyAsync(policyName)
                    ?? new AuthorizationPolicyBuilder()
-                       .AddRequirements(GetPermissionRequirement(policyName)).Build();
+                       .AddRequirements(GetPermissionWithoutRangeRequirement(policyName))
+                       .AddRequirements(GetPermissionWithRangeRequirement(policyName)).Build();
         }
     }
 }

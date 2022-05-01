@@ -1,15 +1,18 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using MyBlogAPI.Attributes;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Post;
+using MyBlogAPI.Permissions;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.CommentService;
 using MyBlogAPI.Services.LikeService;
@@ -28,6 +31,7 @@ namespace MyBlogAPI.Controllers
         private readonly IPostService _postService;
         private readonly ICommentService _commentService;
         private readonly ILikeService _likeService;
+        private readonly IAuthorizationService _authorizationService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PostsController"/> class.
@@ -35,11 +39,14 @@ namespace MyBlogAPI.Controllers
         /// <param name="postService"></param>
         /// <param name="commentService"></param>
         /// <param name="likeService"></param>
-        public PostsController(IPostService postService, ICommentService commentService, ILikeService likeService)
+        /// <param name="authorizationService"></param>
+        public PostsController(IPostService postService, ICommentService commentService, ILikeService likeService, 
+            IAuthorizationService authorizationService)
         {
             _postService = postService;
             _commentService = commentService;
             _likeService = likeService;
+            _authorizationService = authorizationService;
         }
 
         /// <summary>
@@ -57,7 +64,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Post)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetPostDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPosts(string sortingDirection = "ASC", string orderBy = null, int page = 1,
             int size = 10, string name = null, string content = null)
@@ -82,7 +88,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Post)]
         [ProducesResponseType(typeof(GetPostDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -99,12 +104,15 @@ namespace MyBlogAPI.Controllers
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPost]
-        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.Post)]
         [ProducesResponseType(typeof(GetPostDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddPost(AddPostDto post)
         {
+            var postEntity = await _likeService.GetLikeEntity(post.Author);
+            var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Post));
+            if (!authorized.Succeeded)
+                return Forbid();
             return Ok(await _postService.AddPost(post));
         }
 
@@ -117,7 +125,6 @@ namespace MyBlogAPI.Controllers
         /// <param name="post"></param>
         /// <returns></returns>
         [HttpPut]
-        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Post)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -125,6 +132,10 @@ namespace MyBlogAPI.Controllers
         {
             if (await _postService.GetPost(post.Id) == null)
                 return NotFound();
+            var postEntity = await _likeService.GetLikeEntity(post.Author);
+            var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Post));
+            if (!authorized.Succeeded)
+                return Forbid();
             await _postService.UpdatePost(post);
             return Ok();
         }
@@ -138,13 +149,16 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        [Attributes.PermissionRequired(PermissionAction.CanDelete, PermissionTarget.Post)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePost(int id)
         {
             if (await _postService.GetPost(id) == null)
                 return NotFound();
+            var postEntity = await _likeService.GetLikeEntity(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Post));
+            if (!authorized.Succeeded)
+                return Forbid();
             await _postService.DeletePost(id);
             return Ok();
         }
@@ -159,7 +173,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Comments/")]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Post)]
         [ProducesResponseType(typeof(IEnumerable<GetCommentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommentsFromPost(int id)
@@ -177,11 +190,11 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Post)]
         [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromPost(int id)
         {
+
             return Ok(await _likeService.GetLikesFromPost(id));
         }
     }

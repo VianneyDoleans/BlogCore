@@ -10,8 +10,9 @@ namespace DbAccess.Data.POCO.Permission
         Comment = 1,
         Like = 2,
         Post = 3,
-        Role = 4,
-        Tag = 5,
-        User = 6
+        Tag = 4,
+        User = 5,
+        Role = 6,
+        Permission = 7
     }
 }

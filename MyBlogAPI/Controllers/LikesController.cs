@@ -5,6 +5,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using MyBlogAPI.Attributes;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Like;
@@ -22,14 +23,17 @@ namespace MyBlogAPI.Controllers
     public class LikesController : ControllerBase
     {
         private readonly ILikeService _likeService;
+        private readonly IAuthorizationService _authorizationService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LikesController"/> class.
         /// </summary>
         /// <param name="likeService"></param>
-        public LikesController(ILikeService likeService)
+        /// <param name="authorizeService"></param>
+        public LikesController(ILikeService likeService, IAuthorizationService authorizeService)
         {
             _likeService = likeService;
+            _authorizationService = authorizeService;
         }
 
         /// <summary>
@@ -45,7 +49,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Like)]
         [ProducesResponseType(typeof(PagedBlogResponse<GetLikeDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLikes(string sortingDirection = "ASC", int page = 1,
             int size = 10, LikeableType? likeableType = null)
@@ -70,7 +73,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [Attributes.PermissionRequired(PermissionAction.CanRead, PermissionTarget.Like)]
         [ProducesResponseType(typeof(GetLikeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -87,12 +89,15 @@ namespace MyBlogAPI.Controllers
         /// <param name="like"></param>
         /// <returns></returns>
         [HttpPost]
-        [Attributes.PermissionRequired(PermissionAction.CanCreate, PermissionTarget.Like)]
         [ProducesResponseType(typeof(GetLikeDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddLikes(AddLikeDto like)
         {
+            var likeEntity = await _likeService.GetLikeEntity(like.User);
+            var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Like));
+            if (!authorized.Succeeded)
+                return Forbid();
             return Ok(await _likeService.AddLike(like));
         }
 
@@ -105,7 +110,6 @@ namespace MyBlogAPI.Controllers
         /// <param name="like"></param>
         /// <returns></returns>
         [HttpPut]
-        [Attributes.PermissionRequired(PermissionAction.CanUpdate, PermissionTarget.Like)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -113,6 +117,10 @@ namespace MyBlogAPI.Controllers
         {
             if (await _likeService.GetLike(like.Id) == null)
                 return NotFound();
+            var likeEntity = await _likeService.GetLikeEntity(like.User);
+            var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Like));
+            if (!authorized.Succeeded)
+                return Forbid();
             await _likeService.UpdateLike(like);
             return Ok();
         }
@@ -126,13 +134,16 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        [Attributes.PermissionRequired(PermissionAction.CanDelete, PermissionTarget.Like)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteLike(int id)
         {
             if (await _likeService.GetLike(id) == null)
                 return NotFound();
+            var likeEntity = await _likeService.GetLikeEntity(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Like));
+            if (!authorized.Succeeded)
+                return Forbid();
             await _likeService.DeleteLike(id);
             return Ok();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -15,7 +16,7 @@ namespace MyBlogAPI.Extensions
             JwtSettings jwtSettings)
         {
             services
-                //.AddAuthorization()
+                //.AddAuthorization("permission.CanUpdate.Comment", policy => policy.Requirements.Add(new Permissions.OwnershipAuthorizationHandler<Comment>())
                 .AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
