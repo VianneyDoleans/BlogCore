@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Attributes;
 using MyBlogAPI.DTO.Permission;
@@ -9,33 +11,30 @@ using MyBlogAPI.Services.UserService;
 
 namespace MyBlogAPI.Permissions
 {
-    public class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
+    /// <summary>
+    /// Authorization Handler used to authorize <see cref="Comment"/> resource.
+    /// </summary>
+    public class CommentAuthorizationHandler : AuthorizationHandler<PermissionRequirement, Comment>
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
-        public PermissionAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
+        /// <inheritdoc />
+        public CommentAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
             _roleService = roleService;
             _mapper = mapper;
         }
 
-        public override async Task HandleAsync(AuthorizationHandlerContext context)
+        /// <inheritdoc />
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, Comment comment)
         {
-            foreach (var req in context.Requirements.OfType<PermissionRequirement>())
-            {
-                await HandleRequirementAsync(context, req);
-            }
-        }
+            var userId = int.Parse(context.User.Claims
+                .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
 
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
-        {
-            var userId = context.User.Claims
-                .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
-
-            var user = await _userService.GetUser(int.Parse(userId));
+            var user = await _userService.GetUser(userId);
             if (user.Roles.Any())
             {
                 var requirementAction = _mapper.Map<PermissionActionDto>(requirement.Permission);
@@ -47,18 +46,15 @@ namespace MyBlogAPI.Permissions
 
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
-                            requirementTarget.Id == permission.PermissionTarget.Id))
+                            requirementTarget.Id == permission.PermissionTarget.Id &&
+                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && comment.Author.Id == userId) 
+                             || permission.PermissionRange.Id == (int)PermissionRange.All)))
                     {
                         context.Succeed(requirement);
                         return;
                     }
                 }
             }
-
-            //var permissions = context.User.Claims.Where(x => x.Type == "Permission" &&
-            //                                                 x.Value == requirement.Permission &&
-            //                                                 x.Issuer == "LOCAL AUTHORITY");
-
         }
     }
 }
