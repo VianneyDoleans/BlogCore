@@ -57,6 +57,11 @@ namespace MyBlogAPI.Services.RoleService
             return roleDto;
         }
 
+        public async Task<Role> GetRoleEntity(int id)
+        {
+            return await _repository.GetAsync(id);
+        }
+
         public void CheckRoleValidity(IRoleDto role)
         {
             if (role == null)

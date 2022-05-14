@@ -94,10 +94,10 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddLikes(AddLikeDto like)
         {
-            var likeEntity = await _likeService.GetLikeEntity(like.User);
             var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Like));
             if (!authorized.Succeeded)
                 return Forbid();
+
             return Ok(await _likeService.AddLike(like));
         }
 
@@ -117,10 +117,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _likeService.GetLike(like.Id) == null)
                 return NotFound();
+
             var likeEntity = await _likeService.GetLikeEntity(like.User);
             var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Like));
             if (!authorized.Succeeded)
                 return Forbid();
+
             await _likeService.UpdateLike(like);
             return Ok();
         }
@@ -140,10 +142,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _likeService.GetLike(id) == null)
                 return NotFound();
+
             var likeEntity = await _likeService.GetLikeEntity(id);
             var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Like));
             if (!authorized.Succeeded)
                 return Forbid();
+
             await _likeService.DeleteLike(id);
             return Ok();
         }

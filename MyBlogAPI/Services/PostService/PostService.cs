@@ -98,6 +98,11 @@ namespace MyBlogAPI.Services.PostService
             return postDto;
         }
 
+        public async Task<Post> GetPostEntity(int id)
+        {
+            return await _repository.GetAsync(id);
+        }
+
         private async Task<bool> PostAlreadyExistsWithSameProperties(UpdatePostDto post)
         {
             if (post == null)

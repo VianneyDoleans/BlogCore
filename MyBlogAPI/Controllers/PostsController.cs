@@ -109,10 +109,10 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddPost(AddPostDto post)
         {
-            var postEntity = await _likeService.GetLikeEntity(post.Author);
             var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Post));
             if (!authorized.Succeeded)
                 return Forbid();
+
             return Ok(await _postService.AddPost(post));
         }
 
@@ -132,10 +132,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _postService.GetPost(post.Id) == null)
                 return NotFound();
-            var postEntity = await _likeService.GetLikeEntity(post.Author);
+
+            var postEntity = await _postService.GetPostEntity(post.Author);
             var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Post));
             if (!authorized.Succeeded)
                 return Forbid();
+
             await _postService.UpdatePost(post);
             return Ok();
         }
@@ -155,10 +157,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _postService.GetPost(id) == null)
                 return NotFound();
-            var postEntity = await _likeService.GetLikeEntity(id);
+
+            var postEntity = await _postService.GetPostEntity(id);
             var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Post));
             if (!authorized.Succeeded)
                 return Forbid();
+
             await _postService.DeletePost(id);
             return Ok();
         }
@@ -194,7 +198,6 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromPost(int id)
         {
-
             return Ok(await _likeService.GetLikesFromPost(id));
         }
     }

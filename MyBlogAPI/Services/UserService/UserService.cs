@@ -61,6 +61,11 @@ namespace MyBlogAPI.Services.UserService
                 return userDto;
         }
 
+        public async Task<User> GetUserEntity(int id)
+        {
+            return await _repository.GetAsync(id);
+        }
+
         private async Task<User> FindUser(string userName)
         {
             var user = (await _repository.GetAsync(new UsernameSpecification<User>(userName))).ToList();

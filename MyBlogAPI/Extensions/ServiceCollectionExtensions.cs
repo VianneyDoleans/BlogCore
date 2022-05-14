@@ -8,6 +8,7 @@ using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.Permissions;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.CommentService;

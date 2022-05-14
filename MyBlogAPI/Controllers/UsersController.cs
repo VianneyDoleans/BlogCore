@@ -35,6 +35,7 @@ namespace MyBlogAPI.Controllers
         private readonly ILikeService _likeService;
         private readonly IPostService _postService;
         private readonly ICommentService _commentService;
+        private readonly IAuthorizationService _authorizationService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
@@ -44,14 +45,16 @@ namespace MyBlogAPI.Controllers
         /// <param name="postService"></param>
         /// <param name="commentService"></param>
         /// <param name="roleService"></param>
+        /// <param name="authorizationService"></param>
         public UsersController(IUserService userService, ILikeService likeService, IPostService postService, 
-            ICommentService commentService, IRoleService roleService)
+            ICommentService commentService, IRoleService roleService, IAuthorizationService authorizationService)
         {
             _userService = userService;
             _likeService = likeService;
             _postService = postService;
             _commentService = commentService;
             _roleService = roleService;
+            _authorizationService = authorizationService;
         }
 
         /// <summary>
@@ -94,7 +97,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}")]
         [AllowAnonymous]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(GetUserDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -122,6 +124,17 @@ namespace MyBlogAPI.Controllers
                 return NotFound("Doesn't found the user.");
             if (await _roleService.GetRole(roleId) == null)
                 return NotFound("Doesn't found the role.");
+
+            var roleEntity = await _roleService.GetRoleEntity(roleId);
+            var roleAuthorized = await _authorizationService.AuthorizeAsync(User, roleEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Role));
+            if (!roleAuthorized.Succeeded)
+                return Forbid();
+
+            var userEntity = await _userService.GetUserEntity(id);
+            var userAuthorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.User));
+            if (!userAuthorized.Succeeded)
+                return Forbid();
+
             await _userService.AddUserRole(new UserRoleDto() {UserId = id, RoleId = roleId});
             return Ok();
         }
@@ -146,6 +159,17 @@ namespace MyBlogAPI.Controllers
                 return NotFound("Doesn't found the user.");
             if (await _roleService.GetRole(roleId) == null)
                 return NotFound("Doesn't found the role.");
+
+            var roleEntity = await _roleService.GetRoleEntity(roleId);
+            var roleAuthorized = await _authorizationService.AuthorizeAsync(User, roleEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Role));
+            if (!roleAuthorized.Succeeded)
+                return Forbid();
+
+            var userEntity = await _userService.GetUserEntity(id);
+            var userAuthorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.User));
+            if (!userAuthorized.Succeeded)
+                return Forbid();
+
             await _userService.RemoveUserRole(new UserRoleDto {UserId = id, RoleId = roleId});
             return Ok();
         }
@@ -167,6 +191,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _userService.GetUser(user.Id) == null)
                 return NotFound();
+
+            var userEntity = await _userService.GetUserEntity(user.Id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.User));
+            if (!authorized.Succeeded)
+                return Forbid();
+
             await _userService.UpdateUser(user);
             return Ok();
         }
@@ -187,6 +217,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _userService.GetUser(id) == null)
                 return NotFound();
+
+            var userEntity = await _userService.GetUserEntity(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.User));
+            if (!authorized.Succeeded)
+                return Forbid();
+
             await _userService.DeleteUser(id);
             return Ok();
         }
@@ -201,7 +237,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Posts/")]
         [AllowAnonymous]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(IEnumerable<GetPostDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetPostsFromUser(int id)
@@ -219,7 +254,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Comments/")]
         [AllowAnonymous]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(IEnumerable<GetCommentDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCommentsFromUser(int id)
@@ -237,7 +271,6 @@ namespace MyBlogAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
         [AllowAnonymous]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.User)]
         [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromUser(int id)

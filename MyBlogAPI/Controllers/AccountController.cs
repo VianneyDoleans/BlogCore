@@ -1,11 +1,7 @@
 ﻿using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications.FilterSpecifications.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogAPI.Attributes;
 using MyBlogAPI.DTO.User;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.JwtService;
@@ -28,6 +24,7 @@ namespace MyBlogAPI.Controllers
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="userService"></param>
+        /// <param name="jwtService"></param>
         public AccountController(IUserService userService, IJwtService jwtService)
         {
             _userService = userService;

@@ -102,10 +102,10 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
-            var commentEntity = await _commentService.GetCommentEntity(comment.Author);
-            var authorized = await _authorizationService.AuthorizeAsync(User, commentEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            var authorized = await _authorizationService.AuthorizeAsync(User, , new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
+
             return Ok(await _commentService.AddComment(comment));
         }
 
@@ -126,10 +126,12 @@ namespace MyBlogAPI.Controllers
             var commentDto = await _commentService.GetComment(comment.Id);
             if (commentDto == null)
                 return NotFound();
+
             var commentEntity = await _commentService.GetCommentEntity(comment.Id);
             var authorized = await  _authorizationService.AuthorizeAsync(User, commentEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
+
             await _commentService.UpdateComment(comment);
             return Ok();
         }
@@ -149,10 +151,12 @@ namespace MyBlogAPI.Controllers
         {
             if (await _commentService.GetComment(id) == null)
                 return NotFound();
+
             var commentEntity = await _commentService.GetCommentEntity(id);
             var authorized = await _authorizationService.AuthorizeAsync(User, commentEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
+
             await _commentService.DeleteComment(id);
             return Ok();
         }

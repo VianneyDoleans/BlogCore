@@ -1,4 +1,6 @@
-﻿namespace MyBlogAPI.DTO.Comment
+﻿using DbAccess.Data.POCO.Interface;
+
+namespace MyBlogAPI.DTO.Comment
 {
     /// <summary>
     /// Interface of <see cref="DbAccess.Data.POCO.Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).

@@ -16,22 +16,6 @@ namespace MyBlogAPI.Permissions
             _options = options.Value;
         }
 
-        private static PermissionRequirement GetPermissionWithoutRangeRequirement(string policyName)
-        {
-            if (policyName.StartsWith("permission."))
-            {
-                var values = policyName.Split('.');
-                if (values.Length == 3)
-                {
-                    Enum.TryParse(values[1], out PermissionAction permissionAction);
-                    Enum.TryParse(values[2], out PermissionTarget permissionTarget);
-                    var permissionRequirement = new PermissionRequirement(permissionAction, permissionTarget);
-                    return permissionRequirement;
-                }
-            }
-            return null;
-        }
-
         private static PermissionWithRangeRequirement GetPermissionWithRangeRequirement(string policyName)
         {
             if (policyName.StartsWith("permission."))
@@ -53,7 +37,6 @@ namespace MyBlogAPI.Permissions
         {
             return await base.GetPolicyAsync(policyName)
                    ?? new AuthorizationPolicyBuilder()
-                       .AddRequirements(GetPermissionWithoutRangeRequirement(policyName))
                        .AddRequirements(GetPermissionWithRangeRequirement(policyName)).Build();
         }
     }

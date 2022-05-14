@@ -22,6 +22,8 @@ namespace MyBlogAPI.Services.RoleService
 
         Task<GetRoleDto> GetRole(int id);
 
+        Task<Role> GetRoleEntity(int id);
+
         Task<GetRoleDto> AddRole(AddRoleDto role);
 
         Task UpdateRole(UpdateRoleDto role);
