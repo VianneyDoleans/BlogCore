@@ -3,17 +3,14 @@ using System.Threading.Tasks;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 
-namespace MyBlogAPI.Permissions
+namespace MyBlogAPI.Authorization
 {
     public class PermissionPolicyProvider : DefaultAuthorizationPolicyProvider
     {
-        private readonly AuthorizationOptions _options;
-
         public PermissionPolicyProvider(IOptions<AuthorizationOptions> options) : base(options)
         {
-            _options = options.Value;
         }
 
         private static PermissionWithRangeRequirement GetPermissionWithRangeRequirement(string policyName)

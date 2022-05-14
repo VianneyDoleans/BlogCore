@@ -4,7 +4,7 @@ using AutoMapper;
 using DbAccess.Data.POCO.Interface;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Permission;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
@@ -12,17 +12,17 @@ using MyBlogAPI.Services.UserService;
 namespace MyBlogAPI.Permissions
 {
     /// <summary>
-    /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="AllPermissionRangeAuthorizationHandler{TEntity}"/>.
+    /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="HasAllPermissionRangeAuthorizationHandler{TEntity}"/>.
     /// </summary>
-    public class OwnOrAllPermissionRangeForHasUserAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
-    where TEntity : IHasUser
+    public class HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
+    where TEntity : IHasAuthor
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public OwnOrAllPermissionRangeForHasUserAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
+        public HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
             _roleService = roleService;
@@ -48,7 +48,7 @@ namespace MyBlogAPI.Permissions
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
                             requirementTarget.Id == permission.PermissionTarget.Id &&
-                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && entity.User.Id == userId) 
+                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && entity.Author.Id == userId) 
                              || permission.PermissionRange.Id == (int)PermissionRange.All)))
                     {
                         context.Succeed(requirement);

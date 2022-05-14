@@ -82,6 +82,11 @@ namespace DbAccess
                     PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.Like,
                     PermissionRange = PermissionRange.Own
                 },
+                new Permission()
+                {
+                    PermissionAction = PermissionAction.CanUpdate, PermissionTarget = PermissionTarget.User,
+                    PermissionRange = PermissionRange.Own
+                },
 
                 // Delete
                 new Permission()

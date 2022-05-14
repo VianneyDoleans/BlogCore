@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Contracts;
 using MyBlogAPI.DTO.Permission;
 using MyBlogAPI.Services.RoleService;
@@ -13,10 +13,10 @@ using MyBlogAPI.Services.UserService;
 namespace MyBlogAPI.Permissions
 {
     /// <summary>
-    /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="AllPermissionRangeAuthorizationHandler{TEntity}"/>.
+    /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="HasAllPermissionRangeAuthorizationHandler{TEntity}"/>.
     /// </summary>
     /// <typeparam name="TDto"></typeparam>
-    public class OwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler<TDto> : AuthorizationHandler<PermissionRequirement, TDto>
+    public class HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler<TDto> : AuthorizationHandler<PermissionRequirement, TDto>
     where TDto : IHasAuthor
     {
         private readonly IUserService _userService;
@@ -24,7 +24,7 @@ namespace MyBlogAPI.Permissions
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public OwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
+        public HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
             _roleService = roleService;

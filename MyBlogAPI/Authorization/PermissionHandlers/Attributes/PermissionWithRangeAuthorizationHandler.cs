@@ -1,14 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Permission;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Permissions
+namespace MyBlogAPI.Authorization.PermissionHandlers.Attributes
 {
     public class PermissionWithRangeAuthorizationHandler : AuthorizationHandler<PermissionWithRangeRequirement>
     {
@@ -25,7 +24,7 @@ namespace MyBlogAPI.Permissions
 
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
-            foreach (var req in context.Requirements.OfType<PermissionRequirement>())
+            foreach (var req in context.Requirements.OfType<PermissionWithRangeRequirement>())
             {
                 await HandleRequirementAsync(context, req);
             }

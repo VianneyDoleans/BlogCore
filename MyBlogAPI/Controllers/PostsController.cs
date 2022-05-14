@@ -6,7 +6,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.DTO.Post;
@@ -109,7 +109,7 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddPost(AddPostDto post)
         {
-            var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Post));
+            var authorized = await _authorizationService.AuthorizeAsync(User, post, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Post));
             if (!authorized.Succeeded)
                 return Forbid();
 
@@ -130,11 +130,7 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdatePost(UpdatePostDto post)
         {
-            if (await _postService.GetPost(post.Id) == null)
-                return NotFound();
-
-            var postEntity = await _postService.GetPostEntity(post.Author);
-            var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Post));
+            var authorized = await _authorizationService.AuthorizeAsync(User, post, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Post));
             if (!authorized.Succeeded)
                 return Forbid();
 
@@ -155,11 +151,8 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeletePost(int id)
         {
-            if (await _postService.GetPost(id) == null)
-                return NotFound();
-
-            var postEntity = await _postService.GetPostEntity(id);
-            var authorized = await _authorizationService.AuthorizeAsync(User, postEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Post));
+            var postDto = await _postService.GetPost(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, postDto, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Post));
             if (!authorized.Succeeded)
                 return Forbid();
 

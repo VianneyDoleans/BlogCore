@@ -56,11 +56,6 @@ namespace MyBlogAPI.Services.CommentService
                 return _mapper.Map<GetCommentDto>(comment);
         }
 
-        public async Task<Comment> GetCommentEntity(int id)
-        {
-            return await _repository.GetAsync(id);
-        }
-
         private async Task<bool> CommentAlreadyExistsWithSameProperties(UpdateCommentDto comment)
         {
             if (comment == null)

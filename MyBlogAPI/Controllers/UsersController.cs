@@ -6,7 +6,8 @@ using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.DTO.Post;
@@ -114,7 +115,6 @@ namespace MyBlogAPI.Controllers
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpPost("{id:int}/Role/{roleId:int}")]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -149,7 +149,6 @@ namespace MyBlogAPI.Controllers
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}/Role/{roleId:int}")]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -183,7 +182,6 @@ namespace MyBlogAPI.Controllers
         /// <param name="user"></param>
         /// <returns></returns>
         [HttpPut]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanUpdate, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -210,7 +208,6 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
-        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanDelete, PermissionTarget.User)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteUser(int id)

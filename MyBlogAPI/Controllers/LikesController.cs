@@ -5,7 +5,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Like;
@@ -94,7 +94,7 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddLikes(AddLikeDto like)
         {
-            var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Like));
+            var authorized = await _authorizationService.AuthorizeAsync(User, like, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Like));
             if (!authorized.Succeeded)
                 return Forbid();
 
@@ -115,11 +115,7 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateLike(UpdateLikeDto like)
         {
-            if (await _likeService.GetLike(like.Id) == null)
-                return NotFound();
-
-            var likeEntity = await _likeService.GetLikeEntity(like.User);
-            var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Like));
+            var authorized = await _authorizationService.AuthorizeAsync(User, like, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Like));
             if (!authorized.Succeeded)
                 return Forbid();
 
@@ -140,11 +136,8 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteLike(int id)
         {
-            if (await _likeService.GetLike(id) == null)
-                return NotFound();
-
-            var likeEntity = await _likeService.GetLikeEntity(id);
-            var authorized = await _authorizationService.AuthorizeAsync(User, likeEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Like));
+            var likeDto = await _likeService.GetLike(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, likeDto, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Like));
             if (!authorized.Succeeded)
                 return Forbid();
 

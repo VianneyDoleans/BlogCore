@@ -5,7 +5,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Permissions;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.Filters;
@@ -123,12 +123,7 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateComment(UpdateCommentDto comment)
         {
-            var commentDto = await _commentService.GetComment(comment.Id);
-            if (commentDto == null)
-                return NotFound();
-
-            var commentEntity = await _commentService.GetCommentEntity(comment.Id);
-            var authorized = await  _authorizationService.AuthorizeAsync(User, commentEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            var authorized = await  _authorizationService.AuthorizeAsync(User, comment, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
 
@@ -149,11 +144,8 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            if (await _commentService.GetComment(id) == null)
-                return NotFound();
-
-            var commentEntity = await _commentService.GetCommentEntity(id);
-            var authorized = await _authorizationService.AuthorizeAsync(User, commentEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            var commentDto = await _commentService.GetComment(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, commentDto, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
 

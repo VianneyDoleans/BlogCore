@@ -4,24 +4,109 @@
         <name>MyBlogAPI</name>
     </assembly>
     <members>
-        <member name="T:MyBlogAPI.Attributes.PermissionWithPermissionRangeAllRequiredAttribute">
+        <member name="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute">
             <summary>
              Attribute allowing to define the corresponding permission needed for an resource endpoint.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Attributes.PermissionWithPermissionRangeAllRequiredAttribute.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
+        <member name="M:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>
         </member>
-        <member name="M:MyBlogAPI.Attributes.PermissionRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
+        <member name="M:MyBlogAPI.Authorization.Permissions.PermissionRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>
+        </member>
+        <member name="M:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget,DbAccess.Data.POCO.Permission.PermissionRange)">
+            <summary>
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+            </summary>
+            <param name="permission"></param>
+            <param name="permissionTarget"></param>
+            <param name="permissionRange"></param>
+        </member>
+        <member name="T:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1">
+            <summary>
+            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1"/>.
+            </summary>
+            <typeparam name="TDto"></typeparam>
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1">
+            <summary>
+            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1"/>.
+            </summary>
+            <typeparam name="TDto"></typeparam>
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.OwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.OwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,MyBlogAPI.DTO.User.IUserDto)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1">
+            <summary>
+            Authorization Handler used to authorize a resource when the <see cref="T:DbAccess.Data.POCO.User"/> have <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> permission on this Type of resource.
+            </summary>
+            <example>
+            user "ModeratorName" have permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
+            => This handler requirement will succeed if this user ask authorization to delete a comment.
+            </example>
+            <example>
+            user "classicUser" doesn't have permission "PermissionRange.All, PermissionAction.Read, PermissionTarget.Role"
+            => This handler requirement won't succeed if this user ask authorization to read (GET) a role.
+            </example>
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1">
+            <summary>
+            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1"/>.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1">
+            <summary>
+            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Permissions.HasAllPermissionRangeAuthorizationHandler`1"/>.
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Permissions.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,DbAccess.Data.POCO.User)">
+            <inheritdoc />
         </member>
         <member name="T:MyBlogAPI.AutoMapperProfile">
             <inheritdoc />
@@ -39,6 +124,7 @@
             Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
             </summary>
             <param name="userService"></param>
+            <param name="jwtService"></param>
         </member>
         <member name="M:MyBlogAPI.Controllers.AccountController.SignUp(MyBlogAPI.DTO.User.AddUserDto)">
             <summary>
@@ -232,11 +318,12 @@
             Controller used to expose Like resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.#ctor(MyBlogAPI.Services.LikeService.ILikeService)">
+        <member name="M:MyBlogAPI.Controllers.LikesController.#ctor(MyBlogAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
             Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.LikesController"/> class.
             </summary>
             <param name="likeService"></param>
+            <param name="authorizeService"></param>
         </member>
         <member name="M:MyBlogAPI.Controllers.LikesController.GetLikes(System.String,System.Int32,System.Int32,System.Nullable{DbAccess.Data.POCO.LikeableType})">
             <summary>
@@ -296,14 +383,14 @@
             Controller used to expose Post resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.#ctor(MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.LikeService.ILikeService,MyBlogAPI.Permissions.OwnOrAllPermissionRangeUserAuthorizationHandler{DbAccess.Data.POCO.Post})">
+        <member name="M:MyBlogAPI.Controllers.PostsController.#ctor(MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
             Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.PostsController"/> class.
             </summary>
             <param name="postService"></param>
             <param name="commentService"></param>
             <param name="likeService"></param>
-            <param name="authorizationHandler"></param>
+            <param name="authorizationService"></param>
         </member>
         <member name="M:MyBlogAPI.Controllers.PostsController.GetPosts(System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
             <summary>
@@ -564,7 +651,7 @@
             Controller used to expose User resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.LikeService.ILikeService,MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.RoleService.IRoleService)">
+        <member name="M:MyBlogAPI.Controllers.UsersController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.LikeService.ILikeService,MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.RoleService.IRoleService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
             Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
             </summary>
@@ -573,6 +660,7 @@
             <param name="postService"></param>
             <param name="commentService"></param>
             <param name="roleService"></param>
+            <param name="authorizationService"></param>
         </member>
         <member name="M:MyBlogAPI.Controllers.UsersController.GetUsers(System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
@@ -1048,6 +1136,13 @@
             <param name="services"></param> 
             <returns></returns> 
         </member>
+        <member name="M:MyBlogAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
         <member name="T:MyBlogAPI.Filters.Category.CategoryQueryFilter">
             <summary>
             Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Category"/>.
@@ -1317,47 +1412,6 @@
             Get filter specification of <see cref="T:DbAccess.Data.POCO.User"/> based of internal properties defined.
             </summary>
             <returns></returns>
-        </member>
-        <member name="T:MyBlogAPI.Permissions.AllPermissionRangeAuthorizationHandler`1">
-            <summary>
-            Authorization Handler used to authorize a resource when the <see cref="T:DbAccess.Data.POCO.User"/> have <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> permission on this Type of resource.
-            </summary>
-            <example>
-            user "ModeratorName" have permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
-            => This handler withRangeRequirement will succeed if this user ask authorization to delete a comment.
-            </example>
-            <example>
-            user "classicUser" doesn't have permission "PermissionRange.All, PermissionAction.Read, PermissionTarget.Role"
-            => This handler withRangeRequirement won't succeed if this user ask authorization to read (GET) a role.
-            </example>
-        </member>
-        <member name="M:MyBlogAPI.Permissions.AllPermissionRangeAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
-            <inheritdoc />
-        </member>
-        <member name="M:MyBlogAPI.Permissions.AllPermissionRangeAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Attributes.PermissionRequirement,`0)">
-            <inheritdoc />
-        </member>
-        <member name="T:MyBlogAPI.Permissions.OwnershipAuthorizationHandler">
-            <summary>
-            Authorization Handler used to authorize a resource when the user is the author of this resource.
-            </summary>
-        </member>
-        <member name="M:MyBlogAPI.Permissions.OwnershipAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
-            <inheritdoc />
-        </member>
-        <member name="M:MyBlogAPI.Permissions.OwnershipAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Attributes.PermissionRequirement,DbAccess.Data.POCO.Comment)">
-            <inheritdoc />
-        </member>
-        <member name="T:MyBlogAPI.Permissions.OwnOrAllPermissionRangeUserAuthorizationHandler`1">
-            <summary>
-            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Permissions.AllPermissionRangeAuthorizationHandler`1"/>.
-            </summary>
-        </member>
-        <member name="M:MyBlogAPI.Permissions.OwnOrAllPermissionRangeUserAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
-            <inheritdoc />
-        </member>
-        <member name="M:MyBlogAPI.Permissions.OwnOrAllPermissionRangeUserAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Attributes.PermissionRequirement,`0)">
-            <inheritdoc />
         </member>
         <member name="T:MyBlogAPI.Responses.BlogErrorResponse">
             <summary>

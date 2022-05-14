@@ -8,13 +8,13 @@ using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
+using MyBlogAPI.Authorization.PermissionHandlers.Attributes;
 using MyBlogAPI.DTO.Comment;
 using MyBlogAPI.DTO.Like;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.Permissions;
 using MyBlogAPI.Services.CategoryService;
 using MyBlogAPI.Services.CommentService;
-using MyBlogAPI.Services.JwtService;
 using MyBlogAPI.Services.LikeService;
 using MyBlogAPI.Services.PostService;
 using MyBlogAPI.Services.RoleService;
@@ -70,18 +70,18 @@ namespace MyBlogAPI.Extensions
         public static IServiceCollection RegisterAuthorizationHandlers(this IServiceCollection services)
         {
             // Resource Handlers
-            services.AddScoped<IAuthorizationHandler, AllPermissionRangeAuthorizationHandler<Role>>();
-            services.AddScoped<IAuthorizationHandler, AllPermissionRangeAuthorizationHandler<Tag>>();
-            services.AddScoped<IAuthorizationHandler, AllPermissionRangeAuthorizationHandler<Category>>();
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasAuthorAuthorizationHandler<Comment>>();
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasAuthorAuthorizationHandler<Post>>();
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasUserAuthorizationHandler<Like>>();
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForUserResourceAuthorizationHandler>();
+            services.AddScoped<IAuthorizationHandler, HasAllPermissionRangeAuthorizationHandler<Role>>();
+            services.AddScoped<IAuthorizationHandler, HasAllPermissionRangeAuthorizationHandler<Tag>>();
+            services.AddScoped<IAuthorizationHandler, HasAllPermissionRangeAuthorizationHandler<Category>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler<Comment>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler<Post>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler<Like>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler>();
 
             // DTO Handlers
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler<ICommentDto>>();
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler<IPostDto>>();
-            services.AddScoped<IAuthorizationHandler, OwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler<ILikeDto>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler<ICommentDto>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler<IPostDto>>();
+            services.AddScoped<IAuthorizationHandler, HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler<ILikeDto>>();
 
             // Resource Attribute Handler
             services.AddScoped<IAuthorizationHandler, PermissionWithRangeAuthorizationHandler>();

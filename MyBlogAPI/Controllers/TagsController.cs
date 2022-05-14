@@ -5,7 +5,7 @@ using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Attributes;
+using MyBlogAPI.Authorization.Attributes;
 using MyBlogAPI.DTO.Post;
 using MyBlogAPI.DTO.Tag;
 using MyBlogAPI.Filters;
