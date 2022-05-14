@@ -102,7 +102,7 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
-            var authorized = await _authorizationService.AuthorizeAsync(User, , new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            var authorized = await _authorizationService.AuthorizeAsync(User, comment, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
 

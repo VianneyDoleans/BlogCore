@@ -30,5 +30,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Permissions\DTO\" />
+    <Folder Include="Permissions\POCO\" />
+  </ItemGroup>
+
 
 </Project>

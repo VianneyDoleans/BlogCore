@@ -1,4 +1,6 @@
 ﻿
+using MyBlogAPI.DTO.Contracts;
+
 namespace MyBlogAPI.DTO.Comment
 {
     /// <summary>

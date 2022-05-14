@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
+using MyBlogAPI.DTO.Contracts;
 
 namespace MyBlogAPI.DTO.Post
 {
     /// <summary>
     /// Interface of <see cref="DbAccess.Data.POCO.Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).
     /// </summary>
-    public interface IPostDto
+    public interface IPostDto : IHasAuthor
     {
         public string Content { get; set; }
 
