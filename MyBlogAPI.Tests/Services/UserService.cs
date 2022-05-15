@@ -6,7 +6,7 @@ using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.JoiningEntity;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.Services.UserService;
 using Xunit;
 

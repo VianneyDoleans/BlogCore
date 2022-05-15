@@ -7,7 +7,7 @@ using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Like;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.Like;
+using MyBlogAPI.DTOs.Like;
 using MyBlogAPI.Services.LikeService;
 using Xunit;
 

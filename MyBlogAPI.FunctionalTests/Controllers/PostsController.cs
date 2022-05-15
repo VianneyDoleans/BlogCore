@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.Category;
+using MyBlogAPI.DTOs.Post;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.FunctionalTests.GenericTests;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;

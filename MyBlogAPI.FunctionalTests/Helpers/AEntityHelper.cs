@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO;
+using MyBlogAPI.DTOs;
 using MyBlogAPI.Responses;
 using Newtonsoft.Json;
 

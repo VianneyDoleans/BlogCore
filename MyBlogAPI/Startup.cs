@@ -14,7 +14,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyBlogAPI.Authorization;
 using MyBlogAPI.Extensions;
-using MyBlogAPI.Permissions;
 using MyBlogAPI.Services;
 using MyBlogAPI.Services.JwtService;
 

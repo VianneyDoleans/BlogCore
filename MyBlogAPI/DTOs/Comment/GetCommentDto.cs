@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using MyBlogAPI.DTO.Contracts;
 
-namespace MyBlogAPI.DTO.Comment
+namespace MyBlogAPI.DTOs.Comment
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.Comment"/>.

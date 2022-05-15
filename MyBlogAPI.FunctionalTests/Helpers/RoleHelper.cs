@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTOs.Role;
 
 namespace MyBlogAPI.FunctionalTests.Helpers
 {

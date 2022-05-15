@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 using DbAccess.Data.POCO;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.Category;
+using MyBlogAPI.DTOs.Like;
+using MyBlogAPI.DTOs.Post;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.FunctionalTests.GenericTests;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTO.Permission;
+using MyBlogAPI.DTOs.Permission;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 

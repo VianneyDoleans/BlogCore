@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Like;
 
-namespace MyBlogAPI.DTO.Like.Converters
+namespace MyBlogAPI.DTOs.Like.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Like"/> to its resource Id.

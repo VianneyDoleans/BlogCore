@@ -12,7 +12,7 @@ using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.User;
 
 namespace MyBlogAPI.Services.UserService
 {

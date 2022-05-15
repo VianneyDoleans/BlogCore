@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Role;
 
-namespace MyBlogAPI.DTO.Role.Converters
+namespace MyBlogAPI.DTOs.Role.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Role"/> to its resource Id.

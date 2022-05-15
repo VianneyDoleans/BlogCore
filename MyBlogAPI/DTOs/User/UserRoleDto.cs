@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.User
+﻿namespace MyBlogAPI.DTOs.User
 {
     public class UserRoleDto
     {

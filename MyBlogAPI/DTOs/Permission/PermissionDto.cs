@@ -1,6 +1,4 @@
-﻿using DbAccess.Data.POCO.Permission;
-
-namespace MyBlogAPI.DTO.Permission
+﻿namespace MyBlogAPI.DTOs.Permission
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.Permission.Permission"/>

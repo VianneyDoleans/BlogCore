@@ -8,7 +8,7 @@ using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.Post;
+using MyBlogAPI.DTOs.Post;
 using MyBlogAPI.Services.PostService;
 using Xunit;
 

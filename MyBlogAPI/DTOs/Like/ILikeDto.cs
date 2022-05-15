@@ -1,7 +1,7 @@
 ﻿using DbAccess.Data.POCO;
-using MyBlogAPI.DTO.Contracts;
+using MyBlogAPI.DTOs.Contracts;
 
-namespace MyBlogAPI.DTO.Like
+namespace MyBlogAPI.DTOs.Like
 {
     /// <summary>
     /// Interface of <see cref="DbAccess.Data.POCO.Like"/> Dto containing all the common properties of Like Dto Type (GET, ADD, UPDATE).

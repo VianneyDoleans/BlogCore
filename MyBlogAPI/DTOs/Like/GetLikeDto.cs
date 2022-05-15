@@ -1,8 +1,7 @@
 ﻿using System;
 using DbAccess.Data.POCO;
-using MyBlogAPI.DTO.Contracts;
 
-namespace MyBlogAPI.DTO.Like
+namespace MyBlogAPI.DTOs.Like
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.Like"/>.

@@ -1,7 +1,5 @@
 ﻿
-using MyBlogAPI.DTO.Contracts;
-
-namespace MyBlogAPI.DTO.Comment
+namespace MyBlogAPI.DTOs.Comment
 {
     /// <summary>
     /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Comment"/>.

@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.Role
+﻿namespace MyBlogAPI.DTOs.Role
 {
     /// <summary>
     /// Add Dto type of <see cref="DbAccess.Data.POCO.Role"/>.

@@ -6,7 +6,7 @@ using DbAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTO.Like;
+using MyBlogAPI.DTOs.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Like;
 using MyBlogAPI.Responses;

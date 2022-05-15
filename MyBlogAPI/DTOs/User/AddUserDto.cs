@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.User
+﻿namespace MyBlogAPI.DTOs.User
 {
     /// <summary>
     /// Add Dto type of <see cref="DbAccess.Data.POCO.User"/>.

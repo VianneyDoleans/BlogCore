@@ -10,8 +10,8 @@ using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Permission;
-using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTOs.Permission;
+using MyBlogAPI.DTOs.Role;
 
 namespace MyBlogAPI.Services.RoleService
 {

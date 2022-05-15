@@ -6,7 +6,7 @@ using DbAccess.Data.POCO;
 using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTOs.Comment;
 using MyBlogAPI.Services.CommentService;
 using Xunit;
 

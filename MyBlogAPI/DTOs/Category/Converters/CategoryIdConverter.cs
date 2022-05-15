@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Category;
 
-namespace MyBlogAPI.DTO.Category.Converters
+namespace MyBlogAPI.DTOs.Category.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Category"/> to its resource Id.

@@ -6,7 +6,7 @@ using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Category;
+using MyBlogAPI.DTOs.Category;
 using MyBlogAPI.Services.CategoryService;
 using Xunit;
 

@@ -3,7 +3,7 @@ using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.User;
 
-namespace MyBlogAPI.DTO.Like.Converters
+namespace MyBlogAPI.DTOs.Like.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateLikeDto"/> to <see cref="DbAccess.Data.POCO.Like"/>.

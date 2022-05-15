@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBlogAPI.DTO.Category
+namespace MyBlogAPI.DTOs.Category
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.Category"/>.

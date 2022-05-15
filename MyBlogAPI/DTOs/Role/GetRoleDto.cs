@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBlogAPI.DTO.Role
+namespace MyBlogAPI.DTOs.Role
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.Role"/>.

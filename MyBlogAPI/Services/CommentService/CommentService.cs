@@ -11,7 +11,7 @@ using DbAccess.Repositories.User;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTOs.Comment;
 
 namespace MyBlogAPI.Services.CommentService
 {

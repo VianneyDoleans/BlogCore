@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Role;
-using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTOs.Role;
 using MyBlogAPI.Services.RoleService;
 using Xunit;
 

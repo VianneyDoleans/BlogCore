@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.Responses;
 using MyBlogAPI.Services.JwtService;
 using MyBlogAPI.Services.UserService;

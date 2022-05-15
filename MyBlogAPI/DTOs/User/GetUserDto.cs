@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace MyBlogAPI.DTO.User
+namespace MyBlogAPI.DTOs.User
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.User"/>.

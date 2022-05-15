@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.Permission
+﻿namespace MyBlogAPI.DTOs.Permission
 {
     public class PermissionTargetDto
     {

@@ -3,7 +3,7 @@ using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.User;
 
-namespace MyBlogAPI.DTO.Comment.Converters
+namespace MyBlogAPI.DTOs.Comment.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateCommentDto"/> to <see cref="DbAccess.Data.POCO.Comment"/>.

@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.Contracts
+﻿namespace MyBlogAPI.DTOs.Contracts
 {
     public interface IHasAuthor
     {

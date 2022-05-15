@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Comment;
 
-namespace MyBlogAPI.DTO.Comment.Converters
+namespace MyBlogAPI.DTOs.Comment.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Comment"/> to its resource Id.

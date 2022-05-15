@@ -1,25 +1,24 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTO.Permission;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.Permission;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Permissions
+namespace MyBlogAPI.Authorization.PermissionHandlers.Dtos
 {
-    public class OwnOrAllPermissionRangeForUserDtoAuthorizationHandler : AuthorizationHandler<PermissionRequirement, IUserDto>
+    public class HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler : AuthorizationHandler<PermissionRequirement, IUserDto>
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
         /// <inheritdoc />
-        public OwnOrAllPermissionRangeForUserDtoAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
+        public HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
             _roleService = roleService;

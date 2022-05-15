@@ -5,11 +5,11 @@ using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTO.Permission;
+using MyBlogAPI.DTOs.Permission;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Permissions
+namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
 {
     /// <summary>
     /// Authorization Handler used to authorize a resource when the <see cref="User"/> have <see cref="PermissionRange.All"/> permission on this Type of resource.

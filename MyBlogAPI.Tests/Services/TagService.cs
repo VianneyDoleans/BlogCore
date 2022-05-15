@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Repositories.Tag;
-using MyBlogAPI.DTO.Tag;
+using MyBlogAPI.DTOs.Tag;
 using MyBlogAPI.Services.TagService;
 using Xunit;
 

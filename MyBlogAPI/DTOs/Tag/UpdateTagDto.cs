@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.Tag
+﻿namespace MyBlogAPI.DTOs.Tag
 {
     /// <summary>
     /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Tag"/>.

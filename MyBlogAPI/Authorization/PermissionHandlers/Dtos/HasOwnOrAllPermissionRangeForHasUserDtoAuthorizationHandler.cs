@@ -4,13 +4,12 @@ using AutoMapper;
 using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTO.Contracts;
-using MyBlogAPI.DTO.Permission;
+using MyBlogAPI.DTOs.Contracts;
+using MyBlogAPI.DTOs.Permission;
 using MyBlogAPI.Services.RoleService;
 using MyBlogAPI.Services.UserService;
 
-
-namespace MyBlogAPI.Permissions
+namespace MyBlogAPI.Authorization.PermissionHandlers.Dtos
 {
     /// <summary>
     /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="HasAllPermissionRangeAuthorizationHandler{TEntity}"/>.

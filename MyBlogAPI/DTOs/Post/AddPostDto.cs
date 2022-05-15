@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBlogAPI.DTO.Post
+namespace MyBlogAPI.DTOs.Post
 {
     /// <summary>
     /// Add Dto type of <see cref="DbAccess.Data.POCO.Post"/>.

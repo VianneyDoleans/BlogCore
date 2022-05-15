@@ -4,7 +4,7 @@ using DbAccess.Data.POCO.JoiningEntity;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.User;
 
-namespace MyBlogAPI.DTO.Post.Converters
+namespace MyBlogAPI.DTOs.Post.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdatePostConverter"/> to <see cref="DbAccess.Data.POCO.Post"/>.

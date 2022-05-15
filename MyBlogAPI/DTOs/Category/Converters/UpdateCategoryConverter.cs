@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace MyBlogAPI.DTO.Category.Converters
+namespace MyBlogAPI.DTOs.Category.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateCategoryDto"/> to <see cref="DbAccess.Data.POCO.Category"/>.

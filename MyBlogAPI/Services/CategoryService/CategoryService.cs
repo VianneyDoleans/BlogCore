@@ -9,7 +9,7 @@ using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Category;
+using MyBlogAPI.DTOs.Category;
 
 namespace MyBlogAPI.Services.CategoryService
 {

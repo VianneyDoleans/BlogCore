@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTO.Tag
+﻿namespace MyBlogAPI.DTOs.Tag
 {
     /// <summary>
     /// GET Dto type of <see cref="DbAccess.Data.POCO.Tag"/>.

@@ -2,7 +2,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using AutoMapper;
-using MyBlogAPI.DTO;
+using MyBlogAPI.DTOs;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;
 

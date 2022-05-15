@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Post;
 
-namespace MyBlogAPI.DTO.Post.Converters
+namespace MyBlogAPI.DTOs.Post.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Post"/> to its resource Id.

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DbAccess.Repositories.Tag;
 
-namespace MyBlogAPI.DTO.Tag.Converters
+namespace MyBlogAPI.DTOs.Tag.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Tag"/> to its resource Id.
