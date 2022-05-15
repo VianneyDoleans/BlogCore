@@ -68,7 +68,8 @@ namespace DbAccess.Repositories.User
             var result = await _userManager.CreateAsync(user, user.Password);
             if (!result.Succeeded)
                 throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
-            return await _userManager.FindByNameAsync(user.UserName);
+            var getUserAddedByManagerWithoutUserRolePropertyNavigation = await _userManager.FindByNameAsync(user.UserName);
+            return await GetAsync(getUserAddedByManagerWithoutUserRolePropertyNavigation.Id);
         }
 
         /// <inheritdoc />

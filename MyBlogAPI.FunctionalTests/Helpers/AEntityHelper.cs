@@ -23,7 +23,7 @@ namespace MyBlogAPI.FunctionalTests.Helpers
             _client = client;
         }
 
-        public async Task<TGet> AddEntity(TAdd entity)
+        public virtual async Task<TGet> AddEntity(TAdd entity)
         {
             var json = JsonConvert.SerializeObject(entity);
             var httpResponse =

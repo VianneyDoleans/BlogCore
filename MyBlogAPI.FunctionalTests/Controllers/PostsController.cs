@@ -21,7 +21,7 @@ namespace MyBlogAPI.FunctionalTests.Controllers
             var user = new AddUserDto()
             {
                 Email = Guid.NewGuid() + "@user.com",
-                Password = "abcdh",
+                Password = "0a1234A@",
                 UserDescription = "My description",
                 UserName = Guid.NewGuid().ToString("N")[..20]
             };
@@ -29,11 +29,13 @@ namespace MyBlogAPI.FunctionalTests.Controllers
             {
                 Name = Guid.NewGuid().ToString("N")
             };
+            var userAdded = await _userHelper.AddEntity(user);
+            var categoryAdded = await _categoryHelper.AddEntity(category);
             var post = new AddPostDto()
             {
                 Name = Guid.NewGuid().ToString("N"),
-                Author = (await _userHelper.AddEntity(user)).Id,
-                Category = (await _categoryHelper.AddEntity(category)).Id,
+                Author = userAdded.Id,
+                Category = categoryAdded.Id,
                 Content = "test POstDto"
             };
             return await Helper.AddEntity(post);

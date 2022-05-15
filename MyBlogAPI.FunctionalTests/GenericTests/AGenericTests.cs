@@ -1,31 +1,41 @@
 ﻿using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
 using MyBlogAPI.DTOs;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;
 
 namespace MyBlogAPI.FunctionalTests.GenericTests
 {
-    public abstract class AGenericTests<TGet, TAdd, TUpdate>
+    public abstract class AGenericTests<TGet, TAdd, TUpdate> : IAsyncLifetime
         where TGet : ADto, new() 
         where TAdd : new()
         where TUpdate : ADto, new()
     {
         protected readonly HttpClient Client;
         protected abstract IEntityHelper<TGet, TAdd, TUpdate> Helper { get; set; }
+        protected readonly UserLoginDto Admin;
 
         protected AGenericTests(TestWebApplicationFactory factory)
         {
             Client = factory.CreateClient();
+            Admin = factory.Admin;
+        }
+
+        protected async Task Login()
+        {
+            var accountHelper = new AccountHelper(Client);
+            var token = await accountHelper.GetJwtLoginToken(Admin);
+            Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{token}");
         }
 
         [Fact]
         public async Task CanGetEntities()
         {
             // Arrange
-            await AddRandomEntity();
             await AddRandomEntity();
 
             // Act 
@@ -76,7 +86,8 @@ namespace MyBlogAPI.FunctionalTests.GenericTests
             await Helper.UpdateRandomEntity(mapper.Map<TUpdate>(entityAdded));
 
             // Assert
-            Assert.False(Helper.Equals(await Helper.GetById(entityAdded.Id), entityAdded));
+            var getEntityFromApi = await Helper.GetById(entityAdded.Id);
+            Assert.False(Helper.Equals(getEntityFromApi, entityAdded));
         }
 
         [Fact]
@@ -90,6 +101,16 @@ namespace MyBlogAPI.FunctionalTests.GenericTests
 
             // Assert
             Assert.DoesNotContain(await Helper.GetAll(), p => p.Equals(user));
+        }
+
+        public async Task InitializeAsync()
+        {
+            await Login();
+        }
+
+        public Task DisposeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }

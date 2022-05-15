@@ -15,7 +15,7 @@ namespace MyBlogAPI.FunctionalTests.Controllers
             var user = new AddUserDto()
             {
                 Email = Guid.NewGuid().ToString("N") + "@user.com",
-                Password = "abcdh",
+                Password = "0a1234A@",
                 UserDescription = "My description",
                 UserName = Guid.NewGuid().ToString()[..20]
             };

@@ -45,7 +45,12 @@ namespace MyBlogAPI.Services.UserService
         public async Task<IEnumerable<GetUserDto>> GetUsers(FilterSpecification<User> filter = null, PagingSpecification paging = null,
             SortSpecification<User> sort = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetUserDto>(x));
+            return (await _repository.GetAsync(filter, paging, sort)).Select(x =>
+            {
+                var userDto = _mapper.Map<GetUserDto>(x);
+                userDto.Roles = x.UserRoles.Select(y => y.RoleId);
+                return userDto;
+            });
         }
 
         public async Task<int> CountUsersWhere(FilterSpecification<User> filterSpecification = null)
@@ -151,9 +156,12 @@ namespace MyBlogAPI.Services.UserService
         public async Task<GetUserDto> AddUser(AddUserDto user)
         {
             await CheckUserValidity(user);
-            var result = await _repository.AddAsync(_mapper.Map<User>(user));
+            var userToAdd = _mapper.Map<User>(user);
+            var result = await _repository.AddAsync(userToAdd);
            _unitOfWork.Save();
-           return _mapper.Map<GetUserDto>(result);
+           var userDto = _mapper.Map<GetUserDto>(result);
+            userDto.Roles = result.UserRoles.Select(x => x.RoleId);
+            return userDto;
         }
 
         public async Task AddUserRole(UserRoleDto userRole)
