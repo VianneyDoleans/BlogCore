@@ -1,34 +1,28 @@
 ﻿using System;
+using DbAccess.Data.POCO;
 using DbAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DBAccess.Tests
 {
-    public class TestBootstrapper
+    public static class TestBootstrapper
     {
         /// <summary>
-        /// Create an instance of in memory database context for testing.
-        /// Use the returned DbContextOptions to initialize DbContext.
+        /// Create a service provider with an in-memory database context for testing.
+        /// Use the service provider to get services and/or Database accesses.
         /// </summary>
         /// <returns></returns>
-        public static DbContextOptions<MyBlogContext> GetInMemoryDbContextOptions(/*string dbName = "Test_DB"*/)
+        public static ServiceProvider GetProvider()
         {
-            // The key to keeping the databases unique and not shared is 
-            // generating a unique db name for each.
-            var dbName = Guid.NewGuid().ToString();
-
-            // Create a fresh service provider, and therefore a fresh 
-            // InMemory database instance.
-            /*var serviceProvider = new ServiceCollection()
-                .AddEntityFrameworkInMemoryDatabase()
-                .BuildServiceProvider();*/
-
-            var options = new DbContextOptionsBuilder<MyBlogContext>()
-                .UseInMemoryDatabase(databaseName: dbName/*, new InMemoryDatabaseRoot()*/)
-                //.UseInternalServiceProvider(serviceProvider)
-                .Options;
-
-            return options;
+            var services = new ServiceCollection();
+            services.AddLogging();
+            services.AddDbContext<MyBlogContext, MsSqlDbContext>(o =>
+                o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<MyBlogContext>();
+            var provider = services.BuildServiceProvider();
+            return provider;
         }
     }
 }

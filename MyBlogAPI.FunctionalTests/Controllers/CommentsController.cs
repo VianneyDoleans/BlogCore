@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.Category;
+using MyBlogAPI.DTOs.Comment;
+using MyBlogAPI.DTOs.Post;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.FunctionalTests.GenericTests;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;
@@ -22,10 +22,10 @@ namespace MyBlogAPI.FunctionalTests.Controllers
         {
             var user = new AddUserDto()
             {
-                EmailAddress = Guid.NewGuid().ToString("N") + "@user.com",
-                Password = "abcdh",
+                Email = Guid.NewGuid().ToString("N") + "@user.com",
+                Password = "0a1234A@",
                 UserDescription = "My description",
-                Username = Guid.NewGuid().ToString("N")[..20]
+                UserName = Guid.NewGuid().ToString("N")[..20]
             };
             var userId = (await _userHelper.AddEntity(user)).Id;
             var category = new AddCategoryDto()

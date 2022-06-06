@@ -4,12 +4,14 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTOs.Permission;
+using MyBlogAPI.DTOs.Role;
 
 namespace MyBlogAPI.Services.RoleService
 {
@@ -55,10 +57,15 @@ namespace MyBlogAPI.Services.RoleService
             return roleDto;
         }
 
+        public async Task<Role> GetRoleEntity(int id)
+        {
+            return await _repository.GetAsync(id);
+        }
+
         public void CheckRoleValidity(IRoleDto role)
         {
             if (role == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(role));
             if (string.IsNullOrWhiteSpace(role.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (role.Name.Length > 20)
@@ -107,9 +114,25 @@ namespace MyBlogAPI.Services.RoleService
         private async Task<bool> RoleAlreadyExistsWithSameProperties(UpdateRoleDto role)
         {
             if (role == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(role));
             var roleDb = await _repository.GetAsync(role.Id);
             return role.Name == roleDb.Name;
+        }
+
+        public async Task AddPermissionAsync(int roleId, Permission permission)
+        {
+            await _repository.AddPermissionAsync(roleId, permission);
+        }
+
+        public async Task RemovePermissionAsync(int roleId, Permission permission)
+        {
+            await _repository.RemovePermissionAsync(roleId, permission);
+        }
+
+        public async Task<IEnumerable<PermissionDto>> GetPermissionsAsync(int roleId)
+        {
+            var permissions = await _repository.GetPermissionsAsync(roleId);
+            return permissions.ToList().Select(x => _mapper.Map<PermissionDto>(x)).ToList();
         }
     }
 }

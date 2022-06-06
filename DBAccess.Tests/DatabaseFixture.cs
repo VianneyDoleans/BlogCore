@@ -1,20 +1,26 @@
 ﻿using System;
-using DbAccess.Data;
+using DbAccess.Data.POCO;
 using DbAccess.DataContext;
 using DbAccess.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DBAccess.Tests
 {
     public class DatabaseFixture : IDisposable
     {
-        public MyBlogContext Db { get; private set; }
-        public IUnitOfWork UnitOfWork { get; private set; }
+        public MyBlogContext Db { get; }
+        public RoleManager<Role> RoleManager { get; }
+        public UserManager<User> UserManager { get; }
+        public IUnitOfWork UnitOfWork { get; }
 
         public DatabaseFixture()
         {
-            Db = new MsSqlDbContext(
-                TestBootstrapper.GetInMemoryDbContextOptions());
-            DbInitializer.Seed(Db);
+            var provider = TestBootstrapper.GetProvider();
+
+            UserManager = provider.GetRequiredService<UserManager<User>>();
+            RoleManager = provider.GetRequiredService<RoleManager<Role>>();
+            Db = provider.GetRequiredService<MyBlogContext>();
             UnitOfWork = new UnitOfWork(Db);
         }
 

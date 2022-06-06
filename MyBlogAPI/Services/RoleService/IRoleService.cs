@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTOs.Permission;
+using MyBlogAPI.DTOs.Role;
 
 namespace MyBlogAPI.Services.RoleService
 {
@@ -20,10 +22,18 @@ namespace MyBlogAPI.Services.RoleService
 
         Task<GetRoleDto> GetRole(int id);
 
+        Task<Role> GetRoleEntity(int id);
+
         Task<GetRoleDto> AddRole(AddRoleDto role);
 
         Task UpdateRole(UpdateRoleDto role);
 
         Task DeleteRole(int id);
+
+        Task AddPermissionAsync(int roleId, Permission permission);
+
+        Task RemovePermissionAsync(int roleId, Permission permission);
+
+        Task<IEnumerable<PermissionDto>> GetPermissionsAsync(int roleId);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.JoiningEntity;
+using DbAccess.Repositories.Role;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.Services.UserService;
 using Xunit;
 
@@ -23,19 +25,19 @@ namespace MyBlogAPI.Tests.Services
                 cfg.AddProfile(databaseFixture.MapperProfile);
             });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db), 
+            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
                 mapper, _fixture.UnitOfWork);
         }
 
         [Fact]
-        public async void AddUser()
+        public async Task AddUser()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "AddUser@newEmail.com",
-                Password = "16453",
-                Username = "AddUser1"
+                Email = "AddUser@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "AddUser1"
             };
 
             // Act
@@ -43,13 +45,13 @@ namespace MyBlogAPI.Tests.Services
 
             // Assert
             Assert.Contains(_fixture.Db.Users, x => x.Id == user.Id &&
-                                                    x.EmailAddress == user.EmailAddress &&
+                                                    x.Email == user.Email &&
                                                     x.UserDescription == user.UserDescription &&
-                                                    x.Username == user.Username);
+                                                    x.UserName == user.UserName);
         }
 
         [Fact]
-        public async void AddNullUser()
+        public async Task AddNullUser()
         {
 
             // Arrange & Act & Assert
@@ -57,7 +59,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateNullUser()
+        public async Task UpdateNullUser()
         {
 
             // Arrange & Act & Assert
@@ -65,47 +67,47 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithAnAlreadyExistingEmailAddress()
+        public async Task AddUserWithAnAlreadyExistingEmailAddress()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "AddUserAlreadyEmail@newEmail.com",
-                Password = "16453",
-                Username = "AddUsEmailA"
+                Email = "AddUserAlreadyEmail@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "AddUsEmailA"
             };
             await _service.AddUser(userToAdd);
-            userToAdd.Username = "test11";
+            userToAdd.UserName = "test11";
 
             // Act && Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public async void AddUserWithAnAlreadyExistingUsername()
+        public async Task AddUserWithAnAlreadyExistingUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "AddUserAlreadyUsername@newEmail.com",
-                Password = "16453",
-                Username = "AddUUnameA"
+                Email = "AddUserAlreadyUsername@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "AddUUnameA"
             };
             await _service.AddUser(userToAdd);
-            userToAdd.EmailAddress = "RandomExistingUsername@newEmail1.com";
+            userToAdd.Email = "RandomExistingUsername@newEmail1.com";
 
             // Act && Assert
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
-        public async void AddUserWithNullPassword()
+        public async Task AddUserWithNullPassword()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "AddUserNullPassword@newEmail3.com",
-                Username = "AddUNullPa"
+                Email = "AddUserNullPassword@newEmail3.com",
+                UserName = "AddUNullPa"
             };
 
             // Act && Assert
@@ -113,12 +115,12 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithNullUsername()
+        public async Task AddUserWithNullUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "AddUserNullUsername@newEmail3.com",
+                Email = "AddUserNullUsername@newEmail3.com",
                 Password = "AddUNullUs"
             };
             //_fixture.UnitOfWork.Save();
@@ -128,12 +130,12 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithNullEmail()
+        public async Task AddUserWithNullEmail()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                Username = "AddUNullEm",
+                UserName = "AddUNullEm",
                 Password = "12345"
             };
 
@@ -142,13 +144,13 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithTooLongUsername()
+        public async Task AddUserWithTooLongUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                Username = "aaaaaaaaaaaaaaaaaaaab",
-                EmailAddress = "AddUserTooLongUsername@aNewEmail.com",
+                UserName = "aaaaaaaaaaaaaaaaaaaab",
+                Email = "AddUserTooLongUsername@aNewEmail.com",
                 Password = "12345"
             };
 
@@ -157,13 +159,13 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithTooShortUsername()
+        public async Task AddUserWithTooShortUsername()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                Username = "ab",
-                EmailAddress = "AddUserTooShortUsername@aNewEmail.com",
+                UserName = "ab",
+                Email = "AddUserTooShortUsername@aNewEmail.com",
                 Password = "12345"
             };
 
@@ -172,13 +174,13 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithTooLongEmail()
+        public async Task AddUserWithTooLongEmail()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                Username = "AddUToLEm",
-                EmailAddress = "aaaaaaaaaaaaaaaaaaaabrgffffffffffff" +
+                UserName = "AddUToLEm",
+                Email = "aaaaaaaaaaaaaaaaaaaabrgffffffffffff" +
                                "rgtgthygtgtgtggtgtgtgtgtgtgtgtttttt" +
                                "ttttttttttttttttttttttttttttttttttt" +
                                "ttttttttttttttttttttttttttttttttttt" +
@@ -195,13 +197,13 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddUserWithTooLongUserDescription()
+        public async Task AddUserWithTooLongUserDescription()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                Username = "AddUToLUD",
-                EmailAddress = "AddUserWithTooLongUserDescription@email12.com",
+                UserName = "AddUToLUD",
+                Email = "AddUserWithTooLongUserDescription@email12.com",
                 UserDescription = "This is a long long long long long long long long long" +
                                   " long long long long long long long long long long long" +
                                   " long long long long long long long long long long long" +
@@ -229,48 +231,48 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetUser()
+        public async Task GetUser()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "GetUser@newEmail.com",
-                Password = "16453",
-                Username = "GetUser"
+                Email = "GetUser@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "GetUser"
             };
 
             // Act
             var userDb = await _service.GetUser((await _service.AddUser(userToAdd)).Id);
 
             // Assert
-            Assert.True(userDb.EmailAddress == userToAdd.EmailAddress &&
+            Assert.True(userDb.Email == userToAdd.Email &&
                         userDb.UserDescription == userToAdd.UserDescription &&
-                        userDb.Username == userToAdd.Username);
+                        userDb.UserName == userToAdd.UserName);
         }
 
         [Fact]
-        public async void GetUserNotFound()
+        public async Task GetUserNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetUser(685479));
         }
 
         [Fact]
-        public async void UpdateUser()
+        public async Task UpdateUser()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUser@newEmail.com",
-                Password = "16453",
-                Username = "UpdateUser"
+                Email = "UpdateUser@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpdateUser"
             });
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user.Id,
-                EmailAddress = "UpdateUser@newEmail.comUpdate",
+                Email = "UpdateUser@newEmail.comUpdate",
                 Password = "16453Update",
-                Username = "UpdateUserUpdate"
+                UserName = "UpdateUserUpdate"
             };
 
             // Act
@@ -278,35 +280,35 @@ namespace MyBlogAPI.Tests.Services
             var userUpdated = await _service.GetUser(userToUpdate.Id);
 
             // Assert
-            Assert.True(userUpdated.EmailAddress == userToUpdate.EmailAddress &&
+            Assert.True(userUpdated.Email == userToUpdate.Email &&
                         userUpdated.UserDescription == userToUpdate.UserDescription &&
-                        userUpdated.Username == userToUpdate.Username);
+                        userUpdated.UserName == userToUpdate.UserName);
         }
 
         [Fact]
-        public async void UpdateUserNotFound()
+        public async Task UpdateUserNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateUser(new UpdateUserDto() 
-                {Id = 164854, Password = "123", EmailAddress = "UpdateUserNotFound@email.com", Username = "UpdUNotFound"}));
+                {Id = 164854, Password = "123", Email = "UpdateUserNotFound@email.com", UserName = "UpdUNotFound"}));
         }
 
         [Fact]
-        public async void UpdateUserWithSameExistingProperties()
+        public async Task UpdateUserWithSameExistingProperties()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserWithSameExistingProperty@newEmail.com",
-                Password = "16453",
-                Username = "UpUsrWiSaExtProp"
+                Email = "UpdateUserWithSameExistingProperty@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpUsrWiSaExtProp"
             });
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user.Id,
-                EmailAddress = "UpdateUserWithSameExistingProperty@newEmail.com",
+                Email = "UpdateUserWithSameExistingProperty@newEmail.com",
                 Password = "16453",
-                Username = "UpUsrWiSaExtProp"
+                UserName = "UpUsrWiSaExtProp"
             };
 
             // Act
@@ -314,33 +316,33 @@ namespace MyBlogAPI.Tests.Services
             var userUpdated = await _service.GetUser(userToUpdate.Id);
 
             // Assert
-            Assert.True(userUpdated.EmailAddress == userToUpdate.EmailAddress &&
+            Assert.True(userUpdated.Email == userToUpdate.Email &&
                         userUpdated.UserDescription == userToUpdate.UserDescription &&
-                        userUpdated.Username == userToUpdate.Username);
+                        userUpdated.UserName == userToUpdate.UserName);
         }
 
         [Fact]
-        public async void UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser()
+        public async Task UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser()
         {
             // Arrange
             await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser@newEmail.com",
-                Password = "16453",
-                Username = "UpUsrWiSoUExtProp"
+                Email = "UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpUsrWiSoUExtProp"
             });
             var user2 = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
-                Password = "16453",
-                Username = "UpUsrWiSoUExtProp2"
+                Email = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpUsrWiSoUExtProp2"
             });
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user2.Id,
-                EmailAddress = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
-                Password = "16453",
-                Username = "UpUsrWiSoUExtProp"
+                Email = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpUsrWiSoUExtProp"
             };
 
             // Act & Assert
@@ -348,21 +350,21 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateUserOnlyOneProperty()
+        public async Task UpdateUserOnlyOneProperty()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserOnlyOneProperty@newEmail.com",
-                Password = "16453",
-                Username = "UpdateUOnlyOPro"
+                Email = "UpdateUserOnlyOneProperty@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpdateUOnlyOPro"
             });
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user.Id,
                 Password = "16453",
-                EmailAddress = "UpdateUserOnlyOnePropertyValid@newEmail.comUpdate",
-                Username = "UpdateUOnlyOPro"
+                Email = "UpdateUserOnlyOnePropertyValid@newEmail.comUpdate",
+                UserName = "UpdateUOnlyOPro"
             };
 
             // Act
@@ -370,27 +372,27 @@ namespace MyBlogAPI.Tests.Services
 
             // Assert
             var userUpdated = await _service.GetUser(user.Id);
-            Assert.True(userUpdated.EmailAddress == userToUpdate.EmailAddress &&
+            Assert.True(userUpdated.Email == userToUpdate.Email &&
                         userUpdated.UserDescription == userToUpdate.UserDescription &&
-                        userUpdated.Username == userToUpdate.Username);
+                        userUpdated.UserName == userToUpdate.UserName);
         }
 
         [Fact]
-        public async void UpdateUserInvalid()
+        public async Task UpdateUserInvalid()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserInvalid@newEmail.com",
-                Password = "16453",
-                Username = "UpdateUInvalid"
+                Email = "UpdateUserInvalid@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpdateUInvalid"
             });
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user.Id,
-                EmailAddress = "UpdateUserInvalid@newEmail.comUpdate",
+                Email = "UpdateUserInvalid@newEmail.comUpdate",
                 Password = "",
-                Username = "UpdateUInvalid"
+                UserName = "UpdateUInvalid"
             };
 
             // Act & Assert
@@ -398,19 +400,19 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateUserMissingUsername()
+        public async Task UpdateUserMissingUsername()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUserMissingUsername@newEmail.com",
-                Password = "16453",
-                Username = "UpdateUIdMissing"
+                Email = "UpdateUserMissingUsername@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "UpdateUIdMissing"
             });
             var userToUpdate = new UpdateUserDto()
             {
                 Id = user.Id,
-                EmailAddress = "UpdateUserMissingUsername@newEmail.comUpdate",
+                Email = "UpdateUserMissingUsername@newEmail.comUpdate",
                 Password = "16453",
             };
 
@@ -419,14 +421,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeleteUser()
+        public async Task DeleteUser()
         {
             // Arrange
             var user = await _service.AddUser(new AddUserDto()
             {
-                EmailAddress = "UpdateUser@newEmail.com",
-                Password = "16453",
-                Username = "UpdateUser"
+                Email = "DeleteUser@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "DeleteUser"
             });
 
             // Act
@@ -437,27 +439,27 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeleteUserNotFound()
+        public async Task DeleteUserNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteUser(175574));
         }
 
         [Fact]
-        public async void GetAllUsers()
+        public async Task GetAllUsers()
         {
             // Arrange
             var userToAdd = new AddUserDto()
             {
-                EmailAddress = "GetAllUser@newEmail.com",
-                Password = "16453",
-                Username = "GetAllUser"
+                Email = "GetAllUser@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "GetAllUser"
             };
             var userToAdd2 = new AddUserDto()
             {
-                EmailAddress = "GetAllUser2@newEmail.com",
-                Password = "16453",
-                Username = "GetAllUser2"
+                Email = "GetAllUser2@newEmail.com",
+                Password = "16453aA-007",
+                UserName = "GetAllUser2"
             }; 
             await _service.AddUser(userToAdd);
             await _service.AddUser(userToAdd2);
@@ -466,34 +468,33 @@ namespace MyBlogAPI.Tests.Services
             var users = (await _service.GetAllUsers()).ToArray();
 
             // Assert
-            Assert.Contains(users, x => x.Username == userToAdd.Username &&
+            Assert.Contains(users, x => x.UserName == userToAdd.UserName &&
                                      x.UserDescription == userToAdd.UserDescription &&
-                                     x.EmailAddress == userToAdd.EmailAddress);
-            Assert.Contains(users, x => x.Username == userToAdd2.Username &&
+                                     x.Email == userToAdd.Email);
+            Assert.Contains(users, x => x.UserName == userToAdd2.UserName &&
                                               x.UserDescription == userToAdd2.UserDescription &&
-                                              x.EmailAddress == userToAdd2.EmailAddress);
+                                              x.Email == userToAdd2.Email);
         }
 
         [Fact]
-        public async void GetUsersFromRole()
+        public async Task GetUsersFromRole()
         {
             // Arrange
             var userRole = new Role() { Name = "GetUsersFromRole" };
             await _fixture.Db.Roles.AddAsync(userRole);
             var user1 = new User()
-                {
-                    EmailAddress = "GetUsersFromRole@email.com",
-                    Username = "GetUsFromRole",
-                    Password = "1234"
-                };
+            {
+                Email = "GetUsersFromRole@email.com",
+                UserName = "GetUsFromRole",
+            };
             var user2 = new User()
             {
-                EmailAddress = "GetUsersFromRole2@email.com",
-                Username = "GetUsFromRole2",
-                Password = "1234"
+                Email = "GetUsersFromRole2@email.com",
+                UserName = "GetUsFromRole2",
             };
-            await _fixture.Db.Users.AddAsync(user1);
-            await _fixture.Db.Users.AddAsync(user2);
+
+            await _fixture.UserManager.CreateAsync(user1, "1234");
+            await _fixture.UserManager.CreateAsync(user2, "1234");
 
             await _fixture.Db.UserRoles.AddAsync(new UserRole() { Role = userRole, User = user1 });
             await _fixture.Db.UserRoles.AddAsync(new UserRole() { Role = userRole, User = user2 });
@@ -504,12 +505,252 @@ namespace MyBlogAPI.Tests.Services
 
             // Assert
             Assert.True(users.Length == 2);
-            Assert.Contains(users, x => x.Username == user1.Username &&
+            Assert.Contains(users, x => x.UserName == user1.UserName &&
                                         x.UserDescription == user1.UserDescription &&
-                                        x.EmailAddress == user1.EmailAddress);
-            Assert.Contains(users, x => x.Username == user2.Username &&
+                                        x.Email == user1.Email);
+            Assert.Contains(users, x => x.UserName == user2.UserName &&
                                         x.UserDescription == user2.UserDescription &&
-                                        x.EmailAddress == user2.EmailAddress);
+                                        x.Email == user2.Email);
+        }
+
+        [Fact]
+        public async Task AddRoleToUser()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "AddRoleToUser@email.com",
+                UserName = "AddRoleToUser",
+            };
+            var role = new Role() { Name = "AddRoleToUser" };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            await _fixture.RoleManager.CreateAsync(role);
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () => await _service.AddUserRole(new UserRoleDto() {
+                RoleId = roleId, 
+                UserId = userId
+            }));
+
+            // Assert
+            Assert.Null(exception);
+            Assert.True((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles.Any());
+            Assert.Contains((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles, x => x.RoleId == roleId && x.UserId == userId);
+        }
+
+        [Fact]
+        public async Task AddRoleToUserWithUserAlreadyHaveTheRole()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "AddRToUWiUAlHaThR@email.com",
+                UserName = "AddRToUWiUAlHaTh",
+            };
+            var role = new Role() { Name = "AddRToUWiUAlHaTh" };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            await _fixture.RoleManager.CreateAsync(role);
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            });
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task AddRoleToUserWithRoleDoesNotExist()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "AddRToUsWiRoDoNoEx",
+                UserName = "AddRToUsWiRoDoNoEx@email.com",
+            };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = 78542,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task AddRoleToUserWithUserDoesNotExist()
+        {
+            // Arrange
+            var role = new Role() { Name = "AddRTUWithUDoNoEx" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = 323365
+            }));
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUser()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "ReRoleToUser@email.com",
+                UserName = "ReRoleToUser",
+            };
+            var role = new Role() { Name = "ReRoleToUser" };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            await _fixture.RoleManager.CreateAsync(role);
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id; 
+            await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            });
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            }));
+
+            // Assert
+            Assert.Null(exception);
+            Assert.DoesNotContain((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles, x => x.RoleId == roleId && x.UserId == userId);
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUserWithRoleDoesNotExist()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "ReRToUWiUAlHaThR@email.com",
+                UserName = "ReRToUWiUAlHaTh",
+            };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = 1234432,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUserWithUserDoesNotHaveTheRole()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "ReRToUsWiRoDoNoEx@email.com",
+                UserName = "ReRToUWiRoDoNEx",
+            };
+            var role = new Role() { Name = "ReRoleToUser" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUserWithUserDoesNotExist()
+        {
+            // Arrange
+            var role = new Role() { Name = "ReRTUWithUDoNoEx" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = 323365
+            }));
+        }
+
+        [Fact]
+        public async Task SignIn()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "SignInTes",
+                UserName = "SignInTes@email.com",
+            };
+            const string password = "1234Ab@a";
+            await _fixture.UserManager.CreateAsync(user, password);
+
+            // Act
+            var isSignIn = await _service.SignIn(new UserLoginDto() { UserName = user.UserName, Password = password });
+
+            // Assert
+            Assert.True(isSignIn);
+        }
+
+        [Fact]
+        public async Task SignInNotCorrect()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "SignInTesNoCo",
+                UserName = "SignInTesNoCorrect@email.com",
+            };
+            const string password = "1234Ab@a";
+            await _fixture.UserManager.CreateAsync(user, password);
+
+            // Act
+            var isSignIn = await _service.SignIn(new UserLoginDto() { UserName = user.UserName, Password = "wrongPass1234Ab@a" });
+
+            // Assert
+            Assert.False(isSignIn);
+        }
+
+        [Fact]
+        public async Task SignInUserNameDoesNotExist()
+        {
+            // Arrange
+            const string password = "1234Ab@a";
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.SignIn(new UserLoginDto()
+                { UserName = Guid.NewGuid().ToString()[..20], Password = password }));
         }
     }
 }

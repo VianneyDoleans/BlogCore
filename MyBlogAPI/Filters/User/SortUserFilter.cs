@@ -30,7 +30,7 @@ namespace MyBlogAPI.Filters.User
             var sort = _orderBy switch
             {
                 "USERNAME" => new SortSpecification<DbAccess.Data.POCO.User>(
-                    new OrderBySpecification<DbAccess.Data.POCO.User>(x => x.Username),
+                    new OrderBySpecification<DbAccess.Data.POCO.User>(x => x.UserName),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),

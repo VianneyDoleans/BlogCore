@@ -1,5 +1,8 @@
 ﻿using System;
+using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Jwt;
 using DbAccess.DataContext;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +42,21 @@ namespace DbAccess
                     throw new Exception("Unsupported database provider : " + dbProvider);
             }
 
+            return services;
+        }
+
+        public static IServiceCollection RegisterIdentityService(this IServiceCollection services)
+        {
+            services.AddIdentity<User, Role>(options =>
+                {
+                    options.Password.RequiredLength = 8;
+                    options.Password.RequireNonAlphanumeric = true;
+                    options.Password.RequireDigit = true;
+                    options.Password.RequireUppercase = true;
+                    options.Password.RequireLowercase = true;
+                })
+                .AddEntityFrameworkStores<MyBlogContext>()
+                .AddDefaultTokenProviders();
             return services;
         }
     }

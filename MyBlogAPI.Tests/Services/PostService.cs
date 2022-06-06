@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Post;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.Post;
+using MyBlogAPI.DTOs.Post;
 using MyBlogAPI.Services.PostService;
 using Xunit;
 
@@ -24,16 +25,16 @@ namespace MyBlogAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new MyBlogAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db), new CategoryRepository(_fixture.Db),
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new CategoryRepository(_fixture.Db),
                 new TagRepository(_fixture.Db));
         }
 
         [Fact]
-        public async void AddPost()
+        public async Task AddPost()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPost@email.com", Password = "1234", Username = "AddPost" });
+                new User() { Email = "AddPost@email.com", Password = "1234", UserName = "AddPost" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddPost" });
             _fixture.UnitOfWork.Save();
@@ -51,13 +52,13 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithAlreadyExistingName()
+        public async Task AddPostWithAlreadyExistingName()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostAlreadyName@email.com", Password = "1234", Username = "AddPostAlName" });
+                new User() { Email = "AddPostAlreadyName@email.com", Password = "1234", UserName = "AddPostAlName" });
             var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostAlreadyName@email.com", Password = "1234", Username = "AddPostAlName2" });
+                new User() { Email = "AddPostAlreadyName@email.com", Password = "1234", UserName = "AddPostAlName2" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddPostAlName" });
             _fixture.UnitOfWork.Save();
@@ -71,11 +72,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithTooLongName()
+        public async Task AddPostWithTooLongName()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostTooLongName@email.com", Password = "1234", Username = "AddPostTooName" });
+                new User() { Email = "AddPostTooLongName@email.com", Password = "1234", UserName = "AddPostTooName" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddPostLoName" });
             _fixture.UnitOfWork.Save();
@@ -89,18 +90,18 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetPostNotFound()
+        public async Task GetPostNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPost(685479));
         }
 
         [Fact]
-        public async void UpdatePostOnlyOneProperty()
+        public async Task UpdatePostOnlyOneProperty()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdatePostOnlyOneProperty@email.com", Password = "1234", Username = "UptPstOnlyOProp" });
+                new User() { Email = "UpdatePostOnlyOneProperty@email.com", Password = "1234", UserName = "UptPstOnlyOProp" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UptPstOnlyOProp" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -140,7 +141,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddNullPost()
+        public async Task AddNullPost()
         {
 
             // Arrange & Act & Assert
@@ -148,7 +149,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateNullPost()
+        public async Task UpdateNullPost()
         {
 
             // Arrange & Act & Assert
@@ -156,11 +157,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithTwoTimesSameTag()
+        public async Task AddPostWithTwoTimesSameTag()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPstWiTwTiSaT@email.com", Password = "1234", Username = "AddPstWiTwTiSaT" });
+                new User() { Email = "AddPstWiTwTiSaT@email.com", Password = "1234", UserName = "AddPstWiTwTiSaT" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddPstWiTwTiSaT" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -177,11 +178,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithInvalidTags()
+        public async Task AddPostWithInvalidTags()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPstWithInvTags@email.com", Password = "1234", Username = "AddPstWithInvTags" });
+                new User() { Email = "AddPstWithInvTags@email.com", Password = "1234", UserName = "AddPstWithInvTags" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddPstWithInvTags" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -198,11 +199,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithNullContent()
+        public async Task AddPostWithNullContent()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddPostWithNullContent@email.com", Password = "1234", Username = "AddPstWiNullCnt" });
+                new User() { Email = "AddPostWithNullContent@email.com", Password = "1234", UserName = "AddPstWiNullCnt" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "AddPstWiNullCnt" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -221,13 +222,13 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithNullName()
+        public async Task AddPostWithNullName()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
                 new User()
                 {
-                    EmailAddress = "AddPostWithNullName@email.com", Password = "1234", Username = "AddPstWiNullNa"
+                    Email = "AddPostWithNullName@email.com", Password = "1234", UserName = "AddPstWiNullNa"
                 });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() {Name = "AddPstWiNullNa"});
@@ -247,7 +248,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithNullAuthor()
+        public async Task AddPostWithNullAuthor()
         {
             // Arrange
             var category = await _fixture.Db.Categories.AddAsync(
@@ -268,15 +269,15 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddPostWithNullCategory()
+        public async Task AddPostWithNullCategory()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
                 new User()
                 {
-                    EmailAddress = "AddPostWithNullCa@email.com",
+                    Email = "AddPostWithNullCa@email.com",
                     Password = "1234",
-                    Username = "AddPstWiNullCa"
+                    UserName = "AddPstWiNullCa"
                 });
             var tag1 = await _fixture.Db.Tags.AddAsync(
                 new Tag() { Name = "AddPstWiNullCa" });
@@ -294,11 +295,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePostInvalid()
+        public async Task UpdatePostInvalid()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() {EmailAddress = "UpdatePostInvalid@email.com", Password = "1234", Username = "UpdatePostInvalid" });
+                new User() {Email = "UpdatePostInvalid@email.com", Password = "1234", UserName = "UpdatePostInvalid" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() {Name = "UpdatePostInv"});
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -322,11 +323,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePostMissingName()
+        public async Task UpdatePostMissingName()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdatePostMissingName@email.com", Password = "1234", Username = "UpPostMisName" });
+                new User() { Email = "UpdatePostMissingName@email.com", Password = "1234", UserName = "UpPostMisName" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpPostMisName" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -349,11 +350,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePostMissingContent()
+        public async Task UpdatePostMissingContent()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdatePostMissingContent@email.com", Password = "1234", Username = "UpPostMisContent" });
+                new User() { Email = "UpdatePostMissingContent@email.com", Password = "1234", UserName = "UpPostMisContent" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpPostMisContent" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -376,11 +377,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetPost()
+        public async Task GetPost()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetPost@email.com", Password = "1234", Username = "GetPost" });
+                new User() { Email = "GetPost@email.com", Password = "1234", UserName = "GetPost" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetPost" });
             _fixture.UnitOfWork.Save();
@@ -398,11 +399,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePost()
+        public async Task UpdatePost()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdatePost@email.com", Password = "1234", Username = "UpdatePost" });
+                new User() { Email = "UpdatePost@email.com", Password = "1234", UserName = "UpdatePost" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpdatePost" });
             var tag1 = await _fixture.Db.Tags.AddAsync(
@@ -432,11 +433,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePostNotFound()
+        public async Task UpdatePostNotFound()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpdatePostNotFound@email.com", Password = "1234", Username = "UpdatePostNotFound" });
+                new User() { Email = "UpdatePostNotFound@email.com", Password = "1234", UserName = "UpdatePostNotFound" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpdatePostNotFound" });
             _fixture.UnitOfWork.Save();
@@ -454,11 +455,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePostWithSomeUniqueExistingPropertiesFromAnotherPost()
+        public async Task UpdatePostWithSomeUniqueExistingPropertiesFromAnotherPost()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpPstWiSoUExtProp@email.com", Password = "1234", Username = "UpPstWiSoUExtProp" });
+                new User() { Email = "UpPstWiSoUExtProp@email.com", Password = "1234", UserName = "UpPstWiSoUExtProp" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpPstWiSoUExtProp" });
             _fixture.UnitOfWork.Save();
@@ -480,11 +481,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdatePostWithSameExistingProperties()
+        public async Task UpdatePostWithSameExistingProperties()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "UpPstWiSaExtProp@email.com", Password = "1234", Username = "UpPstWiSaExtProp" });
+                new User() { Email = "UpPstWiSaExtProp@email.com", Password = "1234", UserName = "UpPstWiSaExtProp" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "UpPstWiSaExtProp" });
             _fixture.UnitOfWork.Save();
@@ -512,11 +513,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeletePost()
+        public async Task DeletePost()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "DeletePost@email.com", Password = "1234", Username = "DeletePost" });
+                new User() { Email = "DeletePost@email.com", Password = "1234", UserName = "DeletePost" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "DeletePost" });
             _fixture.UnitOfWork.Save();
@@ -531,18 +532,18 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeletePostNotFound()
+        public async Task DeletePostNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeletePost(175574));
         }
 
         [Fact]
-        public async void GetAllPosts()
+        public async Task GetAllPosts()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetAllPosts@email.com", Password = "1234", Username = "GetAllPosts" });
+                new User() { Email = "GetAllPosts@email.com", Password = "1234", UserName = "GetAllPosts" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetAllPosts" });
             _fixture.UnitOfWork.Save();
@@ -569,11 +570,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetPostsFromCategory()
+        public async Task GetPostsFromCategory()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetPostsFromCategory@email.com", Password = "1234", Username = "GetPostsFromCat" });
+                new User() { Email = "GetPostsFromCategory@email.com", Password = "1234", UserName = "GetPostsFromCat" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetPostsFromCat" });
             _fixture.UnitOfWork.Save();
@@ -600,11 +601,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetPostsFromTag()
+        public async Task GetPostsFromTag()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetPostsFromTag@email.com", Password = "1234", Username = "GetPostsFromTag" });
+                new User() { Email = "GetPostsFromTag@email.com", Password = "1234", UserName = "GetPostsFromTag" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetPostsFromTag" });
             var tag = await _fixture.Db.Tags.AddAsync(new Tag() {Name = "GetPostsFromTag"});
@@ -632,11 +633,11 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetPostsFromUser()
+        public async Task GetPostsFromUser()
         {
             // Arrange
             var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "GetPostsFromUser@email.com", Password = "1234", Username = "GetPostsFromUser" });
+                new User() { Email = "GetPostsFromUser@email.com", Password = "1234", UserName = "GetPostsFromUser" });
             var category = await _fixture.Db.Categories.AddAsync(
                 new Category() { Name = "GetPostsFromUser" });
             var tag = await _fixture.Db.Tags.AddAsync(new Tag() { Name = "GetPostsFromUser" });

@@ -151,6 +151,8 @@ namespace DbAccess.Repositories
         /// <inheritdoc />
         public virtual Task RemoveRangeAsync(IEnumerable<TEntity> entities)
         {
+            if (entities == null)
+                throw new ArgumentNullException(nameof(entities));
             Context.Set<TEntity>().RemoveRange(entities);
             return Task.CompletedTask;
         }
@@ -185,6 +187,8 @@ namespace DbAccess.Repositories
         /// <inheritdoc />
         public virtual TEntity Add(TEntity entity)
         {
+            if (entity == null)
+                throw new ArgumentNullException(nameof(entity));
             return Context.Set<TEntity>().Add(entity).Entity;
         }
 

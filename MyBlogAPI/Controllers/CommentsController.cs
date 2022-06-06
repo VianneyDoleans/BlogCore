@@ -1,10 +1,13 @@
 ﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Like;
+using MyBlogAPI.Authorization.Permissions;
+using MyBlogAPI.DTOs.Comment;
+using MyBlogAPI.DTOs.Like;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Comment;
 using MyBlogAPI.Responses;
@@ -17,21 +20,25 @@ namespace MyBlogAPI.Controllers
     /// Controller used to expose Comment resources of the API.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class CommentsController : ControllerBase
     {
         private readonly ICommentService _commentService;
         private readonly ILikeService _likeService;
+        private readonly IAuthorizationService _authorizationService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentsController"/> class.
         /// </summary>
         /// <param name="commentService"></param>
         /// <param name="likeService"></param>
-        public CommentsController(ICommentService commentService, ILikeService likeService)
+        /// <param name="authorizationService"></param>
+        public CommentsController(ICommentService commentService, ILikeService likeService, IAuthorizationService authorizationService)
         {
             _commentService = commentService;
             _likeService = likeService;
+            _authorizationService = authorizationService;
         }
 
         /// <summary>
@@ -49,6 +56,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="content"></param>
         /// <returns></returns>
         [HttpGet()]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCommentDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int page = 1, 
             int size = 10, string authorUsername = null, string postParentName = null, string content = null)
@@ -72,6 +80,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(GetCommentDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -93,6 +102,10 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
+            var authorized = await _authorizationService.AuthorizeAsync(User, comment, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            if (!authorized.Succeeded)
+                return Forbid();
+
             return Ok(await _commentService.AddComment(comment));
         }
 
@@ -110,8 +123,10 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateComment(UpdateCommentDto comment)
         {
-            if (await _commentService.GetComment(comment.Id) == null)
-                return NotFound();
+            var authorized = await  _authorizationService.AuthorizeAsync(User, comment, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            if (!authorized.Succeeded)
+                return Forbid();
+
             await _commentService.UpdateComment(comment);
             return Ok();
         }
@@ -129,8 +144,11 @@ namespace MyBlogAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteComment(int id)
         {
-            if (await _commentService.GetComment(id) == null)
-                return NotFound();
+            var commentDto = await _commentService.GetComment(id);
+            var authorized = await _authorizationService.AuthorizeAsync(User, commentDto, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            if (!authorized.Succeeded)
+                return Forbid();
+
             await _commentService.DeleteComment(id);
             return Ok();
         }
@@ -144,6 +162,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Likes/")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<GetLikeDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetLikesFromComment(int id)

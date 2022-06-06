@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.FunctionalTests.GenericTests;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;
@@ -14,10 +14,10 @@ namespace MyBlogAPI.FunctionalTests.Controllers
         {
             var user = new AddUserDto()
             {
-                EmailAddress = Guid.NewGuid().ToString("N") + "@user.com",
-                Password = "abcdh",
+                Email = Guid.NewGuid().ToString("N") + "@user.com",
+                Password = "0a1234A@",
                 UserDescription = "My description",
-                Username = Guid.NewGuid().ToString()[..20]
+                UserName = Guid.NewGuid().ToString()[..20]
             };
             return await Helper.AddEntity(user);
         }
