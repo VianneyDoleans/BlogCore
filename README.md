@@ -10,7 +10,7 @@
 </p>
 
 [![build](https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml)
-[![codecov](https://codecov.io/gh/VianneyDoleans/MyBlog/branch/master/graph/badge.svg?token=8ZVXLGKHSL)](https://codecov.io/gh/VianneyDoleans/MyBlog)
+[![codecov](https://codecov.io/gh/VianneyDoleans/MyBlogAPI-NET-Core/branch/master/graph/badge.svg)](https://codecov.io/gh/VianneyDoleans/MyBlogAPI-NET-Core)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/VianneyDoleans/MyBlog/blob/master/LICENSE)
 
 ## Presentation
