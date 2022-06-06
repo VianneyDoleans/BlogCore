@@ -1,10 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Specifications;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.DTO.Role;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.Authorization.Attributes;
+using MyBlogAPI.DTOs.Role;
+using MyBlogAPI.DTOs.User;
 using MyBlogAPI.Filters;
 using MyBlogAPI.Filters.Role;
 using MyBlogAPI.Responses;
@@ -17,6 +21,7 @@ namespace MyBlogAPI.Controllers
     /// Controller used to expose Role resources of the API.
     /// </summary>
     [ApiController]
+    [Authorize]
     [Route("[controller]")]
     public class RolesController : ControllerBase
     {
@@ -45,6 +50,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="size"></param>
         /// <returns></returns>
         [HttpGet()]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetRoleDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int page = 1,
             int size = 10)
@@ -67,6 +73,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(GetRoleDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Get(int id)
@@ -83,6 +90,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpPost]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanCreate, PermissionTarget.Role)]
         [ProducesResponseType(typeof(GetRoleDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -100,6 +108,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="role"></param>
         /// <returns></returns>
         [HttpPut]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanUpdate, PermissionTarget.Role)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
@@ -112,6 +121,68 @@ namespace MyBlogAPI.Controllers
         }
 
         /// <summary>
+        /// Get permissions from an existing role.
+        /// </summary>
+        /// <remarks>
+        /// Get permissions from an existing role.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet("/Roles/{id:int}/Permissions")]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.Permission)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetPermissions(int id)
+        {
+            if (await _roleService.GetRole(id) == null)
+                return NotFound();
+            return Ok(JsonSerializer.Serialize(await _roleService.GetPermissionsAsync(id)));
+        }
+
+        /// <summary>
+        /// Add a permission to an existing role.
+        /// </summary>
+        /// <remarks>
+        /// Add a permission to an existing role.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <param name="permission"></param>
+        /// <returns></returns>
+        [HttpPost("/Roles/{id:int}/Permissions")]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanUpdate, PermissionTarget.Permission)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> AddPermission(int id, Permission permission)
+        {
+            if (await _roleService.GetRole(id) == null)
+                return NotFound();
+            await _roleService.AddPermissionAsync(id, permission);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Remove a permission to an existing role.
+        /// </summary>
+        /// <remarks>
+        /// Remove a permission to an existing role.
+        /// </remarks>
+        /// <param name="id"></param>
+        /// <param name="permission"></param>
+        /// <returns></returns>
+        [HttpDelete("/Roles/{id:int}/Permissions")]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanDelete, PermissionTarget.Permission)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
+        public async Task<IActionResult> RemovePermission(int id, Permission permission)
+        {
+            if (await _roleService.GetRole(id) == null)
+                return NotFound();
+            await _roleService.RemovePermissionAsync(id, permission);
+            return Ok();
+        }
+
+        /// <summary>
         /// Delete a role by giving its id.
         /// </summary>
         /// <remarks>
@@ -120,6 +191,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id:int}")]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanDelete, PermissionTarget.Role)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteRole(int id)
@@ -139,6 +211,7 @@ namespace MyBlogAPI.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id:int}/Users/")]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<GetUserDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUsersFromRole(int id)

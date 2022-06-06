@@ -24,13 +24,37 @@ namespace DbAccess.Repositories.User
         /// </summary>
         /// <param name="username"></param>
         /// <returns></returns>
-        Task<bool> UsernameAlreadyExists(string username);
+        Task<bool> UserNameAlreadyExists(string username);
 
         /// <summary>
         /// Method used to check if an emailAddress already exists inside database.
         /// </summary>
         /// <param name="emailAddress"></param>
         /// <returns></returns>
-        Task<bool> EmailAddressAlreadyExists(string emailAddress);
+        Task<bool> EmailAlreadyExists(string emailAddress);
+
+        /// <summary>
+        /// Check if password given is valid for this user (sign up).
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        Task<bool> CheckPasswordAsync(Data.POCO.User user, string password);
+
+        /// <summary>
+        /// Add a role to a user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        Task AddRoleToUser(Data.POCO.User user, Data.POCO.Role role);
+
+        /// <summary>
+        /// remove a role to a user.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        Task RemoveRoleToUser(Data.POCO.User user, Data.POCO.Role role);
     }
 }

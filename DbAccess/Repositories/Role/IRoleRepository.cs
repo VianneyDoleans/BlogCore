@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using DbAccess.Data.POCO.Permission;
 
 namespace DbAccess.Repositories.Role
 {
@@ -18,5 +19,28 @@ namespace DbAccess.Repositories.Role
         /// <param name="name"></param>
         /// <returns></returns>
         Task<bool> NameAlreadyExists(string name);
+
+        /// <summary>
+        /// Add a permission to an existing role.
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="permission"></param>
+        /// <returns></returns>
+        Task AddPermissionAsync(int roleId, Permission permission);
+
+        /// <summary>
+        /// Remove a permission from an existing role.
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <param name="permission"></param>
+        /// <returns></returns>
+        Task RemovePermissionAsync(int roleId, Permission permission);
+
+        /// <summary>
+        /// Get permissions from an existing role.
+        /// </summary>
+        /// <param name="roleId"></param>
+        /// <returns></returns>
+        Task<IEnumerable<Permission>> GetPermissionsAsync(int roleId);
     }
 }

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
+using DBAccess.Tests.Builders;
 using Xunit;
 
 namespace DBAccess.Tests.Repositories
@@ -19,17 +21,15 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddCommentAsync()
+        public async Task AddCommentAsync()
         {
             // Arrange
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "AddCommentAsync@email.com", Password = "1234", Username = "AddCommentAsync" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "AddCommentAsync" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "AddCommentAsync", Content = "AddCommentAsync", Category = category.Entity });
-            var testComment = new Comment()
-                {Author = await _fixture.Db.Users.FindAsync(1), PostParent = post.Entity, Content = "AddCommentAsync" };
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).Build();
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var testComment = new Comment() {Author = user, PostParent = post, Content = "AddCommentAsync" };
 
             // Act
             await commentRepository.AddAsync(testComment);
@@ -40,7 +40,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddNullCommentAsync()
+        public async Task AddNullCommentAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -50,20 +50,21 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetCommentAsync()
+        public async Task GetCommentAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+
             // Act
-            var result = await commentRepository.GetAsync(1);
+            var result = await commentRepository.GetAsync(testComment.Id);
 
             // Assert
-            Assert.True(result == await _fixture.Db.Comments.FindAsync(1));
+            Assert.True(result == await _fixture.Db.Comments.FindAsync(testComment.Id));
         }
 
         [Fact]
-        public async void GetCommentOutOfRangeAsync()
+        public async Task GetCommentOutOfRangeAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -73,7 +74,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -86,21 +87,12 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
             // Arrange
             var nbCommentsAtBeginning = _fixture.Db.Comments.Count();
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "ComRemoveAsync@email.com", Password = "1234", Username = "ComRemoveAsync" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComRemoveAsync" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComRemoveAsync", Content = "ComRemoveAsync", Category = category.Entity });
-            var testComment = new Comment()
-                {Author = await _fixture.Db.Users.FindAsync(1), PostParent = post.Entity, Content = "ComRemoveAsync" };
-
-            await commentRepository.AddAsync(testComment);
-            _fixture.UnitOfWork.Save();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCommentAfterAdded = _fixture.Db.Comments.Count();
 
             // Act
@@ -114,7 +106,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -127,15 +119,12 @@ namespace DBAccess.Tests.Repositories
         public void AddComment()
         {
             // Arrange
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "AddComment@email.com", Password = "1234", Username = "AddComment" });
-            var category = _fixture.Db.Categories.Add(new Category() { Name = "AddComment" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "AddComment", Content = "AddComment", Category = category.Entity });
-            _fixture.Db.Users.Add(user.Entity);
-            _fixture.Db.SaveChanges();
-            var testComment = new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "AddComment" };
+            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).Build();
+            var post = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var testComment = new Comment() { Author = user, PostParent = post, Content = "AddComment" };
 
             // Act
             commentRepository.Add(testComment);
@@ -170,7 +159,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -194,46 +183,14 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetASpecBasicCo@email.com", Password = "1234", Username = "GetASpecBasicCo" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetASpecBasicCo" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "GetASpecBasicCo", Content = "GetASpecBasicCo", Category = category.Entity });
-            _fixture.Db.Users.Add(user.Entity);
-            _fixture.Db.SaveChanges();
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "GetAsyncSpecification"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "GetAsyncSpecification2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "GetAsyncSpecification3"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "GetAsyncSpecification4"
-            };
-            commentRepository.Add(testComment);
-            commentRepository.Add(testComment2);
-            commentRepository.Add(testComment3);
-            commentRepository.Add(testComment4);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var testComment2 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build(); 
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
 
             // Act
             var result = await commentRepository.GetAsync(new IdSpecification<Comment>(testComment2.Id));
@@ -243,107 +200,52 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-               new User() { EmailAddress = "GetAWiTwoSpecCo@email.com", Password = "1234", Username = "GetAWiTwoSpecCo" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAWiTwoSpecCo" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "GetAWiTwoSpecCo", Content = "GetAWiTwoSpecCo", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncABSpecification"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAUSpecification2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAKSpecification3"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAKSpecification3164"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAKSpecification32"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAWSpecification4"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncABSpecification").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAUSpecification2").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAKSpecification3").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAKSpecification32").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAWSpecification4").Build();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAKSpecification3164").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("AK") & new ContentContainsSpecification<Comment>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().Content == testComment5.Content);
+            Assert.True(result.Count() == 1 && result.First().Content == testComment.Content);
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentTwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpecCo" });
-            var user2 = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentAnotherTwoSortsAndTwoSpec@email.com", Password = "1234", Username = "TwoSortsAndTwoSpecCo2" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "TwoSortsAndTwoSpecCo" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "CommentTwoSortsAndTwoSpec", Content = "TwoSortsAndTwoSpecComment", Category = category.Entity });
-            await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "TwwooGetAsyncWithTwoSortsComment" });
-            await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user2.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts2Comment" });
-            await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts3TwwooComment" });
-            var comment4 = await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user2.Entity, PostParent = post.Entity, Content = "AGetTwwooAsyncWithTwoSorts4Comment" });
-            await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user2.Entity, PostParent = post.Entity, Content = "GetAsyncTwwooWithTwoSorts5Comment" });
-            await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "GetAsyncWithTwoSorts6Comment" });
-            await _fixture.Db.Comments.AddAsync(
-                new Comment() { Author = user.Entity, PostParent = post.Entity, Content = "TwwooGetAsyncWithTwoorts7Comment" });
-            _fixture.UnitOfWork.Save();
+            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("TwoSortsAndTwoSpecCo").Build();
+            var user2 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("TwoSortsAndTwoSpecCo2").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("TwwooGetAsyncWithTwoSortsComment").WithAuthor(user).Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("GetAsyncWithTwoSorts2Comment").WithAuthor(user2).Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("GetAsyncWithTwoSorts3TwwooComment").WithAuthor(user).Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("GetAsyncTwwooWithTwoSorts5Comment").WithAuthor(user2).Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("GetAsyncWithTwoSorts6Comment").WithAuthor(user).Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("TwwooGetAsyncWithTwoorts7Comment").WithAuthor(user).Build();
+            var comment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("AGetTwwooAsyncWithTwoSorts4Comment").WithAuthor(user2).Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("WithTwoSorts")
                                                             & new ContentContainsSpecification<Comment>("Twwoo"), new PagingSpecification(0, 20),
-                new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Author.Username), SortingDirectionSpecification.Descending) &
+                new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Author.UserName), SortingDirectionSpecification.Descending) &
                 new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Content), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().Content == comment4.Entity.Content);
+            Assert.True(result.Count() == 4 && result.First().Content == comment.Content);
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -353,58 +255,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithAllArguments@email.com", Password = "1234", Username = "ComGetAWithAllArgs" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithAllArgs" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWithAllArgs", Content = "ComGetAWithAllArgs", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncABSpecificationWithAllArguments"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAUSpecification2WithAllArguments"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAKSpecification3WithAllArguments"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAKSpecification3WithAllArguments163"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAKSpecification3WithAllArguments2"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncAWSpecification4WithAllArguments"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncABSpecificationWithAllArguments").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAUSpecification2WithAllArguments").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAKSpecification3WithAllArguments").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAKSpecification3WithAllArguments163").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAWSpecification4WithAllArguments").Build();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncAKSpecification3WithAllArguments2").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("AK") &
@@ -415,62 +275,20 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().Content == testComment5.Content);
+            Assert.True(result.Count() == 2 && result.First().Content == testComment.Content);
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPagination@email.com", Password = "1234", Username = "GetAsyncWithPagination" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "GetAsyncWithPagination" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "GetAsyncWithPagination", Content = "GetAsyncWithPagination", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Comment1GetAsyncWithPagination1"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Comment1GetAsyncWithPagination2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Comment1GetAsyncWithPagination3"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Comment1GetAsyncWithPagination4"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Comment1GetAsyncWithPagination5"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Comment1GetAsyncWithPagination6"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Comment1GetAsyncWithPagination1").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Comment1GetAsyncWithPagination2").Build();
+            var testComment3 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Comment1GetAsyncWithPagination3").Build();
+            var testComment4 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Comment1GetAsyncWithPagination4").Build();
+            var testComment5 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Comment1GetAsyncWithPagination5").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Comment1GetAsyncWithPagination6").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("1GetAsyncWithPagination"),
@@ -490,58 +308,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CoGetAWithPagTaOfRg@email.com", Password = "1234", Username = "CoGetAWithPagTaOfRg" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "CoGetAWithPagTaOfRg" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "CoGetAWithPagTaOfRg", Content = "CoGetAWithPagTaOfRg", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeOutOfRange1"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeOutOfRange2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeOutOfRange3"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeOutOfRange4"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeOutOfRange5"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeOutOfRange6"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeOutOfRange1").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeOutOfRange2").Build();
+            var testComment3 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeOutOfRange3").Build();
+            var testComment5 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeOutOfRange4").Build();
+            var testComment6 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeOutOfRange5").Build();
+            var testComment4 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeOutOfRange6").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("GetAsyncWithPaginationTakeOutOfRange"),
@@ -563,58 +339,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPaginationTakeNegative@email.com", Password = "1234", Username = "ComGetAWithPagTakeNega" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithAllArgs" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWithAllArgs", Content = "ComGetAWithAllArgs", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeNegative1"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeNegative2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeNegative3"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeNegative4"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeNegative5"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationTakeNegative6"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeNegative1").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeNegative2").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeNegative3").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeNegative4").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeNegative5").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationTakeNegative6").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("GetAsyncWithPaginationTakeNegative"),
@@ -628,58 +362,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPaginationSkipNegative@email.com", Password = "1234", Username = "ComGetAWithPagSkipNega" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWithPagSkipNega" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWithPagSkipNega", Content = "ComGetAWithPagSkipNega", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipNegative"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipNegative2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipNegative3"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipNegative4"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipSkipNegative5"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipSkipNegative6"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipNegative").Build();
+            var testComment2 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipNegative2").Build();
+            var testComment3 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipNegative3").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipNegative4").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipSkipNegative5").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipSkipNegative6").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("GetAsyncWithPaginationSkipNegative"),
@@ -699,58 +391,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = await _fixture.Db.Users.AddAsync(
-                new User() { EmailAddress = "CommentGetAsyncWithPaginationSkipOutOfRange@email.com", Password = "1234", Username = "ComGetAWiPagSkipOfRa" });
-            var category = await _fixture.Db.Categories.AddAsync(new Category() { Name = "ComGetAWiPagSkipOfRa" });
-            var post = await _fixture.Db.Posts.AddAsync(
-                new Post() { Author = user.Entity, Name = "ComGetAWiPagSkipOfRa", Content = "ComGetAWiPagSkipOfRa", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipOutOfRange"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipOutOfRange2"
-            };
-            var testComment3 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipOutOfRange3"
-            };
-            var testComment5 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipOutOfRange4"
-            };
-            var testComment6 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipOutOfRange5"
-            };
-            var testComment4 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentGetAsyncWithPaginationSkipOutOfRange6"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            await commentRepository.AddAsync(testComment3);
-            await commentRepository.AddAsync(testComment4);
-            await commentRepository.AddAsync(testComment5);
-            await commentRepository.AddAsync(testComment6);
-            _fixture.UnitOfWork.Save();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipOutOfRange").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipOutOfRange2").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipOutOfRange3").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipOutOfRange4").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipOutOfRange5").Build();
+            new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("CommentGetAsyncWithPaginationSkipOutOfRange6").Build();
 
             // Act
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("GetAsyncWithPaginationSkipOutOfRange"),
@@ -769,19 +419,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Comments.Count();
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "CommentRemove@email.com", Password = "1234", Username = "CommentRemove" });
-            var category = _fixture.Db.Categories.Add(new Category() { Name = "CCommentGetRemove" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "CommentRemove", Content = "CommenRemove", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "Remove"
-            };
-            commentRepository.Add(testComment);
-            _fixture.UnitOfWork.Save();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Comments.Count();
 
             // Act
@@ -799,12 +437,13 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
 
             // Act
-            var result = commentRepository.Get(1);
+            var result = commentRepository.Get(testComment.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Comments.Find(1));
+            Assert.True(result == _fixture.Db.Comments.Find(testComment.Id));
         }
 
         [Fact]
@@ -828,7 +467,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
@@ -853,26 +492,8 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Comments.Count();
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var category = _fixture.Db.Categories.Add(new Category() { Name = "CommentRemoveRange" });
-            var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "CommentRemoveRange@email.com", Password = "1234", Username = "CommentGetRemoveRg" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "CommentRemoveRange", Content = "CommentRemoveRange", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentRemoveRange1"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentRemoveRange2"
-            };
-            commentRepository.Add(testComment);
-            commentRepository.Add(testComment2);
-            _fixture.UnitOfWork.Save();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var testComment2 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Comments.Count();
 
             // Act
@@ -886,31 +507,13 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Comments.Count();
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
-            var category = _fixture.Db.Categories.Add(new Category() { Name = "CommentRemoveRange" });
-            var user = _fixture.Db.Users.Add(
-                new User() { EmailAddress = "ComRemoveRangeAsync@email.com", Password = "1234", Username = "ComRemoveRgAsync" });
-            var post = _fixture.Db.Posts.Add(
-                new Post() { Author = user.Entity, Name = "ComRemoveRgAsync", Content = "ComRemoveRgAsync", Category = category.Entity });
-            var testComment = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentRemoveRangeAsync1"
-            };
-            var testComment2 = new Comment()
-            {
-                Author = user.Entity,
-                PostParent = post.Entity,
-                Content = "CommentRemoveRangeAsync2"
-            };
-            await commentRepository.AddAsync(testComment);
-            await commentRepository.AddAsync(testComment2);
-            _fixture.UnitOfWork.Save();
+            var testComment = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
+            var testComment2 = new CommentBuilder(commentRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Comments.Count();
 
             // Act

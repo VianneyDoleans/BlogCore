@@ -11,7 +11,7 @@ using DbAccess.Repositories.User;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Comment;
+using MyBlogAPI.DTOs.Comment;
 
 namespace MyBlogAPI.Services.CommentService
 {
@@ -59,7 +59,7 @@ namespace MyBlogAPI.Services.CommentService
         private async Task<bool> CommentAlreadyExistsWithSameProperties(UpdateCommentDto comment)
         {
             if (comment == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(comment));
             var commentDb = await _repository.GetAsync(comment.Id);
             return commentDb.Content == comment.Content &&
                    commentDb.Author.Id == comment.Author &&
@@ -70,7 +70,7 @@ namespace MyBlogAPI.Services.CommentService
         public async Task CheckCommentValidity(ICommentDto comment)
         {
             if (comment == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(comment));
             if (string.IsNullOrWhiteSpace(comment.Content))
                 throw new ArgumentException("Content cannot be null or empty.");
             if (await _userRepository.GetAsync(comment.Author) == null)

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Category;
 using DbAccess.Repositories.Comment;
 using DbAccess.Repositories.Like;
@@ -7,20 +8,22 @@ using DbAccess.Repositories.Post;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.Tag;
 using DbAccess.Repositories.User;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Category.Converters;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Comment.Converters;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Like.Converters;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.Post.Converters;
-using MyBlogAPI.DTO.Role;
-using MyBlogAPI.DTO.Role.Converters;
-using MyBlogAPI.DTO.Tag;
-using MyBlogAPI.DTO.Tag.Converters;
-using MyBlogAPI.DTO.User;
-using MyBlogAPI.DTO.User.Converters;
+using MyBlogAPI.DTOs.Category;
+using MyBlogAPI.DTOs.Category.Converters;
+using MyBlogAPI.DTOs.Comment;
+using MyBlogAPI.DTOs.Comment.Converters;
+using MyBlogAPI.DTOs.Like;
+using MyBlogAPI.DTOs.Like.Converters;
+using MyBlogAPI.DTOs.Permission;
+using MyBlogAPI.DTOs.Permission.Converters;
+using MyBlogAPI.DTOs.Post;
+using MyBlogAPI.DTOs.Post.Converters;
+using MyBlogAPI.DTOs.Role;
+using MyBlogAPI.DTOs.Role.Converters;
+using MyBlogAPI.DTOs.Tag;
+using MyBlogAPI.DTOs.Tag.Converters;
+using MyBlogAPI.DTOs.User;
+using MyBlogAPI.DTOs.User.Converters;
 
 namespace MyBlogAPI.Tests
 {
@@ -79,6 +82,11 @@ namespace MyBlogAPI.Tests
             CreateMap<UpdateCommentDto, Comment>().ConvertUsing(new UpdateCommentConverter(commentRepository, postRepository, userRepository));
             CreateMap<UpdateLikeDto, Like>().ConvertUsing(new UpdateLikeConverter(commentRepository, postRepository, userRepository));
             CreateMap<UpdatePostDto, Post>().ConvertUsing(new UpdatePostConverter(userRepository, categoryRepository));
+
+            CreateMap<Permission, PermissionDto>();
+            CreateMap<PermissionAction, PermissionActionDto>().ConvertUsing(new PermissionActionConverter());
+            CreateMap<PermissionRange, PermissionRangeDto>().ConvertUsing(new PermissionRangeConverter());
+            CreateMap<PermissionTarget, PermissionTargetDto>().ConvertUsing(new PermissionTargetConverter());
         }
     }
 }

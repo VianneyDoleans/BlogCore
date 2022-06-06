@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
+using DbAccess.Data.POCO;
+using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Role;
-using MyBlogAPI.DTO.Role;
+using MyBlogAPI.DTOs.Role;
 using MyBlogAPI.Services.RoleService;
 using Xunit;
 
@@ -18,12 +21,12 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db),
+            _service = new MyBlogAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db, _fixture.RoleManager),
                 mapper, _fixture.UnitOfWork);
         }
 
         [Fact]
-        public async void AddRole()
+        public async Task AddRole()
         {
             // Arrange
             var role = new AddRoleDto() {Name = "AddRoleTest1732"};
@@ -37,7 +40,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddRoleWithAlreadyExistingName()
+        public async Task AddRoleWithAlreadyExistingName()
         {
             // Arrange
             var role = new AddRoleDto()
@@ -51,7 +54,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddRoleWithTooLongName()
+        public async Task AddRoleWithTooLongName()
         {
             // Arrange
             var role = new AddRoleDto() { Name = "Ths is a long name !!" };
@@ -61,7 +64,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddRoleWithNullName()
+        public async Task AddRoleWithNullName()
         {
             // Arrange
             var role = new AddRoleDto();
@@ -71,7 +74,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddRoleWithEmptyName()
+        public async Task AddRoleWithEmptyName()
         {
             // Arrange
             var role = new AddRoleDto() { Name = "  " };
@@ -81,14 +84,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetRoleNotFound()
+        public async Task GetRoleNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetRole(685479));
         }
 
         [Fact]
-        public async void DeleteRole()
+        public async Task DeleteRole()
         {
             // Arrange
             var role = await _service.AddRole(new AddRoleDto()
@@ -104,14 +107,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeleteRoleNotFound()
+        public async Task DeleteRoleNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteRole(175574));
         }
 
         [Fact]
-        public async void GetAllRoles()
+        public async Task GetAllRoles()
         {
             // Arrange
             var roleToAdd = new AddRoleDto()
@@ -134,7 +137,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetRole()
+        public async Task GetRole()
         {
             // Arrange
             var roleToAdd = new AddRoleDto()
@@ -150,7 +153,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateRole()
+        public async Task UpdateRole()
         {
             // Arrange
             var role = await _service.AddRole(new AddRoleDto()
@@ -172,7 +175,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateRoleInvalid()
+        public async Task UpdateRoleInvalid()
         {
             // Arrange
             var role = await _service.AddRole(new AddRoleDto()
@@ -190,7 +193,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateRoleMissingName()
+        public async Task UpdateRoleMissingName()
         {
             // Arrange
             var role = await _service.AddRole(new AddRoleDto()
@@ -207,7 +210,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateRoleNotFound()
+        public async Task UpdateRoleNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateRole(new UpdateRoleDto()
@@ -215,7 +218,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateRoleWithSomeUniqueExistingUniquePropertiesFromAnotherRole()
+        public async Task UpdateRoleWithSomeUniqueExistingUniquePropertiesFromAnotherRole()
         {
             // Arrange
             await _service.AddRole(new AddRoleDto()
@@ -238,7 +241,7 @@ namespace MyBlogAPI.Tests.Services
 
 
         [Fact]
-        public async void UpdateRoleWithSameExistingProperties()
+        public async Task UpdateRoleWithSameExistingProperties()
         {
             // Arrange
             var role = await _service.AddRole(new AddRoleDto()
@@ -260,7 +263,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddNullRole()
+        public async Task AddNullRole()
         {
 
             // Arrange & Act & Assert
@@ -268,13 +271,127 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateNullRole()
+        public async Task UpdateNullRole()
         {
 
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateRole(null));
         }
 
+        [Fact]
+        public async Task AddPermissionAsync()
+        {
+            // Arrange
+            var role = new Role() { Name = "AddPermissionAsync" };
 
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act
+            await _service.AddPermissionAsync(roleId, permission);
+
+            // Assert
+            Assert.Contains(await _service.GetPermissionsAsync(roleId), x => 
+                x.PermissionAction.Id == (int)permission.PermissionAction && 
+                x.PermissionRange.Id == (int)permission.PermissionRange && 
+                x.PermissionTarget.Id == (int)permission.PermissionTarget);
+        }
+
+        [Fact]
+        public async Task AddPermissionAsyncToRoleDoesNotExists()
+        {
+            // Arrange
+            var role = new Role() { Name = " APeAsTRDNEx" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act && Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPermissionAsync(24162, permission));
+        }
+
+        [Fact]
+        public async Task RemovePermissionAsync()
+        {
+            // Arrange
+            var role = new Role() { Name = "RePeAsync" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act
+            await _service.AddPermissionAsync(roleId, permission);
+
+            // Assert
+            Assert.Contains(await _service.GetPermissionsAsync(roleId), x =>
+                x.PermissionAction.Id == (int)permission.PermissionAction &&
+                x.PermissionRange.Id == (int)permission.PermissionRange &&
+                x.PermissionTarget.Id == (int)permission.PermissionTarget);
+        }
+
+        [Fact]
+        public async Task RemovePermissionAsyncToRoleDoesNotExists()
+        {
+            // Arrange
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemovePermissionAsync(254121, permission));
+        }
+
+        [Fact]
+        public async Task GetPermissionsAsync()
+        {
+            // Arrange
+            var role = new Role() { Name = "GePeAsync" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+            await _service.AddPermissionAsync(roleId, permission);
+
+            // Act
+            var getPermissions = await _service.GetPermissionsAsync(roleId);
+
+            // Assert
+            Assert.Contains(getPermissions, x =>
+                x.PermissionAction.Id == (int)permission.PermissionAction &&
+                x.PermissionRange.Id == (int)permission.PermissionRange &&
+                x.PermissionTarget.Id == (int)permission.PermissionTarget);
+        }
+
+        [Fact]
+        public async Task GetPermissionsAsyncWithRoleDoesNotExist()
+        {
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPermissionsAsync(12312));
+        }
     }
 }

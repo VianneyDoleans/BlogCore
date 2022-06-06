@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO.Tag;
+using MyBlogAPI.DTOs.Tag;
 using MyBlogAPI.FunctionalTests.GenericTests;
 using MyBlogAPI.FunctionalTests.Helpers;
 using Xunit;

@@ -4,7 +4,7 @@ using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.User;
+using MyBlogAPI.DTOs.User;
 
 namespace MyBlogAPI.Services.UserService
 {
@@ -20,7 +20,17 @@ namespace MyBlogAPI.Services.UserService
 
         Task<GetUserDto> GetUser(int id);
 
+        Task<User> GetUserEntity(int id);
+
+        Task<GetUserDto> GetUser(string userName);
+
         Task<GetUserDto> AddUser(AddUserDto user);
+
+        Task AddUserRole(UserRoleDto userRole);
+
+        Task RemoveUserRole(UserRoleDto userRole);
+
+        Task<bool> SignIn(UserLoginDto userLogin);
 
         Task UpdateUser(UpdateUserDto user);
 

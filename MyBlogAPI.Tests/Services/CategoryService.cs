@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Data.POCO;
 using DbAccess.Repositories.Category;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Category;
+using MyBlogAPI.DTOs.Category;
 using MyBlogAPI.Services.CategoryService;
 using Xunit;
 
@@ -29,7 +30,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddCategory()
+        public async Task AddCategory()
         {
             // Arrange
             var category = new AddCategoryDto() {Name = "AddCategory"};
@@ -43,7 +44,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddCategoryWithEmptyName()
+        public async Task AddCategoryWithEmptyName()
         {
             // Arrange
             var category = new AddCategoryDto() { Name = "  " };
@@ -53,7 +54,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateCategory()
+        public async Task UpdateCategory()
         {
             // Arrange
             var category = new AddCategoryDto() { Name = "UpCategory" };
@@ -69,7 +70,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddCategoryWithAlreadyExistingName()
+        public async Task AddCategoryWithAlreadyExistingName()
         {
             // Arrange
             var category = new AddCategoryDto() { Name = " AddCategoryWiAlExName" };
@@ -80,7 +81,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddCategoryWithNullName()
+        public async Task AddCategoryWithNullName()
         {
             // Arrange
             var category = new AddCategoryDto();
@@ -90,7 +91,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddCategoryWithTooLongName()
+        public async Task AddCategoryWithTooLongName()
         {
             // Arrange
             var category = new AddCategoryDto() {Name = "AAAAAAAAAAAAAAAAAAAAAAAAAAlongNameForTestingPurpose" };
@@ -100,14 +101,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetCategoryNotFound()
+        public async Task GetCategoryNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetCategory(685479));
         }
 
         [Fact]
-        public async void DeleteCategory()
+        public async Task DeleteCategory()
         {
             // Arrange
             var category = await _service.AddCategory(new AddCategoryDto()
@@ -123,14 +124,14 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void DeleteCategoryNotFound()
+        public async Task DeleteCategoryNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteCategory(175574));
         }
 
         [Fact]
-        public async void GetAllCategories()
+        public async Task GetAllCategories()
         {
             // Arrange
             var categoryToAdd = new AddCategoryDto()
@@ -153,7 +154,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetCategories()
+        public async Task GetCategories()
         {
             // Arrange
             var categoryToAdd = new AddCategoryDto()
@@ -187,7 +188,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void GetCategory()
+        public async Task GetCategory()
         {
             // Arrange
             var categoryToAdd = new AddCategoryDto()
@@ -203,7 +204,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateCategoryInvalid()
+        public async Task UpdateCategoryInvalid()
         {
             // Arrange
             var category = await _service.AddCategory(new AddCategoryDto()
@@ -221,7 +222,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateCategoryMissingName()
+        public async Task UpdateCategoryMissingName()
         {
             // Arrange
             var category = await _service.AddCategory(new AddCategoryDto()
@@ -238,7 +239,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateCategoryNotFound()
+        public async Task UpdateCategoryNotFound()
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateCategory(new UpdateCategoryDto()
@@ -246,7 +247,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateCategoryWithSameExistingProperties()
+        public async Task UpdateCategoryWithSameExistingProperties()
         {
             // Arrange
             var category = await _service.AddCategory(new AddCategoryDto()
@@ -268,7 +269,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateCategoryWithSomeUniqueExistingPropertiesFromAnotherCategory()
+        public async Task UpdateCategoryWithSomeUniqueExistingPropertiesFromAnotherCategory()
         {
             // Arrange
             await _service.AddCategory(new AddCategoryDto()
@@ -290,7 +291,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void AddNullCategory()
+        public async Task AddNullCategory()
         {
 
             // Arrange & Act & Assert
@@ -298,7 +299,7 @@ namespace MyBlogAPI.Tests.Services
         }
 
         [Fact]
-        public async void UpdateNullCategory()
+        public async Task UpdateNullCategory()
         {
 
             // Arrange & Act & Assert

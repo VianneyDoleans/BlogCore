@@ -9,7 +9,7 @@ using DbAccess.Repositories.UnitOfWork;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Category;
+using MyBlogAPI.DTOs.Category;
 
 namespace MyBlogAPI.Services.CategoryService
 {
@@ -52,7 +52,7 @@ namespace MyBlogAPI.Services.CategoryService
         public void CheckCategoryValidity(ICategoryDto category)
         {
             if (category == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(category));
             if (string.IsNullOrWhiteSpace(category.Name))
                 throw new ArgumentException("Name cannot be null or empty.");
             if (category.Name.Length > 50)
@@ -85,7 +85,7 @@ namespace MyBlogAPI.Services.CategoryService
         private async Task<bool> CategoryAlreadyExistsWithSameProperties(UpdateCategoryDto category)
         {
             if (category == null)
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(category));
             var categoryDb = await _repository.GetAsync(category.Id);
             return categoryDb.Name == category.Name;
         }

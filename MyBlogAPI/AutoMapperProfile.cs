@@ -1,19 +1,22 @@
 ﻿using DbAccess.Data.POCO;
 using AutoMapper;
-using MyBlogAPI.DTO.Category;
-using MyBlogAPI.DTO.Category.Converters;
-using MyBlogAPI.DTO.Comment;
-using MyBlogAPI.DTO.Comment.Converters;
-using MyBlogAPI.DTO.Like;
-using MyBlogAPI.DTO.Like.Converters;
-using MyBlogAPI.DTO.Post;
-using MyBlogAPI.DTO.Post.Converters;
-using MyBlogAPI.DTO.Role;
-using MyBlogAPI.DTO.Role.Converters;
-using MyBlogAPI.DTO.Tag;
-using MyBlogAPI.DTO.Tag.Converters;
-using MyBlogAPI.DTO.User;
-using MyBlogAPI.DTO.User.Converters;
+using DbAccess.Data.POCO.Permission;
+using MyBlogAPI.DTOs.Category;
+using MyBlogAPI.DTOs.Category.Converters;
+using MyBlogAPI.DTOs.Comment;
+using MyBlogAPI.DTOs.Comment.Converters;
+using MyBlogAPI.DTOs.Like;
+using MyBlogAPI.DTOs.Like.Converters;
+using MyBlogAPI.DTOs.Permission;
+using MyBlogAPI.DTOs.Permission.Converters;
+using MyBlogAPI.DTOs.Post;
+using MyBlogAPI.DTOs.Post.Converters;
+using MyBlogAPI.DTOs.Role;
+using MyBlogAPI.DTOs.Role.Converters;
+using MyBlogAPI.DTOs.Tag;
+using MyBlogAPI.DTOs.Tag.Converters;
+using MyBlogAPI.DTOs.User;
+using MyBlogAPI.DTOs.User.Converters;
 
 namespace MyBlogAPI
 {
@@ -68,6 +71,11 @@ namespace MyBlogAPI
             CreateMap<UpdateCommentDto, Comment>().ConvertUsing<UpdateCommentConverter>();
             CreateMap<UpdateLikeDto, Like>().ConvertUsing<UpdateLikeConverter>();
             CreateMap<UpdatePostDto, Post>().ConvertUsing<UpdatePostConverter>();
+
+            CreateMap<Permission, PermissionDto>();
+            CreateMap<PermissionAction, PermissionActionDto>().ConvertUsing(new PermissionActionConverter());
+            CreateMap<PermissionRange, PermissionRangeDto>().ConvertUsing(new PermissionRangeConverter());
+            CreateMap<PermissionTarget, PermissionTargetDto>().ConvertUsing(new PermissionTargetConverter());
         }
     }
 }

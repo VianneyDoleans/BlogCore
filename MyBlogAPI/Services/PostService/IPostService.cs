@@ -4,7 +4,7 @@ using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTO.Post;
+using MyBlogAPI.DTOs.Post;
 
 namespace MyBlogAPI.Services.PostService
 {

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DbAccess.Data.POCO;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
+using DBAccess.Tests.Builders;
 using Xunit;
 
 namespace DBAccess.Tests.Repositories
@@ -19,73 +21,93 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void AddTagsAsync()
+        public async Task AddTagsAsync()
         {
+            // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
             var testTags = new Tag() { Name = "This is a test for tag"};
+
+            // Act
             await repository.AddAsync(testTags);
             _fixture.UnitOfWork.Save();
 
+            // Assert
             Assert.True(_fixture.Db.Tags.First(x => x.Name == testTags.Name) != null);
         }
 
         [Fact]
-        public async void AddNullTagsAsync()
+        public async Task AddNullTagsAsync()
         {
+            // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
 
+            // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await repository.AddAsync(null));
         }
 
         [Fact]
-        public async void GetTagsAsync()
+        public async Task GetTagsAsync()
         {
-            var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var result = await repository.GetAsync(1);
+            // Arrange
+            var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
 
-            Assert.True(result == await _fixture.Db.Tags.FindAsync(1));
+            // Act
+            var result = await tagRepository.GetAsync(testTag.Id);
+
+            // Assert
+            Assert.True(result == await _fixture.Db.Tags.FindAsync(testTag.Id));
         }
 
         [Fact]
-        public async void GetTagsOutOfRangeAsync()
+        public async Task GetTagsOutOfRangeAsync()
         {
+            // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
 
+            // Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await repository.GetAsync(100));
         }
 
         [Fact]
-        public async void GetAllAsync()
+        public async Task GetAllAsync()
         {
+            // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
+            
+            // Act
             var result = await repository.GetAllAsync();
 
+            // Assert
             Assert.True(result.Count() == _fixture.Db.Tags.Count());
         }
 
         [Fact]
-        public async void RemoveAsync()
+        public async Task RemoveAsync()
         {
+            // Arrange
             var nbTagsAtBeginning = _fixture.Db.Tags.Count();
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTags = new Tag() {Name = "This is a test tag"};
-
-            await tagRepository.AddAsync(testTags);
-            _fixture.UnitOfWork.Save();
+            var testTags = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
             var nbTagsAfterAdded = _fixture.Db.Tags.Count();
+
+            // Act
             await tagRepository.RemoveAsync(testTags);
             _fixture.UnitOfWork.Save();
+            
+            // Assert
             var nbTagsAfterRemoved = _fixture.Db.Tags.Count();
-
             Assert.True(nbTagsAtBeginning + 1 == nbTagsAfterAdded &&
                         nbTagsAfterRemoved == nbTagsAtBeginning);
         }
 
         [Fact]
-        public async void RemoveNullAsync()
+        public async Task RemoveNullAsync()
         {
+            // Arrange
             var repository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
 
+            // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await repository.RemoveAsync(null));
         }
 
@@ -132,7 +154,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void CountAllAsync()
+        public async Task CountAllAsync()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -156,105 +178,53 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncSpecificationBasic()
+        public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            _fixture.Db.SaveChanges();
-            var testTag = new Tag()
-            {
-                Name = "TagGetAsyncSpecification"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagGetAsyncSpecification2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "TagGetAsyncSpecification3"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "TagGetAsyncSpecification4"
-            };
-            tagRepository.Add(testTag);
-            tagRepository.Add(testTag2);
-            tagRepository.Add(testTag3);
-            tagRepository.Add(testTag4);
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
 
             // Act
-            var result = await tagRepository.GetAsync(new IdSpecification<Tag>(testTag2.Id));
+            var result = await tagRepository.GetAsync(new IdSpecification<Tag>(testTag.Id));
 
             // Assert
-            Assert.True(result.First().Id == testTag2.Id);
+            Assert.True(result.First().Id == testTag.Id);
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSpecifications()
+        public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            _fixture.Db.SaveChanges();
-            var testTag = new Tag()
-            {
-                Name = "GetAWiTwoSpecTag"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "GetAWiTwoSpecAKTag2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "AKGetAWiTwoSpecTag3"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "GetAWiTwoSpecPst4"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "GetAWiTwoSpecTagAK5164"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "GetAWiTwoSpecTag6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAWiTwoSpecTag").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAWiTwoSpecAKTag2").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("AKGetAWiTwoSpecTag3").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAWiTwoSpecPst4").Build();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAWiTwoSpecTagAK5164").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAWiTwoSpecTag6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("AK") & new NameContainsSpecification<Tag>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().Name == testTag5.Name);
+            Assert.True(result.Count() == 1 && result.First().Name == testTag.Name);
         }
 
         [Fact]
-        public async void GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
+        public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "TwwooGetAsyncWithTwoSortsTag" });
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "GetAsyncWithTwoSorts2Tag" });
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "GetAsyncWithTwoSorts3TwwooTag" });
-            var tag4 = await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "AGetTwwooAsyncWithTwoSorts4Tag" });
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "GetAsyncTwwooWithTwoSorts5Tag" });
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "GetAsyncWithTwoSorts6Tag" });
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "TGetAsyncWithTwoorts7Tag" });
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TwwooGetAsyncWithTwoSortsTag").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAsyncWithTwoSorts2Tag").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAsyncWithTwoSorts3TwwooTag").Build();
+            var tag = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("AGetTwwooAsyncWithTwoSorts4Tag").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAsyncTwwooWithTwoSorts5Tag").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("GetAsyncWithTwoSorts6Tag").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TGetAsyncWithTwoorts7Tag").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("WithTwoSorts")
@@ -263,11 +233,11 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<Tag>(new OrderBySpecification<Tag>(x => x.Name), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().Name == tag4.Entity.Name);
+            Assert.True(result.Count() == 4 && result.First().Name == tag.Name);
         }
 
         [Fact]
-        public async void GetAsyncWithNoArgument()
+        public async Task GetAsyncWithNoArgument()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -277,41 +247,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithAllArguments()
+        public async Task GetAsyncWithAllArguments()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "TagGetAsyncWithAllArguments"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagGetAsyncAKWithAllArguments2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "TagGetAsyncAkWithAllArguments3"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "TagGetAsyncWithAllArguments4"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "TagAKGetAsyncWithAllArguments5"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "TagGetAsyncWithAllArguments6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithAllArguments").Build();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncAKWithAllArguments2").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncAkWithAllArguments3").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithAllArguments4").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagAKGetAsyncWithAllArguments5").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithAllArguments6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("AK") &
@@ -322,47 +267,20 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().Name == testTag2.Name);
+            Assert.True(result.Count() == 2 && result.First().Name == testTag.Name);
         }
 
         [Fact]
-        public async void GetAsyncWithPagination()
+        public async Task GetAsyncWithPagination()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "GetAsyncWithPagination" });
-            var testTag = new Tag()
-            {
-                Name = "Tag1GetAsyncWithPagination1"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "Tag1GetAsyncWithPagination2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "Tag1GetAsyncWithPagination3"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "Tag1GetAsyncWithPagination4"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "Tag1GetAsyncWithPagination5"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "Tag1GetAsyncWithPagination6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("Tag1GetAsyncWithPagination1").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("Tag1GetAsyncWithPagination2").Build();
+            var testTag3 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("Tag1GetAsyncWithPagination3").Build();
+            var testTag4 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("Tag1GetAsyncWithPagination4").Build();
+            var testTag5 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("Tag1GetAsyncWithPagination5").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("Tag1GetAsyncWithPagination6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("1GetAsyncWithPagination"),
@@ -382,41 +300,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeOutOfRange()
+        public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeOutOfRange1"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeOutOfRange2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeOutOfRange3"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeOutOfRange4"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeOutOfRange5"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeOutOfRange6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeOutOfRange1").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeOutOfRange2").Build();
+            var testTag3 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeOutOfRange3").Build();
+            var testTag5 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeOutOfRange4").Build();
+            var testTag6 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeOutOfRange5").Build();
+            var testTag4 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeOutOfRange6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("GetAsyncWithPaginationTakeOutOfRange"),
@@ -438,41 +331,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationTakeNegative()
+        public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeNegative1"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeNegative2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeNegative3"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeNegative4"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeNegative5"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationTakeNegative6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeNegative1").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeNegative2").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeNegative3").Build(); 
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeNegative4").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeNegative5").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationTakeNegative6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("GetAsyncWithPaginationTakeNegative"),
@@ -486,43 +354,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipNegative()
+        public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            await _fixture.Db.Tags.AddAsync(
-                new Tag() { Name = "ComGetAWithPagSkipNega" });
-            var testTag = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipNegative"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipNegative2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipNegative3"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipNegative4"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipSkipNegative5"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipSkipNegative6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipNegative").Build();
+            var testTag2 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipNegative2").Build();
+            var testTag3 = new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipNegative3").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipNegative4").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipNegative5").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipNegative6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("GetAsyncWithPaginationSkipNegative"),
@@ -542,41 +383,16 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void GetAsyncWithPaginationSkipOutOfRange()
+        public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
-            var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipOutOfRange"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipOutOfRange2"
-            };
-            var testTag3 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipOutOfRange3"
-            };
-            var testTag5 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipOutOfRange4"
-            };
-            var testTag6 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipOutOfRange5"
-            };
-            var testTag4 = new Tag()
-            {
-                Name = "TagGetAsyncWithPaginationSkipOutOfRange6"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            await tagRepository.AddAsync(testTag3);
-            await tagRepository.AddAsync(testTag4);
-            await tagRepository.AddAsync(testTag5);
-            await tagRepository.AddAsync(testTag6);
-            _fixture.UnitOfWork.Save();
+            var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db); 
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipOutOfRange").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipOutOfRange2").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipOutOfRange3").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipOutOfRange4").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipOutOfRange5").Build();
+            new TagBuilder(tagRepository, _fixture.UnitOfWork).WithName("TagGetAsyncWithPaginationSkipOutOfRange6").Build();
 
             // Act
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("GetAsyncWithPaginationSkipOutOfRange"),
@@ -595,12 +411,7 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Tags.Count();
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "RemoveTag"
-            };
-            tagRepository.Add(testTag);
-            _fixture.UnitOfWork.Save();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Tags.Count();
 
             // Act
@@ -618,12 +429,13 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
 
             // Act
-            var result = tagRepository.Get(1);
+            var result = tagRepository.Get(testTag.Id);
 
             // Act & Assert
-            Assert.True(result == _fixture.Db.Tags.Find(1));
+            Assert.True(result == _fixture.Db.Tags.Find(testTag.Id));
         }
 
         [Fact]
@@ -647,7 +459,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsyncNull()
+        public async Task RemoveRangeAsyncNull()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -672,17 +484,8 @@ namespace DBAccess.Tests.Repositories
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Tags.Count();
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "TagRemoveRange1"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagRemoveRange2"
-            };
-            tagRepository.Add(testTag);
-            tagRepository.Add(testTag2);
-            _fixture.UnitOfWork.Save();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            var testTag2 = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Tags.Count();
 
             // Act
@@ -696,22 +499,13 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void RemoveRangeAsync()
+        public async Task RemoveRangeAsync()
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Tags.Count();
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "TagRemoveRangeAsync1"
-            };
-            var testTag2 = new Tag()
-            {
-                Name = "TagRemoveRangeAsync2"
-            };
-            await tagRepository.AddAsync(testTag);
-            await tagRepository.AddAsync(testTag2);
-            _fixture.UnitOfWork.Save();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
+            var testTag2 = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Tags.Count();
 
             // Act
@@ -725,7 +519,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsFalse()
+        public async Task NameAlreadyExistsFalse()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -735,7 +529,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsNull()
+        public async Task NameAlreadyExistsNull()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
@@ -745,16 +539,11 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async void NameAlreadyExistsTrue()
+        public async Task NameAlreadyExistsTrue()
         {
             // Arrange
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
-            var testTag = new Tag()
-            {
-                Name = "NameAlreadyExistsTrue",
-            };
-            await tagRepository.AddAsync(testTag);
-            await _fixture.Db.SaveChangesAsync();
+            var testTag = new TagBuilder(tagRepository, _fixture.UnitOfWork).Build();
 
             // Act & Assert
             Assert.True(await tagRepository.NameAlreadyExists(testTag.Name));

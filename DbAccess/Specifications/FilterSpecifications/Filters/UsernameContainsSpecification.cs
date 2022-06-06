@@ -4,7 +4,7 @@ using DbAccess.Data.POCO.Interface;
 
 namespace DbAccess.Specifications.FilterSpecifications.Filters
 {
-    public class UsernameContainsSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasUsername
+    public class UsernameContainsSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasUserName
     {
         private readonly string _username;
 
@@ -13,6 +13,6 @@ namespace DbAccess.Specifications.FilterSpecifications.Filters
             _username = username;
         }
 
-        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.Username.Contains(_username);
+        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.UserName.Contains(_username);
     }
 }

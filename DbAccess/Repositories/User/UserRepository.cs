@@ -6,18 +6,23 @@ using DbAccess.DataContext;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications;
 using DbAccess.Specifications.SortSpecification;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DbAccess.Repositories.User
 {
     public class UserRepository : Repository<Data.POCO.User>, IUserRepository
     {
+        private readonly UserManager<Data.POCO.User> _userManager;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public UserRepository(MyBlogContext context) : base(context)
+        /// <param name="userManager"></param>
+        public UserRepository(MyBlogContext context, UserManager<Data.POCO.User> userManager) : base(context)
         {
+            _userManager = userManager;
         }
 
         /// <inheritdoc />
@@ -56,6 +61,37 @@ namespace DbAccess.Repositories.User
         }
 
         /// <inheritdoc />
+        public override async Task<Data.POCO.User> AddAsync(Data.POCO.User user)
+        {
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+            var result = await _userManager.CreateAsync(user, user.Password);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+            var getUserAddedByManagerWithoutUserRolePropertyNavigation = await _userManager.FindByNameAsync(user.UserName);
+            return await GetAsync(getUserAddedByManagerWithoutUserRolePropertyNavigation.Id);
+        }
+
+        /// <inheritdoc />
+        public override async Task RemoveAsync(Data.POCO.User user)
+        {
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        /// <inheritdoc />
+        public override async Task RemoveRangeAsync(IEnumerable<Data.POCO.User> users)
+        {
+            if (users == null)
+                throw new ArgumentNullException(nameof(users));
+            foreach (var user in users)
+            {
+                await RemoveAsync(user);
+            }
+        }
+
+        /// <inheritdoc />
         public override IEnumerable<Data.POCO.User> GetAll()
         {
             return Context.Set<Data.POCO.User>().Include(x => x.UserRoles).ToList();
@@ -76,26 +112,45 @@ namespace DbAccess.Repositories.User
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.User>> GetUsersFromRole(int id)
         {
-            var userRole = Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
+            var userRoles = await Context.Set<Data.POCO.JoiningEntity.UserRole>().Include(x => x.Role)
                 .Include(x => x.User)
-                .Where(x => x.RoleId == id);
-                var users = await userRole
-                .Select(y => y.User).ToListAsync();
-                return users;
+                .Where(x => x.RoleId == id).ToListAsync();
+            return userRoles.Select(y => y.User);
         }
 
         /// <inheritdoc />
-        public async Task<bool> UsernameAlreadyExists(string username)
+        public async Task<bool> UserNameAlreadyExists(string username)
         {
-            var user = await Context.Set<Data.POCO.User>().Where(x => x.Username == username).FirstOrDefaultAsync();
+            var user = await Context.Set<Data.POCO.User>().Where(x => x.UserName == username).FirstOrDefaultAsync();
             return user != null;
         }
 
         /// <inheritdoc />
-        public async Task<bool> EmailAddressAlreadyExists(string emailAddress)
+        public async Task<bool> EmailAlreadyExists(string emailAddress)
         {
-            var user = await Context.Set<Data.POCO.User>().Where(x => x.EmailAddress == emailAddress).FirstOrDefaultAsync();
+            var user = await Context.Set<Data.POCO.User>().Where(x => x.Email == emailAddress).FirstOrDefaultAsync();
             return user != null;
+        }
+
+        /// <inheritdoc />
+        public async Task<bool> CheckPasswordAsync(Data.POCO.User user, string password)
+        {
+            var userSigninResult = await _userManager.CheckPasswordAsync(user, password);
+            return userSigninResult;
+        }
+
+        public async Task AddRoleToUser(Data.POCO.User user, Data.POCO.Role role)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role.Name);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        public async Task RemoveRoleToUser(Data.POCO.User user, Data.POCO.Role role)
+        {
+            var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
+            if (!result.Succeeded)
+                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
     }
 }

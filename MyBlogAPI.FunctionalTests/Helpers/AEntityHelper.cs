@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MyBlogAPI.DTO;
+using MyBlogAPI.DTOs;
 using MyBlogAPI.Responses;
 using Newtonsoft.Json;
 
@@ -23,7 +23,7 @@ namespace MyBlogAPI.FunctionalTests.Helpers
             _client = client;
         }
 
-        public async Task<TGet> AddEntity(TAdd entity)
+        public virtual async Task<TGet> AddEntity(TAdd entity)
         {
             var json = JsonConvert.SerializeObject(entity);
             var httpResponse =
