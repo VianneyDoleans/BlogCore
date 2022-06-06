@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.Permission;
 using DbAccess.Repositories.Role;
 using MyBlogAPI.DTOs.Role;
@@ -275,6 +276,122 @@ namespace MyBlogAPI.Tests.Services
 
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateRole(null));
+        }
+
+        [Fact]
+        public async Task AddPermissionAsync()
+        {
+            // Arrange
+            var role = new Role() { Name = "AddPermissionAsync" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act
+            await _service.AddPermissionAsync(roleId, permission);
+
+            // Assert
+            Assert.Contains(await _service.GetPermissionsAsync(roleId), x => 
+                x.PermissionAction.Id == (int)permission.PermissionAction && 
+                x.PermissionRange.Id == (int)permission.PermissionRange && 
+                x.PermissionTarget.Id == (int)permission.PermissionTarget);
+        }
+
+        [Fact]
+        public async Task AddPermissionAsyncToRoleDoesNotExists()
+        {
+            // Arrange
+            var role = new Role() { Name = " APeAsTRDNEx" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act && Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPermissionAsync(24162, permission));
+        }
+
+        [Fact]
+        public async Task RemovePermissionAsync()
+        {
+            // Arrange
+            var role = new Role() { Name = "RePeAsync" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act
+            await _service.AddPermissionAsync(roleId, permission);
+
+            // Assert
+            Assert.Contains(await _service.GetPermissionsAsync(roleId), x =>
+                x.PermissionAction.Id == (int)permission.PermissionAction &&
+                x.PermissionRange.Id == (int)permission.PermissionRange &&
+                x.PermissionTarget.Id == (int)permission.PermissionTarget);
+        }
+
+        [Fact]
+        public async Task RemovePermissionAsyncToRoleDoesNotExists()
+        {
+            // Arrange
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemovePermissionAsync(254121, permission));
+        }
+
+        [Fact]
+        public async Task GetPermissionsAsync()
+        {
+            // Arrange
+            var role = new Role() { Name = "GePeAsync" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            var permission = new Permission()
+            {
+                PermissionAction = PermissionAction.CanCreate,
+                PermissionTarget = PermissionTarget.Tag,
+                PermissionRange = PermissionRange.All
+            };
+            await _service.AddPermissionAsync(roleId, permission);
+
+            // Act
+            var getPermissions = await _service.GetPermissionsAsync(roleId);
+
+            // Assert
+            Assert.Contains(getPermissions, x =>
+                x.PermissionAction.Id == (int)permission.PermissionAction &&
+                x.PermissionRange.Id == (int)permission.PermissionRange &&
+                x.PermissionTarget.Id == (int)permission.PermissionTarget);
+        }
+
+        [Fact]
+        public async Task GetPermissionsAsyncWithRoleDoesNotExist()
+        {
+            // Arrange & Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPermissionsAsync(12312));
         }
     }
 }

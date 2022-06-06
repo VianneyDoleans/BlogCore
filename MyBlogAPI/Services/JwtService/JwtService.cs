@@ -39,9 +39,6 @@ namespace MyBlogAPI.Services.JwtService
                 new(ClaimTypes.NameIdentifier, user.Id.ToString())
             };
 
-            //var roleClaims = roles.Select(r => new Claim(ClaimTypes.Role, r.Name));
-            //claims.AddRange(roleClaims);
-
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
             var expires = DateTime.Now.AddDays(Convert.ToDouble(_jwtSettings.ExpirationInDays));

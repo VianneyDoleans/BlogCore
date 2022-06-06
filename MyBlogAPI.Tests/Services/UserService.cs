@@ -512,5 +512,245 @@ namespace MyBlogAPI.Tests.Services
                                         x.UserDescription == user2.UserDescription &&
                                         x.Email == user2.Email);
         }
+
+        [Fact]
+        public async Task AddRoleToUser()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "AddRoleToUser@email.com",
+                UserName = "AddRoleToUser",
+            };
+            var role = new Role() { Name = "AddRoleToUser" };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            await _fixture.RoleManager.CreateAsync(role);
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () => await _service.AddUserRole(new UserRoleDto() {
+                RoleId = roleId, 
+                UserId = userId
+            }));
+
+            // Assert
+            Assert.Null(exception);
+            Assert.True((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles.Any());
+            Assert.Contains((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles, x => x.RoleId == roleId && x.UserId == userId);
+        }
+
+        [Fact]
+        public async Task AddRoleToUserWithUserAlreadyHaveTheRole()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "AddRToUWiUAlHaThR@email.com",
+                UserName = "AddRToUWiUAlHaTh",
+            };
+            var role = new Role() { Name = "AddRToUWiUAlHaTh" };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            await _fixture.RoleManager.CreateAsync(role);
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+            await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            });
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task AddRoleToUserWithRoleDoesNotExist()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "AddRToUsWiRoDoNoEx",
+                UserName = "AddRToUsWiRoDoNoEx@email.com",
+            };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = 78542,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task AddRoleToUserWithUserDoesNotExist()
+        {
+            // Arrange
+            var role = new Role() { Name = "AddRTUWithUDoNoEx" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = 323365
+            }));
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUser()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "ReRoleToUser@email.com",
+                UserName = "ReRoleToUser",
+            };
+            var role = new Role() { Name = "ReRoleToUser" };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            await _fixture.RoleManager.CreateAsync(role);
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id; 
+            await _service.AddUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            });
+
+            // Act
+            var exception = await Record.ExceptionAsync(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            }));
+
+            // Assert
+            Assert.Null(exception);
+            Assert.DoesNotContain((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles, x => x.RoleId == roleId && x.UserId == userId);
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUserWithRoleDoesNotExist()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "ReRToUWiUAlHaThR@email.com",
+                UserName = "ReRToUWiUAlHaTh",
+            };
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = 1234432,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUserWithUserDoesNotHaveTheRole()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "ReRToUsWiRoDoNoEx@email.com",
+                UserName = "ReRToUWiRoDoNEx",
+            };
+            var role = new Role() { Name = "ReRoleToUser" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            await _fixture.UserManager.CreateAsync(user, "1234Ab@a");
+            var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = userId
+            }));
+        }
+
+        [Fact]
+        public async Task RemoveRoleToUserWithUserDoesNotExist()
+        {
+            // Arrange
+            var role = new Role() { Name = "ReRTUWithUDoNoEx" };
+
+            await _fixture.RoleManager.CreateAsync(role);
+            var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            {
+                RoleId = roleId,
+                UserId = 323365
+            }));
+        }
+
+        [Fact]
+        public async Task SignIn()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "SignInTes",
+                UserName = "SignInTes@email.com",
+            };
+            const string password = "1234Ab@a";
+            await _fixture.UserManager.CreateAsync(user, password);
+
+            // Act
+            var isSignIn = await _service.SignIn(new UserLoginDto() { UserName = user.UserName, Password = password });
+
+            // Assert
+            Assert.True(isSignIn);
+        }
+
+        [Fact]
+        public async Task SignInNotCorrect()
+        {
+            // Arrange
+            var user = new User()
+            {
+                Email = "SignInTesNoCo",
+                UserName = "SignInTesNoCorrect@email.com",
+            };
+            const string password = "1234Ab@a";
+            await _fixture.UserManager.CreateAsync(user, password);
+
+            // Act
+            var isSignIn = await _service.SignIn(new UserLoginDto() { UserName = user.UserName, Password = "wrongPass1234Ab@a" });
+
+            // Assert
+            Assert.False(isSignIn);
+        }
+
+        [Fact]
+        public async Task SignInUserNameDoesNotExist()
+        {
+            // Arrange
+            const string password = "1234Ab@a";
+
+            // Act & Assert
+            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.SignIn(new UserLoginDto()
+                { UserName = Guid.NewGuid().ToString()[..20], Password = password }));
+        }
     }
 }
