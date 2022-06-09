@@ -36,10 +36,9 @@ namespace MyBlogAPI.Filters.Post
                 filter = new ContentContainsSpecification<DbAccess.Data.POCO.Post>(_content);
             if (_name != null)
             {
-                if (filter == null)
-                    filter = new NameContainsSpecification<DbAccess.Data.POCO.Post>(_name);
-                else
-                    filter &= new NameContainsSpecification<DbAccess.Data.POCO.Post>(_name);
+                filter = filter == null ?
+                    new NameContainsSpecification<DbAccess.Data.POCO.Post>(_name)
+                    : filter & new NameContainsSpecification<DbAccess.Data.POCO.Post>(_name);
             }
 
             return filter;
