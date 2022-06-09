@@ -47,11 +47,11 @@ namespace MyBlogAPI.Services.PostService
             }).ToList();
         }
 
-        public async Task<IEnumerable<GetPostDto>> GetPosts(FilterSpecification<Post> filter = null, 
-            PagingSpecification paging = null,
-            SortSpecification<Post> sort = null)
+        public async Task<IEnumerable<GetPostDto>> GetPosts(FilterSpecification<Post> filterSpecification = null, 
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Post> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetPostDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetPostDto>(x));
         }
 
         public async Task<int> CountPostsWhere(FilterSpecification<Post> filterSpecification = null)

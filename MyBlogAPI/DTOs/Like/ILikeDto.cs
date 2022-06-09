@@ -14,6 +14,6 @@ namespace MyBlogAPI.DTOs.Like
 
         public int? Post { get; set; }
 
-        public int User { get; set; }
+        public new int User { get; set; }
     }
 }

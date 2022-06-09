@@ -20,7 +20,7 @@ namespace MyBlogAPI.Services.LikeService
 
         Task<GetLikeDto> GetLike(int id);
 
-        Task<GetLikeDto> AddLike(AddLikeDto user);
+        Task<GetLikeDto> AddLike(AddLikeDto like);
 
         Task UpdateLike(UpdateLikeDto like);
 

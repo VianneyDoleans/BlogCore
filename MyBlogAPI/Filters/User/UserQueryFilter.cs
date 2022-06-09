@@ -39,17 +39,15 @@ namespace MyBlogAPI.Filters.User
                 filter = new LastLoginBeforeDateSpecification<DbAccess.Data.POCO.User>(_lastLoginBefore.Value);
             if (_registerBefore != null)
             {
-                if (_registerBefore == null)
-                    filter = new RegisterBeforeDateSpecification<DbAccess.Data.POCO.User>(_registerBefore.Value);
-                else
-                    filter &= new RegisterBeforeDateSpecification<DbAccess.Data.POCO.User>(_registerBefore.Value);
+                filter = filter == null ?
+                    new RegisterBeforeDateSpecification<DbAccess.Data.POCO.User>(_registerBefore.Value) 
+                    : filter & new RegisterBeforeDateSpecification<DbAccess.Data.POCO.User>(_registerBefore.Value);
             }
             if (_username != null)
             {
-                if (filter == null)
-                    filter = new UsernameContainsSpecification<DbAccess.Data.POCO.User>(_username);
-                else
-                    filter &= new UsernameContainsSpecification<DbAccess.Data.POCO.User>(_username);
+                filter = filter == null ?
+                    new UsernameContainsSpecification<DbAccess.Data.POCO.User>(_username) 
+                    : filter & new UsernameContainsSpecification<DbAccess.Data.POCO.User>(_username);
             }
 
             return filter;

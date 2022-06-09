@@ -1,9 +1,11 @@
 ﻿using DbAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Authorization.Attributes;
 
 namespace MyBlogAPI.Authorization.Permissions
 {
+    /// <summary>
+    /// Same as <see cref="PermissionRequirement"/> but with <see cref="PermissionRange"/> in addition (own or all resources).
+    /// </summary>
     public class PermissionWithRangeRequirement : IAuthorizationRequirement
     {
         public PermissionAction Permission { get; }
@@ -11,7 +13,7 @@ namespace MyBlogAPI.Authorization.Permissions
         public PermissionRange PermissionRange { get; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+        /// Initializes a new instance of the <see cref="PermissionWithRangeRequirement"/> class.
         /// </summary>
         /// <param name="permission"></param>
         /// <param name="permissionTarget"></param>

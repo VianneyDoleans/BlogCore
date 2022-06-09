@@ -9,9 +9,26 @@
   <a href="#getting-started">Getting Started</a>
 </p>
 
-[![build](https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml/badge.svg?branch=master)](https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml)
-[![codecov](https://codecov.io/gh/VianneyDoleans/MyBlog/branch/master/graph/badge.svg?token=8ZVXLGKHSL)](https://codecov.io/gh/VianneyDoleans/MyBlog)
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://github.com/VianneyDoleans/MyBlog/blob/master/LICENSE)
+<p align="center">
+  <a href="https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml">
+   <img src="https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml/badge.svg?branch=master" alt="build">
+  </a>
+    <a href="https://codecov.io/gh/VianneyDoleans/MyBlogAPI-NET-Core">
+   <img src="https://codecov.io/gh/VianneyDoleans/MyBlogAPI-NET-Core/branch/master/graph/badge.svg" alt="codecov">
+  </a>
+    <a href="https://github.com/VianneyDoleans/MyBlog/blob/master/LICENSE">
+   <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3">
+  </a>
+    <a href="https://sonarcloud.io/summary/new_code?id=VianneyDoleans_MyBlogAPI-NET-Core">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_MyBlogAPI-NET-Core&metric=security_rating" alt="Security Rating">
+  </a>
+    <a href="https://sonarcloud.io/summary/new_code?id=VianneyDoleans_MyBlogAPI-NET-Core">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_MyBlogAPI-NET-Core&metric=sqale_rating" alt="Maintainability Rating">
+  </a>
+    <a href="https://sonarcloud.io/summary/new_code?id=VianneyDoleans_MyBlogAPI-NET-Core">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_MyBlogAPI-NET-Core&metric=vulnerabilities" alt="Vulnerabilities">
+  </a>
+</p>
 
 ## Presentation
 

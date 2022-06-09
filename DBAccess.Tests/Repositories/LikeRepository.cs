@@ -233,7 +233,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await likeRepository.GetAsync(new UserUsernameContainsSpecification<Like>("GetAWiTwoSpecLi") & new UserUsernameContainsSpecification<Like>("4"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().User.Id == testLike.User.Id);
+            Assert.True(result.Count == 1 && result.First().User.Id == testLike.User.Id);
         }
 
         [Fact]
@@ -269,7 +269,7 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<Like>(new OrderBySpecification<Like>(x => x.User.UserName), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2);
+            Assert.True(result.Count == 2);
             Assert.Contains(result, x => x.Id == like3.Id);
             Assert.Contains(result, x => x.Id == like5.Id);
         }
@@ -281,7 +281,7 @@ namespace DBAccess.Tests.Repositories
             var likeRepository = new DbAccess.Repositories.Like.LikeRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.True((await likeRepository.GetAsync()).ToList().Count() == _fixture.Db.Likes.Count());
+            Assert.True((await likeRepository.GetAsync()).ToList().Count == _fixture.Db.Likes.Count());
         }
 
         [Fact]
@@ -319,7 +319,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().User.Email == "ELiGetAWiAllArg5@email.com");
+            Assert.True(result.Count == 2 && result.First().User.Email == "ELiGetAWiAllArg5@email.com");
             Assert.Contains(result, x => x.Id == like6.Id);
             Assert.Contains(result, x => x.Id == like4.Id);
         }
@@ -360,7 +360,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == like3.Id &&
                                          x.User.UserName == like3.User.UserName);
             Assert.Contains(result, x => x.Id == like4.Id &&
@@ -404,7 +404,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 5);
+            Assert.True(result.Count == 5);
             Assert.Contains(result, x => x.Id == like3.Id &&
                                          x.User.UserName == like3.User.UserName);
             Assert.Contains(result, x => x.Id == like4.Id &&
@@ -490,7 +490,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == like.Id &&
                                          x.User.UserName == like.User.UserName && like.LikeableType == LikeableType.Post);
             Assert.Contains(result, x => x.Id == like2.Id &&

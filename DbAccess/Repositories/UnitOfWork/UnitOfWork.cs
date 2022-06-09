@@ -3,7 +3,7 @@
 namespace DbAccess.Repositories.UnitOfWork
 {
     /// <inheritdoc />
-    public class UnitOfWork : IUnitOfWork
+    public sealed class UnitOfWork : IUnitOfWork
     {
         private readonly MyBlogContext _context;
 

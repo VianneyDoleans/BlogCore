@@ -3,7 +3,12 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>65fa69ad-3a02-4d2e-aca9-07a999f3ec23</UserSecretsId>
+    <CodeAnalysisRuleSet>..\.sonarlint\vianneydoleans_myblogapi-net-corecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\vianneydoleans_myblogapi-net-core\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="11.0.1" />

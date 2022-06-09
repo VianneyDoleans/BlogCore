@@ -15,6 +15,7 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Attributes
         private readonly IRoleService _roleService;
         private readonly IMapper _mapper;
 
+        /// <inheritdoc />
         public PermissionWithRangeAuthorizationHandler(IUserService userService, IRoleService roleService, IMapper mapper)
         {
             _userService = userService;
@@ -22,6 +23,7 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Attributes
             _mapper = mapper;
         }
 
+        /// <inheritdoc />
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
             foreach (var req in context.Requirements.OfType<PermissionWithRangeRequirement>())
@@ -30,6 +32,7 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Attributes
             }
         }
 
+        /// <inheritdoc />
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionWithRangeRequirement withRangeRequirement)
         {
             var userId = context.User.Claims

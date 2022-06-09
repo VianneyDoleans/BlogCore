@@ -11,7 +11,7 @@ namespace DbAccess.Data.POCO.Permission
     /// Admin can update all resource (not only own).
     /// Etc.
     /// </example>
-    public class Permission : IEquatable<Permission>
+    public sealed class Permission : IEquatable<Permission>
     {
         public  PermissionAction PermissionAction { get; set; }
 

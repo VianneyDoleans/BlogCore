@@ -38,11 +38,11 @@ namespace MyBlogAPI.Services.CommentService
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCommentDto>(x)).ToList();
         }
 
-        public async Task<IEnumerable<GetCommentDto>> GetComments(FilterSpecification<Comment> filter = null,
-            PagingSpecification paging = null,
-            SortSpecification<Comment> sort = null)
+        public async Task<IEnumerable<GetCommentDto>> GetComments(FilterSpecification<Comment> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Comment> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCommentDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetCommentDto>(x));
         }
 
         public async Task<int> CountCommentsWhere(FilterSpecification<Comment> filterSpecification = null)
