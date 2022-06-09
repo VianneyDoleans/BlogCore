@@ -16,10 +16,24 @@
             <param name="permission"></param>
             <param name="permissionTarget"></param>
         </member>
+        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.HandleAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement)">
+            <inheritdoc />
+        </member>
         <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1">
             <summary>
-            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="!:HasAllPermissionRangeAuthorizationHandler&lt;TEntity&gt;"/>.
+            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
+            <example>
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            </example>
             <typeparam name="TDto"></typeparam>
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
@@ -30,8 +44,13 @@
         </member>
         <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1">
             <summary>
-            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="!:HasAllPermissionRangeAuthorizationHandler&lt;TEntity&gt;"/>.
+            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
+            <example>
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            </example>
             <typeparam name="TDto"></typeparam>
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
@@ -39,6 +58,16 @@
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler">
+            <summary>
+            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            </summary>
+            <example>
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            </example>
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
@@ -51,11 +80,11 @@
             Authorization Handler used to authorize a resource when the <see cref="T:DbAccess.Data.POCO.User"/> have <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> permission on this Type of resource.
             </summary>
             <example>
-            user "ModeratorName" have permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
+            user "ModeratorName" has a role that has the permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
             => This handler requirement will succeed if this user ask authorization to delete a comment.
             </example>
             <example>
-            user "classicUser" doesn't have permission "PermissionRange.All, PermissionAction.Read, PermissionTarget.Role"
+            user "classicUser" doesn't have a role that has permission "PermissionRange.All, PermissionAction.Read, PermissionTarget.Role"
             => This handler requirement won't succeed if this user ask authorization to read (GET) a role.
             </example>
         </member>
@@ -67,8 +96,14 @@
         </member>
         <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1">
             <summary>
-            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1"/>.
+            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
+            <example>
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            </example>
+            <typeparam name="TEntity"></typeparam>
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
@@ -78,8 +113,14 @@
         </member>
         <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1">
             <summary>
-            Authorization Handler which combine <see cref="!:OwnershipAuthorizationHandler&lt;TEntity&gt;"/> and <see cref="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1"/>.
+            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
+            <example>
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            </example>
+            <typeparam name="TEntity"></typeparam>
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
@@ -87,22 +128,54 @@
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
         </member>
+        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler">
+            <summary>
+            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            </summary>
+            <example>
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            </example>
+        </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
         <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,DbAccess.Data.POCO.User)">
             <inheritdoc />
         </member>
+        <member name="T:MyBlogAPI.Authorization.PermissionPolicyProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:MyBlogAPI.Authorization.PermissionPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authorization.AuthorizationOptions})">
+            <inheritdoc />
+        </member>
+        <member name="M:MyBlogAPI.Authorization.PermissionPolicyProvider.GetPolicyAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:MyBlogAPI.Authorization.Permissions.PermissionRequirement">
+            <summary>
+            Permission requirement used to describe an action (can read, can write, can delete, ...) (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>)
+             on a resource (category, comment, like, ...) (<see cref="P:MyBlogAPI.Authorization.Permissions.PermissionRequirement.PermissionTarget"/>)
+            </summary>
+        </member>
         <member name="M:MyBlogAPI.Authorization.Permissions.PermissionRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Permissions.PermissionRequirement"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>
         </member>
+        <member name="T:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement">
+            <summary>
+            Same as <see cref="T:MyBlogAPI.Authorization.Permissions.PermissionRequirement"/> but with <see cref="P:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement.PermissionRange"/> in addition (own or all resources).
+            </summary>
+        </member>
         <member name="M:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget,DbAccess.Data.POCO.Permission.PermissionRange)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>

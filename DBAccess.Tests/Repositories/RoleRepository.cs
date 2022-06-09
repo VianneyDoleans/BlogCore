@@ -243,7 +243,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await roleRepository.GetAsync(new NameContainsSpecification<Role>("AK") & new NameContainsSpecification<Role>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().Name == testRole5.Name);
+            Assert.True(result.Count == 1 && result.First().Name == testRole5.Name);
         }
 
         [Fact]
@@ -274,7 +274,7 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<Role>(new OrderBySpecification<Role>(x => x.Name), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().Name == role4.Entity.Name);
+            Assert.True(result.Count == 4 && result.First().Name == role4.Entity.Name);
         }
 
         [Fact]
@@ -284,7 +284,7 @@ namespace DBAccess.Tests.Repositories
             var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
-            Assert.True((await roleRepository.GetAsync()).ToList().Count() == _fixture.Db.Roles.Count());
+            Assert.True((await roleRepository.GetAsync()).ToList().Count == _fixture.Db.Roles.Count());
         }
 
         [Fact]
@@ -333,7 +333,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().Name == testRole2.Name);
+            Assert.True(result.Count == 2 && result.First().Name == testRole2.Name);
         }
 
         [Fact]
@@ -383,7 +383,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testRole3.Id &&
                                          x.Name == testRole3.Name);
             Assert.Contains(result, x => x.Id == testRole4.Id &&
@@ -437,7 +437,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4);
+            Assert.True(result.Count == 4);
             Assert.Contains(result, x => x.Id == testRole3.Id &&
                                          x.Name == testRole3.Name);
             Assert.Contains(result, x => x.Id == testRole4.Id &&
@@ -543,7 +543,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testRole.Id &&
                                          x.Name == testRole.Name);
             Assert.Contains(result, x => x.Id == testRole2.Id &&

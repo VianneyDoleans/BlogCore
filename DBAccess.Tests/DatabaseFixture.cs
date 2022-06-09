@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DBAccess.Tests
 {
-    public class DatabaseFixture : IDisposable
+    public sealed class DatabaseFixture : IDisposable
     {
         public MyBlogContext Db { get; }
         public RoleManager<Role> RoleManager { get; }

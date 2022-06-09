@@ -123,7 +123,6 @@ namespace MyBlogAPI.Tests.Services
                 Email = "AddUserNullUsername@newEmail3.com",
                 Password = "AddUNullUs"
             };
-            //_fixture.UnitOfWork.Save();
 
             // Act && Assert
             await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));

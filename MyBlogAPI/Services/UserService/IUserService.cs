@@ -20,9 +20,9 @@ namespace MyBlogAPI.Services.UserService
 
         Task<GetUserDto> GetUser(int id);
 
-        Task<User> GetUserEntity(int id);
-
         Task<GetUserDto> GetUser(string userName);
+
+        Task<User> GetUserEntity(int id);
 
         Task<GetUserDto> AddUser(AddUserDto user);
 

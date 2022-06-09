@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
 using DbAccess.DataContext;
 using DbAccess.Specifications;
@@ -65,6 +64,16 @@ namespace DbAccess.Repositories
         }
 
         /// <inheritdoc />
+        public virtual async Task<IEnumerable<TEntity>> GetAsync(FilterSpecification<TEntity> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<TEntity> sortSpecification = null)
+        {
+
+            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
+            return await query.ToListAsync();
+        }
+
+        /// <inheritdoc />
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             return await Context.Set<TEntity>().ToListAsync();
@@ -114,16 +123,6 @@ namespace DbAccess.Repositories
         }
 
         /// <inheritdoc />
-        public virtual async Task<IEnumerable<TEntity>> GetAsync(FilterSpecification<TEntity> filterSpecification = null, 
-            PagingSpecification pagingSpecification = null,
-            SortSpecification<TEntity> sortSpecification = null)
-        {
-
-            var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
-            return await query.ToListAsync();
-        }
-
-        /// <inheritdoc />
         public async Task<int> CountWhereAsync(FilterSpecification<TEntity> filterSpecification = null)
         {
             var totalEntities = 0;
@@ -155,12 +154,6 @@ namespace DbAccess.Repositories
                 throw new ArgumentNullException(nameof(entities));
             Context.Set<TEntity>().RemoveRange(entities);
             return Task.CompletedTask;
-        }
-
-        /// <inheritdoc />
-        public Task<int> CountWhereAsync(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Context.Set<TEntity>().Where(predicate).CountAsync();
         }
 
         /// <inheritdoc />
@@ -202,12 +195,6 @@ namespace DbAccess.Repositories
         public virtual void RemoveRange(IEnumerable<TEntity> entities)
         {
             Context.Set<TEntity>().RemoveRange(entities);
-        }
-
-        /// <inheritdoc />
-        public int CountWhere(Expression<Func<TEntity, bool>> predicate)
-        {
-            return Context.Set<TEntity>().Where(predicate).Count();
         }
 
         /// <inheritdoc />

@@ -31,11 +31,11 @@ namespace MyBlogAPI.Services.CategoryService
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<GetCategoryDto>(x)).ToList();
         }
 
-        public async Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filter = null,
-            PagingSpecification paging = null,
-            SortSpecification<Category> sort = null)
+        public async Task<IEnumerable<GetCategoryDto>> GetCategories(FilterSpecification<Category> filterSpecification = null,
+            PagingSpecification pagingSpecification = null,
+            SortSpecification<Category> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetCategoryDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetCategoryDto>(x));
         }
 
         /// <inheritdoc />

@@ -19,7 +19,7 @@ namespace DbAccess.Specifications.FilterSpecifications
     /// <typeparam name="T"></typeparam>
     public abstract class FilterSpecification<T>
     {
-        private class ConstructedSpecification<TType> : FilterSpecification<TType>
+        private sealed class ConstructedSpecification<TType> : FilterSpecification<TType>
         {
             public ConstructedSpecification(Expression<Func<TType, bool>> specificationExpression)
             {

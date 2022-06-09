@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DbAccess.Repositories.Role;
 using DbAccess.Repositories.User;
-using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
-using MyBlogAPI.DTOs.User;
 using MyBlogAPI.Services.JwtService;
 using MyBlogAPI.Tests.Builders;
 using Xunit;
@@ -32,8 +28,7 @@ namespace MyBlogAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             _mapper = config.CreateMapper();
             _jwtService = new MyBlogAPI.Services.JwtService.JwtService(
-                new UserRepository(_fixture.Db, _fixture.UserManager),
-                new RoleRepository(_fixture.Db, _fixture.RoleManager), Options.Create(
+                new UserRepository(_fixture.Db, _fixture.UserManager), Options.Create(
                     new DbAccess.Data.POCO.Jwt.JwtSettings() { 
                         Issuer = _issuer, 
                         Secret = "test123ABDZDAZSQA", 

@@ -12,7 +12,7 @@ namespace MyBlogAPI.DTOs.Post
 
         public string Name { get; set; }
 
-        public int Author { get; set; }
+        public new int Author { get; set; }
 
         public int Category { get; set; }
 
