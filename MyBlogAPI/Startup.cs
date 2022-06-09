@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using DbAccess;
-using DbAccess.Data.POCO;
 using DbAccess.Data.POCO.Jwt;
 using DbAccess.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Authorization;
@@ -14,7 +12,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using MyBlogAPI.Authorization;
 using MyBlogAPI.Extensions;
-using MyBlogAPI.Services;
 using MyBlogAPI.Services.JwtService;
 
 namespace MyBlogAPI

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DbAccess.Data.POCO.Jwt
+﻿namespace DbAccess.Data.POCO.Jwt
 {
     public class JwtSettings
     {

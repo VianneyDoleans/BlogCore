@@ -26,15 +26,15 @@ namespace DbAccess.DataContext
         public DbSet<PostTag> PostTags { get; set; }
 
         /// <inheritdoc />
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.HasDefaultSchema("Identity");
+            base.OnModelCreating(builder);
+            builder.HasDefaultSchema("Identity");
 
-            modelBuilder.Entity<PostTag>()
+            builder.Entity<PostTag>()
                 .HasKey(pt => new { pt.PostId, pt.TagId });
 
-            modelBuilder.Entity<UserRole>(entity =>
+            builder.Entity<UserRole>(entity =>
             {
                 entity
                     .HasOne(x => x.Role)
@@ -47,37 +47,37 @@ namespace DbAccess.DataContext
                     .HasForeignKey(x => x.UserId);
             });
 
-            modelBuilder.Entity<Like>().HasOne(s => s.User).WithMany(s => s.Likes).IsRequired().OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Post>().HasOne(s => s.Category).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Post>().HasOne(s => s.Author).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Comment>().HasOne(s => s.Author).WithMany(s => s.Comments).IsRequired().OnDelete(DeleteBehavior.NoAction);
-            modelBuilder.Entity<Comment>().HasOne(s => s.CommentParent).WithMany(s => s.ChildrenComments).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Like>().HasOne(s => s.User).WithMany(s => s.Likes).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Post>().HasOne(s => s.Category).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Post>().HasOne(s => s.Author).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Comment>().HasOne(s => s.Author).WithMany(s => s.Comments).IsRequired().OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<Comment>().HasOne(s => s.CommentParent).WithMany(s => s.ChildrenComments).OnDelete(DeleteBehavior.NoAction);
 
-            modelBuilder.Entity<User>(entity =>
+            builder.Entity<User>(entity =>
             {
                 entity.ToTable(name: "Users");
             });
-            modelBuilder.Entity<Role>(entity =>
+            builder.Entity<Role>(entity =>
             {
                 entity.ToTable(name: "Roles");
             });
-            modelBuilder.Entity<UserRole>(entity =>
+            builder.Entity<UserRole>(entity =>
             {
                 entity.ToTable("UserRoles");
             });
-            modelBuilder.Entity<IdentityUserClaim<int>>(entity =>
+            builder.Entity<IdentityUserClaim<int>>(entity =>
             {
                 entity.ToTable("UserClaims");
             });
-            modelBuilder.Entity<IdentityUserLogin<int>>(entity =>
+            builder.Entity<IdentityUserLogin<int>>(entity =>
             {
                 entity.ToTable("UserLogins");
             });
-            modelBuilder.Entity<IdentityRoleClaim<int>>(entity =>
+            builder.Entity<IdentityRoleClaim<int>>(entity =>
             {
                 entity.ToTable("RoleClaims");
             });
-            modelBuilder.Entity<IdentityUserToken<int>>(entity =>
+            builder.Entity<IdentityUserToken<int>>(entity =>
             {
                 entity.ToTable("UserTokens");
             });

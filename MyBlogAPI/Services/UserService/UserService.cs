@@ -42,10 +42,10 @@ namespace MyBlogAPI.Services.UserService
             }).ToList();
         }
 
-        public async Task<IEnumerable<GetUserDto>> GetUsers(FilterSpecification<User> filter = null, PagingSpecification paging = null,
-            SortSpecification<User> sort = null)
+        public async Task<IEnumerable<GetUserDto>> GetUsers(FilterSpecification<User> filterSpecification = null, PagingSpecification pagingSpecification = null,
+            SortSpecification<User> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x =>
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
                 userDto.Roles = x.UserRoles.Select(y => y.RoleId);
@@ -66,6 +66,14 @@ namespace MyBlogAPI.Services.UserService
                 return userDto;
         }
 
+        public async Task<GetUserDto> GetUser(string userName)
+        {
+            var user = await FindUser(userName);
+            var userDto = _mapper.Map<GetUserDto>(user);
+            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            return userDto;
+        }
+
         public async Task<User> GetUserEntity(int id)
         {
             return await _repository.GetAsync(id);
@@ -75,19 +83,11 @@ namespace MyBlogAPI.Services.UserService
         {
             var user = (await _repository.GetAsync(new UsernameSpecification<User>(userName))).ToList();
 
-            if (user == null || user.Count() != 1)
+            if (user == null || user.Count != 1)
             {
                 throw new IndexOutOfRangeException("User doesn't exists.");
             }
             return user.First();
-        }
-
-        public async Task<GetUserDto> GetUser(string userName)
-        {
-            var user = await FindUser(userName);
-            var userDto = _mapper.Map<GetUserDto>(user);
-            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
-            return userDto;
         }
 
         private static void CheckUsernameValidity(string username)

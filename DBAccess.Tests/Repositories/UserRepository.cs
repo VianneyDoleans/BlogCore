@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DbAccess.Data.POCO;
-using DbAccess.Repositories;
 using DbAccess.Specifications;
 using DbAccess.Specifications.FilterSpecifications.Filters;
 using DbAccess.Specifications.SortSpecification;
@@ -254,7 +253,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await userRepository.GetAsync(new UsernameContainsSpecification<User>("AK") & new UsernameContainsSpecification<User>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().UserName == testUser5.UserName);
+            Assert.True(result.Count == 1 && result.First().UserName == testUser5.UserName);
         }
 
         [Fact]
@@ -285,7 +284,7 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<User>(new OrderBySpecification<User>(x => x.UserName), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().UserName == user4.Entity.UserName);
+            Assert.True(result.Count == 4 && result.First().UserName == user4.Entity.UserName);
         }
 
         [Fact]
@@ -295,7 +294,7 @@ namespace DBAccess.Tests.Repositories
             var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
-            Assert.True((await userRepository.GetAsync()).ToList().Count() == _fixture.Db.Users.Count());
+            Assert.True((await userRepository.GetAsync()).ToList().Count == _fixture.Db.Users.Count());
         }
 
         [Fact]
@@ -344,7 +343,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().UserName == testUser2.UserName);
+            Assert.True(result.Count == 2 && result.First().UserName == testUser2.UserName);
         }
 
         [Fact]
@@ -394,7 +393,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testUser3.Id &&
                                          x.UserName == testUser3.UserName);
             Assert.Contains(result, x => x.Id == testUser4.Id &&
@@ -448,7 +447,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4);
+            Assert.True(result.Count == 4);
             Assert.Contains(result, x => x.Id == testUser3.Id &&
                                          x.UserName == testUser3.UserName);
             Assert.Contains(result, x => x.Id == testUser4.Id &&
@@ -552,7 +551,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testUser.Id &&
                                          x.UserName == testUser.UserName);
             Assert.Contains(result, x => x.Id == testUser2.Id &&

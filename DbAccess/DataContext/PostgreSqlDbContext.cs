@@ -13,15 +13,15 @@ namespace DbAccess.DataContext
         }
 
         /// <inheritdoc />
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder builder)
         {
-            base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<User>().Property(b => b.RegisteredAt).HasDefaultValueSql("NOW()");
-            modelBuilder.Entity<User>().Property(b => b.LastLogin).HasDefaultValueSql("NOW()");
-            modelBuilder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
-            modelBuilder.Entity<Post>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
-            modelBuilder.Entity<Like>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
-            modelBuilder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            base.OnModelCreating(builder);
+            builder.Entity<User>().Property(b => b.RegisteredAt).HasDefaultValueSql("NOW()");
+            builder.Entity<User>().Property(b => b.LastLogin).HasDefaultValueSql("NOW()");
+            builder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            builder.Entity<Post>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            builder.Entity<Like>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
+            builder.Entity<Comment>().Property(b => b.PublishedAt).HasDefaultValueSql("NOW()");
         }
     }
 }

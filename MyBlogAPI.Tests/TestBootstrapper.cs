@@ -1,13 +1,12 @@
 ﻿using System;
 using DbAccess.Data.POCO;
 using DbAccess.DataContext;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace MyBlogAPI.Tests
 {
-    public class TestBootstrapper
+    public static class TestBootstrapper
     {
         /// <summary>
         /// Create a service provider with an in-memory database context for testing.

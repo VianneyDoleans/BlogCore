@@ -15,11 +15,11 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
     /// Authorization Handler used to authorize a resource when the <see cref="User"/> have <see cref="PermissionRange.All"/> permission on this Type of resource.
     /// </summary>
     /// <example>
-    /// user "ModeratorName" have permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
+    /// user "ModeratorName" has a role that has the permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
     /// => This handler requirement will succeed if this user ask authorization to delete a comment.
     /// </example>
     /// <example>
-    /// user "classicUser" doesn't have permission "PermissionRange.All, PermissionAction.Read, PermissionTarget.Role"
+    /// user "classicUser" doesn't have a role that has permission "PermissionRange.All, PermissionAction.Read, PermissionTarget.Role"
     /// => This handler requirement won't succeed if this user ask authorization to read (GET) a role.
     /// </example>
     public class HasAllPermissionRangeAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
@@ -37,7 +37,7 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
         }
 
         /// <inheritdoc />
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, TEntity entity)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, TEntity resource)
         {
             var userId = int.Parse(context.User.Claims
                 .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);

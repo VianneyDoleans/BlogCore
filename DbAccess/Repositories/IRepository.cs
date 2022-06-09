@@ -20,12 +20,6 @@ namespace DbAccess.Repositories
         Task<TEntity> GetAsync(int id);
 
         /// <summary>
-        /// Method used to get all <see cref="TEntity"/> resources.
-        /// </summary>
-        /// <returns></returns>
-        Task<IEnumerable<TEntity>> GetAllAsync();
-
-        /// <summary>
         /// Method used to get <see cref="TEntity"/> resource(s) by specified filter(s), pagination, and sort(s) (orderBy, etc.).
         /// </summary>
         /// <param name="filterSpecification"></param>
@@ -33,8 +27,14 @@ namespace DbAccess.Repositories
         /// <param name="sortSpecification"></param>
         /// <returns></returns>
         Task<IEnumerable<TEntity>> GetAsync(FilterSpecification<TEntity> filterSpecification = null,
-            PagingSpecification pagingSpecification = null, 
+            PagingSpecification pagingSpecification = null,
             SortSpecification<TEntity> sortSpecification = null);
+
+        /// <summary>
+        /// Method used to get all <see cref="TEntity"/> resources.
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<TEntity>> GetAllAsync();
 
         /// <summary>
         /// Method used to count <see cref="TEntity"/> resources where the expression match.

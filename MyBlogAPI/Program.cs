@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using DbAccess;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using DbAccess.Data;
 using DbAccess.Data.POCO;
 using DbAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace MyBlogAPI
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {

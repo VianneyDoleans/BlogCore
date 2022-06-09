@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using DbAccess.Data.POCO;
+﻿using System.Threading.Tasks;
 
 namespace MyBlogAPI.Services.JwtService
 {

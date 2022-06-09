@@ -38,10 +38,10 @@ namespace MyBlogAPI.Services.RoleService
             }).ToList();
         }
 
-        public async Task<IEnumerable<GetRoleDto>> GetRoles(FilterSpecification<Role> filter = null, PagingSpecification paging = null,
-            SortSpecification<Role> sort = null)
+        public async Task<IEnumerable<GetRoleDto>> GetRoles(FilterSpecification<Role> filterSpecification = null, PagingSpecification pagingSpecification = null,
+            SortSpecification<Role> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetRoleDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetRoleDto>(x));
         }
 
         public async Task<int> CountRolesWhere(FilterSpecification<Role> filterSpecification = null)
@@ -132,7 +132,7 @@ namespace MyBlogAPI.Services.RoleService
         public async Task<IEnumerable<PermissionDto>> GetPermissionsAsync(int roleId)
         {
             var permissions = await _repository.GetPermissionsAsync(roleId);
-            return permissions.ToList().Select(x => _mapper.Map<PermissionDto>(x)).ToList();
+            return permissions.Select(x => _mapper.Map<PermissionDto>(x)).ToList();
         }
     }
 }

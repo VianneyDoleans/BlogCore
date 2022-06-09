@@ -14,7 +14,7 @@ namespace DbAccess
     /// <summary>
     /// Class used to initialize Database if the database is empty (test data).
     /// </summary>
-    public class DbInitializer
+    public static class DbInitializer
     {
         private static async Task GenerateRoles(RoleManager<Role> roleManager)
         {
@@ -301,11 +301,9 @@ namespace DbAccess
             };
             foreach (var permission in adminPermissions)
             {
-                var result = await roleManager.AddClaimAsync(adminRole,
+                await roleManager.AddClaimAsync(adminRole,
                     new Claim("Permission", JsonSerializer.Serialize(permission)));
             }
-            /*context.Roles.AddRange(userRole, adminRole, redactorRole);
-            context.SaveChanges();*/
         }
 
         private static async Task GenerateUsers(UserManager<User> userManager)
@@ -344,8 +342,6 @@ namespace DbAccess
             {
                 await userManager.CreateAsync(user.Item1, user.Item2);
             }
-            //context.Users.AddRange(jamy, fred, sam, frodon, admin);
-            //context.SaveChanges();
         }
 
         private static void GenerateUserRoles(MyBlogContext context)

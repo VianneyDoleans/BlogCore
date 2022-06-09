@@ -7,7 +7,7 @@ namespace MyBlogAPI.DTOs.Comment
     /// </summary>
     public interface ICommentDto : IHasAuthor
     {
-        public int Author { get; set; }
+        public new int Author { get; set; }
 
         public int PostParent { get; set; }
 

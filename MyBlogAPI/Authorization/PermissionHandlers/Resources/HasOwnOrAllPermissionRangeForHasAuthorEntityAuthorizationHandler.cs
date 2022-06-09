@@ -12,8 +12,14 @@ using MyBlogAPI.Services.UserService;
 namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
 {
     /// <summary>
-    /// Authorization Handler which combine <see cref="OwnershipAuthorizationHandler{TEntity}"/> and <see cref="HasAllPermissionRangeAuthorizationHandler{TEntity}"/>.
+    /// Authorization Handler that verifies if user has a role with <see cref="PermissionRange.All"/> or <see cref="PermissionRange.Own"/>
+    /// corresponding to the resource (<see cref="PermissionTarget"/>) and if it can realize the action it is asking (<see cref="PermissionAction"/>).
     /// </summary>
+    /// <example>
+    /// In case of <see cref="PermissionRange.All"/>, the user can realize <see cref="PermissionAction"/> on all <see cref="PermissionTarget"/>. 
+    /// In case of <see cref="PermissionRange.Own"/>, the user can realize <see cref="PermissionAction"/> only on its own <see cref="PermissionTarget"/> (it is the author of this resource).
+    /// </example>
+    /// <typeparam name="TEntity"></typeparam>
     public class HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler<TEntity> : AuthorizationHandler<PermissionRequirement, TEntity>
     where TEntity : IHasAuthor
     {
@@ -30,7 +36,7 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
         }
 
         /// <inheritdoc />
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, TEntity entity)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, TEntity resource)
         {
             var userId = int.Parse(context.User.Claims
                 .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
@@ -48,7 +54,7 @@ namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
                             requirementTarget.Id == permission.PermissionTarget.Id &&
-                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && entity.Author.Id == userId) 
+                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && resource.Author.Id == userId) 
                              || permission.PermissionRange.Id == (int)PermissionRange.All)))
                     {
                         context.Succeed(requirement);

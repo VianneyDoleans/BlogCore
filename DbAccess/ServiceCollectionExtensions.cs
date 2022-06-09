@@ -1,6 +1,5 @@
 ﻿using System;
 using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Jwt;
 using DbAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

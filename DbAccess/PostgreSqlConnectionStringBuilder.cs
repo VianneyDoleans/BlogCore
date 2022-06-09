@@ -174,7 +174,7 @@ namespace DbAccess
 
             Host = uri.Host;
             Port = uri.Port;
-            Database = uri.LocalPath.Substring(1);
+            Database = uri.LocalPath[1..];
             Username = uri.UserInfo.Split(':')[0];
             Password = uri.UserInfo.Split(':')[1];
         }

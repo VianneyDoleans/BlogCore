@@ -38,6 +38,19 @@ namespace DbAccess.Repositories.Role
         }
 
         /// <inheritdoc />
+        public override async Task<Data.POCO.Role> GetAsync(int id)
+        {
+            try
+            {
+                return await Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
+            }
+            catch
+            {
+                throw new IndexOutOfRangeException("Role doesn't exist.");
+            }
+        }
+
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
         {
             var userRoles = await Context.Set<Data.POCO.JoiningEntity.UserRole>()
@@ -109,19 +122,6 @@ namespace DbAccess.Repositories.Role
                 var result = await _roleManager.RemoveClaimAsync(role, claim);
                 if (!result.Succeeded)
                     throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
-            }
-        }
-
-        /// <inheritdoc />
-        public override async Task<Data.POCO.Role> GetAsync(int id)
-        {
-            try
-            {
-                return await Context.Set<Data.POCO.Role>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
-            }
-            catch
-            {
-                throw new IndexOutOfRangeException("Role doesn't exist.");
             }
         }
 

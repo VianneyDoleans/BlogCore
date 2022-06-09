@@ -237,7 +237,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await categoryRepository.GetAsync(new NameContainsSpecification<Category>("AK") & new NameContainsSpecification<Category>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().Name == testCategory.Name);
+            Assert.True(result.Count == 1 && result.First().Name == testCategory.Name);
         }
 
         [Fact]
@@ -273,7 +273,7 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<Category>(new OrderBySpecification<Category>(x => x.Name), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().Name == testCategory3.Name);
+            Assert.True(result.Count == 4 && result.First().Name == testCategory3.Name);
         }
 
         [Fact]
@@ -283,7 +283,7 @@ namespace DBAccess.Tests.Repositories
             var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.True((await categoryRepository.GetAsync()).ToList().Count() == _fixture.Db.Categories.Count());
+            Assert.True((await categoryRepository.GetAsync()).ToList().Count == _fixture.Db.Categories.Count());
         }
 
         [Fact]
@@ -307,7 +307,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().Name == testCategory.Name);
+            Assert.True(result.Count == 2 && result.First().Name == testCategory.Name);
         }
 
         [Fact]
@@ -330,7 +330,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testCategory3.Id &&
                                          x.Name == testCategory3.Name);
             Assert.Contains(result, x => x.Id == testCategory4.Id &&
@@ -359,7 +359,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4);
+            Assert.True(result.Count == 4);
             Assert.Contains(result, x => x.Id == testCategory3.Id &&
                                          x.Name == testCategory3.Name);
             Assert.Contains(result, x => x.Id == testCategory4.Id &&
@@ -413,7 +413,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testCategory.Id &&
                                          x.Name == testCategory.Name);
             Assert.Contains(result, x => x.Id == testCategory2.Id &&

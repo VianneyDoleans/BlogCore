@@ -32,10 +32,10 @@ namespace MyBlogAPI.Services.TagService
             return (await _repository.GetAllAsync()).Select(x => _mapper.Map<Tag, GetTagDto>(x)).ToList();
         }
 
-        public async Task<IEnumerable<GetTagDto>> GetTags(FilterSpecification<Tag> filter = null, PagingSpecification paging = null,
-            SortSpecification<Tag> sort = null)
+        public async Task<IEnumerable<GetTagDto>> GetTags(FilterSpecification<Tag> filterSpecification = null, PagingSpecification pagingSpecification = null,
+            SortSpecification<Tag> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filter, paging, sort)).Select(x => _mapper.Map<GetTagDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetTagDto>(x));
         }
 
         public async Task<int> CountTagsWhere(FilterSpecification<Tag> filterSpecification = null)

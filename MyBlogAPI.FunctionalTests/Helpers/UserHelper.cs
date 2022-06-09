@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using MyBlogAPI.DTOs.User;
-using Newtonsoft.Json;
 
 namespace MyBlogAPI.FunctionalTests.Helpers
 {

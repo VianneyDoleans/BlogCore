@@ -210,7 +210,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await tagRepository.GetAsync(new NameContainsSpecification<Tag>("AK") & new NameContainsSpecification<Tag>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().Name == testTag.Name);
+            Assert.True(result.Count == 1 && result.First().Name == testTag.Name);
         }
 
         [Fact]
@@ -233,7 +233,7 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<Tag>(new OrderBySpecification<Tag>(x => x.Name), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().Name == tag.Name);
+            Assert.True(result.Count == 4 && result.First().Name == tag.Name);
         }
 
         [Fact]
@@ -243,7 +243,7 @@ namespace DBAccess.Tests.Repositories
             var tagRepository = new DbAccess.Repositories.Tag.TagRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.True((await tagRepository.GetAsync()).ToList().Count() == _fixture.Db.Tags.Count());
+            Assert.True((await tagRepository.GetAsync()).ToList().Count == _fixture.Db.Tags.Count());
         }
 
         [Fact]
@@ -267,7 +267,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().Name == testTag.Name);
+            Assert.True(result.Count == 2 && result.First().Name == testTag.Name);
         }
 
         [Fact]
@@ -290,7 +290,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testTag3.Id &&
                                          x.Name == testTag3.Name);
             Assert.Contains(result, x => x.Id == testTag4.Id &&
@@ -319,7 +319,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4);
+            Assert.True(result.Count == 4);
             Assert.Contains(result, x => x.Id == testTag3.Id &&
                                          x.Name == testTag3.Name);
             Assert.Contains(result, x => x.Id == testTag4.Id &&
@@ -373,7 +373,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testTag.Id &&
                                          x.Name == testTag.Name);
             Assert.Contains(result, x => x.Id == testTag2.Id &&

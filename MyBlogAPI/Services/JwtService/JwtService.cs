@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,13 +15,11 @@ namespace MyBlogAPI.Services.JwtService
     public class JwtService : IJwtService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IRoleRepository _roleRepository;
         private readonly JwtSettings _jwtSettings;
 
-        public JwtService(IUserRepository userRepository, IRoleRepository roleRepository, IOptions<JwtSettings> jwtSettings)
+        public JwtService(IUserRepository userRepository, IOptions<JwtSettings> jwtSettings)
         {
             _userRepository = userRepository;
-            _roleRepository = roleRepository;
             _jwtSettings = jwtSettings.Value;
         }
 
@@ -30,7 +27,6 @@ namespace MyBlogAPI.Services.JwtService
         public async Task<string> GenerateJwt(int userId)
         {
             var user = await _userRepository.GetAsync(userId);
-            var roles = await _roleRepository.GetRolesFromUser(userId);
             var claims = new List<Claim>
             {
                 new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),

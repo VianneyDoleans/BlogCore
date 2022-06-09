@@ -215,7 +215,7 @@ namespace DBAccess.Tests.Repositories
             var result = (await commentRepository.GetAsync(new ContentContainsSpecification<Comment>("AK") & new ContentContainsSpecification<Comment>("164"))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 1 && result.First().Content == testComment.Content);
+            Assert.True(result.Count == 1 && result.First().Content == testComment.Content);
         }
 
         [Fact]
@@ -241,7 +241,7 @@ namespace DBAccess.Tests.Repositories
                 new SortSpecification<Comment>(new OrderBySpecification<Comment>(x => x.Content), SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4 && result.First().Content == comment.Content);
+            Assert.True(result.Count == 4 && result.First().Content == comment.Content);
         }
 
         [Fact]
@@ -251,7 +251,7 @@ namespace DBAccess.Tests.Repositories
             var commentRepository = new DbAccess.Repositories.Comment.CommentRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.True((await commentRepository.GetAsync()).ToList().Count() == _fixture.Db.Comments.Count());
+            Assert.True((await commentRepository.GetAsync()).ToList().Count == _fixture.Db.Comments.Count());
         }
 
         [Fact]
@@ -275,7 +275,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Descending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 2 && result.First().Content == testComment.Content);
+            Assert.True(result.Count == 2 && result.First().Content == testComment.Content);
         }
 
         [Fact]
@@ -298,7 +298,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testComment3.Id &&
                                          x.Content == testComment3.Content);
             Assert.Contains(result, x => x.Id == testComment4.Id &&
@@ -327,7 +327,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 4);
+            Assert.True(result.Count == 4);
             Assert.Contains(result, x => x.Id == testComment3.Id &&
                                          x.Content == testComment3.Content);
             Assert.Contains(result, x => x.Id == testComment4.Id &&
@@ -381,7 +381,7 @@ namespace DBAccess.Tests.Repositories
                     SortingDirectionSpecification.Ascending))).ToList();
 
             // Assert
-            Assert.True(result.Count() == 3);
+            Assert.True(result.Count == 3);
             Assert.Contains(result, x => x.Id == testComment.Id &&
                                          x.Content == testComment.Content);
             Assert.Contains(result, x => x.Id == testComment2.Id &&
