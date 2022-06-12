@@ -1,54 +1,49 @@
-<h1 align="center">MyBlog API .NET Core</h4>
+<p align="center">
+<h1 align="center">BlogCore.</h1>
+<p align="center">Powerful .NET 6 Blog API</p>
 
 <p align="center">
-</p>
-
-<p align="center">
-  <a href="#presentation">Presentation</a> •
-  <a href="#technologies">Technologies</a> •
-  <a href="#getting-started">Getting Started</a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml">
-   <img src="https://github.com/VianneyDoleans/MyBlog/actions/workflows/dotnet.yml/badge.svg?branch=master" alt="build">
+  <a href="https://github.com/VianneyDoleans/BlogCore/actions/workflows/dotnet.yml">
+   <img src="https://github.com/VianneyDoleans/BlogCore/actions/workflows/dotnet.yml/badge.svg?branch=master" alt="build">
   </a>
-    <a href="https://codecov.io/gh/VianneyDoleans/MyBlogAPI-NET-Core">
-   <img src="https://codecov.io/gh/VianneyDoleans/MyBlogAPI-NET-Core/branch/master/graph/badge.svg" alt="codecov">
+    <a href="https://codecov.io/gh/VianneyDoleans/BlogCore">
+   <img src="https://codecov.io/gh/VianneyDoleans/BlogCore/branch/master/graph/badge.svg" alt="codecov">
   </a>
-    <a href="https://github.com/VianneyDoleans/MyBlog/blob/master/LICENSE">
+    <a href="https://github.com/VianneyDoleans/BlogCore/blob/master/LICENSE">
    <img src="https://img.shields.io/badge/License-GPLv3-blue.svg" alt="License: GPL v3">
   </a>
-    <a href="https://sonarcloud.io/summary/new_code?id=VianneyDoleans_MyBlogAPI-NET-Core">
-   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_MyBlogAPI-NET-Core&metric=security_rating" alt="Security Rating">
+    <a href="https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_BlogCore&metric=security_rating" alt="Security Rating">
   </a>
-    <a href="https://sonarcloud.io/summary/new_code?id=VianneyDoleans_MyBlogAPI-NET-Core">
-   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_MyBlogAPI-NET-Core&metric=sqale_rating" alt="Maintainability Rating">
+    <a href="https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_BlogCore&metric=sqale_rating" alt="Maintainability Rating">
   </a>
-    <a href="https://sonarcloud.io/summary/new_code?id=VianneyDoleans_MyBlogAPI-NET-Core">
-   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_MyBlogAPI-NET-Core&metric=vulnerabilities" alt="Vulnerabilities">
+    <a href="https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_BlogCore&metric=reliability_rating" alt="Reliability Rating">
+  </a>  
+    <a href="https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore">
+   <img src="https://sonarcloud.io/api/project_badges/measure?project=VianneyDoleans_BlogCore&metric=vulnerabilities" alt="Vulnerabilities">
   </a>
 </p>
 
-## Presentation
+Live demo : https://mydevblogapi.herokuapp.com/swagger/
 
-Blog API project in .NET 6.
+## Powerful features
 
-Live demo: https://mydevblogapi.herokuapp.com/swagger/
+ - **Advanced search** by combining filters on all resources (user, post, comment, etc.)
+ - **Advanced user permissions management** by creating roles and permissions for users (CanEdit own Posts, CanDelete All Comments, etc.)
+ - **Community features** (create comments on a post, like a comment or a post, add a comment on a comment, consult profiles, etc.)
 
-Compatible with Linux/Windows/MacOs and can be deployed with [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/) database.
+## Compatibilities
 
-Explanations are in the [GitHub wiki](https://github.com/VianneyDoleans/MyBlog/wiki) (getting started, architecture, how to deploy, etc.).
+Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/) database. Can also be [deployed on Heroku](https://github.com/VianneyDoleans/BlogCore/wiki/HostingOnHeroku).
 
-## Technologies
+## Clean code
 
- - [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)
- - [.NET 6](https://dotnet.microsoft.com/en-us/download/dotnet/6.0)
- - [Entity Framework Core](https://docs.microsoft.com/fr-fr/ef/core/)
- - [Automapper](https://automapper.org/)
- - [XUnit](https://xunit.net/)
- - [Swagger](https://swagger.io/)
+ - Follow guidelines from DDD (Domain Driven Design).
+ - Good code coverage
+ - [SonarCloud](https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore) used to ensure code quality
 
 ## Getting Started
 
-You can go to the wiki section [Getting Started](https://github.com/VianneyDoleans/MyBlog/wiki/GettingStarted).
+Tutorial available in [Getting Started](https://github.com/VianneyDoleans/BlogCore/wiki/GettingStarted) wiki section.
