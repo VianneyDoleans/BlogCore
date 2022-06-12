@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
-using DbAccess.Specifications.SortSpecification;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Post;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
+using DBAccess.Specifications.SortSpecification;
 using DBAccess.Tests.Builders;
 using Xunit;
 
@@ -24,7 +25,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddCategoryAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new Category() {Name = "testAddCategoryAsync" };
             
             // Act
@@ -39,7 +40,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddNullCategoryAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () =>
@@ -53,7 +54,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetCategoryAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var entity = _fixture.Db.Categories.Add(new Category() { Name = "GetCategoryAsync" });
             _fixture.UnitOfWork.Save();
 
@@ -68,7 +69,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetCategoryOutOfRangeAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await categoryRepository.GetAsync(100));
@@ -78,7 +79,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAllAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act
             var result = await categoryRepository.GetAllAsync();
@@ -92,7 +93,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
 
@@ -110,7 +111,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemoveNullAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.RemoveAsync(null));
@@ -122,7 +123,7 @@ namespace DBAccess.Tests.Repositories
         public void AddCategory()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new Category() { Name = "testAddCategory" };
 
             // Act
@@ -137,7 +138,7 @@ namespace DBAccess.Tests.Repositories
         public void AddNullCategory()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -151,7 +152,7 @@ namespace DBAccess.Tests.Repositories
         public void CountAll()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(_fixture.Db.Categories.Count() == categoryRepository.CountAll());
@@ -161,7 +162,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsTrue()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
 
             // Act & Assert
@@ -173,7 +174,7 @@ namespace DBAccess.Tests.Repositories
         public async Task CountAllAsync()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(_fixture.Db.Categories.Count() == await categoryRepository.CountAllAsync());
@@ -184,7 +185,7 @@ namespace DBAccess.Tests.Repositories
         public void GetAll()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act
             var result = categoryRepository.GetAll();
@@ -197,7 +198,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsNull()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(!await categoryRepository.NameAlreadyExists(null));
@@ -208,7 +209,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             const string name = "GetAsyncSpecification2";
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var testCategory2 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName(name).Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
@@ -225,7 +226,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncABSpecification").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncAUSpecification2").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncAKSpecification3").Build();
@@ -244,7 +245,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("TwwooGetAsyncWithTwoSorts").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithTwoSorts2").Build();
             var testCategory3 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithTwoSorts3Twwoo").Build();
@@ -253,13 +254,13 @@ namespace DBAccess.Tests.Repositories
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithTwoSorts6").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("TwwooGetAsyncWithTwoorts7").Build();
 
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var user = new UserBuilder(userRepository, _fixture.UnitOfWork)
                 .WithEmailAddress("TwoSortsAndTwoSpec@email.com")
                 .WithUserName("TwoSortsAndTwoSpec")
                 .Build();
 
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithAuthor(user).WithCategory(testCategory).WithName("TwoSortsAndTwoSpec1").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithAuthor(user).WithCategory(testCategory).WithName("TwoSortsAndTwoSpec2").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithAuthor(user).WithCategory(testCategory3).WithName("TwoSortsAndTwoSpec3").Build();
@@ -280,7 +281,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithNoArgument()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True((await categoryRepository.GetAsync()).ToList().Count == _fixture.Db.Categories.Count());
@@ -290,7 +291,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithAllArguments()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncABSpecificationWithAllArguments").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncAUSpecification2WithAllArguments").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncAKSpecification3WithAllArguments").Build();
@@ -314,7 +315,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPagination()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("1GetAsyncWithPagination1").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("1GetAsyncWithPagination2").Build();
             var testCategory3 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("1GetAsyncWithPagination3").Build();
@@ -343,7 +344,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationTakeOutOfRange1").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationTakeOutOfRange2").Build();
             var testCategory3 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationTakeOutOfRange3").Build();
@@ -374,7 +375,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationTakeNegative1").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationTakeNegative2").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationTakeNegative3").Build();
@@ -397,7 +398,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationSkipNegative").Build();
             var testCategory2 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationSkipNegative2").Build();
             var testCategory3 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationSkipNegative3").Build();
@@ -426,7 +427,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationSkipOutOfRange").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationSkipOutOfRange2").Build();
             new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).WithName("GetAsyncWithPaginationSkipOutOfRange3").Build();
@@ -450,7 +451,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
 
@@ -468,7 +469,7 @@ namespace DBAccess.Tests.Repositories
         public void GetCategory()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var entity = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
 
             // Act
@@ -482,7 +483,7 @@ namespace DBAccess.Tests.Repositories
         public void GetCategoryOutOfRange()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<IndexOutOfRangeException>(() => categoryRepository.Get(100));
@@ -492,7 +493,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveNull()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => categoryRepository.Remove(null));
@@ -502,7 +503,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemoveRangeAsyncNull()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await categoryRepository.RemoveRangeAsync(null));
@@ -512,7 +513,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveRangeNull()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => categoryRepository.RemoveRange(null));
@@ -523,7 +524,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var testCategory2 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
@@ -543,7 +544,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Categories.Count();
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
             var testCategory = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var testCategory2 = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Categories.Count();
@@ -562,7 +563,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsFalse()
         {
             // Arrange
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(!await categoryRepository.NameAlreadyExists("NameAlreadyExistsFalse"));

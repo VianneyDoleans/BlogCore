@@ -1,6 +1,6 @@
 ﻿using System;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -17,10 +17,10 @@ namespace DBAccess.Tests
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<MyBlogContext, MsSqlDbContext>(o =>
+            services.AddDbContext<BlogCoreContext, MsSqlDbContext>(o =>
                 o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<MyBlogContext>();
+                .AddEntityFrameworkStores<BlogCoreContext>();
             var provider = services.BuildServiceProvider();
             return provider;
         }
