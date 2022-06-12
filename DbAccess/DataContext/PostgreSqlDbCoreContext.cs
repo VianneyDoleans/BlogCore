@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DBAccess.DataContext
 {
-    public class PostgreSqlDbContext : MyBlogContext
+    public class PostgreSqlDbCoreContext : BlogCoreContext
     {
         /// <summary>
-        /// Context used for PostgreSQL database (compatibility)
+        /// context used for PostgreSQL database (compatibility)
         /// </summary>
-        public PostgreSqlDbContext(DbContextOptions options) : base(options)
+        public PostgreSqlDbCoreContext(DbContextOptions options) : base(options)
         {
         }
 

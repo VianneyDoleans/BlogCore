@@ -18,7 +18,7 @@ namespace BlogCoreAPI.Tests
 {
     public class DatabaseFixture : IAsyncLifetime
     {
-        public MyBlogContext Db { get; }
+        public BlogCoreContext Db { get; }
         public IUnitOfWork UnitOfWork { get; }
         public AutoMapperTestProfile MapperProfile { get; }
 
@@ -43,7 +43,7 @@ namespace BlogCoreAPI.Tests
 
             UserManager = provider.GetRequiredService<UserManager<User>>();
             RoleManager = provider.GetRequiredService<RoleManager<Role>>();
-            Db = provider.GetRequiredService<MyBlogContext>();
+            Db = provider.GetRequiredService<BlogCoreContext>();
             UnitOfWork = new UnitOfWork(Db);
 
             MapperProfile = new AutoMapperTestProfile(new LikeRepository(Db), new UserRepository(Db, UserManager), new CategoryRepository(Db),

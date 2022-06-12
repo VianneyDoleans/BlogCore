@@ -16,7 +16,7 @@ namespace DBAccess.Repositories.Post
         /// Initializes a new instance of the <see cref="PostRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public PostRepository(MyBlogContext context) : base(context)
+        public PostRepository(BlogCoreContext context) : base(context)
         {
         }
 
@@ -37,7 +37,7 @@ namespace DBAccess.Repositories.Post
         {
             try
             {
-                return await Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+                return await context.Set<Data.POCO.Post>().Include(x => x.Likes)
                     .Include(x => x.Author)
                     .Include(x => x.PostTags)
                     .Include(x => x.Category)
@@ -54,7 +54,7 @@ namespace DBAccess.Repositories.Post
         {
             try
             {
-                return Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+                return context.Set<Data.POCO.Post>().Include(x => x.Likes)
                     .Include(x => x.Author)
                     .Include(x => x.PostTags)
                     .Include(x => x.Category)
@@ -69,7 +69,7 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Post> GetAll()
         {
-            return Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+            return context.Set<Data.POCO.Post>().Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category).ToList();
@@ -78,7 +78,7 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Post>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+            return await context.Set<Data.POCO.Post>().Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category).ToListAsync();
@@ -87,7 +87,7 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromUser(int id)
         {
-            return await Context.Set<Data.POCO.Post>().Include(x => x.Likes)
+            return await context.Set<Data.POCO.Post>().Include(x => x.Likes)
                 .Include(x => x.PostTags)
                 .Include(x => x.Category)
                 .Include(x => x.Author)
@@ -97,7 +97,7 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromTag(int id)
         {
-            return await Context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Likes)
+            return await context.Set<Data.POCO.JoiningEntity.PostTag>().Include(x => x.Post.Likes)
                 .Include(x => x.Post.Author)
                 .Include(x => x.Post.Category)
                 .Include(x => x.Tag)
@@ -107,7 +107,7 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Post>> GetPostsFromCategory(int id)
         {
-            return await Context.Set<Data.POCO.Post>()
+            return await context.Set<Data.POCO.Post>()
                 .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.PostTags)
@@ -118,7 +118,7 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var post = await Context.Set<Data.POCO.Post>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var post = await context.Set<Data.POCO.Post>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return post != null;
         }
     }

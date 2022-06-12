@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MyBlogAPI": {
+    "BlogCoreAPI": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "Swagger",

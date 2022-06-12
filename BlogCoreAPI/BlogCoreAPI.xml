@@ -1,83 +1,83 @@
 <?xml version="1.0"?>
 <doc>
     <assembly>
-        <name>MyBlogAPI</name>
+        <name>BlogCoreAPI</name>
     </assembly>
     <members>
-        <member name="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute">
+        <member name="T:BlogCoreAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute">
             <summary>
              Attribute allowing to define the corresponding permission needed for an resource endpoint.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
+        <member name="M:BlogCoreAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute.#ctor(DBAccess.Data.POCO.Permission.PermissionAction,DBAccess.Data.POCO.Permission.PermissionTarget)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.HandleAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.HandleAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Attributes.PermissionWithRangeAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TDto"></typeparam>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TDto"></typeparam>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,MyBlogAPI.DTOs.User.IUserDto)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,BlogCoreAPI.DTOs.User.IUserDto)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1">
             <summary>
-            Authorization Handler used to authorize a resource when the <see cref="T:DbAccess.Data.POCO.User"/> have <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> permission on this Type of resource.
+            Authorization Handler used to authorize a resource when the <see cref="T:DBAccess.Data.POCO.User"/> have <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> permission on this Type of resource.
             </summary>
             <example>
             user "ModeratorName" has a role that has the permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
@@ -88,118 +88,118 @@
             => This handler requirement won't succeed if this user ask authorization to read (GET) a role.
             </example>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TEntity"></typeparam>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TEntity"></typeparam>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,`0)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,`0)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler">
+        <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DbAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,MyBlogAPI.Authorization.Permissions.PermissionRequirement,DbAccess.Data.POCO.User)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,DBAccess.Data.POCO.User)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.PermissionPolicyProvider">
+        <member name="T:BlogCoreAPI.Authorization.PermissionPolicyProvider">
             <summary>
             
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authorization.AuthorizationOptions})">
+        <member name="M:BlogCoreAPI.Authorization.PermissionPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authorization.AuthorizationOptions})">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.Authorization.PermissionPolicyProvider.GetPolicyAsync(System.String)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionPolicyProvider.GetPolicyAsync(System.String)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Authorization.Permissions.PermissionRequirement">
+        <member name="T:BlogCoreAPI.Authorization.Permissions.PermissionRequirement">
             <summary>
-            Permission requirement used to describe an action (can read, can write, can delete, ...) (<see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/>)
-             on a resource (category, comment, like, ...) (<see cref="P:MyBlogAPI.Authorization.Permissions.PermissionRequirement.PermissionTarget"/>)
+            Permission requirement used to describe an action (can read, can write, can delete, ...) (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>)
+             on a resource (category, comment, like, ...) (<see cref="P:BlogCoreAPI.Authorization.Permissions.PermissionRequirement.PermissionTarget"/>)
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Authorization.Permissions.PermissionRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget)">
+        <member name="M:BlogCoreAPI.Authorization.Permissions.PermissionRequirement.#ctor(DBAccess.Data.POCO.Permission.PermissionAction,DBAccess.Data.POCO.Permission.PermissionTarget)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Permissions.PermissionRequirement"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Authorization.Permissions.PermissionRequirement"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>
         </member>
-        <member name="T:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement">
+        <member name="T:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement">
             <summary>
-            Same as <see cref="T:MyBlogAPI.Authorization.Permissions.PermissionRequirement"/> but with <see cref="P:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement.PermissionRange"/> in addition (own or all resources).
+            Same as <see cref="T:BlogCoreAPI.Authorization.Permissions.PermissionRequirement"/> but with <see cref="P:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement.PermissionRange"/> in addition (own or all resources).
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement.#ctor(DbAccess.Data.POCO.Permission.PermissionAction,DbAccess.Data.POCO.Permission.PermissionTarget,DbAccess.Data.POCO.Permission.PermissionRange)">
+        <member name="M:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement.#ctor(DBAccess.Data.POCO.Permission.PermissionAction,DBAccess.Data.POCO.Permission.PermissionTarget,DBAccess.Data.POCO.Permission.PermissionRange)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Authorization.Permissions.PermissionWithRangeRequirement"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement"/> class.
             </summary>
             <param name="permission"></param>
             <param name="permissionTarget"></param>
             <param name="permissionRange"></param>
         </member>
-        <member name="T:MyBlogAPI.AutoMapperProfile">
+        <member name="T:BlogCoreAPI.AutoMapperProfile">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.AutoMapperProfile.#ctor">
+        <member name="M:BlogCoreAPI.AutoMapperProfile.#ctor">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Controllers.AccountController">
+        <member name="T:BlogCoreAPI.Controllers.AccountController">
             <summary>
             Controller used to enables account action such as login / log out.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.AccountController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.JwtService.IJwtService)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
             </summary>
             <param name="userService"></param>
             <param name="jwtService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.AccountController.SignUp(MyBlogAPI.DTOs.User.AddUserDto)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.DTOs.User.AddUserDto)">
             <summary>
             Create an account (a user).
             </summary>
@@ -209,7 +209,7 @@
             <param name="user"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.AccountController.SignIn(MyBlogAPI.DTOs.User.UserLoginDto)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignIn(BlogCoreAPI.DTOs.User.UserLoginDto)">
             <summary>
             Sign In as a user.
             </summary>
@@ -219,19 +219,19 @@
             <param name="userLogin"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.CategoriesController">
+        <member name="T:BlogCoreAPI.Controllers.CategoriesController">
             <summary>
             Controller used to expose Category resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.#ctor(MyBlogAPI.Services.CategoryService.ICategoryService,MyBlogAPI.Services.PostService.IPostService)">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.#ctor(BlogCoreAPI.Services.CategoryService.ICategoryService,BlogCoreAPI.Services.PostService.IPostService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.CategoriesController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CategoriesController"/> class.
             </summary>
             <param name="categoryService"></param>
             <param name="postService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.GetCategories(System.String,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetCategories(System.String,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
             Get list of categories.
             </summary>
@@ -246,7 +246,7 @@
             <param name="maximumPostNumber"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.Get(System.Int32)">
             <summary>
             Get a category by giving its Id.
             </summary>
@@ -256,7 +256,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.AddCategory(MyBlogAPI.DTOs.Category.AddCategoryDto)">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.AddCategory(BlogCoreAPI.DTOs.Category.AddCategoryDto)">
             <summary>
             Add a category.
             </summary>
@@ -266,7 +266,7 @@
             <param name="user"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.UpdateCategory(MyBlogAPI.DTOs.Category.UpdateCategoryDto)">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.UpdateCategory(BlogCoreAPI.DTOs.Category.UpdateCategoryDto)">
             <summary>
             Update a category.
             </summary>
@@ -276,7 +276,7 @@
             <param name="category"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.DeleteCategory(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.DeleteCategory(System.Int32)">
             <summary>
             Delete a category by giving its id.
             </summary>
@@ -286,7 +286,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CategoriesController.GetPostFromCategory(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetPostFromCategory(System.Int32)">
             <summary>
             Get posts from a category by giving category's id.
             </summary>
@@ -296,20 +296,20 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.CommentsController">
+        <member name="T:BlogCoreAPI.Controllers.CommentsController">
             <summary>
             Controller used to expose Comment resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.#ctor(MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.#ctor(BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.CommentsController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CommentsController"/> class.
             </summary>
             <param name="commentService"></param>
             <param name="likeService"></param>
             <param name="authorizationService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.GetComments(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetComments(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.String)">
             <summary>
             Get list of comments.
             </summary>
@@ -325,7 +325,7 @@
             <param name="content"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.Get(System.Int32)">
             <summary>
             Get a comment by giving its Id.
             </summary>
@@ -335,7 +335,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.AddComment(MyBlogAPI.DTOs.Comment.AddCommentDto)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.AddComment(BlogCoreAPI.DTOs.Comment.AddCommentDto)">
             <summary>
             Add a comment.
             </summary>
@@ -345,7 +345,7 @@
             <param name="comment"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.UpdateComment(MyBlogAPI.DTOs.Comment.UpdateCommentDto)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.UpdateComment(BlogCoreAPI.DTOs.Comment.UpdateCommentDto)">
             <summary>
             Update a comment.
             </summary>
@@ -355,7 +355,7 @@
             <param name="comment"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.DeleteComment(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.DeleteComment(System.Int32)">
             <summary>
             Delete a comment by giving its id.
             </summary>
@@ -365,7 +365,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.CommentsController.GetLikesFromComment(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetLikesFromComment(System.Int32)">
             <summary>
             Get likes from a comment by giving comment's id.
             </summary>
@@ -375,30 +375,30 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.ErrorsController">
+        <member name="T:BlogCoreAPI.Controllers.ErrorsController">
             <summary>
             Errors controllers used as middleware to catch exceptions and manage behaviors.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.ErrorsController.Error">
+        <member name="M:BlogCoreAPI.Controllers.ErrorsController.Error">
             <summary>
             Define HttpStatusCode and error type depending of exception raised.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.LikesController">
+        <member name="T:BlogCoreAPI.Controllers.LikesController">
             <summary>
             Controller used to expose Like resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.#ctor(MyBlogAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.#ctor(BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.LikesController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.LikesController"/> class.
             </summary>
             <param name="likeService"></param>
             <param name="authorizeService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.GetLikes(System.String,System.Int32,System.Int32,System.Nullable{DbAccess.Data.POCO.LikeableType})">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(System.String,System.Int32,System.Int32,System.Nullable{DBAccess.Data.POCO.LikeableType})">
             <summary>
             Get list of likes.
             </summary>
@@ -411,7 +411,7 @@
             <param name="likeableType"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.Get(System.Int32)">
             <summary>
             Get a like by giving its Id.
             </summary>
@@ -421,7 +421,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.AddLikes(MyBlogAPI.DTOs.Like.AddLikeDto)">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.AddLikes(BlogCoreAPI.DTOs.Like.AddLikeDto)">
             <summary>
             Add a like.
             </summary>
@@ -431,7 +431,7 @@
             <param name="like"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.UpdateLike(MyBlogAPI.DTOs.Like.UpdateLikeDto)">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.UpdateLike(BlogCoreAPI.DTOs.Like.UpdateLikeDto)">
             <summary>
             Update a like.
             </summary>
@@ -441,7 +441,7 @@
             <param name="like"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.LikesController.DeleteLike(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.DeleteLike(System.Int32)">
             <summary>
             Delete a like by giving its id.
             </summary>
@@ -451,21 +451,21 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.PostsController">
+        <member name="T:BlogCoreAPI.Controllers.PostsController">
             <summary>
             Controller used to expose Post resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.#ctor(MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.#ctor(BlogCoreAPI.Services.PostService.IPostService,BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.PostsController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.PostsController"/> class.
             </summary>
             <param name="postService"></param>
             <param name="commentService"></param>
             <param name="likeService"></param>
             <param name="authorizationService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.GetPosts(System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetPosts(System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
             <summary>
             Get list of posts.
             </summary>
@@ -480,7 +480,7 @@
             <param name="content"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.Get(System.Int32)">
             <summary>
             Get a post by giving its Id.
             </summary>
@@ -490,7 +490,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.AddPost(MyBlogAPI.DTOs.Post.AddPostDto)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.AddPost(BlogCoreAPI.DTOs.Post.AddPostDto)">
             <summary>
             Add a post.
             </summary>
@@ -500,7 +500,7 @@
             <param name="post"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.UpdatePost(MyBlogAPI.DTOs.Post.UpdatePostDto)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.UpdatePost(BlogCoreAPI.DTOs.Post.UpdatePostDto)">
             <summary>
             Update a post.
             </summary>
@@ -510,7 +510,7 @@
             <param name="post"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.DeletePost(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.DeletePost(System.Int32)">
             <summary>
             Delete a post by giving its id.
             </summary>
@@ -520,7 +520,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.GetCommentsFromPost(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetCommentsFromPost(System.Int32)">
             <summary>
             Get comments from a post by giving post's id.
             </summary>
@@ -530,7 +530,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.PostsController.GetLikesFromPost(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetLikesFromPost(System.Int32)">
             <summary>
             Get likes from a post by giving post's id.
             </summary>
@@ -540,19 +540,19 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.RolesController">
+        <member name="T:BlogCoreAPI.Controllers.RolesController">
             <summary>
             Controller used to expose Role resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.#ctor(MyBlogAPI.Services.RoleService.IRoleService,MyBlogAPI.Services.UserService.IUserService)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.#ctor(BlogCoreAPI.Services.RoleService.IRoleService,BlogCoreAPI.Services.UserService.IUserService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.CommentsController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CommentsController"/> class.
             </summary>
             <param name="roleService"></param>
             <param name="userService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.GetRoles(System.String,System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(System.String,System.Int32,System.Int32)">
             <summary>
             Get list of roles.
             </summary>
@@ -564,7 +564,7 @@
             <param name="size"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.Get(System.Int32)">
             <summary>
             Get a role by giving its Id.
             </summary>
@@ -574,7 +574,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.AddRole(MyBlogAPI.DTOs.Role.AddRoleDto)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.AddRole(BlogCoreAPI.DTOs.Role.AddRoleDto)">
             <summary>
             Add a role.
             </summary>
@@ -584,7 +584,7 @@
             <param name="role"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.UpdateRole(MyBlogAPI.DTOs.Role.UpdateRoleDto)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.UpdateRole(BlogCoreAPI.DTOs.Role.UpdateRoleDto)">
             <summary>
             Update a role.
             </summary>
@@ -594,7 +594,7 @@
             <param name="role"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.GetPermissions(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetPermissions(System.Int32)">
             <summary>
             Get permissions from an existing role.
             </summary>
@@ -604,7 +604,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.AddPermission(System.Int32,DbAccess.Data.POCO.Permission.Permission)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.AddPermission(System.Int32,DBAccess.Data.POCO.Permission.Permission)">
             <summary>
             Add a permission to an existing role.
             </summary>
@@ -615,7 +615,7 @@
             <param name="permission"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.RemovePermission(System.Int32,DbAccess.Data.POCO.Permission.Permission)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.RemovePermission(System.Int32,DBAccess.Data.POCO.Permission.Permission)">
             <summary>
             Remove a permission to an existing role.
             </summary>
@@ -626,7 +626,7 @@
             <param name="permission"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.DeleteRole(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.DeleteRole(System.Int32)">
             <summary>
             Delete a role by giving its id.
             </summary>
@@ -636,7 +636,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.RolesController.GetUsersFromRole(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetUsersFromRole(System.Int32)">
             <summary>
             Get list of users with a specific role by giving the role's id.
             </summary>
@@ -646,19 +646,19 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.TagsController">
+        <member name="T:BlogCoreAPI.Controllers.TagsController">
             <summary>
             Controller used to expose Tag resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.#ctor(MyBlogAPI.Services.TagService.ITagService,MyBlogAPI.Services.PostService.IPostService)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.#ctor(BlogCoreAPI.Services.TagService.ITagService,BlogCoreAPI.Services.PostService.IPostService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.TagsController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.TagsController"/> class.
             </summary>
             <param name="tagService"></param>
             <param name="postService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.GetTags(System.String,System.Int32,System.Int32,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(System.String,System.Int32,System.Int32,System.String)">
             <summary>
             Get list of tags.
             </summary>
@@ -671,7 +671,7 @@
             <param name="name"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.Get(System.Int32)">
             <summary>
             Get a tag by giving its Id.
             </summary>
@@ -681,7 +681,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.AddTag(MyBlogAPI.DTOs.Tag.AddTagDto)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.AddTag(BlogCoreAPI.DTOs.Tag.AddTagDto)">
             <summary>
             Add a tag.
             </summary>
@@ -689,7 +689,7 @@
             Add a tag.
             </remarks>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.UpdateTag(MyBlogAPI.DTOs.Tag.UpdateTagDto)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.UpdateTag(BlogCoreAPI.DTOs.Tag.UpdateTagDto)">
             <summary>
             Update a tag.
             </summary>
@@ -699,7 +699,7 @@
             <param name="tag"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.DeleteUser(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.DeleteUser(System.Int32)">
             <summary>
             Delete a tag by giving its id.
             </summary>
@@ -709,7 +709,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.TagsController.GetPostsFromTag(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.GetPostsFromTag(System.Int32)">
             <summary>
             Get posts from a tag by giving tag's id.
             </summary>
@@ -719,14 +719,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Controllers.UsersController">
+        <member name="T:BlogCoreAPI.Controllers.UsersController">
             <summary>
             Controller used to expose User resources of the API.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.#ctor(MyBlogAPI.Services.UserService.IUserService,MyBlogAPI.Services.LikeService.ILikeService,MyBlogAPI.Services.PostService.IPostService,MyBlogAPI.Services.CommentService.ICommentService,MyBlogAPI.Services.RoleService.IRoleService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.LikeService.ILikeService,BlogCoreAPI.Services.PostService.IPostService,BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.RoleService.IRoleService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Controllers.UsersController"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
             </summary>
             <param name="userService"></param>
             <param name="likeService"></param>
@@ -735,7 +735,7 @@
             <param name="roleService"></param>
             <param name="authorizationService"></param>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.GetUsers(System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetUsers(System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
             Get list of users.
             </summary>
@@ -751,7 +751,7 @@
             <param name="lastLoginBefore"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.Get(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.Get(System.Int32)">
             <summary>
             Get a user by giving its Id.
             </summary>
@@ -761,7 +761,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.AddRoleToUser(System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.AddRoleToUser(System.Int32,System.Int32)">
             <summary>
             Add a role to a user.
             </summary>
@@ -772,7 +772,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.RemoveRoleToUser(System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.RemoveRoleToUser(System.Int32,System.Int32)">
             <summary>
             Remove a role to a user.
             </summary>
@@ -783,7 +783,7 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.UpdateUser(MyBlogAPI.DTOs.User.UpdateUserDto)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.UpdateUser(BlogCoreAPI.DTOs.User.UpdateUserDto)">
             <summary>
             Update a user.
             </summary>
@@ -793,7 +793,7 @@
             <param name="user"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.DeleteUser(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.DeleteUser(System.Int32)">
             <summary>
             Delete a user by giving its id.
             </summary>
@@ -803,7 +803,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">
             <summary>
             Get posts written by a user by giving user's id.
             </summary>
@@ -813,7 +813,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.GetCommentsFromUser(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetCommentsFromUser(System.Int32)">
             <summary>
             Get comments written by a user by giving user's id.
             </summary>
@@ -823,7 +823,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Controllers.UsersController.GetLikesFromUser(System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetLikesFromUser(System.Int32)">
             <summary>
             Get likes given by a user by giving user's id.
             </summary>
@@ -833,743 +833,743 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.DTOs.ADto">
+        <member name="T:BlogCoreAPI.DTOs.ADto">
             <summary>
-            Abstract of <see cref="T:MyBlogAPI.DTOs.IDto"/>. This class implement the mandatory properties and methods of all resources classified as Dto.
+            Abstract of <see cref="T:BlogCoreAPI.DTOs.IDto"/>. This class implement the mandatory properties and methods of all resources classified as Dto.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.DTOs.ADto.Id">
+        <member name="P:BlogCoreAPI.DTOs.ADto.Id">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.DTOs.ADto.Equals(MyBlogAPI.DTOs.IDto)">
+        <member name="M:BlogCoreAPI.DTOs.ADto.Equals(BlogCoreAPI.DTOs.IDto)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.DTOs.ADto.Equals(System.Object)">
+        <member name="M:BlogCoreAPI.DTOs.ADto.Equals(System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:MyBlogAPI.DTOs.ADto.GetHashCode">
+        <member name="M:BlogCoreAPI.DTOs.ADto.GetHashCode">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Category.AddCategoryDto">
+        <member name="T:BlogCoreAPI.DTOs.Category.AddCategoryDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.Category"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Category.Converters.CategoryIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Category"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Category"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Category.Converters.CategoryIdConverter.#ctor(DbAccess.Repositories.Category.ICategoryRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter.#ctor(DBAccess.Repositories.Category.ICategoryRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Category.Converters.CategoryIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Category.Converters.CategoryIdConverter.Convert(System.Int32,DbAccess.Data.POCO.Category,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Category.Converters.UpdateCategoryConverter">
+        <member name="T:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:MyBlogAPI.DTOs.Category.UpdateCategoryDto"/> to <see cref="T:DbAccess.Data.POCO.Category"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Category.UpdateCategoryDto"/> to <see cref="N:BlogCoreAPI.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Category.Converters.UpdateCategoryConverter.Convert(MyBlogAPI.DTOs.Category.UpdateCategoryDto,DbAccess.Data.POCO.Category,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter.Convert(BlogCoreAPI.DTOs.Category.UpdateCategoryDto,DBAccess.Data.POCO.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Category.GetCategoryDto">
+        <member name="T:BlogCoreAPI.DTOs.Category.GetCategoryDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Category"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Category.ICategoryDto">
+        <member name="T:BlogCoreAPI.DTOs.Category.ICategoryDto">
             <summary>
-            Interface of <see cref="T:DbAccess.Data.POCO.Category"/> Dto containing all the common properties of Category Dto Type (GET, ADD, UPDATE).
+            Interface of <see cref="N:BlogCoreAPI.DTOs.Category"/> Dto containing all the common properties of Category Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Category.UpdateCategoryDto">
+        <member name="T:BlogCoreAPI.DTOs.Category.UpdateCategoryDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Category"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Comment.AddCommentDto">
+        <member name="T:BlogCoreAPI.DTOs.Comment.AddCommentDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.Comment"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Comment.Converters.CommentIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Comment"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Comment"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Comment.Converters.CommentIdConverter.#ctor(DbAccess.Repositories.Comment.ICommentRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Comment.Converters.CommentIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Comment.Converters.CommentIdConverter.Convert(System.Int32,DbAccess.Data.POCO.Comment,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Comment,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Comment.Converters.UpdateCommentConverter">
+        <member name="T:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:MyBlogAPI.DTOs.Comment.UpdateCommentDto"/> to <see cref="T:DbAccess.Data.POCO.Comment"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Comment.UpdateCommentDto"/> to <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Comment.Converters.UpdateCommentConverter.#ctor(DbAccess.Repositories.Comment.ICommentRepository,DbAccess.Repositories.Post.IPostRepository,DbAccess.Repositories.User.IUserRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository,DBAccess.Repositories.Post.IPostRepository,DBAccess.Repositories.User.IUserRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Comment.Converters.UpdateCommentConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter"/> class.
             </summary>
             <param name="commentRepository"></param>
             <param name="postRepository"></param>
             <param name="userRepository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Comment.Converters.UpdateCommentConverter.Convert(MyBlogAPI.DTOs.Comment.UpdateCommentDto,DbAccess.Data.POCO.Comment,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter.Convert(BlogCoreAPI.DTOs.Comment.UpdateCommentDto,DBAccess.Data.POCO.Comment,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Comment.GetCommentDto">
+        <member name="T:BlogCoreAPI.DTOs.Comment.GetCommentDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Comment"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Comment.ICommentDto">
+        <member name="T:BlogCoreAPI.DTOs.Comment.ICommentDto">
             <summary>
-            Interface of <see cref="T:DbAccess.Data.POCO.Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).
+            Interface of <see cref="N:BlogCoreAPI.DTOs.Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Comment.UpdateCommentDto">
+        <member name="T:BlogCoreAPI.DTOs.Comment.UpdateCommentDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Comment"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.IDto">
+        <member name="T:BlogCoreAPI.DTOs.IDto">
             <summary>
             Interface of all Dto object resource which include the mandatory properties needed to classify an object as a Dto
             </summary>
         </member>
-        <member name="P:MyBlogAPI.DTOs.IDto.Id">
+        <member name="P:BlogCoreAPI.DTOs.IDto.Id">
             <summary>
             Id of the resource. This element is necessary to recover the object inside Database.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Like.AddLikeDto">
+        <member name="T:BlogCoreAPI.DTOs.Like.AddLikeDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.Like"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Like"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Like.Converters.LikeIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Like"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Like"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Like.Converters.LikeIdConverter.#ctor(DbAccess.Repositories.Like.ILikeRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter.#ctor(DBAccess.Repositories.Like.ILikeRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Like.Converters.LikeIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Like.Converters.LikeIdConverter.Convert(System.Int32,DbAccess.Data.POCO.Like,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Like,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Like.Converters.UpdateLikeConverter">
+        <member name="T:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:MyBlogAPI.DTOs.Like.UpdateLikeDto"/> to <see cref="T:DbAccess.Data.POCO.Like"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Like.UpdateLikeDto"/> to <see cref="N:BlogCoreAPI.DTOs.Like"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Like.Converters.UpdateLikeConverter.#ctor(DbAccess.Repositories.Comment.ICommentRepository,DbAccess.Repositories.Post.IPostRepository,DbAccess.Repositories.User.IUserRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository,DBAccess.Repositories.Post.IPostRepository,DBAccess.Repositories.User.IUserRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Like.Converters.UpdateLikeConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter"/> class.
             </summary>
             <param name="commentRepository"></param>
             <param name="postRepository"></param>
             <param name="userRepository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Like.Converters.UpdateLikeConverter.Convert(MyBlogAPI.DTOs.Like.UpdateLikeDto,DbAccess.Data.POCO.Like,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter.Convert(BlogCoreAPI.DTOs.Like.UpdateLikeDto,DBAccess.Data.POCO.Like,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Like.GetLikeDto">
+        <member name="T:BlogCoreAPI.DTOs.Like.GetLikeDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Like"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Like"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Like.ILikeDto">
+        <member name="T:BlogCoreAPI.DTOs.Like.ILikeDto">
             <summary>
-            Interface of <see cref="T:DbAccess.Data.POCO.Like"/> Dto containing all the common properties of Like Dto Type (GET, ADD, UPDATE).
+            Interface of <see cref="N:BlogCoreAPI.DTOs.Like"/> Dto containing all the common properties of Like Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Like.UpdateLikeDto">
+        <member name="T:BlogCoreAPI.DTOs.Like.UpdateLikeDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Like"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Like"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Permission.Converters.PermissionActionConverter">
+        <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Permission.PermissionAction"/> to <see cref="T:MyBlogAPI.DTOs.Permission.PermissionActionDto"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionActionDto"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Permission.Converters.PermissionActionConverter.Convert(DbAccess.Data.POCO.Permission.PermissionAction,MyBlogAPI.DTOs.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter.Convert(DBAccess.Data.POCO.Permission.PermissionAction,BlogCoreAPI.DTOs.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Permission.Converters.PermissionRangeConverter">
+        <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Permission.PermissionRange"/> to <see cref="T:MyBlogAPI.DTOs.Permission.PermissionRangeDto"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.POCO.Permission.PermissionRange"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionRangeDto"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Permission.Converters.PermissionRangeConverter.Convert(DbAccess.Data.POCO.Permission.PermissionRange,MyBlogAPI.DTOs.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter.Convert(DBAccess.Data.POCO.Permission.PermissionRange,BlogCoreAPI.DTOs.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Permission.Converters.PermissionTargetConverter">
+        <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Permission.PermissionTarget"/> to <see cref="T:MyBlogAPI.DTOs.Permission.PermissionTargetDto"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionTargetDto"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Permission.Converters.PermissionTargetConverter.Convert(DbAccess.Data.POCO.Permission.PermissionTarget,MyBlogAPI.DTOs.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter.Convert(DBAccess.Data.POCO.Permission.PermissionTarget,BlogCoreAPI.DTOs.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Permission.PermissionDto">
+        <member name="T:BlogCoreAPI.DTOs.Permission.PermissionDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Permission.Permission"/>
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Permission"/>
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Post.AddPostDto">
+        <member name="T:BlogCoreAPI.DTOs.Post.AddPostDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.Post"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Post"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Post.Converters.PostIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Post"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Post"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Post.Converters.PostIdConverter.#ctor(DbAccess.Repositories.Post.IPostRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter.#ctor(DBAccess.Repositories.Post.IPostRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Post.Converters.PostIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Post.Converters.PostIdConverter.Convert(System.Int32,DbAccess.Data.POCO.Post,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Post,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Post.Converters.UpdatePostConverter">
+        <member name="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:MyBlogAPI.DTOs.Post.Converters.UpdatePostConverter"/> to <see cref="T:DbAccess.Data.POCO.Post"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter"/> to <see cref="N:BlogCoreAPI.DTOs.Post"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Post.Converters.UpdatePostConverter.#ctor(DbAccess.Repositories.User.IUserRepository,DbAccess.Repositories.Category.ICategoryRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.#ctor(DBAccess.Repositories.User.IUserRepository,DBAccess.Repositories.Category.ICategoryRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Post.Converters.UpdatePostConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter"/> class.
             </summary>
             <param name="userRepository"></param>
             <param name="categoryRepository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Post.Converters.UpdatePostConverter.Convert(MyBlogAPI.DTOs.Post.UpdatePostDto,DbAccess.Data.POCO.Post,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.Convert(BlogCoreAPI.DTOs.Post.UpdatePostDto,DBAccess.Data.POCO.Post,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Post.GetPostDto">
+        <member name="T:BlogCoreAPI.DTOs.Post.GetPostDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Post"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Post"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Post.IPostDto">
+        <member name="T:BlogCoreAPI.DTOs.Post.IPostDto">
             <summary>
-            Interface of <see cref="T:DbAccess.Data.POCO.Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).
+            Interface of <see cref="N:BlogCoreAPI.DTOs.Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Post.UpdatePostDto">
+        <member name="T:BlogCoreAPI.DTOs.Post.UpdatePostDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Post"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Post"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Role.AddRoleDto">
+        <member name="T:BlogCoreAPI.DTOs.Role.AddRoleDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.Role"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Role"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Role.Converters.RoleIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Role"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Role"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Role.Converters.RoleIdConverter.#ctor(DbAccess.Repositories.Role.IRoleRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.#ctor(DBAccess.Repositories.Role.IRoleRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Role.Converters.RoleIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DbAccess.Data.POCO.Role,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Role,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Role.GetRoleDto">
+        <member name="T:BlogCoreAPI.DTOs.Role.GetRoleDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Role"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Role"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Role.IRoleDto">
+        <member name="T:BlogCoreAPI.DTOs.Role.IRoleDto">
             <summary>
-            Interface of <see cref="T:DbAccess.Data.POCO.Role"/> Dto containing all the common properties of Role Dto Type (GET, ADD, UPDATE).
+            Interface of <see cref="N:BlogCoreAPI.DTOs.Role"/> Dto containing all the common properties of Role Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Role.UpdateRoleDto">
+        <member name="T:BlogCoreAPI.DTOs.Role.UpdateRoleDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Role"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Role"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Tag.AddTagDto">
+        <member name="T:BlogCoreAPI.DTOs.Tag.AddTagDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.Tag"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Tag"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Tag.Converters.TagIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.Tag"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Tag"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Tag.Converters.TagIdConverter.#ctor(DbAccess.Repositories.Tag.ITagRepository)">
+        <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.#ctor(DBAccess.Repositories.Tag.ITagRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.Tag.Converters.TagIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DbAccess.Data.POCO.Tag,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Tag,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.Tag.GetTagDto">
+        <member name="T:BlogCoreAPI.DTOs.Tag.GetTagDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.Tag"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Tag"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Tag.ITagDto">
+        <member name="T:BlogCoreAPI.DTOs.Tag.ITagDto">
             <summary>
-            Interface of <see cref="T:DbAccess.Data.POCO.Tag"/> Dto containing all the common properties of Tag Dto Type (GET, ADD, UPDATE).
+            Interface of <see cref="N:BlogCoreAPI.DTOs.Tag"/> Dto containing all the common properties of Tag Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.Tag.UpdateTagDto">
+        <member name="T:BlogCoreAPI.DTOs.Tag.UpdateTagDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.Tag"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Tag"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.User.AddUserDto">
+        <member name="T:BlogCoreAPI.DTOs.User.AddUserDto">
             <summary>
-            Add Dto type of <see cref="T:DbAccess.Data.POCO.User"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.User.Converters.UpdateUserConverter">
+        <member name="T:BlogCoreAPI.DTOs.User.Converters.UpdateUserConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:MyBlogAPI.DTOs.User.UpdateUserDto"/> to <see cref="T:DbAccess.Data.POCO.User"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.User.UpdateUserDto"/> to <see cref="N:BlogCoreAPI.DTOs.User"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.User.Converters.UpdateUserConverter.Convert(MyBlogAPI.DTOs.User.UpdateUserDto,DbAccess.Data.POCO.User,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.User.Converters.UpdateUserConverter.Convert(BlogCoreAPI.DTOs.User.UpdateUserDto,DBAccess.Data.POCO.User,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.User.Converters.UserIdConverter">
+        <member name="T:BlogCoreAPI.DTOs.User.Converters.UserIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DbAccess.Data.POCO.User"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.User"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.DTOs.User.Converters.UserIdConverter.#ctor(DbAccess.Repositories.User.IUserRepository)">
+        <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.#ctor(DBAccess.Repositories.User.IUserRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.DTOs.User.Converters.UserIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.User.Converters.UserIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:MyBlogAPI.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DbAccess.Data.POCO.User,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.POCO.User,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.DTOs.User.GetUserDto">
+        <member name="T:BlogCoreAPI.DTOs.User.GetUserDto">
             <summary>
-            GET Dto type of <see cref="T:DbAccess.Data.POCO.User"/>.
+            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.User.IUserDto">
+        <member name="T:BlogCoreAPI.DTOs.User.IUserDto">
             <summary>
             Interface of User Dto containing all the common properties of User Dto Type (GET, ADD, UPDATE).
             </summary>
         </member>
-        <member name="T:MyBlogAPI.DTOs.User.UpdateUserDto">
+        <member name="T:BlogCoreAPI.DTOs.User.UpdateUserDto">
             <summary>
-            UPDATE Dto type of <see cref="T:DbAccess.Data.POCO.User"/>.
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.Extensions.ServiceCollectionExtensions">
+        <member name="T:BlogCoreAPI.Extensions.ServiceCollectionExtensions">
             <summary> 
-            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject MyBlog Services 
+            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject BlogCoreAPI Services 
             </summary> 
         </member>
-        <member name="M:MyBlogAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary> 
             class used to register repository services 
             </summary> 
             <param name="services"></param> 
             <returns></returns> 
         </member>
-        <member name="M:MyBlogAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary> 
             class used to register resource services 
             </summary> 
             <param name="services"></param> 
             <returns></returns> 
         </member>
-        <member name="M:MyBlogAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary> 
             class used to register resource services 
             </summary> 
             <param name="services"></param> 
             <returns></returns> 
         </member>
-        <member name="T:MyBlogAPI.Filters.Category.CategoryQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.Category.CategoryQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Category"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Category"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Category.CategoryQueryFilter.#ctor(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+        <member name="M:BlogCoreAPI.Filters.Category.CategoryQueryFilter.#ctor(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Category.CategoryQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Category.CategoryQueryFilter"/> class.
             </summary>
             <param name="name"></param>
             <param name="minimumPostNumber"></param>
             <param name="maximumPostNumber"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Category.CategoryQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.Category.CategoryQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.Category"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Category"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Category.SortCategoryFilter">
+        <member name="T:BlogCoreAPI.Filters.Category.SortCategoryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Category"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Category"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Category.SortCategoryFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Filters.Category.SortCategoryFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Category.SortCategoryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Category.SortCategoryFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Category.SortCategoryFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.Category.SortCategoryFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.Category"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Category"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Comment.CommentQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.Comment.CommentQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Comment"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Comment"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Comment.CommentQueryFilter.#ctor(System.String,System.String,System.String)">
+        <member name="M:BlogCoreAPI.Filters.Comment.CommentQueryFilter.#ctor(System.String,System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Comment.CommentQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Comment.CommentQueryFilter"/> class.
             </summary>
             <param name="authorUsername"></param>
             <param name="postParentName"></param>
             <param name="content"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Comment.CommentQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.Comment.CommentQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.Comment"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Comment"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Comment.SortCommentFilter">
+        <member name="T:BlogCoreAPI.Filters.Comment.SortCommentFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Comment"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Comment"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Comment.SortCommentFilter.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Filters.Comment.SortCommentFilter.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Comment.SortCommentFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Comment.SortCommentFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
             <param name="orderBy"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Comment.SortCommentFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.Comment.SortCommentFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.Comment"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Comment"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Like.LikeQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.Like.LikeQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Like"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Like"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Like.LikeQueryFilter.#ctor(System.Nullable{DbAccess.Data.POCO.LikeableType})">
+        <member name="M:BlogCoreAPI.Filters.Like.LikeQueryFilter.#ctor(System.Nullable{DBAccess.Data.POCO.LikeableType})">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Like.LikeQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Like.LikeQueryFilter"/> class.
             </summary>
             <param name="likeableType"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Like.LikeQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.Like.LikeQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.Like"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Like"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Like.SortLikeFilter">
+        <member name="T:BlogCoreAPI.Filters.Like.SortLikeFilter">
             <summary>
-             Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Like"/>.
+             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Like"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Like.SortLikeFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Filters.Like.SortLikeFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Like.SortLikeFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Like.SortLikeFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Like.SortLikeFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.Like.SortLikeFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.Like"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Like"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.PaginationFilter">
+        <member name="T:BlogCoreAPI.Filters.PaginationFilter">
             <summary>
             Pagination filter used to execute Query on a resource.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Filters.PaginationFilter.Page">
+        <member name="P:BlogCoreAPI.Filters.PaginationFilter.Page">
             <summary>
             Page of the query.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Filters.PaginationFilter.Limit">
+        <member name="P:BlogCoreAPI.Filters.PaginationFilter.Limit">
             <summary>
             Limit of the query.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.PaginationFilter.#ctor(System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Filters.PaginationFilter.#ctor(System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.PaginationFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.PaginationFilter"/> class.
             </summary>
             <param name="page"></param>
             <param name="size"></param>
         </member>
-        <member name="T:MyBlogAPI.Filters.Post.PostQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.Post.PostQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Post"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Post"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Post.PostQueryFilter.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Filters.Post.PostQueryFilter.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Post.PostQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Post.PostQueryFilter"/> class.
             </summary>
             <param name="content"></param>
             <param name="name"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Post.PostQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.Post.PostQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.Post"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Post"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Post.SortPostFilter">
+        <member name="T:BlogCoreAPI.Filters.Post.SortPostFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Post"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Post"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Post.SortPostFilter.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Filters.Post.SortPostFilter.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Post.SortPostFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Post.SortPostFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
             <param name="orderBy"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Post.SortPostFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.Post.SortPostFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.Post"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Post"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Role.RoleQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.Role.RoleQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Role"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Role"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Role.RoleQueryFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Filters.Role.RoleQueryFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Role.RoleQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Role.RoleQueryFilter"/> class.
             </summary>
             <param name="name"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Role.RoleQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.Role.RoleQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.Role"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Role"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Role.SortRoleFilter">
+        <member name="T:BlogCoreAPI.Filters.Role.SortRoleFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Role"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Role"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Role.SortRoleFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Filters.Role.SortRoleFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Role.SortRoleFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Role.SortRoleFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Role.SortRoleFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.Role.SortRoleFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.Role"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Role"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Tag.SortTagFilter">
+        <member name="T:BlogCoreAPI.Filters.Tag.SortTagFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Tag"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Tag"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Tag.SortTagFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Filters.Tag.SortTagFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Tag.SortTagFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Tag.SortTagFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Tag.SortTagFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.Tag.SortTagFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.Tag"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Tag"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.Tag.TagQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.Tag.TagQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.Tag"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Tag"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.Tag.TagQueryFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Filters.Tag.TagQueryFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.Tag.TagQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Tag.TagQueryFilter"/> class.
             </summary>
             <param name="name"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.Tag.TagQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.Tag.TagQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.Tag"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Tag"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.User.SortUserFilter">
+        <member name="T:BlogCoreAPI.Filters.User.SortUserFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.User"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.User"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.User.SortUserFilter.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Filters.User.SortUserFilter.#ctor(System.String,System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.User.SortUserFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.User.SortUserFilter"/> class.
             </summary>
             <param name="sortingDirection"></param>
             <param name="orderBy"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.User.SortUserFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Filters.User.SortUserFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="T:DbAccess.Data.POCO.User"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Filters.User"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Filters.User.UserQueryFilter">
+        <member name="T:BlogCoreAPI.Filters.User.UserQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DbAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="T:DbAccess.Data.POCO.User"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.User"/>.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Filters.User.UserQueryFilter.#ctor(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:BlogCoreAPI.Filters.User.UserQueryFilter.#ctor(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Filters.User.UserQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.User.UserQueryFilter"/> class.
             </summary>
             <param name="username"></param>
             <param name="lastLoginBefore"></param>
             <param name="registerBefore"></param>
         </member>
-        <member name="M:MyBlogAPI.Filters.User.UserQueryFilter.GetFilterSpecification">
+        <member name="M:BlogCoreAPI.Filters.User.UserQueryFilter.GetFilterSpecification">
             <summary>
-            Get filter specification of <see cref="T:DbAccess.Data.POCO.User"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Filters.User"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:MyBlogAPI.Responses.BlogErrorResponse">
+        <member name="T:BlogCoreAPI.Responses.BlogErrorResponse">
             <summary>
             Error Response return from API to Client when the request couldn't be execute properly.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Responses.BlogErrorResponse.Type">
+        <member name="P:BlogCoreAPI.Responses.BlogErrorResponse.Type">
             <summary>
             Type of the exception raised.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Responses.BlogErrorResponse.Message">
+        <member name="P:BlogCoreAPI.Responses.BlogErrorResponse.Message">
             <summary>
             Message intended to the Client about the error description.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Responses.BlogErrorResponse.#ctor(System.Exception)">
+        <member name="M:BlogCoreAPI.Responses.BlogErrorResponse.#ctor(System.Exception)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Responses.BlogErrorResponse"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Responses.BlogErrorResponse"/> class.
             </summary>
             <param name="ex"></param>
         </member>
-        <member name="T:MyBlogAPI.Responses.BlogResponse`1">
+        <member name="T:BlogCoreAPI.Responses.BlogResponse`1">
             <summary>
             Response return from API to Client when the request was executed properly.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Responses.BlogResponse`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+        <member name="M:BlogCoreAPI.Responses.BlogResponse`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Responses.BlogResponse`1"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Responses.BlogResponse`1"/> class.
             </summary>
             <param name="data"></param>
         </member>
-        <member name="P:MyBlogAPI.Responses.BlogResponse`1.Data">
+        <member name="P:BlogCoreAPI.Responses.BlogResponse`1.Data">
             <summary>
             Data returned to the Client after the execution of its request.
             </summary>
         </member>
-        <member name="T:MyBlogAPI.Responses.PagedBlogResponse`1">
+        <member name="T:BlogCoreAPI.Responses.PagedBlogResponse`1">
             <summary>
-            Class inherited from <see cref="T:MyBlogAPI.Responses.BlogResponse`1"/>.
+            Class inherited from <see cref="T:BlogCoreAPI.Responses.BlogResponse`1"/>.
             This class return a response to the request of the Client with pagination information.
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Page">
+        <member name="P:BlogCoreAPI.Responses.PagedBlogResponse`1.Page">
             <summary>
             Page of query elements applied.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Limit">
+        <member name="P:BlogCoreAPI.Responses.PagedBlogResponse`1.Limit">
             <summary>
             Limit of item numbers applied from the query requested.
             </summary>
         </member>
-        <member name="P:MyBlogAPI.Responses.PagedBlogResponse`1.Total">
+        <member name="P:BlogCoreAPI.Responses.PagedBlogResponse`1.Total">
             <summary>
             Total number of items existing in the query requested.
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Responses.PagedBlogResponse`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Responses.PagedBlogResponse`1.#ctor(System.Collections.Generic.IEnumerable{`0},System.Int32,System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:MyBlogAPI.Responses.PagedBlogResponse`1"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Responses.PagedBlogResponse`1"/> class.
             </summary>
             <param name="data"></param>
             <param name="page"></param>
             <param name="size"></param>
             <param name="total"></param>
         </member>
-        <member name="M:MyBlogAPI.Services.CategoryService.CategoryService.CountCategoriesWhere(DbAccess.Specifications.FilterSpecifications.FilterSpecification{DbAccess.Data.POCO.Category})">
+        <member name="M:BlogCoreAPI.Services.CategoryService.CategoryService.CountCategoriesWhere(DBAccess.Specifications.FilterSpecifications.FilterSpecification{DBAccess.Data.POCO.Category})">
             <inheritdoc />
         </member>
-        <member name="T:MyBlogAPI.Services.JwtService.IJwtService">
+        <member name="T:BlogCoreAPI.Services.JwtService.IJwtService">
             <summary>
             Service used to manipulate JWT
             </summary>
         </member>
-        <member name="M:MyBlogAPI.Services.JwtService.IJwtService.GenerateJwt(System.Int32)">
+        <member name="M:BlogCoreAPI.Services.JwtService.IJwtService.GenerateJwt(System.Int32)">
             <summary>
             Generate a unique JWT for a user.
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:MyBlogAPI.Services.JwtService.JwtService.GenerateJwt(System.Int32)">
+        <member name="M:BlogCoreAPI.Services.JwtService.JwtService.GenerateJwt(System.Int32)">
             <inheritdoc />
         </member>
     </members>

@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 namespace DBAccess.DataContext
 {
     /// <summary>
-    /// Context used for Microsoft SQL Server database (compatibility)
+    /// context used for Microsoft SQL Server database (compatibility)
     /// </summary>
-    public class MsSqlDbContext : MyBlogContext
+    public class MsSqlDbCoreContext : BlogCoreContext
     {
         /// <inheritdoc />
-        public MsSqlDbContext(DbContextOptions options) : base(options) { }
+        public MsSqlDbCoreContext(DbContextOptions options) : base(options) { }
 
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)

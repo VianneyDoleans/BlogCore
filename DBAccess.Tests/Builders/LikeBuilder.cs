@@ -10,12 +10,12 @@ namespace DBAccess.Tests.Builders
     {
         private readonly ILikeRepository _likeRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly MyBlogContext _db;
+        private readonly BlogCoreContext _db;
         private User _user;
         private Comment _comment;
         private Post _post;
 
-        public LikeBuilder(ILikeRepository likeRepository, IUnitOfWork unitOfWork, MyBlogContext db)
+        public LikeBuilder(ILikeRepository likeRepository, IUnitOfWork unitOfWork, BlogCoreContext db)
         {
             _likeRepository = likeRepository;
             _unitOfWork = unitOfWork;

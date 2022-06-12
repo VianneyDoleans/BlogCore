@@ -16,7 +16,7 @@ namespace DBAccess.Repositories.Like
         /// Initializes a new instance of the <see cref="LikeRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public LikeRepository(MyBlogContext context) : base(context)
+        public LikeRepository(BlogCoreContext context) : base(context)
         {
         }
 
@@ -36,7 +36,7 @@ namespace DBAccess.Repositories.Like
         {
             try
             {
-                return await Context.Set<Data.POCO.Like>().Include(x => x.User)
+                return await context.Set<Data.POCO.Like>().Include(x => x.User)
                     .Include(x => x.Comment)
                     .Include(x => x.Post)
                     .SingleAsync(x => x.Id == id);
@@ -52,7 +52,7 @@ namespace DBAccess.Repositories.Like
         {
             try
             {
-                return Context.Set<Data.POCO.Like>().Include(x => x.User)
+                return context.Set<Data.POCO.Like>().Include(x => x.User)
                     .Include(x => x.Comment)
                     .Include(x => x.Post)
                     .Single(x => x.Id == id);
@@ -66,7 +66,7 @@ namespace DBAccess.Repositories.Like
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Like> GetAll()
         {
-            return Context.Set<Data.POCO.Like>().Include(x => x.User)
+            return context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
                 .Include(x => x.Post).ToList();
         }
@@ -74,7 +74,7 @@ namespace DBAccess.Repositories.Like
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Like>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Like>().Include(x => x.User)
+            return await context.Set<Data.POCO.Like>().Include(x => x.User)
                 .Include(x => x.Comment)
                 .Include(x => x.Post).ToListAsync();
         }
@@ -82,7 +82,7 @@ namespace DBAccess.Repositories.Like
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromPost(int id)
         {
-            return await Context.Set<Data.POCO.Like>()
+            return await context.Set<Data.POCO.Like>()
                     .Include(x => x.Post)
                     .Include(x => x.User)
                     .Where(x => x.Post.Id == id).ToListAsync();
@@ -91,7 +91,7 @@ namespace DBAccess.Repositories.Like
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromUser(int id)
         {
-            return await Context.Set<Data.POCO.Like>().Include(x => x.Comment)
+            return await context.Set<Data.POCO.Like>().Include(x => x.Comment)
                 .Include(x => x.Post)
                 .Include(x => x.User)
                 .Where(x => x.User.Id == id).ToListAsync();
@@ -100,7 +100,7 @@ namespace DBAccess.Repositories.Like
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Like>> GetLikesFromComment(int id)
         {
-            return await Context.Set<Data.POCO.Like>()
+            return await context.Set<Data.POCO.Like>()
                 .Include(x => x.User)
                 .Include(x => x.Comment)
                 .Where(x => x.Comment.Id == id).ToListAsync();
@@ -111,7 +111,7 @@ namespace DBAccess.Repositories.Like
         {
             if (like == null)
                 return false;
-            var result = await Context.Set<Data.POCO.Like>().FirstOrDefaultAsync(x => x.User == like.User && 
+            var result = await context.Set<Data.POCO.Like>().FirstOrDefaultAsync(x => x.User == like.User && 
                 x.Comment == like.Comment &&
                 x.LikeableType == like.LikeableType &&
                 x.Post == like.Post);

@@ -19,12 +19,12 @@ namespace DBAccess
             switch (dbProvider.Value)
             {
                 case "MsSQL":
-                    services.AddDbContext<MyBlogContext, MsSqlDbContext>(o => o.UseSqlServer(
+                    services.AddDbContext<BlogCoreContext, MsSqlDbCoreContext>(o => o.UseSqlServer(
                         configuration.GetConnectionString("Default")));
                     break;
 
                 case "PostgreSQL": 
-                    services.AddDbContext<MyBlogContext, PostgreSqlDbContext>(o => o.UseNpgsql(
+                    services.AddDbContext<BlogCoreContext, PostgreSqlDbCoreContext>(o => o.UseNpgsql(
                     configuration.GetConnectionString("Default")));
                 break;
                 case "HerokuPostgreSQL":
@@ -34,7 +34,7 @@ namespace DBAccess
                         TrustServerCertificate = true,
                         SslMode = SslMode.Require
                     };
-                    services.AddDbContext<MyBlogContext, PostgreSqlDbContext>(o =>
+                    services.AddDbContext<BlogCoreContext, PostgreSqlDbCoreContext>(o =>
                         o.UseNpgsql(builder.ConnectionString));
                     break;
                 default:
@@ -54,7 +54,7 @@ namespace DBAccess
                     options.Password.RequireUppercase = true;
                     options.Password.RequireLowercase = true;
                 })
-                .AddEntityFrameworkStores<MyBlogContext>()
+                .AddEntityFrameworkStores<BlogCoreContext>()
                 .AddDefaultTokenProviders();
             return services;
         }

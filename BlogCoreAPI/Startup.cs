@@ -46,10 +46,10 @@ namespace BlogCoreAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
-                    Title = "MyBlog",
+                    Title = "BlogCore",
                     Version = "v1"
                 });
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "MyBlogAPI.xml"));
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "BlogCore.xml"));
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

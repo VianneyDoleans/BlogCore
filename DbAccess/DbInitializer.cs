@@ -344,7 +344,7 @@ namespace DBAccess
             }
         }
 
-        private static void GenerateUserRoles(MyBlogContext context)
+        private static void GenerateUserRoles(BlogCoreContext context)
         {
             var admin = context.Roles.Single(x => x.Name == "Admin");
             var user = context.Roles.Single(x => x.Name == "User");
@@ -361,7 +361,7 @@ namespace DBAccess
             context.SaveChanges();
         }
 
-        private static void GenerateTags(MyBlogContext context)
+        private static void GenerateTags(BlogCoreContext context)
         {
             var scienceTag = new Tag() { Name = "Science" };
             var journeyTag = new Tag { Name = "Journey" };
@@ -374,7 +374,7 @@ namespace DBAccess
             context.SaveChanges();
         }
 
-        private static void GenerateCategories(MyBlogContext context)
+        private static void GenerateCategories(BlogCoreContext context)
         {
             var healthyFoodCategory = new Category() { Name = "HealthyFood" };
             var discoveryCategory = new Category() { Name = "Discovery" };
@@ -386,7 +386,7 @@ namespace DBAccess
             context.SaveChanges();
         }
 
-        private static void GeneratePostTags(MyBlogContext context)
+        private static void GeneratePostTags(BlogCoreContext context)
         {
             var failFoodPost = context.Posts.Single(x => x.Name == "I failed my pumpkin soup :'(");
             var volcanoes = context.Posts.Single(x => x.Name == "Volcanoes are cool");
@@ -409,7 +409,7 @@ namespace DBAccess
             context.SaveChanges();
         }
 
-        private static void GeneratePosts(MyBlogContext context)
+        private static void GeneratePosts(BlogCoreContext context)
         {
 
             var failFoodPost = new Post()
@@ -439,7 +439,7 @@ namespace DBAccess
             context.SaveChanges();
         }
 
-        private static void GenerateLikes(MyBlogContext context)
+        private static void GenerateLikes(BlogCoreContext context)
         {
             var fredAddDetail = context.Comments.Single(x =>
                 x.Author.UserName == "Fred" && x.Content == "Also, they are beautiful !");
@@ -461,7 +461,7 @@ namespace DBAccess
             context.SaveChanges();
         }
 
-        private static void GenerateComments(MyBlogContext context)
+        private static void GenerateComments(BlogCoreContext context)
         {
             var volcanoes = context.Posts.Single(x => x.Name == "Volcanoes are cool");
             var scaryVolcanoes = new Comment()
@@ -501,14 +501,14 @@ namespace DBAccess
         }
 
         /// <summary>
-        /// Fill the database with <see cref="MyBlogContext"/> (Entity Framework).
+        /// Fill the database with <see cref="BlogCoreContext"/> (Entity Framework).
         /// The methods will fill the database only if no <see cref="Role"/> exists
         /// (No existing roles means that the database is still empty / not used).
         /// </summary>
         /// <param name="context"></param>
         /// <param name="roleManager"></param>
         /// <param name="userManager"></param>
-        public static async Task Seed(MyBlogContext context, RoleManager<Role> roleManager,
+        public static async Task Seed(BlogCoreContext context, RoleManager<Role> roleManager,
             UserManager<User> userManager)
         {
             if (!context.Roles.Any())

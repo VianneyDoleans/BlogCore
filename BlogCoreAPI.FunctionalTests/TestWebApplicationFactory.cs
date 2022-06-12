@@ -40,7 +40,7 @@ namespace BlogCoreAPI.FunctionalTests
             {
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType ==
-                         typeof(DbContextOptions<MyBlogContext>));
+                         typeof(DbContextOptions<BlogCoreContext>));
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
@@ -48,7 +48,7 @@ namespace BlogCoreAPI.FunctionalTests
                 var serviceProvider = new ServiceCollection()
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
-                services.AddDbContext<MyBlogContext>(options =>
+                services.AddDbContext<BlogCoreContext>(options =>
                 {
                     options.UseInMemoryDatabase(_dbName);
                     options.UseInternalServiceProvider(serviceProvider);
@@ -59,7 +59,7 @@ namespace BlogCoreAPI.FunctionalTests
 
                 var sp = services.BuildServiceProvider();
                 using var scope = sp.CreateScope();
-                await using var context = scope.ServiceProvider.GetRequiredService<MyBlogContext>();
+                await using var context = scope.ServiceProvider.GetRequiredService<BlogCoreContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                 await context.Database.EnsureCreatedAsync();

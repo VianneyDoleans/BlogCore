@@ -10,11 +10,11 @@ namespace DBAccess.Tests.Builders
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly MyBlogContext _db;
+        private readonly BlogCoreContext _db;
         private string _content;
         private User _author;
 
-        public CommentBuilder(ICommentRepository commentRepository, IUnitOfWork unitOfWork, MyBlogContext db)
+        public CommentBuilder(ICommentRepository commentRepository, IUnitOfWork unitOfWork, BlogCoreContext db)
         {
             _commentRepository = commentRepository;
             _unitOfWork = unitOfWork;

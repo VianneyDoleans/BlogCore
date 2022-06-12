@@ -10,13 +10,13 @@ namespace DBAccess.Tests.Builders
     {
         private readonly IPostRepository _postRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly MyBlogContext _db;
+        private readonly BlogCoreContext _db;
         private string _name;
         private User _user;
         private Category _category;
         private string _content;
 
-        public PostBuilder(IPostRepository postRepository, IUnitOfWork unitOfWork, MyBlogContext db)
+        public PostBuilder(IPostRepository postRepository, IUnitOfWork unitOfWork, BlogCoreContext db)
         {
             _postRepository = postRepository;
             _unitOfWork = unitOfWork;

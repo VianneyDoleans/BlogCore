@@ -25,7 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace BlogCoreAPI.Extensions
 {
     /// <summary> 
-    /// Extension of <see cref="IServiceCollection"/> adding methods to inject MyBlog Services 
+    /// Extension of <see cref="IServiceCollection"/> adding methods to inject BlogCoreAPI Services 
     /// </summary> 
     public static class ServiceCollectionExtensions
     {

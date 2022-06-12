@@ -17,10 +17,10 @@ namespace DBAccess.Tests
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<MyBlogContext, MsSqlDbContext>(o =>
+            services.AddDbContext<BlogCoreContext, MsSqlDbCoreContext>(o =>
                 o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<MyBlogContext>();
+                .AddEntityFrameworkStores<BlogCoreContext>();
             var provider = services.BuildServiceProvider();
             return provider;
         }

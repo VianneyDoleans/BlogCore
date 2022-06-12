@@ -18,15 +18,15 @@ namespace DBAccess.Repositories
     /// <typeparam name="TEntity"></typeparam>
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly MyBlogContext Context;
+        protected readonly BlogCoreContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Repository{TEntity}"/> class.
         /// </summary>
-        /// <param name="context"></param>
-        public Repository(MyBlogContext context)
+        /// <param name="coreContext"></param>
+        public Repository(BlogCoreContext context)
         {
-            Context = context;
+            context = context;
         }
 
         /// <summary>
@@ -42,7 +42,7 @@ namespace DBAccess.Repositories
             PagingSpecification pagingSpecification = null,
             SortSpecification<TEntity> sortSpecification = null)
         {
-            IQueryable<TEntity> query = Context.Set<TEntity>();
+            IQueryable<TEntity> query = context.Set<TEntity>();
             if (filterSpecification != null)
                 query = query.Where(filterSpecification);
 
@@ -57,7 +57,7 @@ namespace DBAccess.Repositories
         /// <inheritdoc />
         public virtual async Task<TEntity> GetAsync(int id)
         {
-            var result = await Context.Set<TEntity>().FindAsync(id);
+            var result = await context.Set<TEntity>().FindAsync(id);
             if (result == null)
                 throw new IndexOutOfRangeException("Element doesn't exist.");
             return result;
@@ -76,7 +76,7 @@ namespace DBAccess.Repositories
         /// <inheritdoc />
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
-            return await Context.Set<TEntity>().ToListAsync();
+            return await context.Set<TEntity>().ToListAsync();
         }
 
         private static Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> SortThenBy(Sort<TEntity> sortElement,
@@ -126,7 +126,7 @@ namespace DBAccess.Repositories
         public async Task<int> CountWhereAsync(FilterSpecification<TEntity> filterSpecification = null)
         {
             var totalEntities = 0;
-            IQueryable<TEntity> query = Context.Set<TEntity>();
+            IQueryable<TEntity> query = context.Set<TEntity>();
             if (filterSpecification != null)
                 query = query.Where(filterSpecification);
             if (query != null)
@@ -137,13 +137,13 @@ namespace DBAccess.Repositories
         /// <inheritdoc />
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         { 
-            return (await Context.Set<TEntity>().AddAsync(entity)).Entity;
+            return (await context.Set<TEntity>().AddAsync(entity)).Entity;
         }
 
         /// <inheritdoc />
         public virtual Task RemoveAsync(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
+            context.Set<TEntity>().Remove(entity);
             return Task.CompletedTask;
         }
 
@@ -152,20 +152,20 @@ namespace DBAccess.Repositories
         {
             if (entities == null)
                 throw new ArgumentNullException(nameof(entities));
-            Context.Set<TEntity>().RemoveRange(entities);
+            context.Set<TEntity>().RemoveRange(entities);
             return Task.CompletedTask;
         }
 
         /// <inheritdoc />
         public Task<int> CountAllAsync()
         {
-            return Context.Set<TEntity>().CountAsync();
+            return context.Set<TEntity>().CountAsync();
         }
 
         /// <inheritdoc />
         public virtual TEntity Get(int id)
         {
-            var result = Context.Set<TEntity>().Find(id);
+            var result = context.Set<TEntity>().Find(id);
             if (result == null)
                 throw new IndexOutOfRangeException("Element doesn't exist.");
             return result;
@@ -174,7 +174,7 @@ namespace DBAccess.Repositories
         /// <inheritdoc />
         public virtual IEnumerable<TEntity> GetAll()
         {
-            return Context.Set<TEntity>().ToList();
+            return context.Set<TEntity>().ToList();
         }
 
         /// <inheritdoc />
@@ -182,25 +182,25 @@ namespace DBAccess.Repositories
         {
             if (entity == null)
                 throw new ArgumentNullException(nameof(entity));
-            return Context.Set<TEntity>().Add(entity).Entity;
+            return context.Set<TEntity>().Add(entity).Entity;
         }
 
         /// <inheritdoc />
         public virtual void Remove(TEntity entity)
         {
-            Context.Set<TEntity>().Remove(entity);
+            context.Set<TEntity>().Remove(entity);
         }
 
         /// <inheritdoc />
         public virtual void RemoveRange(IEnumerable<TEntity> entities)
         {
-            Context.Set<TEntity>().RemoveRange(entities);
+            context.Set<TEntity>().RemoveRange(entities);
         }
 
         /// <inheritdoc />
         public int CountAll()
         {
-            return Context.Set<TEntity>().Count();
+            return context.Set<TEntity>().Count();
         }
     }
 }

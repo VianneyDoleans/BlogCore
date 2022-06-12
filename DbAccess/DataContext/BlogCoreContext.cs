@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 namespace DBAccess.DataContext
 {
     /// <summary>
-    /// Context used for the API (Database, Entity Framework). It defined the tables and the relationship between them but also some default values.
+    /// context used for the API (Database, Entity Framework). It defined the tables and the relationship between them but also some default values.
     /// It enables (with also the attributes inside resource classes) to realize a Database code first generation (Entity Framework).
     /// </summary>
-    public abstract class MyBlogContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
+    public abstract class BlogCoreContext : IdentityDbContext<User, Role, int, IdentityUserClaim<int>, UserRole, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyBlogContext"/> class.
+        /// Initializes a new instance of the <see cref="BlogCoreContext"/> class.
         /// </summary>
         /// <param name="options"></param>
-        protected MyBlogContext(DbContextOptions options) : base(options) { }
+        protected BlogCoreContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<Tag> Tags { get; set; }

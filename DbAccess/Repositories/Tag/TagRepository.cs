@@ -11,14 +11,14 @@ namespace DBAccess.Repositories.Tag
         /// Initializes a new instance of the <see cref="TagRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public TagRepository(MyBlogContext context) : base(context)
+        public TagRepository(BlogCoreContext context) : base(context)
         {
         }
 
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var tag = await Context.Set<Data.POCO.Tag>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var tag = await context.Set<Data.POCO.Tag>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return tag != null;
         }
     }

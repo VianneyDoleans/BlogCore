@@ -19,7 +19,7 @@ namespace DBAccess.Repositories.Category
         /// Initializes a new instance of the <see cref="CategoryRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
-        public CategoryRepository(MyBlogContext context) : base(context)
+        public CategoryRepository(BlogCoreContext context) : base(context)
         {
         }
 
@@ -37,7 +37,7 @@ namespace DBAccess.Repositories.Category
         {
             try
             {
-                return await Context.Set<Data.POCO.Category>()
+                return await context.Set<Data.POCO.Category>()
                     .Include(x => x.Posts)
                     .SingleAsync(x => x.Id == id);
             }
@@ -52,7 +52,7 @@ namespace DBAccess.Repositories.Category
         {
             try
             {
-                return Context.Set<Data.POCO.Category>()
+                return context.Set<Data.POCO.Category>()
                     .Include(x => x.Posts)
                     .Single(x => x.Id == id);
             }
@@ -65,21 +65,21 @@ namespace DBAccess.Repositories.Category
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Category> GetAll()
         {
-            return Context.Set<Data.POCO.Category>()
+            return context.Set<Data.POCO.Category>()
                 .Include(x => x.Posts).ToList();
         }
 
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var category = await Context.Set<Data.POCO.Category>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var category = await context.Set<Data.POCO.Category>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return category != null;
         }
 
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Category>> GetAllAsync()
         {
-            return await Context.Set<Data.POCO.Category>()
+            return await context.Set<Data.POCO.Category>()
                 .Include(x => x.Posts).ToListAsync();
         }
     }

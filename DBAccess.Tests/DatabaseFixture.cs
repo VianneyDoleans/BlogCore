@@ -9,7 +9,7 @@ namespace DBAccess.Tests
 {
     public sealed class DatabaseFixture : IDisposable
     {
-        public MyBlogContext Db { get; }
+        public BlogCoreContext Db { get; }
         public RoleManager<Role> RoleManager { get; }
         public UserManager<User> UserManager { get; }
         public IUnitOfWork UnitOfWork { get; }
@@ -20,7 +20,7 @@ namespace DBAccess.Tests
 
             UserManager = provider.GetRequiredService<UserManager<User>>();
             RoleManager = provider.GetRequiredService<RoleManager<Role>>();
-            Db = provider.GetRequiredService<MyBlogContext>();
+            Db = provider.GetRequiredService<BlogCoreContext>();
             UnitOfWork = new UnitOfWork(Db);
         }
 
