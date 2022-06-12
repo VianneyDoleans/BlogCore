@@ -4,8 +4,8 @@
     "Key": "vianneydoleans",
     "Name": "Vianney Doleans"
   },
-  "ProjectKey": "VianneyDoleans_MyBlogAPI-NET-Core",
-  "ProjectName": "MyBlogAPI-NET-Core",
+  "ProjectKey": "VianneyDoleans_BlogCore",
+  "ProjectName": "BlogCore",
   "Profiles": {
     "CSharp": {
       "ProfileKey": "AYFEwQKwXW8dBy2owS-V",

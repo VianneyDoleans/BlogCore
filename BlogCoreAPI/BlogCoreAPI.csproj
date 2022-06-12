@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
-    <CodeAnalysisRuleSet>..\.sonarlint\vianneydoleans_myblogapi-net-corecsharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\.sonarlint\vianneydoleans_blogcorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\.sonarlint\vianneydoleans_myblogapi-net-core\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    <AdditionalFiles Include="..\.sonarlint\vianneydoleans_blogcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,11 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DbAccess\DbAccess.csproj" />
+    <ProjectReference Include="..\DBAccess\DBAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="MyBlogAPI.xml">
+    <None Update="BlogCoreAPI.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

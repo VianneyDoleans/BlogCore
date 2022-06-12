@@ -3,11 +3,11 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <UserSecretsId>65fa69ad-3a02-4d2e-aca9-07a999f3ec23</UserSecretsId>
-    <CodeAnalysisRuleSet>..\.sonarlint\vianneydoleans_myblogapi-net-corecsharp.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>..\.sonarlint\vianneydoleans_blogcorecsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="..\.sonarlint\vianneydoleans_myblogapi-net-core\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+    <AdditionalFiles Include="..\.sonarlint\vianneydoleans_blogcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
   <ItemGroup>
