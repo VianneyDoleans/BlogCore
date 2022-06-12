@@ -4,11 +4,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.Services.LikeService;
+using BlogCoreAPI.Validators.Like;
 using DBAccess.Data.POCO;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.User;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -25,7 +27,7 @@ namespace BlogCoreAPI.Tests.Services
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.LikeService.LikeService(new LikeRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork, new CommentRepository(_fixture.Db), new PostRepository(_fixture.Db), 
-                new UserRepository(_fixture.Db, _fixture.UserManager));
+                new UserRepository(_fixture.Db, _fixture.UserManager), new LikeDtoValidator());
         }
 
         [Fact]
@@ -89,7 +91,7 @@ namespace BlogCoreAPI.Tests.Services
                 { LikeableType = LikeableType.Post, User = user.Entity.Id, Comment = comment.Entity.Id};
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -107,7 +109,7 @@ namespace BlogCoreAPI.Tests.Services
                 { LikeableType = LikeableType.Comment, User = user.Entity.Id, Post = post.Entity.Id };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -127,7 +129,7 @@ namespace BlogCoreAPI.Tests.Services
                 { LikeableType = LikeableType.Post, User = user.Entity.Id, Comment = comment.Entity.Id, Post = post.Entity.Id };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -156,7 +158,7 @@ namespace BlogCoreAPI.Tests.Services
                 { LikeableType = LikeableType.Post };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -282,7 +284,7 @@ namespace BlogCoreAPI.Tests.Services
                 { Id = like.Id, LikeableType = LikeableType.Comment, Post = post.Entity.Id, User = user.Entity.Id };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateLike(likeToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateLike(likeToUpdate));
         }
 
         [Fact]

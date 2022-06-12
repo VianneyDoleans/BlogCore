@@ -10,6 +10,7 @@ using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.TagService
 {
@@ -19,12 +20,14 @@ namespace BlogCoreAPI.Services.TagService
         private readonly ITagRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<ITagDto> _dtoValidator;
 
-        public TagService(ITagRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+        public TagService(ITagRepository repository, IMapper mapper, IUnitOfWork unitOfWork, IValidator<ITagDto> dtoValidator)
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetTagDto>> GetAllTags()
@@ -48,26 +51,14 @@ namespace BlogCoreAPI.Services.TagService
             return _mapper.Map<GetTagDto>(await _repository.GetAsync(id));
         }
 
-        public void CheckTagValidity(ITagDto tag)
-        {
-            if (tag == null)
-                throw new ArgumentNullException(nameof(tag));
-            if (string.IsNullOrWhiteSpace(tag.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (tag.Name.Length > 50)
-                throw new ArgumentException("Name cannot exceed 50 characters.");
-        }
-
         public async Task CheckTagValidity(AddTagDto tag)
         {
-            CheckTagValidity((ITagDto)tag);
             if (await _repository.NameAlreadyExists(tag.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckTagValidity(UpdateTagDto tag)
         {
-            CheckTagValidity((ITagDto) tag);
             if (await _repository.NameAlreadyExists(tag.Name) &&
                 (await _repository.GetAsync(tag.Id)).Name != tag.Name)
                 throw new InvalidOperationException("Name already exists.");
@@ -75,6 +66,7 @@ namespace BlogCoreAPI.Services.TagService
 
         public async Task<GetTagDto> AddTag(AddTagDto tag)
         {
+            await _dtoValidator.ValidateAndThrowAsync(tag);
             await CheckTagValidity(tag);
             var result = await _repository.AddAsync(_mapper.Map<Tag>(tag));
             _unitOfWork.Save();
@@ -83,6 +75,7 @@ namespace BlogCoreAPI.Services.TagService
 
         public async Task UpdateTag(UpdateTagDto tag)
         {
+            await _dtoValidator.ValidateAndThrowAsync(tag);
             if (await TagAlreadyExistsWithSameProperties(tag))
                 return;
             await CheckTagValidity(tag);
@@ -99,8 +92,6 @@ namespace BlogCoreAPI.Services.TagService
 
         private async Task<bool> TagAlreadyExistsWithSameProperties(UpdateTagDto tag)
         {
-            if (tag == null)
-                throw new ArgumentNullException(nameof(tag));
             var tagDb = await _repository.GetAsync(tag.Id);
             return tagDb.Name == tag.Name;
         }

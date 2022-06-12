@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.Services.CommentService;
+using BlogCoreAPI.Validators.Comment;
 using DBAccess.Data.POCO;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.User;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -23,7 +25,8 @@ namespace BlogCoreAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new PostRepository(_fixture.Db));
+                mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new PostRepository(_fixture.Db),
+                new CommentDtoValidator());
         }
 
         [Fact]
@@ -119,7 +122,7 @@ namespace BlogCoreAPI.Tests.Services
             var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddComment(comment));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
@@ -260,7 +263,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateComment(commentToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateComment(commentToUpdate));
         }
 
         [Fact]

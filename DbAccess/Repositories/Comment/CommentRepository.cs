@@ -37,7 +37,7 @@ namespace DBAccess.Repositories.Comment
         {
             try
             {
-                return await context.Set<Data.POCO.Comment>()
+                return await _context.Set<Data.POCO.Comment>()
                     .Include(x => x.Likes)
                     .Include(x => x.PostParent)
                     .Include(x => x.ChildrenComments)
@@ -54,7 +54,7 @@ namespace DBAccess.Repositories.Comment
         {
             try
             {
-                return context.Set<Data.POCO.Comment>()
+                return _context.Set<Data.POCO.Comment>()
                     .Include(x => x.Likes)
                     .Include(x => x.PostParent)
                     .Include(x => x.ChildrenComments)
@@ -69,7 +69,7 @@ namespace DBAccess.Repositories.Comment
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Comment> GetAll()
         {
-            return context.Set<Data.POCO.Comment>()
+            return _context.Set<Data.POCO.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
@@ -79,7 +79,7 @@ namespace DBAccess.Repositories.Comment
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Comment>> GetAllAsync()
         {
-            return await context.Set<Data.POCO.Comment>()
+            return await _context.Set<Data.POCO.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
@@ -89,7 +89,7 @@ namespace DBAccess.Repositories.Comment
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromPost(int id)
         {
-            return await context.Set<Data.POCO.Comment>()
+            return await _context.Set<Data.POCO.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.ChildrenComments)
@@ -99,7 +99,7 @@ namespace DBAccess.Repositories.Comment
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromUser(int id)
         {
-            return await context.Set<Data.POCO.Comment>()
+            return await _context.Set<Data.POCO.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.ChildrenComments)

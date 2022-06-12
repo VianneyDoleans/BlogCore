@@ -45,7 +45,7 @@ namespace BlogCoreAPI.Controllers
             }
 
             Response.StatusCode = (int) code;
-            return new BlogErrorResponse(exception);
+            return new BlogErrorResponse(exception.GetType().Name, exception.Message);
         }
     }
 }

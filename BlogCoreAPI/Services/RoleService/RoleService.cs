@@ -12,6 +12,7 @@ using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.RoleService
 {
@@ -20,12 +21,14 @@ namespace BlogCoreAPI.Services.RoleService
         private readonly IRoleRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<IRoleDto> _dtoValidator;
 
-        public RoleService(IRoleRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+        public RoleService(IRoleRepository repository, IMapper mapper, IUnitOfWork unitOfWork, IValidator<IRoleDto> dtoValidator)
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetRoleDto>> GetAllRoles()
@@ -62,26 +65,14 @@ namespace BlogCoreAPI.Services.RoleService
             return await _repository.GetAsync(id);
         }
 
-        public void CheckRoleValidity(IRoleDto role)
-        {
-            if (role == null)
-                throw new ArgumentNullException(nameof(role));
-            if (string.IsNullOrWhiteSpace(role.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (role.Name.Length > 20)
-                throw new ArgumentException("Name cannot exceed 20 characters.");
-        }
-
         public async Task CheckRoleValidity(AddRoleDto role)
         {
-            CheckRoleValidity((IRoleDto)role);
             if (await _repository.NameAlreadyExists(role.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckRoleValidity(UpdateRoleDto role)
         {
-            CheckRoleValidity((IRoleDto)role);
             if (await _repository.NameAlreadyExists(role.Name) &&
                 (await _repository.GetAsync(role.Id)).Name != role.Name)
                 throw new InvalidOperationException("Name already exists.");
@@ -89,6 +80,7 @@ namespace BlogCoreAPI.Services.RoleService
 
         public async Task<GetRoleDto> AddRole(AddRoleDto role)
         {
+            await _dtoValidator.ValidateAndThrowAsync(role);
             await CheckRoleValidity(role);
             var result = await _repository.AddAsync(_mapper.Map<Role>(role));
             _unitOfWork.Save();
@@ -97,6 +89,7 @@ namespace BlogCoreAPI.Services.RoleService
 
         public async Task UpdateRole(UpdateRoleDto role)
         {
+            await _dtoValidator.ValidateAndThrowAsync(role);
             if (await RoleAlreadyExistsWithSameProperties(role))
                 return;
             await CheckRoleValidity(role);

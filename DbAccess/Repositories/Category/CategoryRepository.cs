@@ -37,7 +37,7 @@ namespace DBAccess.Repositories.Category
         {
             try
             {
-                return await context.Set<Data.POCO.Category>()
+                return await _context.Set<Data.POCO.Category>()
                     .Include(x => x.Posts)
                     .SingleAsync(x => x.Id == id);
             }
@@ -52,7 +52,7 @@ namespace DBAccess.Repositories.Category
         {
             try
             {
-                return context.Set<Data.POCO.Category>()
+                return _context.Set<Data.POCO.Category>()
                     .Include(x => x.Posts)
                     .Single(x => x.Id == id);
             }
@@ -65,21 +65,21 @@ namespace DBAccess.Repositories.Category
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Category> GetAll()
         {
-            return context.Set<Data.POCO.Category>()
+            return _context.Set<Data.POCO.Category>()
                 .Include(x => x.Posts).ToList();
         }
 
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var category = await context.Set<Data.POCO.Category>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var category = await _context.Set<Data.POCO.Category>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return category != null;
         }
 
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Category>> GetAllAsync()
         {
-            return await context.Set<Data.POCO.Category>()
+            return await _context.Set<Data.POCO.Category>()
                 .Include(x => x.Posts).ToListAsync();
         }
     }

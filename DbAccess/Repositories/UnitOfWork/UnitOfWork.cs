@@ -5,27 +5,27 @@ namespace DBAccess.Repositories.UnitOfWork
     /// <inheritdoc />
     public sealed class UnitOfWork : IUnitOfWork
     {
-        private readonly BlogCoreContext _coreContext;
+        private readonly BlogCoreContext _context;
 
         /// <inheritdoc />
         public void Dispose()
         {
-            _coreContext.Dispose();
+            _context.Dispose();
         }
 
         /// <inheritdoc />
         public void Save()
         {
-            _coreContext.SaveChanges();
+            _context.SaveChanges();
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UnitOfWork"/> class.
         /// </summary>
-        /// <param name="coreContext"></param>
+        /// <param name="context"></param>
         public UnitOfWork(BlogCoreContext context)
         {
-            _coreContext = context;
+            _context = context;
         }
     }
 }

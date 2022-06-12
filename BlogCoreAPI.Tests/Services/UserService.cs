@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.Services.UserService;
+using BlogCoreAPI.Validators.User;
 using DBAccess.Data.POCO;
 using DBAccess.Data.POCO.JoiningEntity;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -26,7 +28,7 @@ namespace BlogCoreAPI.Tests.Services
             });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new UserDtoValidator());
         }
 
         [Fact]
@@ -111,7 +113,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -125,7 +127,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -139,7 +141,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -154,7 +156,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -169,7 +171,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -192,7 +194,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -226,7 +228,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -395,7 +397,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateUser(userToUpdate));
         }
 
         [Fact]
@@ -416,7 +418,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateUser(userToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateUser(userToUpdate));
         }
 
         [Fact]

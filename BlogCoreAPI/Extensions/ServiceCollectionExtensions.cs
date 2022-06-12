@@ -1,9 +1,13 @@
 ﻿using BlogCoreAPI.Authorization.PermissionHandlers.Attributes;
 using BlogCoreAPI.Authorization.PermissionHandlers.Dtos;
 using BlogCoreAPI.Authorization.PermissionHandlers.Resources;
+using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
@@ -11,6 +15,13 @@ using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.TagService;
 using BlogCoreAPI.Services.UserService;
+using BlogCoreAPI.Validators.Category;
+using BlogCoreAPI.Validators.Comment;
+using BlogCoreAPI.Validators.Like;
+using BlogCoreAPI.Validators.Post;
+using BlogCoreAPI.Validators.Role;
+using BlogCoreAPI.Validators.Tag;
+using BlogCoreAPI.Validators.User;
 using DBAccess.Data.POCO;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Comment;
@@ -19,6 +30,7 @@ using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.Tag;
 using DBAccess.Repositories.User;
+using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -60,6 +72,23 @@ namespace BlogCoreAPI.Extensions
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
+            return services;
+        }
+
+        /// <summary> 
+        /// class used to register resource validators
+        /// </summary> 
+        /// <param name="services"></param> 
+        /// <returns></returns> 
+        public static IServiceCollection RegisterDtoResourceValidators(this IServiceCollection services)
+        {
+            services.AddScoped<IValidator<ICategoryDto>,CategoryDtoValidator>();
+            services.AddScoped<IValidator<ICommentDto>, CommentDtoValidator>();
+            services.AddScoped<IValidator<ILikeDto>, LikeDtoValidator>();
+            services.AddScoped<IValidator<IPostDto>, PostDtoValidator>();
+            services.AddScoped<IValidator<IRoleDto>, RoleDtoValidator>();
+            services.AddScoped<IValidator<ITagDto>, TagDtoValidator>();
+            services.AddScoped<IValidator<IUserDto>, UserDtoValidator>();
             return services;
         }
 

@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.Services.PostService;
+using BlogCoreAPI.Validators.Post;
 using DBAccess.Data.POCO;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Tag;
 using DBAccess.Repositories.User;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -26,7 +28,7 @@ namespace BlogCoreAPI.Tests.Services
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new CategoryRepository(_fixture.Db),
-                new TagRepository(_fixture.Db));
+                new TagRepository(_fixture.Db), new PostDtoValidator());
         }
 
         [Fact]
@@ -86,7 +88,7 @@ namespace BlogCoreAPI.Tests.Services
                        "long long long long long long long long long long long name !!" };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -218,7 +220,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -244,7 +246,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -346,7 +348,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdatePost(postToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdatePost(postToUpdate));
         }
 
         [Fact]
@@ -373,7 +375,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdatePost(postToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdatePost(postToUpdate));
         }
 
         [Fact]

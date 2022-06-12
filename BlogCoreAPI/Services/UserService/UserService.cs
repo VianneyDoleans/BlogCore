@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.User;
@@ -13,6 +12,7 @@ using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.UserService
 {
@@ -22,13 +22,16 @@ namespace BlogCoreAPI.Services.UserService
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<IUserDto> _dtoValidator;
 
-        public UserService(IUserRepository repository, IRoleRepository roleRepository, IMapper mapper, IUnitOfWork unitOfWork)
+        public UserService(IUserRepository repository, IRoleRepository roleRepository, IMapper mapper, IUnitOfWork unitOfWork,
+            IValidator<IUserDto> dtoValidator)
         {
             _repository = repository;
             _roleRepository = roleRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetUserDto>> GetAllUsers()
@@ -90,51 +93,8 @@ namespace BlogCoreAPI.Services.UserService
             return user.First();
         }
 
-        private static void CheckUsernameValidity(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-                throw new ArgumentException("UserName cannot be null or empty.");
-            if (!Regex.Match(username, @"^(?!.*[._()\[\]-]{2})[A-Za-z0-9._()\[\]-]{3,20}$").Success)
-                throw new ArgumentException("UserName must consist of between 3 to 20 allowed characters (A-Z, a-z, 0-9, .-_()[]) and cannot contain two consecutive symbols.");
-        }
-
-        private static void CheckEmailAddressValidity(string emailAddress)
-        {
-            if (string.IsNullOrWhiteSpace(emailAddress))
-                throw new ArgumentException("Email cannot be null or empty.");
-            if (emailAddress.Length > 320)
-                throw new ArgumentException("Email address cannot exceed 320 characters.");
-            if (!Regex.Match(emailAddress,
-                    @"\A[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z")
-                .Success)
-                throw new ArgumentException("Email address is invalid.");
-        }
-
-        private static void CheckPasswordValidity(string password)
-        {
-            if (string.IsNullOrWhiteSpace(password))
-                throw new ArgumentException("Password cannot be null or empty.");
-        }
-
-        private static void CheckUserDescription(string userDescription)
-        {
-            if (userDescription != null && userDescription.Length > 1000)
-                throw new ArgumentException("User description cannot exceed 1000 characters.");
-        }
-
-        private static void CheckUserValidity(IUserDto user)
-        {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
-            CheckEmailAddressValidity(user.Email);
-            CheckUsernameValidity(user.UserName);
-            CheckPasswordValidity(user.Password);
-            CheckUserDescription(user.UserDescription);
-        }
-
         private async Task CheckUserValidity(AddUserDto user)
         {
-            CheckUserValidity((IUserDto) user);
             if (await _repository.UserNameAlreadyExists(user.UserName))
                 throw new InvalidOperationException("UserName already exists.");
             if (await _repository.EmailAlreadyExists(user.Email))
@@ -144,7 +104,6 @@ namespace BlogCoreAPI.Services.UserService
         private async Task CheckUserValidity(UpdateUserDto user)
         {
             var userDb = _repository.GetAsync(user.Id);
-            CheckUserValidity((IUserDto)user);
             if (await _repository.UserNameAlreadyExists(user.UserName) &&
                 (await userDb).UserName != user.UserName)
                 throw new InvalidOperationException("UserName already exists.");
@@ -155,6 +114,7 @@ namespace BlogCoreAPI.Services.UserService
 
         public async Task<GetUserDto> AddUser(AddUserDto user)
         {
+            await _dtoValidator.ValidateAndThrowAsync(user);
             await CheckUserValidity(user);
             var userToAdd = _mapper.Map<User>(user);
             var result = await _repository.AddAsync(userToAdd);
@@ -214,6 +174,7 @@ namespace BlogCoreAPI.Services.UserService
 
         public async Task UpdateUser(UpdateUserDto user)
         {
+            await _dtoValidator.ValidateAndThrowAsync(user);
             if (await UserAlreadyExistsWithSameProperties(user))
                 return;
             await CheckUserValidity(user);

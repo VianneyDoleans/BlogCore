@@ -4,9 +4,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Role;
 using BlogCoreAPI.Services.RoleService;
+using BlogCoreAPI.Validators.Role;
 using DBAccess.Data.POCO;
 using DBAccess.Data.POCO.Permission;
 using DBAccess.Repositories.Role;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -22,7 +24,7 @@ namespace BlogCoreAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db, _fixture.RoleManager),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new RoleDtoValidator());
         }
 
         [Fact]
@@ -60,7 +62,7 @@ namespace BlogCoreAPI.Tests.Services
             var role = new AddRoleDto() { Name = "Ths is a long name !!" };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddRole(role));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
@@ -70,7 +72,7 @@ namespace BlogCoreAPI.Tests.Services
             var role = new AddRoleDto();
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddRole(role));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
@@ -80,7 +82,7 @@ namespace BlogCoreAPI.Tests.Services
             var role = new AddRoleDto() { Name = "  " };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddRole(role));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
@@ -189,7 +191,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateRole(roleToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateRole(roleToUpdate));
         }
 
         [Fact]
@@ -206,7 +208,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateRole(roleToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateRole(roleToUpdate));
         }
 
         [Fact]

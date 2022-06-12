@@ -17,7 +17,7 @@ namespace BlogCoreAPI.Tests
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<BlogCoreContext, MsSqlDbCoreContext>(o =>
+            services.AddDbContext<BlogCoreContext, MsSqlDbContext>(o =>
                 o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<BlogCoreContext>();

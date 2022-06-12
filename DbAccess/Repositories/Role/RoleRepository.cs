@@ -42,7 +42,7 @@ namespace DBAccess.Repositories.Role
         {
             try
             {
-                return await context.Set<Data.POCO.Role>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
+                return await _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
             }
             catch
             {
@@ -53,7 +53,7 @@ namespace DBAccess.Repositories.Role
         /// <inheritdoc />
         public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
         {
-            var userRoles = await context.Set<Data.POCO.JoiningEntity.UserRole>()
+            var userRoles = await _context.Set<Data.POCO.JoiningEntity.UserRole>()
                 .Include(x => x.Role)
                 .Include(x => x.User)
                 .Where(x => x.UserId == id).ToListAsync();
@@ -130,7 +130,7 @@ namespace DBAccess.Repositories.Role
         {
             try
             {
-                return context.Set<Data.POCO.Role>().Include(x => x.UserRoles).Single(x => x.Id == id);
+                return _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).Single(x => x.Id == id);
             }
             catch
             {
@@ -141,20 +141,20 @@ namespace DBAccess.Repositories.Role
         /// <inheritdoc />
         public override IEnumerable<Data.POCO.Role> GetAll()
         {
-            return context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToList();
+            return _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToList();
         }
 
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var role = await context.Set<Data.POCO.Role>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var role = await _context.Set<Data.POCO.Role>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return role != null;
         }
 
         /// <inheritdoc />
         public override async Task<IEnumerable<Data.POCO.Role>> GetAllAsync()
         {
-            return await context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToListAsync();
+            return await _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToListAsync();
         }
     }
 }

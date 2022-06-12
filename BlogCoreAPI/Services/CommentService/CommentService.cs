@@ -12,6 +12,7 @@ using DBAccess.Repositories.User;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.CommentService
 {
@@ -22,15 +23,17 @@ namespace BlogCoreAPI.Services.CommentService
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IPostRepository _postRepository;
+        private readonly IValidator<ICommentDto> _dtoValidator;
 
         public CommentService(ICommentRepository repository, IMapper mapper, IUnitOfWork unitOfWork, IUserRepository userRepository,
-            IPostRepository postRepository)
+            IPostRepository postRepository, IValidator<ICommentDto> dtoValidator)
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _userRepository = userRepository;
             _postRepository = postRepository;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetCommentDto>> GetAllComments()
@@ -69,10 +72,6 @@ namespace BlogCoreAPI.Services.CommentService
 
         public async Task CheckCommentValidity(ICommentDto comment)
         {
-            if (comment == null)
-                throw new ArgumentNullException(nameof(comment));
-            if (string.IsNullOrWhiteSpace(comment.Content))
-                throw new ArgumentException("Content cannot be null or empty.");
             if (await _userRepository.GetAsync(comment.Author) == null)
                 throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _postRepository.GetAsync(comment.PostParent) == null)
@@ -94,6 +93,7 @@ namespace BlogCoreAPI.Services.CommentService
 
         public async Task<GetCommentDto> AddComment(AddCommentDto comment)
         {
+            await _dtoValidator.ValidateAndThrowAsync(comment);
             await CheckCommentValidity(comment);
             var result = await _repository.AddAsync(_mapper.Map<Comment>(comment));
             _unitOfWork.Save();
@@ -102,6 +102,7 @@ namespace BlogCoreAPI.Services.CommentService
 
         public async Task UpdateComment(UpdateCommentDto comment)
         {
+            await _dtoValidator.ValidateAndThrowAsync(comment);
             if (await CommentAlreadyExistsWithSameProperties(comment))
                 return;
             await CheckCommentValidity(comment);

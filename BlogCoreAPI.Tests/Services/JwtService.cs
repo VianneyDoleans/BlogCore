@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Tests.Builders;
+using BlogCoreAPI.Validators.User;
 using DBAccess.Data.POCO.Jwt;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
@@ -41,7 +42,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GenerateJwt()
         {
             var userService = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager),
-                _mapper, _fixture.UnitOfWork);
+                _mapper, _fixture.UnitOfWork, new UserDtoValidator());
             var user = await new UserBuilder(userService).Build();
 
             // Act

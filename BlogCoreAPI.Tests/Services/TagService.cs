@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Tag;
 using BlogCoreAPI.Services.TagService;
+using BlogCoreAPI.Validators.Tag;
 using DBAccess.Repositories.Tag;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -20,7 +22,7 @@ namespace BlogCoreAPI.Tests.Services
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.TagService.TagService(new TagRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new TagDtoValidator());
         }
 
         [Fact]
@@ -58,7 +60,7 @@ namespace BlogCoreAPI.Tests.Services
             var tag = new AddTagDto() {Name = "Ths is a long long long long long long long name !!"};
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddTag(tag));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
@@ -68,7 +70,7 @@ namespace BlogCoreAPI.Tests.Services
             var tag = new AddTagDto();
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddTag(tag));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
@@ -78,7 +80,7 @@ namespace BlogCoreAPI.Tests.Services
             var tag = new AddTagDto() {Name = "  "};
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddTag(tag));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
@@ -187,7 +189,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateTag(tagToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateTag(tagToUpdate));
         }
 
         [Fact]
@@ -204,7 +206,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateTag(tagToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateTag(tagToUpdate));
         }
 
         [Fact]

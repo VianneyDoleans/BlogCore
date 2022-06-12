@@ -14,6 +14,7 @@ using DBAccess.Repositories.User;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.PostService
 {
@@ -25,9 +26,10 @@ namespace BlogCoreAPI.Services.PostService
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly ITagRepository _tagRepository;
+        private readonly IValidator<IPostDto> _dtoValidator;
 
         public PostService(IPostRepository repository, IMapper mapper, IUnitOfWork unitOfWork, IUserRepository userRepository, 
-            ICategoryRepository categoryService, ITagRepository tagRepository)
+            ICategoryRepository categoryService, ITagRepository tagRepository, IValidator<IPostDto> dtoValidator)
         {
             _repository = repository;
             _mapper = mapper;
@@ -35,6 +37,7 @@ namespace BlogCoreAPI.Services.PostService
             _userRepository = userRepository;
             _categoryRepository = categoryService;
             _tagRepository = tagRepository;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetPostDto>> GetAllPosts()
@@ -114,14 +117,6 @@ namespace BlogCoreAPI.Services.PostService
 
         public async Task CheckPostValidity(IPostDto post)
         {
-            if (post == null)
-                throw new ArgumentNullException(nameof(post));
-            if (string.IsNullOrWhiteSpace(post.Content))
-                throw new ArgumentException("Content cannot be null or empty.");
-            if (string.IsNullOrWhiteSpace(post.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (post.Name.Length > 250)
-                throw new ArgumentException("Name cannot exceed 250 characters.");
             if (await _userRepository.GetAsync(post.Author) == null)
                 throw new IndexOutOfRangeException("Author doesn't exist.");
             if (await _categoryRepository.GetAsync(post.Category) == null)
@@ -154,6 +149,7 @@ namespace BlogCoreAPI.Services.PostService
 
         public async Task<GetPostDto> AddPost(AddPostDto post)
         {
+            await _dtoValidator.ValidateAndThrowAsync(post);
             await CheckPostValidity(post);
             var pocoPost = _mapper.Map<Post>(post);
             if (post.Tags != null)
@@ -170,6 +166,7 @@ namespace BlogCoreAPI.Services.PostService
 
         public async Task UpdatePost(UpdatePostDto post)
         {
+            await _dtoValidator.ValidateAndThrowAsync(post);
             if (await PostAlreadyExistsWithSameProperties(post))
                 return;
             await CheckPostValidity(post);

@@ -2,13 +2,16 @@ using System;
 using System.IO;
 using BlogCoreAPI.Authorization;
 using BlogCoreAPI.Extensions;
+using BlogCoreAPI.Filters;
 using BlogCoreAPI.Services.JwtService;
 using DBAccess;
 using DBAccess.Data.POCO.Jwt;
 using DBAccess.Repositories.UnitOfWork;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,6 +31,22 @@ namespace BlogCoreAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers()
+                .AddFluentValidation(s =>
+                {
+                    s.RegisterValidatorsFromAssemblyContaining<Startup>();
+                    s.DisableDataAnnotationsValidation = true;
+                });
+
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(typeof(ValidatorFilterAttribute));
+            });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
             services.Configure<JwtSettings>(Configuration.GetSection("Jwt"));
             var jwtSettings = Configuration.GetSection("Jwt").Get<JwtSettings>();
             services.AddScoped<IJwtService, JwtService>();
@@ -39,6 +58,7 @@ namespace BlogCoreAPI
 
             services.RegisterRepositoryServices();
             services.RegisterResourceServices();
+            services.RegisterDtoResourceValidators();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddAutoMapper(typeof(AutoMapperProfile));
@@ -49,7 +69,7 @@ namespace BlogCoreAPI
                     Title = "BlogCore",
                     Version = "v1"
                 });
-                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "BlogCore.xml"));
+                c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "BlogCoreAPI.xml"));
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {

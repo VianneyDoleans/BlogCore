@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.Services.CategoryService;
+using BlogCoreAPI.Validators.Category;
 using DBAccess.Data.POCO;
 using DBAccess.Repositories.Category;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -26,7 +28,7 @@ namespace BlogCoreAPI.Tests.Services
             });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.CategoryService.CategoryService(new CategoryRepository(_fixture.Db),
-                mapper, _fixture.UnitOfWork);
+                mapper, _fixture.UnitOfWork, new CategoryDtoValidator());
         }
 
         [Fact]
@@ -50,7 +52,7 @@ namespace BlogCoreAPI.Tests.Services
             var category = new AddCategoryDto() { Name = "  " };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddCategory(category));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
@@ -87,7 +89,7 @@ namespace BlogCoreAPI.Tests.Services
             var category = new AddCategoryDto();
 
             // Act & Assert
-           await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddCategory(category));
+           await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
@@ -97,7 +99,7 @@ namespace BlogCoreAPI.Tests.Services
             var category = new AddCategoryDto() {Name = "AAAAAAAAAAAAAAAAAAAAAAAAAAlongNameForTestingPurpose" };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.AddCategory(category));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
@@ -218,7 +220,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateCategory(categoryToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateCategory(categoryToUpdate));
         }
 
         [Fact]
@@ -235,7 +237,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ArgumentException>(async () => await _service.UpdateCategory(categoryToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateCategory(categoryToUpdate));
         }
 
         [Fact]

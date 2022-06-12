@@ -18,7 +18,7 @@ namespace DBAccess.Repositories.Tag
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var tag = await context.Set<Data.POCO.Tag>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var tag = await _context.Set<Data.POCO.Tag>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return tag != null;
         }
     }

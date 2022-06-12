@@ -19,12 +19,12 @@ namespace DBAccess
             switch (dbProvider.Value)
             {
                 case "MsSQL":
-                    services.AddDbContext<BlogCoreContext, MsSqlDbCoreContext>(o => o.UseSqlServer(
+                    services.AddDbContext<BlogCoreContext, MsSqlDbContext>(o => o.UseSqlServer(
                         configuration.GetConnectionString("Default")));
                     break;
 
                 case "PostgreSQL": 
-                    services.AddDbContext<BlogCoreContext, PostgreSqlDbCoreContext>(o => o.UseNpgsql(
+                    services.AddDbContext<BlogCoreContext, PostgreSqlDbContext>(o => o.UseNpgsql(
                     configuration.GetConnectionString("Default")));
                 break;
                 case "HerokuPostgreSQL":
@@ -34,7 +34,7 @@ namespace DBAccess
                         TrustServerCertificate = true,
                         SslMode = SslMode.Require
                     };
-                    services.AddDbContext<BlogCoreContext, PostgreSqlDbCoreContext>(o =>
+                    services.AddDbContext<BlogCoreContext, PostgreSqlDbContext>(o =>
                         o.UseNpgsql(builder.ConnectionString));
                     break;
                 default:

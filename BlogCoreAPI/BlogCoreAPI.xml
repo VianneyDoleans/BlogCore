@@ -1209,6 +1209,13 @@
             <param name="services"></param> 
             <returns></returns> 
         </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterDtoResourceValidators(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource validators
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
         <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary> 
             class used to register resource services 
@@ -1501,11 +1508,12 @@
             Message intended to the Client about the error description.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Responses.BlogErrorResponse.#ctor(System.Exception)">
+        <member name="M:BlogCoreAPI.Responses.BlogErrorResponse.#ctor(System.String,System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Responses.BlogErrorResponse"/> class.
             </summary>
-            <param name="ex"></param>
+            <param name="type"></param>
+            <param name="message"></param>
         </member>
         <member name="T:BlogCoreAPI.Responses.BlogResponse`1">
             <summary>
@@ -1553,9 +1561,6 @@
             <param name="page"></param>
             <param name="size"></param>
             <param name="total"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Services.CategoryService.CategoryService.CountCategoriesWhere(DBAccess.Specifications.FilterSpecifications.FilterSpecification{DBAccess.Data.POCO.Category})">
-            <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.Services.JwtService.IJwtService">
             <summary>

@@ -10,6 +10,7 @@ using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.CategoryService
 {
@@ -18,12 +19,14 @@ namespace BlogCoreAPI.Services.CategoryService
         private readonly ICategoryRepository _repository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IValidator<ICategoryDto> _dtoValidator;
 
-        public CategoryService(ICategoryRepository repository, IMapper mapper, IUnitOfWork unitOfWork)
+        public CategoryService(ICategoryRepository repository, IMapper mapper, IUnitOfWork unitOfWork, IValidator<ICategoryDto> dtoValidator)
         {
             _repository = repository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetCategoryDto>> GetAllCategories()
@@ -38,7 +41,6 @@ namespace BlogCoreAPI.Services.CategoryService
             return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetCategoryDto>(x));
         }
 
-        /// <inheritdoc />
         public async Task<int> CountCategoriesWhere(FilterSpecification<Category> filterSpecification = null)
         {
             return await _repository.CountWhereAsync(filterSpecification);
@@ -49,26 +51,14 @@ namespace BlogCoreAPI.Services.CategoryService
             return _mapper.Map<GetCategoryDto>(await _repository.GetAsync(id));
         }
 
-        public void CheckCategoryValidity(ICategoryDto category)
-        {
-            if (category == null)
-                throw new ArgumentNullException(nameof(category));
-            if (string.IsNullOrWhiteSpace(category.Name))
-                throw new ArgumentException("Name cannot be null or empty.");
-            if (category.Name.Length > 50)
-                throw new ArgumentException("Name cannot exceed 50 characters.");
-        }
-
         public async Task CheckCategoryValidity(AddCategoryDto category)
         {
-            CheckCategoryValidity((ICategoryDto)category);
             if (await _repository.NameAlreadyExists(category.Name))
                 throw new InvalidOperationException("Name already exists.");
         }
 
         public async Task CheckCategoryValidity(UpdateCategoryDto category)
         {
-            CheckCategoryValidity((ICategoryDto) category);
             if (await _repository.NameAlreadyExists(category.Name) &&
                 (await _repository.GetAsync(category.Id)).Name != category.Name)
                 throw new InvalidOperationException("Name already exists.");
@@ -76,6 +66,7 @@ namespace BlogCoreAPI.Services.CategoryService
 
         public async Task<GetCategoryDto> AddCategory(AddCategoryDto category)
         {
+            await _dtoValidator.ValidateAndThrowAsync(category);
             await CheckCategoryValidity(category);
             var result = await _repository.AddAsync(_mapper.Map<Category>(category));
             _unitOfWork.Save();
@@ -92,6 +83,7 @@ namespace BlogCoreAPI.Services.CategoryService
 
         public async Task UpdateCategory(UpdateCategoryDto category)
         {
+            await _dtoValidator.ValidateAndThrowAsync(category);
             if (await CategoryAlreadyExistsWithSameProperties(category))
                 return;
             await CheckCategoryValidity(category);

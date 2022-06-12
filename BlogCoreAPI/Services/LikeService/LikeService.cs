@@ -13,6 +13,7 @@ using DBAccess.Repositories.User;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
+using FluentValidation;
 
 namespace BlogCoreAPI.Services.LikeService
 {
@@ -24,9 +25,11 @@ namespace BlogCoreAPI.Services.LikeService
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IValidator<ILikeDto> _dtoValidator;
 
         public LikeService(ILikeRepository repository, IMapper mapper, IUnitOfWork unitOfWork,
-            ICommentRepository commentRepository, IPostRepository postRepository, IUserRepository userRepository)
+            ICommentRepository commentRepository, IPostRepository postRepository, IUserRepository userRepository, 
+            IValidator<ILikeDto> dtoValidator)
         {
             _repository = repository;
             _mapper = mapper;
@@ -34,6 +37,7 @@ namespace BlogCoreAPI.Services.LikeService
             _commentRepository = commentRepository;
             _postRepository = postRepository;
             _userRepository = userRepository;
+            _dtoValidator = dtoValidator;
         }
 
         public async Task<IEnumerable<GetLikeDto>> GetAllLikes()
@@ -61,20 +65,12 @@ namespace BlogCoreAPI.Services.LikeService
         public async Task CheckLikeValidity(ILikeDto like)
         {
             // TODO maybe remove LikeableType (not so much useful)
-            if (like == null)
-                throw new ArgumentNullException(nameof(like));
             if (await _userRepository.GetAsync(like.User) == null)
                 throw new IndexOutOfRangeException("User doesn't exist.");
-            if (like.Comment != null && like.Post != null)
-                throw new InvalidOperationException("A like can't be assigned to a comment and a post at the same time.");
             switch (like.LikeableType)
             {
-                case LikeableType.Comment when like.Comment == null:
-                    throw new ArgumentException("Comment cannot be null.");
                 case LikeableType.Comment when await _commentRepository.GetAsync(like.Comment.Value) == null:
                     throw new IndexOutOfRangeException("Comment doesn't exist.");
-                case LikeableType.Post when like.Post == null:
-                    throw new ArgumentException("Post cannot be null.");
                 case LikeableType.Post when await _postRepository.GetAsync(like.Post.Value) == null:
                     throw new IndexOutOfRangeException("Post doesn't exist.");
             }
@@ -89,6 +85,7 @@ namespace BlogCoreAPI.Services.LikeService
 
         public async Task<GetLikeDto> AddLike(AddLikeDto like)
         {
+            await _dtoValidator.ValidateAndThrowAsync(like);
             await CheckLikeValidity(like);
             var result = await _repository.AddAsync(_mapper.Map<Like>(like));
             _unitOfWork.Save();
@@ -97,6 +94,7 @@ namespace BlogCoreAPI.Services.LikeService
 
         public async Task UpdateLike(UpdateLikeDto like)
         {
+            await _dtoValidator.ValidateAndThrowAsync(like);
             if (await LikeAlreadyExistsWithSameProperties(like))
                 return;
             await CheckLikeValidity(like);
