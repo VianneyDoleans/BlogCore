@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DbAccess\DbAccess.csproj" />
+    <ProjectReference Include="..\DBAccess\DBAccess.csproj" />
   </ItemGroup>
 
 </Project>

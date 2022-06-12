@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
-using DbAccess.Data.POCO.JoiningEntity;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.JoiningEntity;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Repositories.User;
 
 namespace DBAccess.Tests.Builders
 {
