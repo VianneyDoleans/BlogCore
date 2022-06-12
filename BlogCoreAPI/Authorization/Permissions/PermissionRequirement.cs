@@ -1,7 +1,7 @@
-﻿using DbAccess.Data.POCO.Permission;
+﻿using DBAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MyBlogAPI.Authorization.Permissions
+namespace BlogCoreAPI.Authorization.Permissions
 {
     /// <summary>
     /// Permission requirement used to describe an action (can read, can write, can delete, ...) (<see cref="PermissionAction"/>)

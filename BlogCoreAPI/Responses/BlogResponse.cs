@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBlogAPI.Responses
+namespace BlogCoreAPI.Responses
 {
     /// <summary>
     /// Response return from API to Client when the request was executed properly.

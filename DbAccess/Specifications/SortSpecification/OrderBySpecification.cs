@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace DbAccess.Specifications.SortSpecification
+namespace DBAccess.Specifications.SortSpecification
 {
     public class OrderBySpecification<T>
     {

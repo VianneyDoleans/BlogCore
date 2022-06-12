@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DbAccess.Data.POCO.Interface;
+using DBAccess.Data.POCO.Interface;
 
-namespace DbAccess.Data.POCO
+namespace DBAccess.Data.POCO
 {
     public class Category : IPoco, IHasName, IHasPosts
     {

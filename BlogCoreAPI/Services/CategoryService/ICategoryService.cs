@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Category;
+using DBAccess.Data.POCO;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.CategoryService
+namespace BlogCoreAPI.Services.CategoryService
 {
     public interface ICategoryService
     {

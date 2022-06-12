@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DbAccess.Repositories.UnitOfWork
+namespace DBAccess.Repositories.UnitOfWork
 {
     /// <summary>
     /// Interface used to define the "Unit of Work", the element necessary to manage the transaction on the database.

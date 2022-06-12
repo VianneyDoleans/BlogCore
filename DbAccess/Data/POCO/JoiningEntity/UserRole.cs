@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace DbAccess.Data.POCO.JoiningEntity
+namespace DBAccess.Data.POCO.JoiningEntity
 {
     public class UserRole : IdentityUserRole<int>
     {

@@ -1,5 +1,5 @@
 ﻿
-namespace DbAccess.Specifications
+namespace DBAccess.Specifications
 {
     public class PagingSpecification
     {

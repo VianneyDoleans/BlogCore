@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Comment;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.User;
-using MyBlogAPI.DTOs.Comment;
-using MyBlogAPI.Services.CommentService;
+using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.Services.CommentService;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Comment;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.User;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class CommentService : IClassFixture<DatabaseFixture>
     {
@@ -22,7 +22,7 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
+            _service = new BlogCoreAPI.Services.CommentService.CommentService(new CommentRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new PostRepository(_fixture.Db));
         }
 

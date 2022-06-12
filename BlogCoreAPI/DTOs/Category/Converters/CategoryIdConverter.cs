@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DbAccess.Repositories.Category;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Category;
 
-namespace MyBlogAPI.DTOs.Category.Converters
+namespace BlogCoreAPI.DTOs.Category.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Category"/> to its resource Id.
+    /// AutoMapper converter used to enable the conversion of <see cref="Category"/> to its resource Id.
     /// </summary>
-    public class CategoryIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Category>
+    public class CategoryIdConverter : ITypeConverter<int, DBAccess.Data.POCO.Category>
     {
         private readonly ICategoryRepository _repository;
 
@@ -20,7 +21,7 @@ namespace MyBlogAPI.DTOs.Category.Converters
         }
 
         /// <inheritdoc />
-        public DbAccess.Data.POCO.Category Convert(int source, DbAccess.Data.POCO.Category destination, ResolutionContext context)
+        public DBAccess.Data.POCO.Category Convert(int source, DBAccess.Data.POCO.Category destination, ResolutionContext context)
         {
             return _repository.Get(source);
         }

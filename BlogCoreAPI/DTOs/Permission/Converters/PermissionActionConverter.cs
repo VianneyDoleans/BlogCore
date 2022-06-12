@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using DbAccess.Data.POCO.Permission;
+using DBAccess.Data.POCO.Permission;
 
-namespace MyBlogAPI.DTOs.Permission.Converters
+namespace BlogCoreAPI.DTOs.Permission.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="PermissionAction"/> to <see cref="PermissionActionDto"/>.

@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.Filters
+﻿namespace BlogCoreAPI.Filters
 {
     /// <summary>
     /// Pagination filter used to execute Query on a resource.

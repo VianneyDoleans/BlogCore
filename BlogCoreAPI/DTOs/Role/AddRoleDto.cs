@@ -1,7 +1,9 @@
-﻿namespace MyBlogAPI.DTOs.Role
+﻿using DBAccess.Data.POCO;
+
+namespace BlogCoreAPI.DTOs.Role
 {
     /// <summary>
-    /// Add Dto type of <see cref="DbAccess.Data.POCO.Role"/>.
+    /// Add Dto type of <see cref="Role"/>.
     /// </summary>
     public class AddRoleDto : IRoleDto
     {

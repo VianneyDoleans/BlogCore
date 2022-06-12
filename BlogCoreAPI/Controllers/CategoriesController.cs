@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
+using BlogCoreAPI.Authorization.Attributes;
+using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Filters;
+using BlogCoreAPI.Filters.Category;
+using BlogCoreAPI.Responses;
+using BlogCoreAPI.Services.CategoryService;
+using BlogCoreAPI.Services.PostService;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Authorization.Attributes;
-using MyBlogAPI.DTOs.Category;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Category;
-using MyBlogAPI.Responses;
-using MyBlogAPI.Services.CategoryService;
-using MyBlogAPI.Services.PostService;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Controller used to expose Category resources of the API.

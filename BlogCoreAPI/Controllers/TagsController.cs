@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
+using BlogCoreAPI.Authorization.Attributes;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Filters;
+using BlogCoreAPI.Filters.Tag;
+using BlogCoreAPI.Responses;
+using BlogCoreAPI.Services.PostService;
+using BlogCoreAPI.Services.TagService;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Authorization.Attributes;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.DTOs.Tag;
-using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Tag;
-using MyBlogAPI.Responses;
-using MyBlogAPI.Services.PostService;
-using MyBlogAPI.Services.TagService;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Controller used to expose Tag resources of the API.

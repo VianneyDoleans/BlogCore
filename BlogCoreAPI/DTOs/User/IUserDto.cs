@@ -1,5 +1,5 @@
 ﻿
-namespace MyBlogAPI.DTOs.User
+namespace BlogCoreAPI.DTOs.User
 {
 
     /// <summary>

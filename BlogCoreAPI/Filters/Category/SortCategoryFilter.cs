@@ -1,9 +1,10 @@
-﻿using DbAccess.Specifications.SortSpecification;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Filters.Category
+namespace BlogCoreAPI.Filters.Category
 {
     /// <summary>
-    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Category"/>.
+    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Category"/>.
     /// </summary>
     public class SortCategoryFilter
     {
@@ -19,12 +20,12 @@ namespace MyBlogAPI.Filters.Category
         }
 
         /// <summary>
-        /// Get sort specification of <see cref="DbAccess.Data.POCO.Category"/> based of internal properties defined.
+        /// Get sort specification of <see cref="Category"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public SortSpecification<DbAccess.Data.POCO.Category> GetSorting()
+        public SortSpecification<DBAccess.Data.POCO.Category> GetSorting()
         {
-            var sort = new SortSpecification<DbAccess.Data.POCO.Category>(new OrderBySpecification<DbAccess.Data.POCO.Category>(x => x.Name),
+            var sort = new SortSpecification<DBAccess.Data.POCO.Category>(new OrderBySpecification<DBAccess.Data.POCO.Category>(x => x.Name),
                 _sortingDirection == "DESC"
                     ? SortingDirectionSpecification.Descending
                     : SortingDirectionSpecification.Ascending);

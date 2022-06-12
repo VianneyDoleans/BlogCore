@@ -1,8 +1,8 @@
-﻿using DbAccess.Data.POCO.Interface;
-using System;
+﻿using System;
 using System.Linq.Expressions;
+using DBAccess.Data.POCO.Interface;
 
-namespace DbAccess.Specifications.FilterSpecifications.Filters
+namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
     public class UserUsernameContainsSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasUser
     {

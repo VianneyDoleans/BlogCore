@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
-using DbAccess.Data.POCO.Jwt;
+using DBAccess.Data.POCO.Jwt;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace MyBlogAPI.Extensions
+namespace BlogCoreAPI.Extensions
 {
     public static class AuthExtensions
     {

@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace DbAccess.Repositories
+namespace DBAccess.Repositories
 {
     /// <summary>
     /// Interface of all Repositories. It defines the available generics methods necessary to manipulate the Resources from the database (CRUD and more).

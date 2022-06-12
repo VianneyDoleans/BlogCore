@@ -1,5 +1,5 @@
 ﻿
-namespace DbAccess.Specifications.SortSpecification
+namespace DBAccess.Specifications.SortSpecification
 {
     public class Sort<TEntity>
     {

@@ -1,7 +1,9 @@
-﻿namespace MyBlogAPI.DTOs.User
+﻿using DBAccess.Data.POCO;
+
+namespace BlogCoreAPI.DTOs.User
 {
     /// <summary>
-    /// Add Dto type of <see cref="DbAccess.Data.POCO.User"/>.
+    /// Add Dto type of <see cref="User"/>.
     /// </summary>
     public class AddUserDto : IUserDto
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
-namespace DbAccess.Specifications.FilterSpecifications
+namespace DBAccess.Specifications.FilterSpecifications
 {
     /// <summary>
     /// This class is a component of <see cref="FilterSpecification{T}"/>

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.Tag;
-using MyBlogAPI.FunctionalTests.GenericTests;
-using MyBlogAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.FunctionalTests.GenericTests;
+using BlogCoreAPI.FunctionalTests.Helpers;
 using Xunit;
 
-namespace MyBlogAPI.FunctionalTests.Controllers
+namespace BlogCoreAPI.FunctionalTests.Controllers
 {
     public sealed class TagsController : AGenericTests<GetTagDto, AddTagDto, UpdateTagDto>, IClassFixture<TestWebApplicationFactory>
     {

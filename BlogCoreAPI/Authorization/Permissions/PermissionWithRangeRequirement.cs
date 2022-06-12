@@ -1,7 +1,7 @@
-﻿using DbAccess.Data.POCO.Permission;
+﻿using DBAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MyBlogAPI.Authorization.Permissions
+namespace BlogCoreAPI.Authorization.Permissions
 {
     /// <summary>
     /// Same as <see cref="PermissionRequirement"/> but with <see cref="PermissionRange"/> in addition (own or all resources).

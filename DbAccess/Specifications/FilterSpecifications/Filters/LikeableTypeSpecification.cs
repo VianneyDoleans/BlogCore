@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq.Expressions;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Interface;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Interface;
 
-namespace DbAccess.Specifications.FilterSpecifications.Filters
+namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
     public class LikeableTypeSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasComment, IHasPost
     {

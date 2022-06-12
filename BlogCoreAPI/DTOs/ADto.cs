@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyBlogAPI.DTOs
+namespace BlogCoreAPI.DTOs
 {
     /// <summary>
     /// Abstract of <see cref="IDto"/>. This class implement the mandatory properties and methods of all resources classified as Dto.

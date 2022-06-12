@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using DbAccess.Data.POCO.Interface;
-using DbAccess.Data.POCO.JoiningEntity;
+using DBAccess.Data.POCO.Interface;
+using DBAccess.Data.POCO.JoiningEntity;
 
-namespace DbAccess.Data.POCO
+namespace DBAccess.Data.POCO
 {
     public class Post : IPoco, IHasContent, IHasName, IHasAuthor, IHasCategory, IHasCreationDate, IHasModificationDate, IHasPostTag, IHasLikes, IHasComments
     {

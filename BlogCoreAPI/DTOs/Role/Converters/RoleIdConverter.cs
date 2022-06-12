@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DbAccess.Repositories.Role;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Role;
 
-namespace MyBlogAPI.DTOs.Role.Converters
+namespace BlogCoreAPI.DTOs.Role.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Role"/> to its resource Id.
+    /// AutoMapper converter used to enable the conversion of <see cref="Role"/> to its resource Id.
     /// </summary>
-    public class RoleIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Role>
+    public class RoleIdConverter : ITypeConverter<int, DBAccess.Data.POCO.Role>
     {
         private readonly IRoleRepository _repository;
 
@@ -20,7 +21,7 @@ namespace MyBlogAPI.DTOs.Role.Converters
         }
 
         /// <inheritdoc />
-        public DbAccess.Data.POCO.Role Convert(int source, DbAccess.Data.POCO.Role destination, ResolutionContext context)
+        public DBAccess.Data.POCO.Role Convert(int source, DBAccess.Data.POCO.Role destination, ResolutionContext context)
         {
             return _repository.Get(source);
         }

@@ -1,12 +1,12 @@
 ﻿using System;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DbAccess
+namespace DBAccess
 {
     public static class ServiceCollectionExtensions
     {

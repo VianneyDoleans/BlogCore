@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Category;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Category;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Category;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.CategoryService
+namespace BlogCoreAPI.Services.CategoryService
 {
     public class CategoryService : ICategoryService
     {

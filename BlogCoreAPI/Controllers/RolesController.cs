@@ -1,21 +1,21 @@
 ﻿using System.Collections.Generic;
 using System.Text.Json;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
+using BlogCoreAPI.Authorization.Attributes;
+using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Filters;
+using BlogCoreAPI.Filters.Role;
+using BlogCoreAPI.Responses;
+using BlogCoreAPI.Services.RoleService;
+using BlogCoreAPI.Services.UserService;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Authorization.Attributes;
-using MyBlogAPI.DTOs.Role;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Role;
-using MyBlogAPI.Responses;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.UserService;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Controller used to expose Role resources of the API.

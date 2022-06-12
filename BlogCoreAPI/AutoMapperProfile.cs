@@ -1,24 +1,24 @@
-﻿using DbAccess.Data.POCO;
-using AutoMapper;
-using DbAccess.Data.POCO.Permission;
-using MyBlogAPI.DTOs.Category;
-using MyBlogAPI.DTOs.Category.Converters;
-using MyBlogAPI.DTOs.Comment;
-using MyBlogAPI.DTOs.Comment.Converters;
-using MyBlogAPI.DTOs.Like;
-using MyBlogAPI.DTOs.Like.Converters;
-using MyBlogAPI.DTOs.Permission;
-using MyBlogAPI.DTOs.Permission.Converters;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.DTOs.Post.Converters;
-using MyBlogAPI.DTOs.Role;
-using MyBlogAPI.DTOs.Role.Converters;
-using MyBlogAPI.DTOs.Tag;
-using MyBlogAPI.DTOs.Tag.Converters;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.DTOs.User.Converters;
+﻿using AutoMapper;
+using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Category.Converters;
+using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.DTOs.Comment.Converters;
+using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.DTOs.Like.Converters;
+using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.DTOs.Permission.Converters;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.Post.Converters;
+using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.DTOs.Role.Converters;
+using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.DTOs.Tag.Converters;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.DTOs.User.Converters;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Permission;
 
-namespace MyBlogAPI
+namespace BlogCoreAPI
 {
     /// <inheritdoc />
     public class AutoMapperProfile : Profile

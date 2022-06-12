@@ -1,8 +1,10 @@
 ﻿
-namespace MyBlogAPI.DTOs.Comment
+using DBAccess.Data.POCO;
+
+namespace BlogCoreAPI.DTOs.Comment
 {
     /// <summary>
-    /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Comment"/>.
+    /// UPDATE Dto type of <see cref="Comment"/>.
     /// </summary>
     public class UpdateCommentDto : ADto, ICommentDto
     {

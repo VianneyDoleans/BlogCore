@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Category
+namespace BlogCoreAPI.DTOs.Category
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Category"/>.
+    /// GET Dto type of <see cref="Category"/>.
     /// </summary>
     public class GetCategoryDto : ADto, ICategoryDto
     {

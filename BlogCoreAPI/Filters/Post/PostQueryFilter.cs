@@ -1,10 +1,11 @@
-﻿using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace MyBlogAPI.Filters.Post
+namespace BlogCoreAPI.Filters.Post
 {
     /// <summary>
-    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Post"/>.
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Post"/>.
     /// </summary>
     public class PostQueryFilter
     {
@@ -24,21 +25,21 @@ namespace MyBlogAPI.Filters.Post
         }
 
         /// <summary>
-        /// Get filter specification of <see cref="DbAccess.Data.POCO.Post"/> based of internal properties defined.
+        /// Get filter specification of <see cref="Post"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public FilterSpecification<DbAccess.Data.POCO.Post> GetFilterSpecification()
+        public FilterSpecification<DBAccess.Data.POCO.Post> GetFilterSpecification()
         {
 
-            FilterSpecification<DbAccess.Data.POCO.Post> filter = null;
+            FilterSpecification<DBAccess.Data.POCO.Post> filter = null;
 
             if (_content != null)
-                filter = new ContentContainsSpecification<DbAccess.Data.POCO.Post>(_content);
+                filter = new ContentContainsSpecification<DBAccess.Data.POCO.Post>(_content);
             if (_name != null)
             {
                 filter = filter == null ?
-                    new NameContainsSpecification<DbAccess.Data.POCO.Post>(_name)
-                    : filter & new NameContainsSpecification<DbAccess.Data.POCO.Post>(_name);
+                    new NameContainsSpecification<DBAccess.Data.POCO.Post>(_name)
+                    : filter & new NameContainsSpecification<DBAccess.Data.POCO.Post>(_name);
             }
 
             return filter;

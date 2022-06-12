@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using MyBlogAPI.DTOs.Comment;
+using BlogCoreAPI.DTOs.Comment;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class CommentHelper : AEntityHelper<GetCommentDto, AddCommentDto, UpdateCommentDto>
     {

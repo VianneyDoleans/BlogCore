@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DbAccess.DataContext;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
+using DBAccess.DataContext;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbAccess.Repositories.Category
+namespace DBAccess.Repositories.Category
 {
     /// <summary>
     /// Repository used to manipulate <see cref="Data.POCO.Category"/> from database (CRUD and more).

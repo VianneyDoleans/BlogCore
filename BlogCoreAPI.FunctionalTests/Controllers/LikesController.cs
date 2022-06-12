@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using MyBlogAPI.DTOs.Category;
-using MyBlogAPI.DTOs.Like;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.FunctionalTests.GenericTests;
-using MyBlogAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.FunctionalTests.GenericTests;
+using BlogCoreAPI.FunctionalTests.Helpers;
+using DBAccess.Data.POCO;
 using Xunit;
 
-namespace MyBlogAPI.FunctionalTests.Controllers
+namespace BlogCoreAPI.FunctionalTests.Controllers
 {
     public sealed class LikesController : AGenericTests<GetLikeDto, AddLikeDto, UpdateLikeDto>, IClassFixture<TestWebApplicationFactory>
     {

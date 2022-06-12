@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Post
+namespace BlogCoreAPI.DTOs.Post
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Post"/>.
+    /// GET Dto type of <see cref="Post"/>.
     /// </summary>
     public class GetPostDto : ADto, IPostDto
     {

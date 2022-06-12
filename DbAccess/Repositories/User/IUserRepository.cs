@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbAccess.Repositories.User
+namespace DBAccess.Repositories.User
 {
     public interface IUserRepository : IRepository<Data.POCO.User>
     {

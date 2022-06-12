@@ -1,26 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
+using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Filters;
+using BlogCoreAPI.Filters.User;
+using BlogCoreAPI.Responses;
+using BlogCoreAPI.Services.CommentService;
+using BlogCoreAPI.Services.LikeService;
+using BlogCoreAPI.Services.PostService;
+using BlogCoreAPI.Services.RoleService;
+using BlogCoreAPI.Services.UserService;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTOs.Comment;
-using MyBlogAPI.DTOs.Like;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.User;
-using MyBlogAPI.Responses;
-using MyBlogAPI.Services.CommentService;
-using MyBlogAPI.Services.LikeService;
-using MyBlogAPI.Services.PostService;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Controller used to expose User resources of the API.

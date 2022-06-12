@@ -1,20 +1,20 @@
 ﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
+using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Filters;
+using BlogCoreAPI.Filters.Comment;
+using BlogCoreAPI.Responses;
+using BlogCoreAPI.Services.CommentService;
+using BlogCoreAPI.Services.LikeService;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Specifications;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTOs.Comment;
-using MyBlogAPI.DTOs.Like;
-using MyBlogAPI.Filters;
-using MyBlogAPI.Filters.Comment;
-using MyBlogAPI.Responses;
-using MyBlogAPI.Services.CommentService;
-using MyBlogAPI.Services.LikeService;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Controller used to expose Comment resources of the API.

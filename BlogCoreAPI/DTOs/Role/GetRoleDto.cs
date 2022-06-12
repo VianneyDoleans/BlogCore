@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Role
+namespace BlogCoreAPI.DTOs.Role
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Role"/>.
+    /// GET Dto type of <see cref="Role"/>.
     /// </summary>
     public class GetRoleDto : ADto, IRoleDto
     {

@@ -3,13 +3,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.JoiningEntity;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.DataContext;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.JoiningEntity;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
 
-namespace DbAccess
+namespace DBAccess
 {
     /// <summary>
     /// Class used to initialize Database if the database is empty (test data).
@@ -502,7 +502,7 @@ namespace DbAccess
 
         /// <summary>
         /// Fill the database with <see cref="MyBlogContext"/> (Entity Framework).
-        /// The methods will fill the database only if no <see cref="DbAccess.Data.POCO.Role"/> exists
+        /// The methods will fill the database only if no <see cref="Role"/> exists
         /// (No existing roles means that the database is still empty / not used).
         /// </summary>
         /// <param name="context"></param>

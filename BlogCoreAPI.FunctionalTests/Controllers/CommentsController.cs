@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.Category;
-using MyBlogAPI.DTOs.Comment;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.FunctionalTests.GenericTests;
-using MyBlogAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.FunctionalTests.GenericTests;
+using BlogCoreAPI.FunctionalTests.Helpers;
 using Xunit;
 
-namespace MyBlogAPI.FunctionalTests.Controllers
+namespace BlogCoreAPI.FunctionalTests.Controllers
 {
     public sealed class CommentsController : AGenericTests<GetCommentDto, AddCommentDto, UpdateCommentDto>,
         IClassFixture<TestWebApplicationFactory>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbAccess.Repositories.Comment
+namespace DBAccess.Repositories.Comment
 {
     public interface ICommentRepository : IRepository<Data.POCO.Comment>
     {

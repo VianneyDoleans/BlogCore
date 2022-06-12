@@ -1,7 +1,7 @@
-﻿using DbAccess.Data.POCO;
+﻿using DBAccess.Data.POCO;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbAccess.DataContext
+namespace DBAccess.DataContext
 {
     public class PostgreSqlDbContext : MyBlogContext
     {

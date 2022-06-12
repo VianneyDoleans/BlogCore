@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MyBlogAPI.Responses
+namespace BlogCoreAPI.Responses
 {
     /// <summary>
     /// Class inherited from <see cref="BlogResponse{T}"/>.

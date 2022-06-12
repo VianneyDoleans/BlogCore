@@ -1,20 +1,20 @@
 using System;
 using System.IO;
+using BlogCoreAPI.Authorization;
+using BlogCoreAPI.Extensions;
+using BlogCoreAPI.Services.JwtService;
+using DBAccess;
+using DBAccess.Data.POCO.Jwt;
+using DBAccess.Repositories.UnitOfWork;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using DbAccess;
-using DbAccess.Data.POCO.Jwt;
-using DbAccess.Repositories.UnitOfWork;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using MyBlogAPI.Authorization;
-using MyBlogAPI.Extensions;
-using MyBlogAPI.Services.JwtService;
 
-namespace MyBlogAPI
+namespace BlogCoreAPI
 {
     public class Startup
     {

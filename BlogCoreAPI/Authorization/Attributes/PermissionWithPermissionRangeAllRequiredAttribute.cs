@@ -1,8 +1,8 @@
 ﻿using System;
-using DbAccess.Data.POCO.Permission;
+using DBAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 
-namespace MyBlogAPI.Authorization.Attributes
+namespace BlogCoreAPI.Authorization.Attributes
 {
     /// <summary>
     ///  Attribute allowing to define the corresponding permission needed for an resource endpoint.

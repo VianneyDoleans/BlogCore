@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.Role;
-using MyBlogAPI.FunctionalTests.GenericTests;
-using MyBlogAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.FunctionalTests.GenericTests;
+using BlogCoreAPI.FunctionalTests.Helpers;
 using Xunit;
 
-namespace MyBlogAPI.FunctionalTests.Controllers
+namespace BlogCoreAPI.FunctionalTests.Controllers
 {
     public sealed class RolesController : AGenericTests<GetRoleDto, AddRoleDto, UpdateRoleDto>, IClassFixture<TestWebApplicationFactory>
     {

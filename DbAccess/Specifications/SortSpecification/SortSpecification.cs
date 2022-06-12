@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace DbAccess.Specifications.SortSpecification
+namespace DBAccess.Specifications.SortSpecification
 {
     public class SortSpecification<TEntity>
     {

@@ -1,9 +1,9 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
-using DbAccess.DataContext;
+using DBAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbAccess.Repositories.Tag
+namespace DBAccess.Repositories.Tag
 {
     public class TagRepository : Repository<Data.POCO.Tag>, ITagRepository
     {

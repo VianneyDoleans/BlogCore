@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTOs.Permission
+﻿namespace BlogCoreAPI.DTOs.Permission
 {
     public class PermissionRangeDto
     {

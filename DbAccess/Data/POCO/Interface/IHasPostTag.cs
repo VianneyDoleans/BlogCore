@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using DbAccess.Data.POCO.JoiningEntity;
+using DBAccess.Data.POCO.JoiningEntity;
 
-namespace DbAccess.Data.POCO.Interface
+namespace DBAccess.Data.POCO.Interface
 {
     public interface IHasPostTag
     {

@@ -2,14 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Repositories.Role;
-using MyBlogAPI.DTOs.Role;
-using MyBlogAPI.Services.RoleService;
+using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.Services.RoleService;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Repositories.Role;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class RoleService : IClassFixture<DatabaseFixture>
     {
@@ -21,7 +21,7 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db, _fixture.RoleManager),
+            _service = new BlogCoreAPI.Services.RoleService.RoleService(new RoleRepository(_fixture.Db, _fixture.RoleManager),
                 mapper, _fixture.UnitOfWork);
         }
 

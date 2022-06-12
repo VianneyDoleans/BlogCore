@@ -1,4 +1,4 @@
-﻿namespace DbAccess.Data.POCO.JoiningEntity
+﻿namespace DBAccess.Data.POCO.JoiningEntity
 {
     public class PostTag
     {

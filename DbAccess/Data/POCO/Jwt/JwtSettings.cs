@@ -1,4 +1,4 @@
-﻿namespace DbAccess.Data.POCO.Jwt
+﻿namespace DBAccess.Data.POCO.Jwt
 {
     public class JwtSettings
     {

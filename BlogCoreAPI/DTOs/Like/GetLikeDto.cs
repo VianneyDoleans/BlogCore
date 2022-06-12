@@ -1,10 +1,10 @@
 ﻿using System;
-using DbAccess.Data.POCO;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Like
+namespace BlogCoreAPI.DTOs.Like
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Like"/>.
+    /// GET Dto type of <see cref="Like"/>.
     /// </summary>
     public class GetLikeDto : ADto, ILikeDto
     {

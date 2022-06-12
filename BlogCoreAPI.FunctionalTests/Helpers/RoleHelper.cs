@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using MyBlogAPI.DTOs.Role;
+using BlogCoreAPI.DTOs.Role;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class RoleHelper : AEntityHelper<GetRoleDto, AddRoleDto, UpdateRoleDto>
     {

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
-using DbAccess.Specifications.SortSpecification;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Post;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
+using DBAccess.Specifications.SortSpecification;
 using DBAccess.Tests.Builders;
 using Xunit;
 
@@ -24,7 +25,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddPostsAsync()
         {
             // Arrange
-            var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var repository = new PostRepository(_fixture.Db);
             var testPosts = new Post() { Name = "This is a test for post", Content = "a content" };
 
             // Act
@@ -39,7 +40,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddNullPostsAsync()
         {
             // Arrange
-            var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var repository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await repository.AddAsync(null));
@@ -49,7 +50,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetPostsAsync()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
 
             // Act
@@ -63,7 +64,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetPostsOutOfRangeAsync()
         {
             // Arrange
-            var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var repository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await repository.GetAsync(100));
@@ -73,7 +74,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAllAsync()
         {
             // Arrange
-            var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var repository = new PostRepository(_fixture.Db);
             var result = await repository.GetAllAsync();
 
             // Act & Assert
@@ -85,7 +86,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbPostsAtBeginning = _fixture.Db.Posts.Count();
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPosts = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbPostsAfterAdded = _fixture.Db.Posts.Count();
 
@@ -103,7 +104,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemoveNullAsync()
         {
             // Arrange
-            var repository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var repository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await repository.RemoveAsync(null));
@@ -115,9 +116,9 @@ namespace DBAccess.Tests.Repositories
         public void AddPost()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
-            var categoryRepository = new DbAccess.Repositories.Category.CategoryRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
+            var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var categoryRepository = new DBAccess.Repositories.Category.CategoryRepository(_fixture.Db);
 
             var user = new UserBuilder(userRepository, _fixture.UnitOfWork).Build();
             var category = new CategoryBuilder(categoryRepository, _fixture.UnitOfWork).Build();
@@ -135,7 +136,7 @@ namespace DBAccess.Tests.Repositories
         public void AddNullPost()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -149,7 +150,7 @@ namespace DBAccess.Tests.Repositories
         public void CountAll()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(_fixture.Db.Posts.Count() == postRepository.CountAll());
@@ -159,7 +160,7 @@ namespace DBAccess.Tests.Repositories
         public async Task CountAllAsync()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(_fixture.Db.Posts.Count() == await postRepository.CountAllAsync());
@@ -170,7 +171,7 @@ namespace DBAccess.Tests.Repositories
         public void GetAll()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act
             var result = postRepository.GetAll();
@@ -183,7 +184,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
@@ -201,7 +202,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncABSpecification").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncAUSpecification2").Build();
@@ -221,8 +222,8 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var postRepository = new PostRepository(_fixture.Db);
+            var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("TwoSortsAndTwoSpecPst").Build();
             var user2 = new UserBuilder(userRepository, _fixture.UnitOfWork).WithUserName("TwoSortsAndTwoSpecPst2").Build();
@@ -249,7 +250,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithNoArgument()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True((await postRepository.GetAsync()).ToList().Count == _fixture.Db.Posts.Count());
@@ -259,7 +260,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithAllArguments()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncABSpecificationWithAllArguments").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncAUSpecification2WithAllArguments").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncAKSpecification3WithAllArguments").Build();
@@ -283,7 +284,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPagination()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Post1GetAsyncWithPagination1").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("Post1GetAsyncWithPagination2").Build();
@@ -313,7 +314,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationTakeOutOfRange1").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationTakeOutOfRange2").Build();
             var testPost3 = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationTakeOutOfRange3").Build();
@@ -344,7 +345,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationTakeNegative1").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationTakeNegative2").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationTakeNegative3").Build();
@@ -367,7 +368,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationSkipNegative").Build();
             var testPost2 = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationSkipNegative2").Build();
             var testPost3 = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationSkipNegative3").Build();
@@ -396,7 +397,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationSkipOutOfRange").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationSkipOutOfRange2").Build();
             new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).WithContent("PostGetAsyncWithPaginationSkipOutOfRange3").Build();
@@ -420,7 +421,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Posts.Count();
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Posts.Count();
 
@@ -438,7 +439,7 @@ namespace DBAccess.Tests.Repositories
         public void GetPost()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
 
             // Act
@@ -452,7 +453,7 @@ namespace DBAccess.Tests.Repositories
         public void GetCategoryOutOfRange()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<IndexOutOfRangeException>(() => postRepository.Get(100));
@@ -462,7 +463,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveNull()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => postRepository.Remove(null));
@@ -472,7 +473,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemoveRangeAsyncNull()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await postRepository.RemoveRangeAsync(null));
@@ -482,7 +483,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveRangeNull()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => postRepository.RemoveRange(null));
@@ -493,7 +494,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Posts.Count();
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var testPost2 = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Posts.Count();
@@ -513,7 +514,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Posts.Count();
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var testPost2 = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
             var nbCategoriesAfterAdded = _fixture.Db.Posts.Count();
@@ -532,7 +533,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsFalse()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(!await postRepository.NameAlreadyExists("NameAlreadyExistsFalse"));
@@ -542,7 +543,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsNull()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
 
             // Act & Assert
             Assert.True(!await postRepository.NameAlreadyExists(null));
@@ -552,7 +553,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsTrue()
         {
             // Arrange
-            var postRepository = new DbAccess.Repositories.Post.PostRepository(_fixture.Db);
+            var postRepository = new PostRepository(_fixture.Db);
             var testPost = new PostBuilder(postRepository, _fixture.UnitOfWork, _fixture.Db).Build();
 
             // Act & Assert

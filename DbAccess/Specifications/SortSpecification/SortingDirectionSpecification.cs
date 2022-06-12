@@ -1,4 +1,4 @@
-﻿namespace DbAccess.Specifications.SortSpecification
+﻿namespace DBAccess.Specifications.SortSpecification
 {
     public enum SortingDirectionSpecification
     {

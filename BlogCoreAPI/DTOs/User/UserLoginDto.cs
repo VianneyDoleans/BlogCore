@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTOs.User
+﻿namespace BlogCoreAPI.DTOs.User
 {
     public class UserLoginDto
     {

@@ -1,20 +1,20 @@
 ﻿using System.Threading.Tasks;
-using DbAccess;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
-using DbAccess.Repositories.Category;
-using DbAccess.Repositories.Comment;
-using DbAccess.Repositories.Like;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.Tag;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
+using DBAccess;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
+using DBAccess.Repositories.Category;
+using DBAccess.Repositories.Comment;
+using DBAccess.Repositories.Like;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.Role;
+using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Repositories.User;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace MyBlogAPI.Tests
+namespace BlogCoreAPI.Tests
 {
     public class DatabaseFixture : IAsyncLifetime
     {

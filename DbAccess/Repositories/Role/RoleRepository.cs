@@ -4,15 +4,15 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.DataContext;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.DataContext;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbAccess.Repositories.Role
+namespace DBAccess.Repositories.Role
 {
     public class RoleRepository : Repository<Data.POCO.Role>, IRoleRepository
     {

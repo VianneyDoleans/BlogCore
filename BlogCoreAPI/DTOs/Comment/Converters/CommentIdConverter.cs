@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DbAccess.Repositories.Comment;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Comment;
 
-namespace MyBlogAPI.DTOs.Comment.Converters
+namespace BlogCoreAPI.DTOs.Comment.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Comment"/> to its resource Id.
+    /// AutoMapper converter used to enable the conversion of <see cref="Comment"/> to its resource Id.
     /// </summary>
-    public class CommentIdConverter: ITypeConverter<int, DbAccess.Data.POCO.Comment>
+    public class CommentIdConverter: ITypeConverter<int, DBAccess.Data.POCO.Comment>
     {
         private readonly ICommentRepository _repository;
 
@@ -20,7 +21,7 @@ namespace MyBlogAPI.DTOs.Comment.Converters
         }
 
         /// <inheritdoc />
-        public DbAccess.Data.POCO.Comment Convert(int source, DbAccess.Data.POCO.Comment destination, ResolutionContext context)
+        public DBAccess.Data.POCO.Comment Convert(int source, DBAccess.Data.POCO.Comment destination, ResolutionContext context)
         {
             return _repository.Get(source);
         }

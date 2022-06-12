@@ -4,17 +4,17 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.User;
+using BlogCoreAPI.DTOs.User;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Role;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Repositories.User;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.UserService
+namespace BlogCoreAPI.Services.UserService
 {
     public class UserService : IUserService
     {

@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Category;
-using DbAccess.Specifications.FilterSpecifications.Filters;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Category;
-using MyBlogAPI.Services.CategoryService;
+using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.Services.CategoryService;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Category;
+using DBAccess.Specifications.FilterSpecifications.Filters;
+using DBAccess.Specifications.SortSpecification;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class CategoryService : IClassFixture<DatabaseFixture>
     {
@@ -25,7 +25,7 @@ namespace MyBlogAPI.Tests.Services
                 cfg.AddProfile(databaseFixture.MapperProfile);
             });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.CategoryService.CategoryService(new CategoryRepository(_fixture.Db),
+            _service = new BlogCoreAPI.Services.CategoryService.CategoryService(new CategoryRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork);
         }
 

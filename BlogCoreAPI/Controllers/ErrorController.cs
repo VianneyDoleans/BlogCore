@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
 using System.Net;
+using BlogCoreAPI.Responses;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using MyBlogAPI.Responses;
+using Microsoft.AspNetCore.Mvc;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Errors controllers used as middleware to catch exceptions and manage behaviors.

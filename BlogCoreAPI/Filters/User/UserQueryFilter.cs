@@ -1,11 +1,12 @@
 ﻿using System;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
+using DBAccess.Data.POCO;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace MyBlogAPI.Filters.User
+namespace BlogCoreAPI.Filters.User
 {
     /// <summary>
-    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.User"/>.
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="User"/>.
     /// </summary>
     public class UserQueryFilter
     {
@@ -27,27 +28,27 @@ namespace MyBlogAPI.Filters.User
         }
 
         /// <summary>
-        /// Get filter specification of <see cref="DbAccess.Data.POCO.User"/> based of internal properties defined.
+        /// Get filter specification of <see cref="User"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public FilterSpecification<DbAccess.Data.POCO.User> GetFilterSpecification()
+        public FilterSpecification<DBAccess.Data.POCO.User> GetFilterSpecification()
         {
 
-            FilterSpecification<DbAccess.Data.POCO.User> filter = null;
+            FilterSpecification<DBAccess.Data.POCO.User> filter = null;
 
             if (_lastLoginBefore != null)
-                filter = new LastLoginBeforeDateSpecification<DbAccess.Data.POCO.User>(_lastLoginBefore.Value);
+                filter = new LastLoginBeforeDateSpecification<DBAccess.Data.POCO.User>(_lastLoginBefore.Value);
             if (_registerBefore != null)
             {
                 filter = filter == null ?
-                    new RegisterBeforeDateSpecification<DbAccess.Data.POCO.User>(_registerBefore.Value) 
-                    : filter & new RegisterBeforeDateSpecification<DbAccess.Data.POCO.User>(_registerBefore.Value);
+                    new RegisterBeforeDateSpecification<DBAccess.Data.POCO.User>(_registerBefore.Value) 
+                    : filter & new RegisterBeforeDateSpecification<DBAccess.Data.POCO.User>(_registerBefore.Value);
             }
             if (_username != null)
             {
                 filter = filter == null ?
-                    new UsernameContainsSpecification<DbAccess.Data.POCO.User>(_username) 
-                    : filter & new UsernameContainsSpecification<DbAccess.Data.POCO.User>(_username);
+                    new UsernameContainsSpecification<DBAccess.Data.POCO.User>(_username) 
+                    : filter & new UsernameContainsSpecification<DBAccess.Data.POCO.User>(_username);
             }
 
             return filter;

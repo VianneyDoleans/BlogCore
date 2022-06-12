@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.Common;
 
-namespace DbAccess
+namespace DBAccess
 {
     public enum SslMode
     {

@@ -3,12 +3,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
-using MyBlogAPI.DTOs;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.DTOs;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.FunctionalTests.Helpers;
 using Xunit;
 
-namespace MyBlogAPI.FunctionalTests.GenericTests
+namespace BlogCoreAPI.FunctionalTests.GenericTests
 {
     public abstract class AGenericTests<TGet, TAdd, TUpdate> : IAsyncLifetime
         where TGet : ADto, new() 

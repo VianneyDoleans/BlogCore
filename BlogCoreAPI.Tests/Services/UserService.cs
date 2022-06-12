@@ -2,15 +2,15 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.JoiningEntity;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.User;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.Services.UserService;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Services.UserService;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.JoiningEntity;
+using DBAccess.Repositories.Role;
+using DBAccess.Repositories.User;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class UserService : IClassFixture<DatabaseFixture>
     {
@@ -25,7 +25,7 @@ namespace MyBlogAPI.Tests.Services
                 cfg.AddProfile(databaseFixture.MapperProfile);
             });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
+            _service = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
                 mapper, _fixture.UnitOfWork);
         }
 

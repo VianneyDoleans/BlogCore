@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.JoiningEntity;
-using DbAccess.Repositories.Category;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.Tag;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.Post;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.JoiningEntity;
+using DBAccess.Repositories.Category;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Repositories.User;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.PostService
+namespace BlogCoreAPI.Services.PostService
 {
     public class PostService : IPostService
     {

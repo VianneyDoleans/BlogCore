@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MyBlogAPI.Responses
+namespace BlogCoreAPI.Responses
 {
     /// <summary>
     /// Error Response return from API to Client when the request couldn't be execute properly.

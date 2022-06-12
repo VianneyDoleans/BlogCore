@@ -1,7 +1,7 @@
 ﻿using System;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Tag;
-using DbAccess.Repositories.UnitOfWork;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.UnitOfWork;
 
 namespace DBAccess.Tests.Builders
 {

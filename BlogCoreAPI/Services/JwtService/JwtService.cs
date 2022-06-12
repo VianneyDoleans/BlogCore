@@ -4,13 +4,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Jwt;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.User;
+using DBAccess.Data.POCO.Jwt;
+using DBAccess.Repositories.User;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace MyBlogAPI.Services.JwtService
+namespace BlogCoreAPI.Services.JwtService
 {
     public class JwtService : IJwtService
     {

@@ -1,8 +1,8 @@
 ﻿using System.Net.Http;
-using DbAccess.Data.POCO;
-using MyBlogAPI.DTOs.Like;
+using BlogCoreAPI.DTOs.Like;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class LikeHelper : AEntityHelper<GetLikeDto, AddLikeDto, UpdateLikeDto>
     {

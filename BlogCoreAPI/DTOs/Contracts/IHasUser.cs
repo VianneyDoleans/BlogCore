@@ -1,4 +1,4 @@
-﻿namespace MyBlogAPI.DTOs.Contracts
+﻿namespace BlogCoreAPI.DTOs.Contracts
 {
     public interface IHasUser
     {

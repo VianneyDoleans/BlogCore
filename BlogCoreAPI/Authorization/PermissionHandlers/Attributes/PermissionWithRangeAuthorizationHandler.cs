@@ -1,13 +1,13 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.Services.RoleService;
+using BlogCoreAPI.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTOs.Permission;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Authorization.PermissionHandlers.Attributes
+namespace BlogCoreAPI.Authorization.PermissionHandlers.Attributes
 {
     public class PermissionWithRangeAuthorizationHandler : AuthorizationHandler<PermissionWithRangeRequirement>
     {

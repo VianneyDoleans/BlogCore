@@ -1,10 +1,10 @@
 ﻿using System;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace MyBlogAPI.Tests
+namespace BlogCoreAPI.Tests
 {
     public static class TestBootstrapper
     {

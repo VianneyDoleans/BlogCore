@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DbAccess.Repositories.Tag
+namespace DBAccess.Repositories.Tag
 {
     public interface ITagRepository : IRepository<Data.POCO.Tag>
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DbAccess.Data.POCO.Permission
+namespace DBAccess.Data.POCO.Permission
 {
     /// <summary>
     /// Permission enum allowing to define a permission for a <see cref="Role"/>.

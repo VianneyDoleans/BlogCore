@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Tag;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Tag;
+using BlogCoreAPI.DTOs.Tag;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.TagService
+namespace BlogCoreAPI.Services.TagService
 {
     public class TagService : ITagService
     {

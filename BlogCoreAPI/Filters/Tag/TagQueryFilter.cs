@@ -1,10 +1,11 @@
-﻿using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace MyBlogAPI.Filters.Tag
+namespace BlogCoreAPI.Filters.Tag
 {
     /// <summary>
-    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Tag"/>.
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Tag"/>.
     /// </summary>
     public class TagQueryFilter
     {
@@ -20,15 +21,15 @@ namespace MyBlogAPI.Filters.Tag
         }
 
         /// <summary>
-        /// Get filter specification of <see cref="DbAccess.Data.POCO.Tag"/> based of internal properties defined.
+        /// Get filter specification of <see cref="Tag"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public FilterSpecification<DbAccess.Data.POCO.Tag> GetFilterSpecification()
+        public FilterSpecification<DBAccess.Data.POCO.Tag> GetFilterSpecification()
         {
-            FilterSpecification<DbAccess.Data.POCO.Tag> filter = null;
+            FilterSpecification<DBAccess.Data.POCO.Tag> filter = null;
 
             if (_name != null)
-                filter = new NameContainsSpecification<DbAccess.Data.POCO.Tag>(_name);
+                filter = new NameContainsSpecification<DBAccess.Data.POCO.Tag>(_name);
 
             return filter;
         }

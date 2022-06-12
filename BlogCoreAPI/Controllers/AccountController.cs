@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Responses;
+using BlogCoreAPI.Services.JwtService;
+using BlogCoreAPI.Services.UserService;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.Responses;
-using MyBlogAPI.Services.JwtService;
-using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Controllers
+namespace BlogCoreAPI.Controllers
 {
     /// <summary>
     /// Controller used to enables account action such as login / log out.

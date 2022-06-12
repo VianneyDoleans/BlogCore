@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Linq.Expressions;
 
-namespace DbAccess.Specifications.FilterSpecifications
+namespace DBAccess.Specifications.FilterSpecifications
 {
     /// <summary>
     /// Class used to define a query based on DDD patterns.

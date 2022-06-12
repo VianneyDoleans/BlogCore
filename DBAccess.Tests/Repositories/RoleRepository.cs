@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
-using DbAccess.Specifications.SortSpecification;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Repositories.Role;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
+using DBAccess.Specifications.SortSpecification;
 using DBAccess.Tests.Builders;
 using Xunit;
 
@@ -25,7 +26,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async Task AddRolesAsync()
         {
-            var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRoles = new Role() { Name = "This is a test for role" };
             await repository.AddAsync(testRoles);
             _fixture.UnitOfWork.Save();
@@ -36,7 +37,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async Task AddNullRolesAsync()
         {
-            var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await repository.AddAsync(null));
         }
@@ -44,7 +45,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async Task GetRolesAsync()
         {
-            var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "GetRolesAsync"
@@ -60,7 +61,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async Task GetRolesOutOfRangeAsync()
         {
-            var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await repository.GetAsync(100));
         }
@@ -68,7 +69,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async Task GetAllAsync()
         {
-            var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var result = await repository.GetAllAsync();
 
             Assert.True(result.Count() == _fixture.Db.Roles.Count());
@@ -78,7 +79,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemoveAsync()
         {
             var nbRolesAtBeginning = _fixture.Db.Roles.Count();
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRoles = new Role() { Name = "This is a test role" };
 
             await roleRepository.AddAsync(testRoles);
@@ -95,7 +96,7 @@ namespace DBAccess.Tests.Repositories
         [Fact]
         public async Task RemoveNullAsync()
         {
-            var repository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await repository.RemoveAsync(null));
         }
@@ -106,7 +107,7 @@ namespace DBAccess.Tests.Repositories
         public void AddRole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             _fixture.Db.SaveChanges();
             var testRole = new Role() { Name = "AddRole" };
 
@@ -122,7 +123,7 @@ namespace DBAccess.Tests.Repositories
         public void AddNullRole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() =>
@@ -136,7 +137,7 @@ namespace DBAccess.Tests.Repositories
         public void CountAll()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.True(_fixture.Db.Roles.Count() == roleRepository.CountAll());
@@ -146,7 +147,7 @@ namespace DBAccess.Tests.Repositories
         public async Task CountAllAsync()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.True(_fixture.Db.Roles.Count() == await roleRepository.CountAllAsync());
@@ -157,7 +158,7 @@ namespace DBAccess.Tests.Repositories
         public void GetAll()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act
             var result = roleRepository.GetAll();
@@ -170,7 +171,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncSpecificationBasic()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             _fixture.Db.SaveChanges();
             var testRole = new Role()
             {
@@ -205,7 +206,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithTwoSpecifications()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             _fixture.Db.SaveChanges();
             var testRole = new Role()
             {
@@ -250,7 +251,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithTwoSortsAndTwoSpecificationsAndPagination()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             await _fixture.Db.Roles.AddAsync(
                 new Role() { Name = "TwwooGetAsyncWithTwoSortsRole" });
             await _fixture.Db.Roles.AddAsync(
@@ -281,7 +282,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithNoArgument()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.True((await roleRepository.GetAsync()).ToList().Count == _fixture.Db.Roles.Count());
@@ -291,7 +292,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithAllArguments()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RoleGetAsyncWithAllArguments"
@@ -340,7 +341,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPagination()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             await _fixture.Db.Roles.AddAsync(
                 new Role() { Name = "GetAsyncWithPagination" });
             var testRole = new Role()
@@ -396,7 +397,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationTakeOutOfRange()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RoleGetAsyncWithPaginationTakeOutOfRange1"
@@ -452,7 +453,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationTakeNegative()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RoleGetAsyncWithPaginationTakeNegative1"
@@ -500,7 +501,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationSkipNegative()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             await _fixture.Db.Roles.AddAsync(
                 new Role() { Name = "ComGetAWithPagSkipNega" });
             var testRole = new Role()
@@ -556,7 +557,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetAsyncWithPaginationSkipOutOfRange()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RoleGetAsyncWithPaginationSkipOutOfRange"
@@ -605,7 +606,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Roles.Count();
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RemoveRole"
@@ -628,7 +629,7 @@ namespace DBAccess.Tests.Repositories
         public void GetRole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "GetRole"
@@ -647,7 +648,7 @@ namespace DBAccess.Tests.Repositories
         public void GetCategoryOutOfRange()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.Throws<IndexOutOfRangeException>(() => roleRepository.Get(100));
@@ -657,7 +658,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveNull()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => roleRepository.Remove(null));
@@ -667,7 +668,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemoveRangeAsyncNull()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             await Assert.ThrowsAsync<ArgumentNullException>(async () => await roleRepository.RemoveRangeAsync(null));
@@ -677,7 +678,7 @@ namespace DBAccess.Tests.Repositories
         public void RemoveRangeNull()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.Throws<ArgumentNullException>(() => roleRepository.RemoveRange(null));
@@ -688,7 +689,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Roles.Count();
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RoleRemoveRange1"
@@ -717,7 +718,7 @@ namespace DBAccess.Tests.Repositories
         {
             // Arrange
             var nbCategoriesAtBeginning = _fixture.Db.Roles.Count();
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "RoleRemoveRangeAsync1"
@@ -745,7 +746,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsFalse()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.True(!await roleRepository.NameAlreadyExists("NameAlreadyExistsFalse"));
@@ -755,7 +756,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsNull()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             Assert.True(!await roleRepository.NameAlreadyExists(null));
@@ -765,7 +766,7 @@ namespace DBAccess.Tests.Repositories
         public async Task NameAlreadyExistsTrue()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new Role()
             {
                 Name = "NameAlreadyExistsTrue",
@@ -781,7 +782,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddPermission()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             var permission = new Permission()
             {
@@ -802,7 +803,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddPermissionWithNullPermission()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
 
             // Act & Assert
@@ -813,7 +814,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddPermissionWithNonExistentRole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var permission = new Permission()
             {
                 PermissionAction = PermissionAction.CanCreate,
@@ -829,7 +830,7 @@ namespace DBAccess.Tests.Repositories
         public async Task AddPermissionThatAlreadyExistsInARole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             var permission = new Permission()
             {
@@ -848,7 +849,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetPermissionsAsync()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             var commentPermission = new Permission()
             {
@@ -880,7 +881,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetPermissionsAsyncEmpty()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
 
             // Act
@@ -895,7 +896,7 @@ namespace DBAccess.Tests.Repositories
         public async Task GetPermissionsWithNonExistentRole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
             await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.GetPermissionsAsync(99991));
@@ -905,7 +906,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemovePermissionAsync()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             var commentPermission = new Permission()
             {
@@ -946,7 +947,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemovePermissionAsyncWithNullPermission()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var testRole = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             await _fixture.Db.SaveChangesAsync();
 
@@ -958,7 +959,7 @@ namespace DBAccess.Tests.Repositories
         public async Task RemovePermissionAsyncWithNonExistentRole()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
             var commentPermission = new Permission()
             {
                 PermissionAction = PermissionAction.CanCreate,
@@ -974,8 +975,8 @@ namespace DBAccess.Tests.Repositories
         public async Task GetRolesFromUser()
         {
             // Arrange
-            var roleRepository = new DbAccess.Repositories.Role.RoleRepository(_fixture.Db, _fixture.RoleManager);
-            var userRepository = new DbAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
+            var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
+            var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var role1 = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             var role2 = new RoleBuilder(roleRepository, _fixture.UnitOfWork).Build();
             var user = new UserBuilder(userRepository, _fixture.UnitOfWork).WithRole(role1).WithRole(role2).Build();

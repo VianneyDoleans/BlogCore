@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
+using BlogCoreAPI.Authorization.Permissions;
+using DBAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
-using MyBlogAPI.Authorization.Permissions;
 
-namespace MyBlogAPI.Authorization
+namespace BlogCoreAPI.Authorization
 {
     /// <summary>
     /// 

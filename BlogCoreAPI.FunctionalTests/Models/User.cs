@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace MyBlogAPI.FunctionalTests.Models
+namespace BlogCoreAPI.FunctionalTests.Models
 {
     public class User
     {

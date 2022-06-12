@@ -1,6 +1,6 @@
-﻿using DbAccess.DataContext;
+﻿using DBAccess.DataContext;
 
-namespace DbAccess.Repositories.UnitOfWork
+namespace DBAccess.Repositories.UnitOfWork
 {
     /// <inheritdoc />
     public sealed class UnitOfWork : IUnitOfWork

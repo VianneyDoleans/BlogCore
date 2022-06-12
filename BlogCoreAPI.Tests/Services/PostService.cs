@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Category;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.Tag;
-using DbAccess.Repositories.User;
-using MyBlogAPI.DTOs.Post;
-using MyBlogAPI.Services.PostService;
+using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Services.PostService;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Category;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.User;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class PostService : IClassFixture<DatabaseFixture>
     {
@@ -24,7 +24,7 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
+            _service = new BlogCoreAPI.Services.PostService.PostService(new PostRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork, new UserRepository(_fixture.Db, _fixture.UserManager), new CategoryRepository(_fixture.Db),
                 new TagRepository(_fixture.Db));
         }

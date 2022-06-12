@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO.Permission;
+using DBAccess.Data.POCO.Permission;
 
-namespace DbAccess.Repositories.Role
+namespace DBAccess.Repositories.Role
 {
     public interface IRoleRepository : IRepository<Data.POCO.Role>
     {

@@ -1,9 +1,10 @@
-﻿using DbAccess.Specifications.SortSpecification;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Filters.Comment
+namespace BlogCoreAPI.Filters.Comment
 {
     /// <summary>
-    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Comment"/>.
+    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Comment"/>.
     /// </summary>
     public class SortCommentFilter
     {
@@ -22,19 +23,19 @@ namespace MyBlogAPI.Filters.Comment
         }
 
         /// <summary>
-        /// Get sort specification of <see cref="DbAccess.Data.POCO.Comment"/> based of internal properties defined.
+        /// Get sort specification of <see cref="Comment"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public SortSpecification<DbAccess.Data.POCO.Comment> GetSorting()
+        public SortSpecification<DBAccess.Data.POCO.Comment> GetSorting()
         {
-            SortSpecification<DbAccess.Data.POCO.Comment> sort;
+            SortSpecification<DBAccess.Data.POCO.Comment> sort;
             if (_orderBy == "LIKE")
-                sort = new SortSpecification<DbAccess.Data.POCO.Comment>(new OrderBySpecification<DbAccess.Data.POCO.Comment>(x => x.Likes),
+                sort = new SortSpecification<DBAccess.Data.POCO.Comment>(new OrderBySpecification<DBAccess.Data.POCO.Comment>(x => x.Likes),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending);
             else
-                sort = new SortSpecification<DbAccess.Data.POCO.Comment>(new OrderBySpecification<DbAccess.Data.POCO.Comment>(x => x.PublishedAt),
+                sort = new SortSpecification<DBAccess.Data.POCO.Comment>(new OrderBySpecification<DBAccess.Data.POCO.Comment>(x => x.PublishedAt),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending);

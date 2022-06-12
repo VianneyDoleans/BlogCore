@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO.Permission;
+using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.DTOs.Contracts;
+using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.Services.RoleService;
+using BlogCoreAPI.Services.UserService;
+using DBAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTOs.Contracts;
-using MyBlogAPI.DTOs.Permission;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Authorization.PermissionHandlers.Dtos
+namespace BlogCoreAPI.Authorization.PermissionHandlers.Dtos
 {
     /// <summary>
     /// Authorization Handler that verifies if user has a role with <see cref="PermissionRange.All"/> or <see cref="PermissionRange.Own"/>

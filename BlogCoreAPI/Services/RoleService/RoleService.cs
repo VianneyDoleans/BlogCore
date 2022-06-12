@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Permission;
-using MyBlogAPI.DTOs.Role;
+using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.DTOs.Role;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Repositories.Role;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.RoleService
+namespace BlogCoreAPI.Services.RoleService
 {
     public class RoleService : IRoleService
     {

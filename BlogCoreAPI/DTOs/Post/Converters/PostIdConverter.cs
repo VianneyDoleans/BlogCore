@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DbAccess.Repositories.Post;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Post;
 
-namespace MyBlogAPI.DTOs.Post.Converters
+namespace BlogCoreAPI.DTOs.Post.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Post"/> to its resource Id.
+    /// AutoMapper converter used to enable the conversion of <see cref="Post"/> to its resource Id.
     /// </summary>
-    public class PostIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Post>
+    public class PostIdConverter : ITypeConverter<int, DBAccess.Data.POCO.Post>
     {
         private readonly IPostRepository _repository;
 
@@ -20,7 +21,7 @@ namespace MyBlogAPI.DTOs.Post.Converters
         }
 
         /// <inheritdoc />
-        public DbAccess.Data.POCO.Post Convert(int source, DbAccess.Data.POCO.Post destination, ResolutionContext context)
+        public DBAccess.Data.POCO.Post Convert(int source, DBAccess.Data.POCO.Post destination, ResolutionContext context)
         {
             return _repository.Get(source);
         }

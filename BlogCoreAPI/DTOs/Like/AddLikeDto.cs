@@ -1,9 +1,9 @@
-﻿using DbAccess.Data.POCO;
+﻿using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Like
+namespace BlogCoreAPI.DTOs.Like
 {
     /// <summary>
-    /// Add Dto type of <see cref="DbAccess.Data.POCO.Like"/>.
+    /// Add Dto type of <see cref="Like"/>.
     /// </summary>
     public class AddLikeDto : ILikeDto
     {

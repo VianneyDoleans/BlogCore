@@ -1,11 +1,11 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.User;
+using BlogCoreAPI.DTOs.User;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class AccountHelper
     {

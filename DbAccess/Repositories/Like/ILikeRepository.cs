@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbAccess.Repositories.Like
+namespace DBAccess.Repositories.Like
 {
     public interface ILikeRepository : IRepository<Data.POCO.Like>
     {

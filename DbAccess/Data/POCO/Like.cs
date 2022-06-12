@@ -1,8 +1,8 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using DbAccess.Data.POCO.Interface;
+using DBAccess.Data.POCO.Interface;
 
-namespace DbAccess.Data.POCO
+namespace DBAccess.Data.POCO
 {
     public enum LikeableType : byte
     {

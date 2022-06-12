@@ -2,9 +2,9 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.User;
+using BlogCoreAPI.DTOs.User;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class UserHelper : AEntityHelper<GetUserDto, AddUserDto, UpdateUserDto>
     {

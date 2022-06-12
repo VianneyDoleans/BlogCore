@@ -1,7 +1,9 @@
-﻿namespace MyBlogAPI.DTOs.Permission
+﻿using DBAccess.Data.POCO.Permission;
+
+namespace BlogCoreAPI.DTOs.Permission
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Permission.Permission"/>
+    /// GET Dto type of <see cref="Permission"/>
     /// </summary>
     public class PermissionDto
     {

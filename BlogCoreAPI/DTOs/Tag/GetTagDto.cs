@@ -1,7 +1,9 @@
-﻿namespace MyBlogAPI.DTOs.Tag
+﻿using DBAccess.Data.POCO;
+
+namespace BlogCoreAPI.DTOs.Tag
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Tag"/>.
+    /// GET Dto type of <see cref="Tag"/>.
     /// </summary>
     public class GetTagDto : ADto, ITagDto
     {

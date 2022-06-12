@@ -1,19 +1,19 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using DbAccess;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
+using BlogCoreAPI.DTOs.User;
+using DBAccess;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using MyBlogAPI.DTOs.User;
-using User = DbAccess.Data.POCO.User;
+using User = DBAccess.Data.POCO.User;
 
-namespace MyBlogAPI.FunctionalTests
+namespace BlogCoreAPI.FunctionalTests
 {
     public class TestWebApplicationFactory : WebApplicationFactory<Startup>
     {

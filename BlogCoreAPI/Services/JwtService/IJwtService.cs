@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace MyBlogAPI.Services.JwtService
+namespace BlogCoreAPI.Services.JwtService
 {
     /// <summary>
     /// Service used to manipulate JWT

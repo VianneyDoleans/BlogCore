@@ -1,9 +1,10 @@
-﻿using DbAccess.Specifications.SortSpecification;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Filters.User
+namespace BlogCoreAPI.Filters.User
 {
     /// <summary>
-    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.User"/>.
+    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="User"/>.
     /// </summary>
     public class SortUserFilter
     {
@@ -22,20 +23,20 @@ namespace MyBlogAPI.Filters.User
         }
 
         /// <summary>
-        /// Get sort specification of <see cref="DbAccess.Data.POCO.User"/> based of internal properties defined.
+        /// Get sort specification of <see cref="User"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public SortSpecification<DbAccess.Data.POCO.User> GetSorting()
+        public SortSpecification<DBAccess.Data.POCO.User> GetSorting()
         {
             var sort = _orderBy switch
             {
-                "USERNAME" => new SortSpecification<DbAccess.Data.POCO.User>(
-                    new OrderBySpecification<DbAccess.Data.POCO.User>(x => x.UserName),
+                "USERNAME" => new SortSpecification<DBAccess.Data.POCO.User>(
+                    new OrderBySpecification<DBAccess.Data.POCO.User>(x => x.UserName),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
-                _ => new SortSpecification<DbAccess.Data.POCO.User>(
-                    new OrderBySpecification<DbAccess.Data.POCO.User>(x => x.RegisteredAt),
+                _ => new SortSpecification<DBAccess.Data.POCO.User>(
+                    new OrderBySpecification<DBAccess.Data.POCO.User>(x => x.RegisteredAt),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending)

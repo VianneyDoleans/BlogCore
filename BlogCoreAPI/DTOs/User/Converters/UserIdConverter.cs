@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DbAccess.Repositories.User;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.User;
 
-namespace MyBlogAPI.DTOs.User.Converters
+namespace BlogCoreAPI.DTOs.User.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.User"/> to its resource Id.
+    /// AutoMapper converter used to enable the conversion of <see cref="User"/> to its resource Id.
     /// </summary>
-    public class UserIdConverter : ITypeConverter<int, DbAccess.Data.POCO.User>
+    public class UserIdConverter : ITypeConverter<int, DBAccess.Data.POCO.User>
     {
         private readonly IUserRepository _repository;
 
@@ -20,7 +21,7 @@ namespace MyBlogAPI.DTOs.User.Converters
         }
 
         /// <inheritdoc />
-        public DbAccess.Data.POCO.User Convert(int source, DbAccess.Data.POCO.User destination,
+        public DBAccess.Data.POCO.User Convert(int source, DBAccess.Data.POCO.User destination,
             ResolutionContext context)
         {
             return _repository.Get(source);

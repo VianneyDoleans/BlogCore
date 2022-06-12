@@ -1,13 +1,13 @@
 using System.Threading.Tasks;
-using DbAccess;
+using DBAccess;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
-namespace MyBlogAPI
+namespace BlogCoreAPI
 {
     public static class Program
     {

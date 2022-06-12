@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DbAccess.Repositories.Post
+namespace DBAccess.Repositories.Post
 {
     public interface IPostRepository : IRepository<Data.POCO.Post>
     {

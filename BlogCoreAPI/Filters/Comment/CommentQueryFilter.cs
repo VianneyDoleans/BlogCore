@@ -1,10 +1,11 @@
-﻿using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace MyBlogAPI.Filters.Comment
+namespace BlogCoreAPI.Filters.Comment
 {
     /// <summary>
-    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Comment"/>.
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Comment"/>.
     /// </summary>
     public class CommentQueryFilter
     {
@@ -26,25 +27,25 @@ namespace MyBlogAPI.Filters.Comment
         }
 
         /// <summary>
-        /// Get filter specification of <see cref="DbAccess.Data.POCO.Comment"/> based of internal properties defined.
+        /// Get filter specification of <see cref="Comment"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public FilterSpecification<DbAccess.Data.POCO.Comment> GetFilterSpecification()
+        public FilterSpecification<DBAccess.Data.POCO.Comment> GetFilterSpecification()
         {
-            FilterSpecification<DbAccess.Data.POCO.Comment> filter = null;
+            FilterSpecification<DBAccess.Data.POCO.Comment> filter = null;
             if (!string.IsNullOrEmpty(_authorUsername))
-                filter = new AuthorUsernameContainsSpecification<DbAccess.Data.POCO.Comment>(_authorUsername);
+                filter = new AuthorUsernameContainsSpecification<DBAccess.Data.POCO.Comment>(_authorUsername);
             if (!string.IsNullOrEmpty(_postParentName))
             {
                 filter = filter == null
-                    ? new PostParentNameContains<DbAccess.Data.POCO.Comment>(_postParentName)
-                    : filter & new PostParentNameContains<DbAccess.Data.POCO.Comment>(_postParentName);
+                    ? new PostParentNameContains<DBAccess.Data.POCO.Comment>(_postParentName)
+                    : filter & new PostParentNameContains<DBAccess.Data.POCO.Comment>(_postParentName);
             }
             if (!string.IsNullOrEmpty(_content))
             {
                 filter = filter == null
-                    ? new ContentContainsSpecification<DbAccess.Data.POCO.Comment>(_content)
-                    : filter & new PostParentNameContains<DbAccess.Data.POCO.Comment>(_content);
+                    ? new ContentContainsSpecification<DBAccess.Data.POCO.Comment>(_content)
+                    : filter & new PostParentNameContains<DBAccess.Data.POCO.Comment>(_content);
             }
 
             return filter;

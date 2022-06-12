@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Repositories.Tag;
-using MyBlogAPI.DTOs.Tag;
-using MyBlogAPI.Services.TagService;
+using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Services.TagService;
+using DBAccess.Repositories.Tag;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class TagService : IClassFixture<DatabaseFixture>
     {
@@ -19,7 +19,7 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.TagService.TagService(new TagRepository(_fixture.Db),
+            _service = new BlogCoreAPI.Services.TagService.TagService(new TagRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork);
         }
 

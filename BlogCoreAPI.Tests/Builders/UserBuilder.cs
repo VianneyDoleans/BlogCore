@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.User;
-using MyBlogAPI.Services.UserService;
+using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Services.UserService;
 
-namespace MyBlogAPI.Tests.Builders
+namespace BlogCoreAPI.Tests.Builders
 {
     public class UserBuilder
     {

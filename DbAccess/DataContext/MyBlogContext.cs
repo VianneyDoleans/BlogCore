@@ -1,10 +1,10 @@
-﻿using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.JoiningEntity;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.JoiningEntity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace DbAccess.DataContext
+namespace DBAccess.DataContext
 {
     /// <summary>
     /// Context used for the API (Database, Entity Framework). It defined the tables and the relationship between them but also some default values.

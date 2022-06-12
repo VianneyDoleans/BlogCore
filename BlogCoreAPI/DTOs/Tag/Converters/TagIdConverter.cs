@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
-using DbAccess.Repositories.Tag;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Tag;
 
-namespace MyBlogAPI.DTOs.Tag.Converters
+namespace BlogCoreAPI.DTOs.Tag.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="DbAccess.Data.POCO.Tag"/> to its resource Id.
+    /// AutoMapper converter used to enable the conversion of <see cref="Tag"/> to its resource Id.
     /// </summary>
-    public class TagIdConverter : ITypeConverter<int, DbAccess.Data.POCO.Tag>
+    public class TagIdConverter : ITypeConverter<int, DBAccess.Data.POCO.Tag>
     {
         private readonly ITagRepository _repository;
 
@@ -20,7 +21,7 @@ namespace MyBlogAPI.DTOs.Tag.Converters
         }
 
         /// <inheritdoc />
-        public DbAccess.Data.POCO.Tag Convert(int source, DbAccess.Data.POCO.Tag destination, ResolutionContext context)
+        public DBAccess.Data.POCO.Tag Convert(int source, DBAccess.Data.POCO.Tag destination, ResolutionContext context)
         {
             return _repository.Get(source);
         }

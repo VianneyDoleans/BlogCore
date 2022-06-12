@@ -3,14 +3,15 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Repositories.Role;
-using DbAccess.Repositories.User;
+using BlogCoreAPI.Services.JwtService;
+using BlogCoreAPI.Tests.Builders;
+using DBAccess.Data.POCO.Jwt;
+using DBAccess.Repositories.Role;
+using DBAccess.Repositories.User;
 using Microsoft.Extensions.Options;
-using MyBlogAPI.Services.JwtService;
-using MyBlogAPI.Tests.Builders;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class JwtService : IClassFixture<DatabaseFixture>
     {
@@ -27,9 +28,9 @@ namespace MyBlogAPI.Tests.Services
             _expirationInDays = 1;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             _mapper = config.CreateMapper();
-            _jwtService = new MyBlogAPI.Services.JwtService.JwtService(
+            _jwtService = new BlogCoreAPI.Services.JwtService.JwtService(
                 new UserRepository(_fixture.Db, _fixture.UserManager), Options.Create(
-                    new DbAccess.Data.POCO.Jwt.JwtSettings() { 
+                    new JwtSettings() { 
                         Issuer = _issuer, 
                         Secret = "test123ABDZDAZSQA", 
                         ExpirationInDays = _expirationInDays
@@ -39,7 +40,7 @@ namespace MyBlogAPI.Tests.Services
         [Fact]
         public async Task GenerateJwt()
         {
-            var userService = new MyBlogAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager),
+            var userService = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager),
                 _mapper, _fixture.UnitOfWork);
             var user = await new UserBuilder(userService).Build();
 

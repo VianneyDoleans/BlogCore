@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using MyBlogAPI.DTOs.Category;
+using BlogCoreAPI.DTOs.Category;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class CategoryHelper : AEntityHelper<GetCategoryDto, AddCategoryDto, UpdateCategoryDto>
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs.Category;
-using MyBlogAPI.FunctionalTests.GenericTests;
-using MyBlogAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.FunctionalTests.GenericTests;
+using BlogCoreAPI.FunctionalTests.Helpers;
 using Xunit;
 
-namespace MyBlogAPI.FunctionalTests.Controllers
+namespace BlogCoreAPI.FunctionalTests.Controllers
 {
     public sealed class CategoriesController : AGenericTests<GetCategoryDto, AddCategoryDto, UpdateCategoryDto>, IClassFixture<TestWebApplicationFactory>
     {

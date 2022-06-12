@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Comment
+namespace BlogCoreAPI.DTOs.Comment
 {
     /// <summary>
-    /// GET Dto type of <see cref="DbAccess.Data.POCO.Comment"/>.
+    /// GET Dto type of <see cref="Comment"/>.
     /// </summary>
     public class GetCommentDto : ADto, ICommentDto
     {

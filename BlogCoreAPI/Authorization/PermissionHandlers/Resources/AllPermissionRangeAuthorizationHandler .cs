@@ -1,15 +1,15 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Permission;
+using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.Services.RoleService;
+using BlogCoreAPI.Services.UserService;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Permission;
 using Microsoft.AspNetCore.Authorization;
-using MyBlogAPI.Authorization.Permissions;
-using MyBlogAPI.DTOs.Permission;
-using MyBlogAPI.Services.RoleService;
-using MyBlogAPI.Services.UserService;
 
-namespace MyBlogAPI.Authorization.PermissionHandlers.Resources
+namespace BlogCoreAPI.Authorization.PermissionHandlers.Resources
 {
     /// <summary>
     /// Authorization Handler used to authorize a resource when the <see cref="User"/> have <see cref="PermissionRange.All"/> permission on this Type of resource.

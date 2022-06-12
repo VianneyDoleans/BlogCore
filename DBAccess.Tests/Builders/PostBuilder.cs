@@ -1,8 +1,8 @@
 ﻿using System;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.UnitOfWork;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.UnitOfWork;
 
 namespace DBAccess.Tests.Builders
 {

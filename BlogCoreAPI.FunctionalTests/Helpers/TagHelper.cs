@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Net.Http;
-using MyBlogAPI.DTOs.Tag;
+using BlogCoreAPI.DTOs.Tag;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class TagHelper : AEntityHelper<GetTagDto, AddTagDto, UpdateTagDto>
     {

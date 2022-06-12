@@ -1,7 +1,7 @@
 ﻿using System;
-using DbAccess.Data.POCO;
-using DbAccess.DataContext;
-using DbAccess.Repositories.UnitOfWork;
+using DBAccess.Data.POCO;
+using DBAccess.DataContext;
+using DBAccess.Repositories.UnitOfWork;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 

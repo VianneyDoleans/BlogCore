@@ -1,9 +1,10 @@
-﻿using MyBlogAPI.DTOs.Contracts;
+﻿using BlogCoreAPI.DTOs.Contracts;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Comment
+namespace BlogCoreAPI.DTOs.Comment
 {
     /// <summary>
-    /// Interface of <see cref="DbAccess.Data.POCO.Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).
+    /// Interface of <see cref="Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).
     /// </summary>
     public interface ICommentDto : IHasAuthor
     {

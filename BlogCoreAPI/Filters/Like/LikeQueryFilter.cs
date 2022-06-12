@@ -1,11 +1,11 @@
-﻿using DbAccess.Data.POCO;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace MyBlogAPI.Filters.Like
+namespace BlogCoreAPI.Filters.Like
 {
     /// <summary>
-    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Like"/>.
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Like"/>.
     /// </summary>
     public class LikeQueryFilter
     {
@@ -21,16 +21,16 @@ namespace MyBlogAPI.Filters.Like
         }
 
         /// <summary>
-        /// Get filter specification of <see cref="DbAccess.Data.POCO.Like"/> based of internal properties defined.
+        /// Get filter specification of <see cref="Like"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public FilterSpecification<DbAccess.Data.POCO.Like> GetFilterSpecification()
+        public FilterSpecification<DBAccess.Data.POCO.Like> GetFilterSpecification()
         {
 
-            FilterSpecification<DbAccess.Data.POCO.Like> filter = null;
+            FilterSpecification<DBAccess.Data.POCO.Like> filter = null;
 
             if (_likeableType != null)
-                filter = new LikeableTypeSpecification<DbAccess.Data.POCO.Like>(_likeableType.Value);
+                filter = new LikeableTypeSpecification<DBAccess.Data.POCO.Like>(_likeableType.Value);
 
             return filter;
         }

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using MyBlogAPI.DTOs.Post;
+using BlogCoreAPI.DTOs.Post;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public class PostHelper : AEntityHelper<GetPostDto, AddPostDto, UpdatePostDto>
     {

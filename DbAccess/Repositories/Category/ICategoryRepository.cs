@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace DbAccess.Repositories.Category
+namespace DBAccess.Repositories.Category
 {
     /// <summary>
     /// Repository used to manipulate <see cref="Data.POCO.Category"/> from database (CRUD and more).

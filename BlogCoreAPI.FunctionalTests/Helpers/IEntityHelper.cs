@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs;
+using BlogCoreAPI.DTOs;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public interface IEntityHelper<TGet, TAdd, TUpdate>
             where TGet : ADto, new()

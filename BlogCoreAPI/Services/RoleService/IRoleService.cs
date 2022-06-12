@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DbAccess.Data.POCO;
-using DbAccess.Data.POCO.Permission;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Permission;
-using MyBlogAPI.DTOs.Role;
+using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.DTOs.Role;
+using DBAccess.Data.POCO;
+using DBAccess.Data.POCO.Permission;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.RoleService
+namespace BlogCoreAPI.Services.RoleService
 {
     public interface IRoleService
     {

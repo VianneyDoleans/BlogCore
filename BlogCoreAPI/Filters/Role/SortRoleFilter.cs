@@ -1,9 +1,10 @@
-﻿using DbAccess.Specifications.SortSpecification;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Filters.Role
+namespace BlogCoreAPI.Filters.Role
 {
     /// <summary>
-    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Role"/>.
+    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Role"/>.
     /// </summary>
     public class SortRoleFilter
     {
@@ -19,13 +20,13 @@ namespace MyBlogAPI.Filters.Role
         }
 
         /// <summary>
-        /// Get sort specification of <see cref="DbAccess.Data.POCO.Role"/> based of internal properties defined.
+        /// Get sort specification of <see cref="Role"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public SortSpecification<DbAccess.Data.POCO.Role> GetSorting()
+        public SortSpecification<DBAccess.Data.POCO.Role> GetSorting()
         {
-            var sort = new SortSpecification<DbAccess.Data.POCO.Role>(
-                new OrderBySpecification<DbAccess.Data.POCO.Role>(x => x.Name),
+            var sort = new SortSpecification<DBAccess.Data.POCO.Role>(
+                new OrderBySpecification<DBAccess.Data.POCO.Role>(x => x.Name),
                 _sortingDirection == "DESC"
                     ? SortingDirectionSpecification.Descending
                     : SortingDirectionSpecification.Ascending);

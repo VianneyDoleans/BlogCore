@@ -2,16 +2,16 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Comment;
-using DbAccess.Repositories.Like;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.User;
-using MyBlogAPI.DTOs.Like;
-using MyBlogAPI.Services.LikeService;
+using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Services.LikeService;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Comment;
+using DBAccess.Repositories.Like;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.User;
 using Xunit;
 
-namespace MyBlogAPI.Tests.Services
+namespace BlogCoreAPI.Tests.Services
 {
     public class LikeService : IClassFixture<DatabaseFixture>
     {
@@ -23,7 +23,7 @@ namespace MyBlogAPI.Tests.Services
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             var mapper = config.CreateMapper();
-            _service = new MyBlogAPI.Services.LikeService.LikeService(new LikeRepository(_fixture.Db),
+            _service = new BlogCoreAPI.Services.LikeService.LikeService(new LikeRepository(_fixture.Db),
                 mapper, _fixture.UnitOfWork, new CommentRepository(_fixture.Db), new PostRepository(_fixture.Db), 
                 new UserRepository(_fixture.Db, _fixture.UserManager));
         }

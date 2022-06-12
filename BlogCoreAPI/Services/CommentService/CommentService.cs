@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Comment;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Comment;
+using BlogCoreAPI.DTOs.Comment;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Comment;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Repositories.User;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.CommentService
+namespace BlogCoreAPI.Services.CommentService
 {
     public class CommentService : ICommentService
     {

@@ -1,9 +1,10 @@
-﻿using DbAccess.Specifications.SortSpecification;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Filters.Like
+namespace BlogCoreAPI.Filters.Like
 {
     /// <summary>
-    ///  Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Like"/>.
+    ///  Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Like"/>.
     /// </summary>
     public class SortLikeFilter
     {
@@ -19,13 +20,13 @@ namespace MyBlogAPI.Filters.Like
         }
 
         /// <summary>
-        /// Get sort specification of <see cref="DbAccess.Data.POCO.Like"/> based of internal properties defined.
+        /// Get sort specification of <see cref="Like"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public SortSpecification<DbAccess.Data.POCO.Like> GetSorting()
+        public SortSpecification<DBAccess.Data.POCO.Like> GetSorting()
         {
-            var sort = new SortSpecification<DbAccess.Data.POCO.Like>(
-                new OrderBySpecification<DbAccess.Data.POCO.Like>(x => x.PublishedAt),
+            var sort = new SortSpecification<DBAccess.Data.POCO.Like>(
+                new OrderBySpecification<DBAccess.Data.POCO.Like>(x => x.PublishedAt),
                 _sortingDirection == "DESC"
                     ? SortingDirectionSpecification.Descending
                     : SortingDirectionSpecification.Ascending);

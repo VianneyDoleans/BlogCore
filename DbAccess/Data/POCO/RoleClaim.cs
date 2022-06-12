@@ -1,5 +1,5 @@
 ﻿
-namespace DbAccess.Data.POCO
+namespace DBAccess.Data.POCO
 {
     public class RoleClaim
     {

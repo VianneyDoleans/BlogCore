@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using DbAccess.Data.POCO;
-using DbAccess.Repositories.Comment;
-using DbAccess.Repositories.Like;
-using DbAccess.Repositories.Post;
-using DbAccess.Repositories.UnitOfWork;
-using DbAccess.Repositories.User;
-using DbAccess.Specifications;
-using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.SortSpecification;
-using MyBlogAPI.DTOs.Like;
+using BlogCoreAPI.DTOs.Like;
+using DBAccess.Data.POCO;
+using DBAccess.Repositories.Comment;
+using DBAccess.Repositories.Like;
+using DBAccess.Repositories.Post;
+using DBAccess.Repositories.UnitOfWork;
+using DBAccess.Repositories.User;
+using DBAccess.Specifications;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Services.LikeService
+namespace BlogCoreAPI.Services.LikeService
 {
     public class LikeService : ILikeService
     {

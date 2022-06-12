@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using MyBlogAPI.DTOs;
-using MyBlogAPI.Responses;
+using BlogCoreAPI.DTOs;
+using BlogCoreAPI.Responses;
 using Newtonsoft.Json;
 
-namespace MyBlogAPI.FunctionalTests.Helpers
+namespace BlogCoreAPI.FunctionalTests.Helpers
 {
     public abstract class AEntityHelper<TGet, TAdd, TUpdate> : IEntityHelper<TGet, TAdd, TUpdate>
         where TGet : ADto, new()

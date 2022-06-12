@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using DBAccess.Data.POCO;
 
-namespace MyBlogAPI.DTOs.Post
+namespace BlogCoreAPI.DTOs.Post
 {
     /// <summary>
-    /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Post"/>.
+    /// UPDATE Dto type of <see cref="Post"/>.
     /// </summary>
     public class UpdatePostDto : ADto, IPostDto
     {

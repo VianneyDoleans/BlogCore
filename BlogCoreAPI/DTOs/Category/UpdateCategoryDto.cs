@@ -1,7 +1,9 @@
-﻿namespace MyBlogAPI.DTOs.Category
+﻿using DBAccess.Data.POCO;
+
+namespace BlogCoreAPI.DTOs.Category
 {
     /// <summary>
-    /// UPDATE Dto type of <see cref="DbAccess.Data.POCO.Category"/>.
+    /// UPDATE Dto type of <see cref="Category"/>.
     /// </summary>
     public class UpdateCategoryDto : ADto, ICategoryDto
     {

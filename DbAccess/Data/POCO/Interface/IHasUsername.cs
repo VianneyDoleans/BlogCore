@@ -1,5 +1,5 @@
 ﻿
-namespace DbAccess.Data.POCO.Interface
+namespace DBAccess.Data.POCO.Interface
 {
     public interface IHasUserName
     {

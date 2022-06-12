@@ -1,9 +1,10 @@
-﻿using DbAccess.Specifications.SortSpecification;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.SortSpecification;
 
-namespace MyBlogAPI.Filters.Post
+namespace BlogCoreAPI.Filters.Post
 {
     /// <summary>
-    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Post"/>.
+    /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Post"/>.
     /// </summary>
     public class SortPostFilter
     {
@@ -22,25 +23,25 @@ namespace MyBlogAPI.Filters.Post
         }
 
         /// <summary>
-        /// Get sort specification of <see cref="DbAccess.Data.POCO.Post"/> based of internal properties defined.
+        /// Get sort specification of <see cref="Post"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public SortSpecification<DbAccess.Data.POCO.Post> GetSorting()
+        public SortSpecification<DBAccess.Data.POCO.Post> GetSorting()
         {
             var sort = _orderBy switch
             {
-                "LIKE" => new SortSpecification<DbAccess.Data.POCO.Post>(
-                    new OrderBySpecification<DbAccess.Data.POCO.Post>(x => x.Likes),
+                "LIKE" => new SortSpecification<DBAccess.Data.POCO.Post>(
+                    new OrderBySpecification<DBAccess.Data.POCO.Post>(x => x.Likes),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
-                "NAME" => new SortSpecification<DbAccess.Data.POCO.Post>(
-                    new OrderBySpecification<DbAccess.Data.POCO.Post>(x => x.Name),
+                "NAME" => new SortSpecification<DBAccess.Data.POCO.Post>(
+                    new OrderBySpecification<DBAccess.Data.POCO.Post>(x => x.Name),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
-                _ => new SortSpecification<DbAccess.Data.POCO.Post>(
-                    new OrderBySpecification<DbAccess.Data.POCO.Post>(x => x.PublishedAt),
+                _ => new SortSpecification<DBAccess.Data.POCO.Post>(
+                    new OrderBySpecification<DBAccess.Data.POCO.Post>(x => x.PublishedAt),
                     _sortingDirection == "DESC"
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending)

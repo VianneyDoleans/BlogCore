@@ -1,10 +1,11 @@
-﻿using DbAccess.Specifications.FilterSpecifications;
-using DbAccess.Specifications.FilterSpecifications.Filters;
+﻿using DBAccess.Data.POCO;
+using DBAccess.Specifications.FilterSpecifications;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace MyBlogAPI.Filters.Role
+namespace BlogCoreAPI.Filters.Role
 {
     /// <summary>
-    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="DbAccess.Data.POCO.Role"/>.
+    /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Role"/>.
     /// </summary>
     public class RoleQueryFilter
     {
@@ -20,15 +21,15 @@ namespace MyBlogAPI.Filters.Role
         }
 
         /// <summary>
-        /// Get filter specification of <see cref="DbAccess.Data.POCO.Role"/> based of internal properties defined.
+        /// Get filter specification of <see cref="Role"/> based of internal properties defined.
         /// </summary>
         /// <returns></returns>
-        public FilterSpecification<DbAccess.Data.POCO.Role> GetFilterSpecification()
+        public FilterSpecification<DBAccess.Data.POCO.Role> GetFilterSpecification()
         {
-            FilterSpecification<DbAccess.Data.POCO.Role> filter = null;
+            FilterSpecification<DBAccess.Data.POCO.Role> filter = null;
 
             if (_name != null)
-                filter = new NameContainsSpecification<DbAccess.Data.POCO.Role>(_name);
+                filter = new NameContainsSpecification<DBAccess.Data.POCO.Role>(_name);
 
             return filter;
         }
