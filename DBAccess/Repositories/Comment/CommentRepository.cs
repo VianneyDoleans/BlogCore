@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DBAccess.Repositories.Comment
 {
-    public class CommentRepository : Repository<Data.POCO.Comment>, ICommentRepository
+    public class CommentRepository : Repository<Data.Comment>, ICommentRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentRepository"/> class.
@@ -21,9 +21,9 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public override async Task<IEnumerable<Data.POCO.Comment>> GetAsync(FilterSpecification<Data.POCO.Comment> filterSpecification = null,
+        public override async Task<IEnumerable<Data.Comment>> GetAsync(FilterSpecification<Data.Comment> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
-            SortSpecification<Data.POCO.Comment> sortSpecification = null)
+            SortSpecification<Data.Comment> sortSpecification = null)
         {
             var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.Likes)
@@ -33,11 +33,11 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public override async Task<Data.POCO.Comment> GetAsync(int id)
+        public override async Task<Data.Comment> GetAsync(int id)
         {
             try
             {
-                return await _context.Set<Data.POCO.Comment>()
+                return await _context.Set<Data.Comment>()
                     .Include(x => x.Likes)
                     .Include(x => x.PostParent)
                     .Include(x => x.ChildrenComments)
@@ -50,11 +50,11 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public override Data.POCO.Comment Get(int id)
+        public override Data.Comment Get(int id)
         {
             try
             {
-                return _context.Set<Data.POCO.Comment>()
+                return _context.Set<Data.Comment>()
                     .Include(x => x.Likes)
                     .Include(x => x.PostParent)
                     .Include(x => x.ChildrenComments)
@@ -67,9 +67,9 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public override IEnumerable<Data.POCO.Comment> GetAll()
+        public override IEnumerable<Data.Comment> GetAll()
         {
-            return _context.Set<Data.POCO.Comment>()
+            return _context.Set<Data.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
@@ -77,9 +77,9 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public override async Task<IEnumerable<Data.POCO.Comment>> GetAllAsync()
+        public override async Task<IEnumerable<Data.Comment>> GetAllAsync()
         {
-            return await _context.Set<Data.POCO.Comment>()
+            return await _context.Set<Data.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.PostParent)
                 .Include(x => x.ChildrenComments)
@@ -87,9 +87,9 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromPost(int id)
+        public async Task<IEnumerable<Data.Comment>> GetCommentsFromPost(int id)
         {
-            return await _context.Set<Data.POCO.Comment>()
+            return await _context.Set<Data.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.ChildrenComments)
@@ -97,9 +97,9 @@ namespace DBAccess.Repositories.Comment
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Data.POCO.Comment>> GetCommentsFromUser(int id)
+        public async Task<IEnumerable<Data.Comment>> GetCommentsFromUser(int id)
         {
-            return await _context.Set<Data.POCO.Comment>()
+            return await _context.Set<Data.Comment>()
                 .Include(x => x.Likes)
                 .Include(x => x.Author)
                 .Include(x => x.ChildrenComments)

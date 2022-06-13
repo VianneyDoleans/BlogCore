@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.User;
@@ -10,7 +10,7 @@ namespace BlogCoreAPI.DTOs.Like.Converters
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateLikeDto"/> to <see cref="Like"/>.
     /// </summary>
     public class UpdateLikeConverter
-        : ITypeConverter<UpdateLikeDto, DBAccess.Data.POCO.Like>
+        : ITypeConverter<UpdateLikeDto, DBAccess.Data.Like>
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
@@ -31,7 +31,7 @@ namespace BlogCoreAPI.DTOs.Like.Converters
         }
 
         /// <inheritdoc />
-        public DBAccess.Data.POCO.Like Convert(UpdateLikeDto source, DBAccess.Data.POCO.Like destination,
+        public DBAccess.Data.Like Convert(UpdateLikeDto source, DBAccess.Data.Like destination,
             ResolutionContext context)
         {
             destination.Post = source.Post != null ? _postRepository.Get(source.Post.Value) : null;

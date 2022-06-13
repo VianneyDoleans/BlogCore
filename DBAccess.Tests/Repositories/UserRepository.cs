@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;

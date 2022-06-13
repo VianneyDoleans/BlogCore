@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Like;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;

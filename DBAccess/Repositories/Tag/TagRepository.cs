@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DBAccess.Repositories.Tag
 {
-    public class TagRepository : Repository<Data.POCO.Tag>, ITagRepository
+    public class TagRepository : Repository<Data.Tag>, ITagRepository
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TagRepository"/> class.
@@ -18,7 +18,7 @@ namespace DBAccess.Repositories.Tag
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var tag = await _context.Set<Data.POCO.Tag>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var tag = await _context.Set<Data.Tag>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return tag != null;
         }
     }

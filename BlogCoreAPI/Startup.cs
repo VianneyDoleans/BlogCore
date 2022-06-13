@@ -1,11 +1,12 @@
 using System;
 using System.IO;
 using BlogCoreAPI.Authorization;
+using BlogCoreAPI.Builders;
 using BlogCoreAPI.Extensions;
 using BlogCoreAPI.Filters;
 using BlogCoreAPI.Services.JwtService;
 using DBAccess;
-using DBAccess.Data.POCO.Jwt;
+using DBAccess.Data.Jwt;
 using DBAccess.Repositories.UnitOfWork;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;

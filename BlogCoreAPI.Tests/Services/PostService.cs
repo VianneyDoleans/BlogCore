@@ -6,7 +6,7 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Validators.Post;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Tag;

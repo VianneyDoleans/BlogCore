@@ -6,7 +6,7 @@ using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers

@@ -6,7 +6,7 @@ using AutoMapper;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Tests.Builders;
 using BlogCoreAPI.Validators.User;
-using DBAccess.Data.POCO.Jwt;
+using DBAccess.Data.Jwt;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
 using Microsoft.Extensions.Options;

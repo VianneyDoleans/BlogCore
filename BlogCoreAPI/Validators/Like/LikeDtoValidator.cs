@@ -1,6 +1,6 @@
 ﻿using BlogCoreAPI.Constants;
 using BlogCoreAPI.DTOs.Like;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using FluentValidation;
 
 namespace BlogCoreAPI.Validators.Like

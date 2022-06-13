@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.DTOs.User;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;

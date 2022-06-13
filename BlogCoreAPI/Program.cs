@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using DBAccess;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -21,7 +21,7 @@ namespace BlogCoreAPI
                 var context = services.GetRequiredService<BlogCoreContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
-                await DbInitializer.Seed(context, roleManager, userManager);
+                await DBInitializer.Seed(context, roleManager, userManager);
             }
             await host.RunAsync();
         }

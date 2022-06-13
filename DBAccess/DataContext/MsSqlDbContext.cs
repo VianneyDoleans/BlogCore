@@ -1,4 +1,4 @@
-﻿using DBAccess.Data.POCO;
+﻿using DBAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace DBAccess.DataContext

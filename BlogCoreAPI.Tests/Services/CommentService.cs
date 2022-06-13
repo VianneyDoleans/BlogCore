@@ -5,7 +5,7 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Validators.Comment;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.User;

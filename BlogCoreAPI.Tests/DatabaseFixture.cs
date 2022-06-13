@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using DBAccess;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.DataContext;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Comment;
@@ -27,7 +27,7 @@ namespace BlogCoreAPI.Tests
 
         public async Task InitializeAsync()
         {
-            await DbInitializer.Seed(Db, RoleManager, UserManager);
+            await DBInitializer.Seed(Db, RoleManager, UserManager);
         }
 
         public Task DisposeAsync()

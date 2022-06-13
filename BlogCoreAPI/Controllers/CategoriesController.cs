@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
+using BlogCoreAPI.Builders;
+using BlogCoreAPI.Builders.Specifications;
+using BlogCoreAPI.Builders.Specifications.Category;
 using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.DTOs.Post;
-using BlogCoreAPI.Filters;
-using BlogCoreAPI.Filters.Category;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Services.PostService;
-using DBAccess.Data.POCO.Permission;
-using DBAccess.Specifications;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -57,14 +57,13 @@ namespace BlogCoreAPI.Controllers
         public async Task<IActionResult> GetCategories(string sortingDirection = "ASC", int page = 1, int size = 10, 
             string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
         {
-            var validPagination = new PaginationFilter(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
 
-            var filterSpecification = new CategoryQueryFilter(name, minimumPostNumber, maximumPostNumber).GetFilterSpecification();
+            var filterSpecification = new CategoryFilterSpecificationBuilder(name, minimumPostNumber, maximumPostNumber).Build();
             var data = await _categoryService.GetCategories(filterSpecification,
-                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
-                new SortCategoryFilter(sortingDirection).GetSorting());
+                pagingSpecificationBuilder.Build(), new CategorySortSpecificationBuilder(sortingDirection).Build());
 
-            return Ok(new PagedBlogResponse<GetCategoryDto>(data, validPagination.Page, validPagination.Limit, 
+            return Ok(new PagedBlogResponse<GetCategoryDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit, 
                 await _categoryService.CountCategoriesWhere(filterSpecification)));
         }
 

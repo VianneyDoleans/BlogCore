@@ -1,5 +1,5 @@
 ﻿using System;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.DataContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

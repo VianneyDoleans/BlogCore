@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data.Permission;
 
 namespace DBAccess.Repositories.Role
 {
-    public interface IRoleRepository : IRepository<Data.POCO.Role>
+    public interface IRoleRepository : IRepository<Data.Role>
     {
         /// <summary>
         /// Method used to see the roles of a user giving its Id.
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id);
+        Task<IEnumerable<Data.Role>> GetRolesFromUser(int id);
 
         /// <summary>
         /// Method used to check if a name already exists inside database for a role.

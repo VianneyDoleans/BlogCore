@@ -5,7 +5,7 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Validators.Category;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;

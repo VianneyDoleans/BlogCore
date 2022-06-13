@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
-using DBAccess.Data.POCO.Interface;
+using DBAccess.Data;
 
 namespace DBAccess.Specifications.FilterSpecifications.Filters
 {

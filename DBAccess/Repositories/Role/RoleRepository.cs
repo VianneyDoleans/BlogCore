@@ -4,7 +4,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data.JoiningEntity;
+using DBAccess.Data.Permission;
 using DBAccess.DataContext;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
@@ -14,35 +15,35 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DBAccess.Repositories.Role
 {
-    public class RoleRepository : Repository<Data.POCO.Role>, IRoleRepository
+    public class RoleRepository : Repository<Data.Role>, IRoleRepository
     {
-        private readonly RoleManager<Data.POCO.Role> _roleManager;
+        private readonly RoleManager<Data.Role> _roleManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoleRepository"/> class.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="roleManager"></param>
-        public RoleRepository(BlogCoreContext context, RoleManager<Data.POCO.Role> roleManager) : base(context)
+        public RoleRepository(BlogCoreContext context, RoleManager<Data.Role> roleManager) : base(context)
         {
             _roleManager = roleManager;
         }
 
         /// <inheritdoc />
-        public override async Task<IEnumerable<Data.POCO.Role>> GetAsync(FilterSpecification<Data.POCO.Role> filterSpecification = null,
+        public override async Task<IEnumerable<Data.Role>> GetAsync(FilterSpecification<Data.Role> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
-            SortSpecification<Data.POCO.Role> sortSpecification = null)
+            SortSpecification<Data.Role> sortSpecification = null)
         {
             var query = GenerateQuery(filterSpecification, pagingSpecification, sortSpecification);
             return await query.Include(x => x.UserRoles).ToListAsync();
         }
 
         /// <inheritdoc />
-        public override async Task<Data.POCO.Role> GetAsync(int id)
+        public override async Task<Data.Role> GetAsync(int id)
         {
             try
             {
-                return await _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
+                return await _context.Set<Data.Role>().Include(x => x.UserRoles).SingleAsync(x => x.Id == id);
             }
             catch
             {
@@ -51,9 +52,9 @@ namespace DBAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public async Task<IEnumerable<Data.POCO.Role>> GetRolesFromUser(int id)
+        public async Task<IEnumerable<Data.Role>> GetRolesFromUser(int id)
         {
-            var userRoles = await _context.Set<Data.POCO.JoiningEntity.UserRole>()
+            var userRoles = await _context.Set<UserRole>()
                 .Include(x => x.Role)
                 .Include(x => x.User)
                 .Where(x => x.UserId == id).ToListAsync();
@@ -61,7 +62,7 @@ namespace DBAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public override async Task<Data.POCO.Role> AddAsync(Data.POCO.Role role)
+        public override async Task<Data.Role> AddAsync(Data.Role role)
         {
             var result = await _roleManager.CreateAsync(role);
             if (!result.Succeeded)
@@ -70,7 +71,7 @@ namespace DBAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public override async Task RemoveAsync(Data.POCO.Role role)
+        public override async Task RemoveAsync(Data.Role role)
         {
             var result = await _roleManager.DeleteAsync(role);
             if (!result.Succeeded)
@@ -78,7 +79,7 @@ namespace DBAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public override async Task RemoveRangeAsync(IEnumerable<Data.POCO.Role> roles)
+        public override async Task RemoveRangeAsync(IEnumerable<Data.Role> roles)
         {
             if (roles == null)
                throw new ArgumentNullException(nameof(roles));
@@ -126,11 +127,11 @@ namespace DBAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public override Data.POCO.Role Get(int id)
+        public override Data.Role Get(int id)
         {
             try
             {
-                return _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).Single(x => x.Id == id);
+                return _context.Set<Data.Role>().Include(x => x.UserRoles).Single(x => x.Id == id);
             }
             catch
             {
@@ -139,22 +140,22 @@ namespace DBAccess.Repositories.Role
         }
 
         /// <inheritdoc />
-        public override IEnumerable<Data.POCO.Role> GetAll()
+        public override IEnumerable<Data.Role> GetAll()
         {
-            return _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToList();
+            return _context.Set<Data.Role>().Include(x => x.UserRoles).ToList();
         }
 
         /// <inheritdoc />
         public async Task<bool> NameAlreadyExists(string name)
         {
-            var role = await _context.Set<Data.POCO.Role>().Where(x => x.Name == name).FirstOrDefaultAsync();
+            var role = await _context.Set<Data.Role>().Where(x => x.Name == name).FirstOrDefaultAsync();
             return role != null;
         }
 
         /// <inheritdoc />
-        public override async Task<IEnumerable<Data.POCO.Role>> GetAllAsync()
+        public override async Task<IEnumerable<Data.Role>> GetAllAsync()
         {
-            return await _context.Set<Data.POCO.Role>().Include(x => x.UserRoles).ToListAsync();
+            return await _context.Set<Data.Role>().Include(x => x.UserRoles).ToListAsync();
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.User;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Repositories.User;

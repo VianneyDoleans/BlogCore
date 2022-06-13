@@ -5,7 +5,7 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Validators.Like;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;

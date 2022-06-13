@@ -1,15 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
+using BlogCoreAPI.Builders;
+using BlogCoreAPI.Builders.Specifications;
+using BlogCoreAPI.Builders.Specifications.Tag;
 using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.DTOs.Tag;
-using BlogCoreAPI.Filters;
-using BlogCoreAPI.Filters.Tag;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.TagService;
-using DBAccess.Data.POCO.Permission;
-using DBAccess.Specifications;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,13 +55,12 @@ namespace BlogCoreAPI.Controllers
         public async Task<IActionResult> GetTags(string sortingDirection = "ASC", int page = 1,
             int size = 10, string name = null)
         {
-            var validPagination = new PaginationFilter(page, size);
-            var filterSpecification = new TagQueryFilter(name).GetFilterSpecification();
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var filterSpecification = new TagQueryFilter(name).Build();
             var data = await _tagService.GetTags(filterSpecification,
-                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
-                new SortTagFilter(sortingDirection).GetSorting());
+                pagingSpecificationBuilder.Build(), new TagsortSpecificationBuilder(sortingDirection).Build());
 
-            return Ok(new PagedBlogResponse<GetTagDto>(data, validPagination.Page, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetTagDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _tagService.CountTagsWhere(filterSpecification)));
         }
 

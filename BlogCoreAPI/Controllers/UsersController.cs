@@ -2,20 +2,20 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.Builders;
+using BlogCoreAPI.Builders.Specifications;
+using BlogCoreAPI.Builders.Specifications.User;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.DTOs.User;
-using BlogCoreAPI.Filters;
-using BlogCoreAPI.Filters.User;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
-using DBAccess.Data.POCO.Permission;
-using DBAccess.Specifications;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -77,13 +77,12 @@ namespace BlogCoreAPI.Controllers
         public async Task<IActionResult> GetUsers(string sortingDirection = "ASC", string orderBy = null, int page = 1,
             int size = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
         {
-            var validPagination = new PaginationFilter(page, size);
-            var filterSpecification = new UserQueryFilter(name, lastLoginBefore, registerBefore).GetFilterSpecification();
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var filterSpecification = new UserFilterSpecificationBuilder(name, lastLoginBefore, registerBefore).Build();
             var data = await _userService.GetUsers(filterSpecification,
-                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
-                new SortUserFilter(sortingDirection, orderBy).GetSorting());
+                pagingSpecificationBuilder.Build(), new UserSortSpecificationBuilder(sortingDirection, orderBy).Build());
 
-            return Ok(new PagedBlogResponse<GetUserDto>(data, validPagination.Page, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetUserDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _userService.CountUsersWhere(filterSpecification)));
         }
 

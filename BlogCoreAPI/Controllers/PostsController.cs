@@ -1,17 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.Builders;
+using BlogCoreAPI.Builders.Specifications;
+using BlogCoreAPI.Builders.Specifications.Post;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.DTOs.Post;
-using BlogCoreAPI.Filters;
-using BlogCoreAPI.Filters.Post;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Services.PostService;
-using DBAccess.Data.POCO.Permission;
-using DBAccess.Specifications;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,13 +66,12 @@ namespace BlogCoreAPI.Controllers
         public async Task<IActionResult> GetPosts(string sortingDirection = "ASC", string orderBy = null, int page = 1,
             int size = 10, string name = null, string content = null)
         {
-            var validPagination = new PaginationFilter(page, size);
-            var filterSpecification = new PostQueryFilter(content, name).GetFilterSpecification();
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var filterSpecification = new PostFilterSpecificationBuilder(content, name).Build();
             var data = await _postService.GetPosts(filterSpecification,
-                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
-                new SortPostFilter(sortingDirection, orderBy).GetSorting());
+                pagingSpecificationBuilder.Build(), new SortPostFilter(sortingDirection, orderBy).GetSorting());
 
-            return Ok(new PagedBlogResponse<GetPostDto>(data, validPagination.Page, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetPostDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _postService.CountPostsWhere(filterSpecification)));
         }
 

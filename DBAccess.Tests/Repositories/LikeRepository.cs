@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;
 using DBAccess.Specifications;

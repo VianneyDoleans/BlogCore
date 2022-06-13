@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.JoiningEntity;
+using DBAccess.Data;
+using DBAccess.Data.JoiningEntity;
 using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Repositories.User;
 

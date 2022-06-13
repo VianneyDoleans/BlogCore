@@ -1,5 +1,5 @@
 ﻿using System;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BlogCoreAPI.Authorization.Attributes

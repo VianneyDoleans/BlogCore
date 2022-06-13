@@ -1,5 +1,5 @@
-﻿using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.JoiningEntity;
+﻿using DBAccess.Data;
+using DBAccess.Data.JoiningEntity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
