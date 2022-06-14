@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.User;
@@ -9,7 +9,7 @@ namespace BlogCoreAPI.DTOs.Comment.Converters
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateCommentDto"/> to <see cref="Comment"/>.
     /// </summary>
-    public class UpdateCommentConverter : ITypeConverter<UpdateCommentDto, DBAccess.Data.POCO.Comment>
+    public class UpdateCommentConverter : ITypeConverter<UpdateCommentDto, DBAccess.Data.Comment>
     {
         private readonly ICommentRepository _commentRepository;
         private readonly IPostRepository _postRepository;
@@ -30,7 +30,7 @@ namespace BlogCoreAPI.DTOs.Comment.Converters
         }
 
         /// <inheritdoc />
-        public DBAccess.Data.POCO.Comment Convert(UpdateCommentDto source, DBAccess.Data.POCO.Comment destination,
+        public DBAccess.Data.Comment Convert(UpdateCommentDto source, DBAccess.Data.Comment destination,
             ResolutionContext context)
         {
             destination.CommentParent = source.CommentParent != null ? _commentRepository.Get(source.CommentParent.Value) : null;

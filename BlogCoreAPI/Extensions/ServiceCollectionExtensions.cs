@@ -22,7 +22,7 @@ using BlogCoreAPI.Validators.Post;
 using BlogCoreAPI.Validators.Role;
 using BlogCoreAPI.Validators.Tag;
 using BlogCoreAPI.Validators.User;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Like;

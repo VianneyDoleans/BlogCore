@@ -5,6 +5,7 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Tag;
 using BlogCoreAPI.Services.TagService;
 using BlogCoreAPI.Validators.Tag;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Tag;
 using FluentValidation;
 using Xunit;
@@ -87,7 +88,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetTagNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetTag(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetTag(685479));
         }
 
         [Fact]
@@ -103,14 +104,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeleteTag(tag.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetTag(tag.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetTag(tag.Id));
         }
 
         [Fact]
         public async Task DeleteTagNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteTag(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteTag(175574));
         }
 
         [Fact]
@@ -213,7 +214,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task UpdateTagNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateTag(new UpdateTagDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateTag(new UpdateTagDto()
                 { Id = 164854, Name = "UpdateTagNotFound" }));
         }
 

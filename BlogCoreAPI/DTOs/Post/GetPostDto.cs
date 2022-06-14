@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 
 namespace BlogCoreAPI.DTOs.Post
 {

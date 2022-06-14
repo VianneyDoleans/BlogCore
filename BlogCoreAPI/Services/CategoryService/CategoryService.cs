@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Category;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Specifications;
@@ -75,8 +75,6 @@ namespace BlogCoreAPI.Services.CategoryService
 
         private async Task<bool> CategoryAlreadyExistsWithSameProperties(UpdateCategoryDto category)
         {
-            if (category == null)
-                throw new ArgumentNullException(nameof(category));
             var categoryDb = await _repository.GetAsync(category.Id);
             return categoryDb.Name == category.Name;
         }

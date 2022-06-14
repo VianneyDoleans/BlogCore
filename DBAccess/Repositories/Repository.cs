@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
@@ -59,7 +60,7 @@ namespace DBAccess.Repositories
         {
             var result = await _context.Set<TEntity>().FindAsync(id);
             if (result == null)
-                throw new IndexOutOfRangeException("Element doesn't exist.");
+                throw new ResourceNotFoundException("Element doesn't exist.");
             return result;
         }
 
@@ -167,7 +168,7 @@ namespace DBAccess.Repositories
         {
             var result = _context.Set<TEntity>().Find(id);
             if (result == null)
-                throw new IndexOutOfRangeException("Element doesn't exist.");
+                throw new ResourceNotFoundException("Element doesn't exist.");
             return result;
         }
 

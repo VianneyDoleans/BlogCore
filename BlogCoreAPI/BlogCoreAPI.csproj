@@ -8,6 +8,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>BlogCoreAPI.xml</DocumentationFile>
     <WarningLevel>5</WarningLevel>
+	  <NoWarn>1591</NoWarn> <!-- Missing XML Comment -->
   </PropertyGroup>
 
   <ItemGroup>

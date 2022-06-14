@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.Permission;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
@@ -63,7 +64,7 @@ namespace DBAccess.Tests.Repositories
         {
             var repository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await repository.GetAsync(100));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await repository.GetAsync(100));
         }
 
         [Fact]
@@ -651,7 +652,7 @@ namespace DBAccess.Tests.Repositories
             var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => roleRepository.Get(100));
+            Assert.Throws<ResourceNotFoundException>(() => roleRepository.Get(100));
         }
 
         [Fact]
@@ -823,7 +824,7 @@ namespace DBAccess.Tests.Repositories
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.AddPermissionAsync(99991, permission));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await roleRepository.AddPermissionAsync(99991, permission));
         }
 
         [Fact]
@@ -899,7 +900,7 @@ namespace DBAccess.Tests.Repositories
             var roleRepository = new RoleRepository(_fixture.Db, _fixture.RoleManager);
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.GetPermissionsAsync(99991));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await roleRepository.GetPermissionsAsync(99991));
         }
 
         [Fact]
@@ -968,7 +969,7 @@ namespace DBAccess.Tests.Repositories
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await roleRepository.RemovePermissionAsync(99991, commentPermission));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await roleRepository.RemovePermissionAsync(99991, commentPermission));
         }
 
         [Fact]

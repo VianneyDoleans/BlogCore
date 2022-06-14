@@ -5,8 +5,9 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Role;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Validators.Role;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.Permission;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using FluentValidation;
 using Xunit;
@@ -89,7 +90,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetRoleNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetRole(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetRole(685479));
         }
 
         [Fact]
@@ -105,14 +106,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeleteRole(role.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetRole(role.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetRole(role.Id));
         }
 
         [Fact]
         public async Task DeleteRoleNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteRole(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteRole(175574));
         }
 
         [Fact]
@@ -215,7 +216,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task UpdateRoleNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateRole(new UpdateRoleDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateRole(new UpdateRoleDto()
             { Id = 164854, Name = "UpdateRoleNotFound" }));
         }
 
@@ -320,7 +321,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPermissionAsync(24162, permission));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddPermissionAsync(24162, permission));
         }
 
         [Fact]
@@ -360,7 +361,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemovePermissionAsync(254121, permission));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.RemovePermissionAsync(254121, permission));
         }
 
         [Fact]
@@ -393,7 +394,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetPermissionsAsyncWithRoleDoesNotExist()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPermissionsAsync(12312));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetPermissionsAsync(12312));
         }
     }
 }

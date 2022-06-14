@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.JoiningEntity;
+using DBAccess.Data;
+using DBAccess.Data.JoiningEntity;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.User;
 
@@ -10,7 +10,7 @@ namespace BlogCoreAPI.DTOs.Post.Converters
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdatePostConverter"/> to <see cref="Post"/>.
     /// </summary>
-    public class UpdatePostConverter : ITypeConverter<UpdatePostDto, DBAccess.Data.POCO.Post>
+    public class UpdatePostConverter : ITypeConverter<UpdatePostDto, DBAccess.Data.Post>
     {
         private readonly IUserRepository _userRepository;
         private readonly ICategoryRepository _categoryRepository;
@@ -27,7 +27,7 @@ namespace BlogCoreAPI.DTOs.Post.Converters
         }
 
         /// <inheritdoc />
-        public DBAccess.Data.POCO.Post Convert(UpdatePostDto source, DBAccess.Data.POCO.Post destination,
+        public DBAccess.Data.Post Convert(UpdatePostDto source, DBAccess.Data.Post destination,
             ResolutionContext context)
         {
             destination.Author = _userRepository.Get(source.Author);

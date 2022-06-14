@@ -1,11 +1,12 @@
 ﻿using System.Threading.Tasks;
+using DBAccess.Data;
 
 namespace DBAccess.Repositories.Category
 {
     /// <summary>
-    /// Repository used to manipulate <see cref="Data.POCO.Category"/> from database (CRUD and more).
+    /// Repository used to manipulate <see cref="Category"/> from database (CRUD and more).
     /// </summary>
-    public interface ICategoryRepository : IRepository<Data.POCO.Category>
+    public interface ICategoryRepository : IRepository<Data.Category>
     {
         /// <summary>
         /// Method used to check if a name already exists inside database for a category.

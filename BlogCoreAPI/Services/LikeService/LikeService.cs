@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Like;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;
@@ -66,13 +67,13 @@ namespace BlogCoreAPI.Services.LikeService
         {
             // TODO maybe remove LikeableType (not so much useful)
             if (await _userRepository.GetAsync(like.User) == null)
-                throw new IndexOutOfRangeException("User doesn't exist.");
+                throw new ResourceNotFoundException("User doesn't exist.");
             switch (like.LikeableType)
             {
                 case LikeableType.Comment when await _commentRepository.GetAsync(like.Comment.Value) == null:
-                    throw new IndexOutOfRangeException("Comment doesn't exist.");
+                    throw new ResourceNotFoundException("Comment doesn't exist.");
                 case LikeableType.Post when await _postRepository.GetAsync(like.Post.Value) == null:
-                    throw new IndexOutOfRangeException("Post doesn't exist.");
+                    throw new ResourceNotFoundException("Post doesn't exist.");
             }
         }
 
@@ -112,8 +113,6 @@ namespace BlogCoreAPI.Services.LikeService
         private async Task<bool> LikeAlreadyExistsWithSameProperties(UpdateLikeDto like)
         {
             // TODO maybe remove LikeableType (not so much useful)
-            if (like == null)
-                throw new ArgumentNullException(nameof(like));
             var likeDb = await _repository.GetAsync(like.Id);
             // TODO check ?.Id in every "if comparison" conditions (null) (only if property have the right to be null)
             return likeDb.Comment?.Id == like.Comment &&

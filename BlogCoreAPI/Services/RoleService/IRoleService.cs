@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using BlogCoreAPI.DTOs.Permission;
 using BlogCoreAPI.DTOs.Role;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.Permission;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;

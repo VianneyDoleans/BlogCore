@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 
 namespace BlogCoreAPI.DTOs.User.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateUserDto"/> to <see cref="User"/>.
     /// </summary>
-    public class UpdateUserConverter : ITypeConverter<UpdateUserDto, DBAccess.Data.POCO.User>
+    public class UpdateUserConverter : ITypeConverter<UpdateUserDto, DBAccess.Data.User>
     {
         /// <inheritdoc />
-        public DBAccess.Data.POCO.User Convert(UpdateUserDto source, DBAccess.Data.POCO.User destination,
+        public DBAccess.Data.User Convert(UpdateUserDto source, DBAccess.Data.User destination,
             ResolutionContext context)
         {
             destination.UserDescription = source.UserDescription;

@@ -1,5 +1,5 @@
 ﻿using System;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 
 namespace BlogCoreAPI.DTOs.Like
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
 

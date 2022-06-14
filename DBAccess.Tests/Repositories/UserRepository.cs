@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;
@@ -67,7 +68,7 @@ namespace DBAccess.Tests.Repositories
         {
             var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await userRepository.GetAsync(100));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await userRepository.GetAsync(100));
         }
 
         [Fact]
@@ -660,7 +661,7 @@ namespace DBAccess.Tests.Repositories
             var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
 
             // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => userRepository.Get(100));
+            Assert.Throws<ResourceNotFoundException>(() => userRepository.Get(100));
         }
 
         [Fact]

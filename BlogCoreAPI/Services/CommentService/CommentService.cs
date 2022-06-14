@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Comment;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.UnitOfWork;
@@ -61,8 +62,6 @@ namespace BlogCoreAPI.Services.CommentService
 
         private async Task<bool> CommentAlreadyExistsWithSameProperties(UpdateCommentDto comment)
         {
-            if (comment == null)
-                throw new ArgumentNullException(nameof(comment));
             var commentDb = await _repository.GetAsync(comment.Id);
             return commentDb.Content == comment.Content &&
                    commentDb.Author.Id == comment.Author &&
@@ -73,11 +72,11 @@ namespace BlogCoreAPI.Services.CommentService
         public async Task CheckCommentValidity(ICommentDto comment)
         {
             if (await _userRepository.GetAsync(comment.Author) == null)
-                throw new IndexOutOfRangeException("Author doesn't exist.");
+                throw new ResourceNotFoundException("Author doesn't exist.");
             if (await _postRepository.GetAsync(comment.PostParent) == null)
-                throw new IndexOutOfRangeException("Post parent doesn't exist.");
+                throw new ResourceNotFoundException("Post parent doesn't exist.");
             if (comment.CommentParent != null && await _repository.GetAsync(comment.CommentParent.Value) == null)
-                throw new IndexOutOfRangeException("Comment parent doesn't exist.");
+                throw new ResourceNotFoundException("Comment parent doesn't exist.");
         }
 
         public async Task CheckCommentValidity(UpdateCommentDto comment)

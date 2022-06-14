@@ -3,9 +3,9 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.JoiningEntity;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.JoiningEntity;
+using DBAccess.Data.Permission;
 using DBAccess.DataContext;
 using Microsoft.AspNetCore.Identity;
 
@@ -14,7 +14,7 @@ namespace DBAccess
     /// <summary>
     /// Class used to initialize Database if the database is empty (test data).
     /// </summary>
-    public static class DbInitializer
+    public static class DBInitializer
     {
         private static async Task GenerateRoles(RoleManager<Role> roleManager)
         {

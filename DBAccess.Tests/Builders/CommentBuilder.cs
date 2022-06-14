@@ -1,5 +1,5 @@
 ﻿using System;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.DataContext;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.UnitOfWork;

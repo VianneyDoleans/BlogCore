@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using BlogCoreAPI.Responses;
+using DBAccess.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +31,7 @@ namespace BlogCoreAPI.Controllers
 
             switch (exception)
             {
-                case IndexOutOfRangeException _:
+                case ResourceNotFoundException _:
                     code = HttpStatusCode.NotFound;
                     break;
                 case InvalidOperationException _:

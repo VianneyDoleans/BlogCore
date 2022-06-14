@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Permission;
 using BlogCoreAPI.DTOs.Role;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.Permission;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Specifications;
@@ -106,8 +106,6 @@ namespace BlogCoreAPI.Services.RoleService
 
         private async Task<bool> RoleAlreadyExistsWithSameProperties(UpdateRoleDto role)
         {
-            if (role == null)
-                throw new ArgumentNullException(nameof(role));
             var roleDb = await _repository.GetAsync(role.Id);
             return role.Name == roleDb.Name;
         }

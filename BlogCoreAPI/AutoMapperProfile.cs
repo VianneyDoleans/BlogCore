@@ -15,8 +15,8 @@ using BlogCoreAPI.DTOs.Tag;
 using BlogCoreAPI.DTOs.Tag.Converters;
 using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.DTOs.User.Converters;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.Permission;
 
 namespace BlogCoreAPI
 {

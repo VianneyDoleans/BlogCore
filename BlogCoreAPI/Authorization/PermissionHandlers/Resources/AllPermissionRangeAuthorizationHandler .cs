@@ -5,8 +5,8 @@ using BlogCoreAPI.Authorization.Permissions;
 using BlogCoreAPI.DTOs.Permission;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
-using DBAccess.Data.POCO;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 
 namespace BlogCoreAPI.Authorization.PermissionHandlers.Resources

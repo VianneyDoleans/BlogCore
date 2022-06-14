@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using BlogCoreAPI.DTOs.User;
 using DBAccess;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 using DBAccess.DataContext;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using User = DBAccess.Data.POCO.User;
+using User = DBAccess.Data.User;
 
 namespace BlogCoreAPI.FunctionalTests
 {
@@ -64,7 +64,7 @@ namespace BlogCoreAPI.FunctionalTests
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
                 await context.Database.EnsureCreatedAsync();
                 // Fill Db with data
-                await DbInitializer.Seed(context, roleManager, userManager);
+                await DBInitializer.Seed(context, roleManager, userManager);
 
                 var configuration = GetConfiguration();
                 var user = configuration.GetSection("Users").GetSection("User").Get<Models.User>();

@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 using BlogCoreAPI.DTOs.Like;
-using DBAccess.Data.POCO;
+using DBAccess.Data;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers
 {

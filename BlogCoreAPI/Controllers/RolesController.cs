@@ -2,15 +2,15 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
+using BlogCoreAPI.Builders;
+using BlogCoreAPI.Builders.Specifications;
+using BlogCoreAPI.Builders.Specifications.Role;
 using BlogCoreAPI.DTOs.Role;
 using BlogCoreAPI.DTOs.User;
-using BlogCoreAPI.Filters;
-using BlogCoreAPI.Filters.Role;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
-using DBAccess.Data.POCO.Permission;
-using DBAccess.Specifications;
+using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,12 +55,11 @@ namespace BlogCoreAPI.Controllers
         public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int page = 1,
             int size = 10)
         {
-            var validPagination = new PaginationFilter(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
             var data = await _roleService.GetRoles(null,
-                new PagingSpecification((validPagination.Page - 1) * validPagination.Limit, validPagination.Limit),
-                new SortRoleFilter(sortingDirection).GetSorting());
+                pagingSpecificationBuilder.Build(), new RoleSortSpecificationBuilder(sortingDirection).Build());
 
-            return Ok(new PagedBlogResponse<GetRoleDto>(data, validPagination.Page, validPagination.Limit,
+            return Ok(new PagedBlogResponse<GetRoleDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _roleService.CountRolesWhere()));
         }
 

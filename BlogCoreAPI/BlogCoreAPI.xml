@@ -9,7 +9,7 @@
              Attribute allowing to define the corresponding permission needed for an resource endpoint.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute.#ctor(DBAccess.Data.POCO.Permission.PermissionAction,DBAccess.Data.POCO.Permission.PermissionTarget)">
+        <member name="M:BlogCoreAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute.#ctor(DBAccess.Data.Permission.PermissionAction,DBAccess.Data.Permission.PermissionTarget)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Authorization.Attributes.PermissionWithPermissionRangeAllRequiredAttribute"/> class.
             </summary>
@@ -27,12 +27,12 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasAuthorDtoAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TDto"></typeparam>
         </member>
@@ -44,12 +44,12 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForHasUserDtoAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TDto"></typeparam>
         </member>
@@ -61,12 +61,12 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
         </member>
         <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
@@ -77,7 +77,7 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1">
             <summary>
-            Authorization Handler used to authorize a resource when the <see cref="T:DBAccess.Data.POCO.User"/> have <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> permission on this Type of resource.
+            Authorization Handler used to authorize a resource when the <see cref="T:DBAccess.Data.User"/> have <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> permission on this Type of resource.
             </summary>
             <example>
             user "ModeratorName" has a role that has the permission "PermissionRange.All, PermissionAction.Delete, PermissionTarget.Comment"
@@ -96,12 +96,12 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasAuthorEntityAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TEntity"></typeparam>
         </member>
@@ -113,12 +113,12 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForHasUserEntityAuthorizationHandler`1">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
             <typeparam name="TEntity"></typeparam>
         </member>
@@ -130,18 +130,18 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler">
             <summary>
-            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>
-            corresponding to the resource (<see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>).
+            Authorization Handler that verifies if user has a role with <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/> or <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>
+            corresponding to the resource (<see cref="T:DBAccess.Data.Permission.PermissionTarget"/>) and if it can realize the action it is asking (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>).
             </summary>
             <example>
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/>. 
-            In case of <see cref="F:DBAccess.Data.POCO.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> (it is the author of this resource).
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.All"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> on all <see cref="T:DBAccess.Data.Permission.PermissionTarget"/>. 
+            In case of <see cref="F:DBAccess.Data.Permission.PermissionRange.Own"/>, the user can realize <see cref="T:DBAccess.Data.Permission.PermissionAction"/> only on its own <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> (it is the author of this resource).
             </example>
         </member>
         <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,DBAccess.Data.POCO.User)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasOwnOrAllPermissionRangeForUserResourceAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,DBAccess.Data.User)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionPolicyProvider">
@@ -157,11 +157,11 @@
         </member>
         <member name="T:BlogCoreAPI.Authorization.Permissions.PermissionRequirement">
             <summary>
-            Permission requirement used to describe an action (can read, can write, can delete, ...) (<see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/>)
+            Permission requirement used to describe an action (can read, can write, can delete, ...) (<see cref="T:DBAccess.Data.Permission.PermissionAction"/>)
              on a resource (category, comment, like, ...) (<see cref="P:BlogCoreAPI.Authorization.Permissions.PermissionRequirement.PermissionTarget"/>)
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Authorization.Permissions.PermissionRequirement.#ctor(DBAccess.Data.POCO.Permission.PermissionAction,DBAccess.Data.POCO.Permission.PermissionTarget)">
+        <member name="M:BlogCoreAPI.Authorization.Permissions.PermissionRequirement.#ctor(DBAccess.Data.Permission.PermissionAction,DBAccess.Data.Permission.PermissionTarget)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Authorization.Permissions.PermissionRequirement"/> class.
             </summary>
@@ -173,7 +173,7 @@
             Same as <see cref="T:BlogCoreAPI.Authorization.Permissions.PermissionRequirement"/> but with <see cref="P:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement.PermissionRange"/> in addition (own or all resources).
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement.#ctor(DBAccess.Data.POCO.Permission.PermissionAction,DBAccess.Data.POCO.Permission.PermissionTarget,DBAccess.Data.POCO.Permission.PermissionRange)">
+        <member name="M:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement.#ctor(DBAccess.Data.Permission.PermissionAction,DBAccess.Data.Permission.PermissionTarget,DBAccess.Data.Permission.PermissionRange)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Authorization.Permissions.PermissionWithRangeRequirement"/> class.
             </summary>
@@ -186,6 +186,276 @@
         </member>
         <member name="M:BlogCoreAPI.AutoMapperProfile.#ctor">
             <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder.#ctor(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder"/> class.
+            </summary>
+            <param name="name"></param>
+            <param name="minimumPostNumber"></param>
+            <param name="maximumPostNumber"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder.Build">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.Build">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder"/> class.
+            </summary>
+            <param name="authorUsername"></param>
+            <param name="postParentName"></param>
+            <param name="content"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder.Build">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+            <param name="orderBy"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.Build">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder.#ctor(System.Nullable{DBAccess.Data.LikeableType})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder"/> class.
+            </summary>
+            <param name="likeableType"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder.Build">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter">
+            <summary>
+             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter.Build">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder">
+            <summary>
+            Pagination filter used to execute Query on a resource.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder.Page">
+            <summary>
+            Page of the query.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder.Limit">
+            <summary>
+            Limit of the query.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder.#ctor(System.Int32,System.Int32)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder"/> class.
+            </summary>
+            <param name="page"></param>
+            <param name="size"></param>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder"/> class.
+            </summary>
+            <param name="content"></param>
+            <param name="name"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder.Build">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+            <param name="orderBy"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.GetSorting">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter"/> class.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter.GetFilterSpecification">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.Build">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter"/> class.
+            </summary>
+            <param name="name"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter.Build">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder.Build">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.User"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder.#ctor(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder"/> class.
+            </summary>
+            <param name="username"></param>
+            <param name="lastLoginBefore"></param>
+            <param name="registerBefore"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder.Build">
+            <summary>
+            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.User"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder">
+            <summary>
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.User"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder"/> class.
+            </summary>
+            <param name="sortingDirection"></param>
+            <param name="orderBy"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.Build">
+            <summary>
+            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.User"/> based of internal properties defined.
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:BlogCoreAPI.Controllers.AccountController">
             <summary>
@@ -398,7 +668,7 @@
             <param name="likeService"></param>
             <param name="authorizeService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(System.String,System.Int32,System.Int32,System.Nullable{DBAccess.Data.POCO.LikeableType})">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(System.String,System.Int32,System.Int32,System.Nullable{DBAccess.Data.LikeableType})">
             <summary>
             Get list of likes.
             </summary>
@@ -604,7 +874,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.AddPermission(System.Int32,DBAccess.Data.POCO.Permission.Permission)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.AddPermission(System.Int32,DBAccess.Data.Permission.Permission)">
             <summary>
             Add a permission to an existing role.
             </summary>
@@ -615,7 +885,7 @@
             <param name="permission"></param>
             <returns></returns>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.RemovePermission(System.Int32,DBAccess.Data.POCO.Permission.Permission)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.RemovePermission(System.Int32,DBAccess.Data.Permission.Permission)">
             <summary>
             Remove a permission to an existing role.
             </summary>
@@ -866,7 +1136,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Category,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter.Convert(System.Int32,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter">
@@ -874,7 +1144,7 @@
             AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Category.UpdateCategoryDto"/> to <see cref="N:BlogCoreAPI.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter.Convert(BlogCoreAPI.DTOs.Category.UpdateCategoryDto,DBAccess.Data.POCO.Category,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter.Convert(BlogCoreAPI.DTOs.Category.UpdateCategoryDto,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Category.GetCategoryDto">
@@ -908,7 +1178,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Comment,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter.Convert(System.Int32,DBAccess.Data.Comment,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter">
@@ -924,7 +1194,7 @@
             <param name="postRepository"></param>
             <param name="userRepository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter.Convert(BlogCoreAPI.DTOs.Comment.UpdateCommentDto,DBAccess.Data.POCO.Comment,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter.Convert(BlogCoreAPI.DTOs.Comment.UpdateCommentDto,DBAccess.Data.Comment,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Comment.GetCommentDto">
@@ -968,7 +1238,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Like,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter.Convert(System.Int32,DBAccess.Data.Like,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter">
@@ -984,7 +1254,7 @@
             <param name="postRepository"></param>
             <param name="userRepository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter.Convert(BlogCoreAPI.DTOs.Like.UpdateLikeDto,DBAccess.Data.POCO.Like,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter.Convert(BlogCoreAPI.DTOs.Like.UpdateLikeDto,DBAccess.Data.Like,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Like.GetLikeDto">
@@ -1004,26 +1274,26 @@
         </member>
         <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.POCO.Permission.PermissionAction"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionActionDto"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionAction"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionActionDto"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter.Convert(DBAccess.Data.POCO.Permission.PermissionAction,BlogCoreAPI.DTOs.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter.Convert(DBAccess.Data.Permission.PermissionAction,BlogCoreAPI.DTOs.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.POCO.Permission.PermissionRange"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionRangeDto"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionRange"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionRangeDto"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter.Convert(DBAccess.Data.POCO.Permission.PermissionRange,BlogCoreAPI.DTOs.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter.Convert(DBAccess.Data.Permission.PermissionRange,BlogCoreAPI.DTOs.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.POCO.Permission.PermissionTarget"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionTargetDto"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionTargetDto"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter.Convert(DBAccess.Data.POCO.Permission.PermissionTarget,BlogCoreAPI.DTOs.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter.Convert(DBAccess.Data.Permission.PermissionTarget,BlogCoreAPI.DTOs.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Permission.PermissionDto">
@@ -1047,7 +1317,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Post,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter.Convert(System.Int32,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter">
@@ -1062,7 +1332,7 @@
             <param name="userRepository"></param>
             <param name="categoryRepository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.Convert(BlogCoreAPI.DTOs.Post.UpdatePostDto,DBAccess.Data.POCO.Post,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.Convert(BlogCoreAPI.DTOs.Post.UpdatePostDto,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Post.GetPostDto">
@@ -1096,7 +1366,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Role,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DBAccess.Data.Role,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Role.GetRoleDto">
@@ -1130,7 +1400,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DBAccess.Data.POCO.Tag,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DBAccess.Data.Tag,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.Tag.GetTagDto">
@@ -1158,7 +1428,7 @@
             AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.User.UpdateUserDto"/> to <see cref="N:BlogCoreAPI.DTOs.User"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.User.Converters.UpdateUserConverter.Convert(BlogCoreAPI.DTOs.User.UpdateUserDto,DBAccess.Data.POCO.User,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.User.Converters.UpdateUserConverter.Convert(BlogCoreAPI.DTOs.User.UpdateUserDto,DBAccess.Data.User,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.User.Converters.UserIdConverter">
@@ -1172,7 +1442,7 @@
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.POCO.User,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.User,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.DTOs.User.GetUserDto">
@@ -1222,276 +1492,6 @@
             </summary> 
             <param name="services"></param> 
             <returns></returns> 
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Category.CategoryQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Category"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Category.CategoryQueryFilter.#ctor(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Category.CategoryQueryFilter"/> class.
-            </summary>
-            <param name="name"></param>
-            <param name="minimumPostNumber"></param>
-            <param name="maximumPostNumber"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Category.CategoryQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Category"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Category.SortCategoryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Category"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Category.SortCategoryFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Category.SortCategoryFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Category.SortCategoryFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Category"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Comment.CommentQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Comment"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Comment.CommentQueryFilter.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Comment.CommentQueryFilter"/> class.
-            </summary>
-            <param name="authorUsername"></param>
-            <param name="postParentName"></param>
-            <param name="content"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Comment.CommentQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Comment"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Comment.SortCommentFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Comment"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Comment.SortCommentFilter.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Comment.SortCommentFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Comment.SortCommentFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Comment"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Like.LikeQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Like"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Like.LikeQueryFilter.#ctor(System.Nullable{DBAccess.Data.POCO.LikeableType})">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Like.LikeQueryFilter"/> class.
-            </summary>
-            <param name="likeableType"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Like.LikeQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Like"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Like.SortLikeFilter">
-            <summary>
-             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Like"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Like.SortLikeFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Like.SortLikeFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Like.SortLikeFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Like"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.PaginationFilter">
-            <summary>
-            Pagination filter used to execute Query on a resource.
-            </summary>
-        </member>
-        <member name="P:BlogCoreAPI.Filters.PaginationFilter.Page">
-            <summary>
-            Page of the query.
-            </summary>
-        </member>
-        <member name="P:BlogCoreAPI.Filters.PaginationFilter.Limit">
-            <summary>
-            Limit of the query.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.PaginationFilter.#ctor(System.Int32,System.Int32)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.PaginationFilter"/> class.
-            </summary>
-            <param name="page"></param>
-            <param name="size"></param>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Post.PostQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Post"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Post.PostQueryFilter.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Post.PostQueryFilter"/> class.
-            </summary>
-            <param name="content"></param>
-            <param name="name"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Post.PostQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Post"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Post.SortPostFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Post"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Post.SortPostFilter.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Post.SortPostFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Post.SortPostFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Post"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Role.RoleQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Role"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Role.RoleQueryFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Role.RoleQueryFilter"/> class.
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Role.RoleQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Role"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Role.SortRoleFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Role"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Role.SortRoleFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Role.SortRoleFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Role.SortRoleFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Role"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Tag.SortTagFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Tag"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Tag.SortTagFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Tag.SortTagFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Tag.SortTagFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.Tag"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.Tag.TagQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.Tag"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Tag.TagQueryFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.Tag.TagQueryFilter"/> class.
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.Tag.TagQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.Tag"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.User.SortUserFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.User"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.User.SortUserFilter.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.User.SortUserFilter"/> class.
-            </summary>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.User.SortUserFilter.GetSorting">
-            <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Filters.User"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Filters.User.UserQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Filters.User"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.User.UserQueryFilter.#ctor(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Filters.User.UserQueryFilter"/> class.
-            </summary>
-            <param name="username"></param>
-            <param name="lastLoginBefore"></param>
-            <param name="registerBefore"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Filters.User.UserQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Filters.User"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:BlogCoreAPI.Responses.BlogErrorResponse">
             <summary>

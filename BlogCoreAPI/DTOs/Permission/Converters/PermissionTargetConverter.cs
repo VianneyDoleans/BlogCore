@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using DBAccess.Data.POCO.Permission;
+using DBAccess.Data.Permission;
 
 namespace BlogCoreAPI.DTOs.Permission.Converters
 {
