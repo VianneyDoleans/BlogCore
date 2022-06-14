@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
@@ -45,7 +46,7 @@ namespace DBAccess.Repositories.Comment
             }
             catch
             {
-                throw new IndexOutOfRangeException("Comment doesn't exist.");
+                throw new ResourceNotFoundException("Comment doesn't exist.");
             }
         }
 
@@ -62,7 +63,7 @@ namespace DBAccess.Repositories.Comment
             }
             catch
             {
-                throw new IndexOutOfRangeException("Comment doesn't exist.");
+                throw new ResourceNotFoundException("Comment doesn't exist.");
             }
         }
 

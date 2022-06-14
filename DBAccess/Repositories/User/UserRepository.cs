@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
@@ -44,7 +45,7 @@ namespace DBAccess.Repositories.User
             }
             catch
             {
-                throw new IndexOutOfRangeException("User doesn't exist.");
+                throw new ResourceNotFoundException("User doesn't exist.");
             }
         }
 
@@ -57,7 +58,7 @@ namespace DBAccess.Repositories.User
             }
             catch
             {
-                throw new IndexOutOfRangeException("User doesn't exist.");
+                throw new ResourceNotFoundException("User doesn't exist.");
             }
         }
 

@@ -7,6 +7,7 @@ using BlogCoreAPI.Services.UserService;
 using BlogCoreAPI.Validators.User;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
 using FluentValidation;
@@ -255,7 +256,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetUserNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetUser(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetUser(685479));
         }
 
         [Fact]
@@ -290,7 +291,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task UpdateUserNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateUser(new UpdateUserDto() 
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateUser(new UpdateUserDto() 
                 {Id = 164854, Password = "123", Email = "UpdateUserNotFound@email.com", UserName = "UpdUNotFound"}));
         }
 
@@ -436,14 +437,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeleteUser(user.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetUser(user.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetUser(user.Id));
         }
 
         [Fact]
         public async Task DeleteUserNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteUser(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteUser(175574));
         }
 
         [Fact]
@@ -585,7 +586,7 @@ namespace BlogCoreAPI.Tests.Services
             var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddUserRole(new UserRoleDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddUserRole(new UserRoleDto()
             {
                 RoleId = 78542,
                 UserId = userId
@@ -602,7 +603,7 @@ namespace BlogCoreAPI.Tests.Services
             var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddUserRole(new UserRoleDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddUserRole(new UserRoleDto()
             {
                 RoleId = roleId,
                 UserId = 323365
@@ -656,7 +657,7 @@ namespace BlogCoreAPI.Tests.Services
             var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.RemoveUserRole(new UserRoleDto()
             {
                 RoleId = 1234432,
                 UserId = userId
@@ -698,7 +699,7 @@ namespace BlogCoreAPI.Tests.Services
             var roleId = (await _fixture.RoleManager.FindByNameAsync(role.Name)).Id;
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.RemoveUserRole(new UserRoleDto()
             {
                 RoleId = roleId,
                 UserId = 323365
@@ -750,7 +751,7 @@ namespace BlogCoreAPI.Tests.Services
             const string password = "1234Ab@a";
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.SignIn(new UserLoginDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.SignIn(new UserLoginDto()
                 { UserName = Guid.NewGuid().ToString()[..20], Password = password }));
         }
     }

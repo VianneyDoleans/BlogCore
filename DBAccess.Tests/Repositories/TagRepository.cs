@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Tag;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
@@ -67,7 +68,7 @@ namespace DBAccess.Tests.Repositories
             var repository = new TagRepository(_fixture.Db);
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await repository.GetAsync(100));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await repository.GetAsync(100));
         }
 
         [Fact]
@@ -446,7 +447,7 @@ namespace DBAccess.Tests.Repositories
             var tagRepository = new TagRepository(_fixture.Db);
 
             // Act & Assert
-            Assert.Throws<IndexOutOfRangeException>(() => tagRepository.Get(100));
+            Assert.Throws<ResourceNotFoundException>(() => tagRepository.Get(100));
         }
 
         [Fact]

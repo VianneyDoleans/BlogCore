@@ -7,6 +7,7 @@ using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Validators.Post;
 using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Tag;
@@ -95,7 +96,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetPostNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPost(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetPost(685479));
         }
 
         [Fact]
@@ -197,7 +198,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -267,7 +268,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -293,7 +294,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -321,7 +322,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdatePost(postToUpdate));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdatePost(postToUpdate));
         }
 
         [Fact]
@@ -453,7 +454,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdatePost(postToUpdate));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdatePost(postToUpdate));
         }
 
         [Fact]
@@ -530,14 +531,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeletePost(postAdded.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetPost(postAdded.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetPost(postAdded.Id));
         }
 
         [Fact]
         public async Task DeletePostNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeletePost(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeletePost(175574));
         }
 
         [Fact]

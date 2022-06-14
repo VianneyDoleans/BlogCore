@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.Data.Permission;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
@@ -47,7 +48,7 @@ namespace DBAccess.Repositories.Role
             }
             catch
             {
-                throw new IndexOutOfRangeException("Role doesn't exist.");
+                throw new ResourceNotFoundException("Role doesn't exist.");
             }
         }
 
@@ -135,7 +136,7 @@ namespace DBAccess.Repositories.Role
             }
             catch
             {
-                throw new IndexOutOfRangeException("Role doesn't exist.");
+                throw new ResourceNotFoundException("Role doesn't exist.");
             }
         }
 

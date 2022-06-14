@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.User;
 using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Repositories.User;
@@ -88,7 +89,7 @@ namespace BlogCoreAPI.Services.UserService
 
             if (user == null || user.Count != 1)
             {
-                throw new IndexOutOfRangeException("User doesn't exists.");
+                throw new ResourceNotFoundException("User doesn't exists.");
             }
             return user.First();
         }
@@ -129,13 +130,13 @@ namespace BlogCoreAPI.Services.UserService
             var user = (await _repository.GetAsync(userRole.UserId));
             if (user == null)
             {
-                throw new IndexOutOfRangeException("User doesn't exists.");
+                throw new ResourceNotFoundException("User doesn't exists.");
             }
 
             var role = (await _roleRepository.GetAsync(userRole.RoleId));
             if (role == null)
             {
-                throw new IndexOutOfRangeException("Role doesn't exists.");
+                throw new ResourceNotFoundException("Role doesn't exists.");
             }
 
             if (user.UserRoles.Any(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId))
@@ -149,13 +150,13 @@ namespace BlogCoreAPI.Services.UserService
             var user = (await _repository.GetAsync(userRole.UserId));
             if (user == null)
             {
-                throw new IndexOutOfRangeException("User doesn't exists.");
+                throw new ResourceNotFoundException("User doesn't exists.");
             }
 
             var role = (await _roleRepository.GetAsync(userRole.RoleId));
             if (role == null)
             {
-                throw new IndexOutOfRangeException("Role doesn't exists.");
+                throw new ResourceNotFoundException("Role doesn't exists.");
             }
 
             if (!user.UserRoles.Any(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId))
@@ -203,8 +204,6 @@ namespace BlogCoreAPI.Services.UserService
 
         private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateUserDto user)
         {
-            if (user == null)
-                throw new ArgumentNullException(nameof(user));
             var userDb = await _repository.GetAsync(user.Id);
             return userDb.UserName == user.UserName &&
                    userDb.Email == user.Email &&

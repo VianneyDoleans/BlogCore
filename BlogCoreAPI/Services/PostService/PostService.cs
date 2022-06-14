@@ -6,6 +6,7 @@ using AutoMapper;
 using BlogCoreAPI.DTOs.Post;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Tag;
@@ -103,8 +104,6 @@ namespace BlogCoreAPI.Services.PostService
 
         private async Task<bool> PostAlreadyExistsWithSameProperties(UpdatePostDto post)
         {
-            if (post == null)
-                throw new ArgumentNullException(nameof(post));
             var postDb = await _repository.GetAsync(post.Id);
             if (postDb.PostTags != null && post.Tags != null &&
                 !postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
@@ -118,14 +117,14 @@ namespace BlogCoreAPI.Services.PostService
         public async Task CheckPostValidity(IPostDto post)
         {
             if (await _userRepository.GetAsync(post.Author) == null)
-                throw new IndexOutOfRangeException("Author doesn't exist.");
+                throw new ResourceNotFoundException("Author doesn't exist.");
             if (await _categoryRepository.GetAsync(post.Category) == null)
-                throw new IndexOutOfRangeException("Category doesn't exist.");
+                throw new ResourceNotFoundException("Category doesn't exist.");
             post.Tags?.ToList().ForEach(x =>
             {
                 var tag = _tagRepository.Get(x);
                 if (tag == null)
-                    throw new IndexOutOfRangeException("Tag id " + x + " doesn't exist.");
+                    throw new ResourceNotFoundException("Tag id " + x + " doesn't exist.");
             });
             // TODO do it on each service (check duplicate) and add unitTests
             if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))

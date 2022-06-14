@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using DBAccess.Data;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
@@ -44,7 +45,7 @@ namespace DBAccess.Repositories.Category
             }
             catch
             {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
+                throw new ResourceNotFoundException("Category doesn't exist.");
             }
         }
 
@@ -59,7 +60,7 @@ namespace DBAccess.Repositories.Category
             }
             catch
             {
-                throw new IndexOutOfRangeException("Category doesn't exist.");
+                throw new ResourceNotFoundException("Category doesn't exist.");
             }
         }
 

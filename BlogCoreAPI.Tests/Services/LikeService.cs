@@ -6,6 +6,7 @@ using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Validators.Like;
 using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;
@@ -147,7 +148,7 @@ namespace BlogCoreAPI.Tests.Services
                 { LikeableType = LikeableType.Post, Post = post.Entity.Id };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddLike(like));
         }
 
         [Fact]
@@ -188,7 +189,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetLikeNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetLike(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetLike(685479));
         }
 
         [Fact]
@@ -234,7 +235,7 @@ namespace BlogCoreAPI.Tests.Services
             _fixture.UnitOfWork.Save();
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateLike(new UpdateLikeDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateLike(new UpdateLikeDto()
             { Id = 164854, LikeableType = LikeableType.Post, Post = post.Entity.Id, User = user.Entity.Id}));
         }
 
@@ -306,14 +307,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeleteLike(like.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetLike(like.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetLike(like.Id));
         }
 
         [Fact]
         public async Task DeleteLikeNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteLike(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteLike(175574));
         }
 
         [Fact]

@@ -6,6 +6,7 @@ using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Validators.Comment;
 using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.User;
@@ -105,7 +106,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(commentChild));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddComment(commentChild));
         }
 
         [Fact]
@@ -164,14 +165,14 @@ namespace BlogCoreAPI.Tests.Services
             var comment = new AddCommentDto() { Author = user.Entity.Id, PostParent = post.Entity.Id, Content = "AddCommentNotFoundParent", CommentParent = 654438};
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(comment));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddComment(comment));
         }
 
         [Fact]
         public async Task GetCommentNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetComment(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetComment(685479));
         }
 
         [Fact]
@@ -235,7 +236,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateComment(commentToUpdate));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateComment(commentToUpdate));
         }
 
         [Fact]
@@ -300,7 +301,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(commentToAdd));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddComment(commentToAdd));
         }
 
         [Fact]
@@ -317,7 +318,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.AddComment(commentToAdd));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.AddComment(commentToAdd));
         }
 
         [Fact]
@@ -387,7 +388,7 @@ namespace BlogCoreAPI.Tests.Services
                 {Id = 164854, Content = "ok", Author = user.Entity.Id, PostParent = post.Entity.Id};
 
             // Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateComment(commentToUpdate));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateComment(commentToUpdate));
         }
 
         [Fact]
@@ -435,14 +436,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeleteComment(commentAdded.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetComment(commentAdded.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetComment(commentAdded.Id));
         }
 
         [Fact]
         public async Task DeleteCommentNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteComment(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteComment(175574));
         }
 
         [Fact]

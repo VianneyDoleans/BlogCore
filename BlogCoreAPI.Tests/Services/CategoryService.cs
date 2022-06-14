@@ -6,6 +6,7 @@ using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Validators.Category;
 using DBAccess.Data;
+using DBAccess.Exceptions;
 using DBAccess.Repositories.Category;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;
@@ -106,7 +107,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GetCategoryNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetCategory(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetCategory(685479));
         }
 
         [Fact]
@@ -122,14 +123,14 @@ namespace BlogCoreAPI.Tests.Services
             await _service.DeleteCategory(category.Id);
 
             // Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.GetCategory(category.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetCategory(category.Id));
         }
 
         [Fact]
         public async Task DeleteCategoryNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.DeleteCategory(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteCategory(175574));
         }
 
         [Fact]
@@ -244,7 +245,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task UpdateCategoryNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<IndexOutOfRangeException>(async () => await _service.UpdateCategory(new UpdateCategoryDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateCategory(new UpdateCategoryDto()
             { Id = 164854, Name = "UpdateCategoryNotFound" }));
         }
 

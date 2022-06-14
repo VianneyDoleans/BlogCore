@@ -75,8 +75,6 @@ namespace BlogCoreAPI.Services.CategoryService
 
         private async Task<bool> CategoryAlreadyExistsWithSameProperties(UpdateCategoryDto category)
         {
-            if (category == null)
-                throw new ArgumentNullException(nameof(category));
             var categoryDb = await _repository.GetAsync(category.Id);
             return categoryDb.Name == category.Name;
         }

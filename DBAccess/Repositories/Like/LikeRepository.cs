@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.SortSpecification;
@@ -43,7 +44,7 @@ namespace DBAccess.Repositories.Like
             }
             catch
             {
-                throw new IndexOutOfRangeException("Like doesn't exist.");
+                throw new ResourceNotFoundException("Like doesn't exist.");
             }
         }
 
@@ -59,7 +60,7 @@ namespace DBAccess.Repositories.Like
             }
             catch
             {
-                throw new IndexOutOfRangeException("Like doesn't exist.");
+                throw new ResourceNotFoundException("Like doesn't exist.");
             }
         }
 

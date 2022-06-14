@@ -21,14 +21,14 @@ namespace DBAccess.Data.Permission
 
         public bool Equals(Permission other)
         {
-            if (ReferenceEquals(null, other)) return false;
+            if (other is null) return false;
             if (ReferenceEquals(this, other)) return true;
             return PermissionAction == other.PermissionAction && PermissionTarget == other.PermissionTarget && PermissionRange == other.PermissionRange;
         }
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
+            if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             if (obj.GetType() != GetType()) return false;
             return Equals((Permission)obj);

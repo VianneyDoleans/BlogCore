@@ -106,8 +106,6 @@ namespace BlogCoreAPI.Services.RoleService
 
         private async Task<bool> RoleAlreadyExistsWithSameProperties(UpdateRoleDto role)
         {
-            if (role == null)
-                throw new ArgumentNullException(nameof(role));
             var roleDb = await _repository.GetAsync(role.Id);
             return role.Name == roleDb.Name;
         }
