@@ -67,7 +67,7 @@ namespace DBAccess.Repositories.Role
         {
             var result = await _roleManager.CreateAsync(role);
             if (!result.Succeeded)
-                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                throw new RoleManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
             return await _roleManager.FindByNameAsync(role.Name);
         }
 
@@ -76,7 +76,7 @@ namespace DBAccess.Repositories.Role
         {
             var result = await _roleManager.DeleteAsync(role);
             if (!result.Succeeded)
-                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                throw new RoleManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
 
         /// <inheritdoc />
@@ -123,7 +123,7 @@ namespace DBAccess.Repositories.Role
             {
                 var result = await _roleManager.RemoveClaimAsync(role, claim);
                 if (!result.Succeeded)
-                    throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                    throw new RoleManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
             }
         }
 

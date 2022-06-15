@@ -27,7 +27,7 @@ namespace BlogCoreAPI.Tests
 
         public async Task InitializeAsync()
         {
-            await DBInitializer.Seed(Db, RoleManager, UserManager);
+            await DbInitializer.Seed(Db, RoleManager, UserManager);
         }
 
         public Task DisposeAsync()

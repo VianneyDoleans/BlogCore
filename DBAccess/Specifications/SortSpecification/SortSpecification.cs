@@ -11,7 +11,7 @@ namespace DBAccess.Specifications.SortSpecification
         {
             SortElements = new List<Sort<TEntity>>()
             {
-                new Sort<TEntity>() {OrderBy = orderBy, SortingDirection = sortingDirection}
+                new() {OrderBy = orderBy, SortingDirection = sortingDirection}
             };
         }
 

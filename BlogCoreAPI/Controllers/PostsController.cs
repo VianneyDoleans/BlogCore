@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
-using BlogCoreAPI.Builders;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Post;
 using BlogCoreAPI.DTOs.Comment;
