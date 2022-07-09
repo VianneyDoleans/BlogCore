@@ -67,6 +67,7 @@ namespace BlogCoreAPI
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddSwaggerGen(c =>
             {
+                c.UseInlineDefinitionsForEnums();
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "BlogCore",
