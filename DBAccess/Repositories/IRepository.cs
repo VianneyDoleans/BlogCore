@@ -20,7 +20,7 @@ namespace DBAccess.Repositories
         Task<TEntity> GetAsync(int id);
 
         /// <summary>
-        /// Method used to get <see cref="TEntity"/> resource(s) by specified filter(s), pagination, and sort(s) (orderBy, etc.).
+        /// Method used to get <see cref="TEntity"/> resource(s) by specified filter(s), pagination, and sort(s) (sort, etc.).
         /// </summary>
         /// <param name="filterSpecification"></param>
         /// <param name="pagingSpecification"></param>

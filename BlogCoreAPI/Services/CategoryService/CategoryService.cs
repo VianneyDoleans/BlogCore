@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Category;
 using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.UnitOfWork;

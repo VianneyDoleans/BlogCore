@@ -5,6 +5,8 @@ using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Comment;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.Sort;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
@@ -46,8 +48,8 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of comments. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="sortingDirection"></param>
-        /// <param name="orderBy"></param>
+        /// <param name="order"></param>
+        /// <param name="sort"></param>
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <param name="authorUsername"></param>
@@ -57,13 +59,13 @@ namespace BlogCoreAPI.Controllers
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCommentDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetComments(string sortingDirection = "ASC", string orderBy = null, int page = 1, 
+        public async Task<IActionResult> GetComments(Order order = Order.Desc, CommentSort sort = CommentSort.PublishedAt, int page = 1, 
             int size = 10, string authorUsername = null, string postParentName = null, string content = null)
         {
             var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
             var filterSpecification = new CommentFilterSpecificationBuilder(authorUsername, postParentName, content).Build();
             var data = await _commentService.GetComments(filterSpecification,
-                pagingSpecificationBuilder.Build(), new CommentSortSpecificationBuilder(sortingDirection, orderBy).Build());
+                pagingSpecificationBuilder.Build(), new CommentSortSpecificationBuilder(order, sort).Build());
 
             return Ok(new PagedBlogResponse<GetCommentDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _commentService.CountCommentsWhere(filterSpecification)));

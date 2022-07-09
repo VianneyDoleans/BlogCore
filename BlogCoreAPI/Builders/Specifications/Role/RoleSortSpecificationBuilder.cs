@@ -1,4 +1,4 @@
-﻿using DBAccess.Data;
+﻿using BlogCoreAPI.Models;
 using DBAccess.Specifications.SortSpecification;
 
 namespace BlogCoreAPI.Builders.Specifications.Role
@@ -8,15 +8,15 @@ namespace BlogCoreAPI.Builders.Specifications.Role
     /// </summary>
     public class RoleSortSpecificationBuilder
     {
-        private readonly string _sortingDirection;
+        private readonly Order _order;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RoleSortSpecificationBuilder"/> class.
         /// </summary>
-        /// <param name="sortingDirection"></param>
-        public RoleSortSpecificationBuilder(string sortingDirection)
+        /// <param name="order"></param>
+        public RoleSortSpecificationBuilder(Order order)
         {
-            _sortingDirection = sortingDirection;
+            _order = order;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace BlogCoreAPI.Builders.Specifications.Role
         {
             var sort = new SortSpecification<DBAccess.Data.Role>(
                 new OrderBySpecification<DBAccess.Data.Role>(x => x.Name),
-                _sortingDirection == "DESC"
+                _order == Order.Desc
                     ? SortingDirectionSpecification.Descending
                     : SortingDirectionSpecification.Ascending);
             return sort;

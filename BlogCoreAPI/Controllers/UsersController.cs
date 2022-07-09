@@ -6,8 +6,11 @@ using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.User;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.DTOs.Like;
-using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.Sort;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
@@ -62,8 +65,8 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of users. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="sortingDirection"></param>
-        /// <param name="orderBy"></param>
+        /// <param name="order"></param>
+        /// <param name="sort"></param>
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <param name="name"></param>
@@ -73,13 +76,13 @@ namespace BlogCoreAPI.Controllers
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetUserDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetUsers(string sortingDirection = "ASC", string orderBy = null, int page = 1,
+        public async Task<IActionResult> GetUsers(Order order = Order.Desc, UserSort sort = UserSort.RegisteredAt, int page = 1,
             int size = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
         {
             var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
             var filterSpecification = new UserFilterSpecificationBuilder(name, lastLoginBefore, registerBefore).Build();
             var data = await _userService.GetUsers(filterSpecification,
-                pagingSpecificationBuilder.Build(), new UserSortSpecificationBuilder(sortingDirection, orderBy).Build());
+                pagingSpecificationBuilder.Build(), new UserSortSpecificationBuilder(order, sort).Build());
 
             return Ok(new PagedBlogResponse<GetUserDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _userService.CountUsersWhere(filterSpecification)));

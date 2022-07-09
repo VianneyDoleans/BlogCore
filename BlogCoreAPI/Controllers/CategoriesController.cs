@@ -4,7 +4,10 @@ using BlogCoreAPI.Authorization.Attributes;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Category;
 using BlogCoreAPI.DTOs.Category;
-using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.Sort;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Services.PostService;
@@ -43,7 +46,8 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of categories. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="sortingDirection"></param>
+        /// <param name="order"></param>
+        /// <param name="categorySort"></param>
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <param name="name"></param>
@@ -53,14 +57,14 @@ namespace BlogCoreAPI.Controllers
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCategoryDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCategories(string sortingDirection = "ASC", int page = 1, int size = 10, 
+        public async Task<IActionResult> GetCategories(Order order = Order.Asc, CategorySort categorySort = CategorySort.Name, int page = 1, int size = 10, 
             string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
         {
             var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
 
             var filterSpecification = new CategoryFilterSpecificationBuilder(name, minimumPostNumber, maximumPostNumber).Build();
             var data = await _categoryService.GetCategories(filterSpecification,
-                pagingSpecificationBuilder.Build(), new CategorySortSpecificationBuilder(sortingDirection).Build());
+                pagingSpecificationBuilder.Build(), new CategorySortSpecificationBuilder(order, categorySort).Build());
 
             return Ok(new PagedBlogResponse<GetCategoryDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit, 
                 await _categoryService.CountCategoriesWhere(filterSpecification)));

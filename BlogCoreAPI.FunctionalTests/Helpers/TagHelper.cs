@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Http;
 using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Tag;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers
 {

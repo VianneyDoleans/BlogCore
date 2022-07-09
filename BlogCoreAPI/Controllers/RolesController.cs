@@ -5,7 +5,9 @@ using BlogCoreAPI.Authorization.Attributes;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Role;
 using BlogCoreAPI.DTOs.Role;
-using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
@@ -44,19 +46,19 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of roles. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="sortingDirection"></param>
+        /// <param name="order"></param>
         /// <param name="page"></param>
         /// <param name="size"></param>
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetRoleDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRoles(string sortingDirection = "ASC", int page = 1,
+        public async Task<IActionResult> GetRoles(Order order = Order.Asc, int page = 1,
             int size = 10)
         {
             var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
             var data = await _roleService.GetRoles(null,
-                pagingSpecificationBuilder.Build(), new RoleSortSpecificationBuilder(sortingDirection).Build());
+                pagingSpecificationBuilder.Build(), new RoleSortSpecificationBuilder(order).Build());
 
             return Ok(new PagedBlogResponse<GetRoleDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _roleService.CountRolesWhere()));

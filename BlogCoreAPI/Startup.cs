@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text.Json.Serialization;
 using BlogCoreAPI.Authorization;
 using BlogCoreAPI.Extensions;
 using BlogCoreAPI.Filters;
@@ -36,7 +37,9 @@ namespace BlogCoreAPI
                 {
                     s.RegisterValidatorsFromAssemblyContaining<Startup>();
                     s.DisableDataAnnotationsValidation = true;
-                });
+                })
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddMvc(options =>
             {

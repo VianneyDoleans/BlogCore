@@ -7,11 +7,11 @@ namespace DBAccess.Specifications.SortSpecification
 
         public List<Sort<TEntity>> SortElements { get; }
 
-        public SortSpecification(OrderBySpecification<TEntity> orderBy, SortingDirectionSpecification sortingDirection)
+        public SortSpecification(OrderBySpecification<TEntity> sort, SortingDirectionSpecification order)
         {
             SortElements = new List<Sort<TEntity>>()
             {
-                new() {OrderBy = orderBy, SortingDirection = sortingDirection}
+                new() {OrderBy = sort, SortingDirection = order}
             };
         }
 

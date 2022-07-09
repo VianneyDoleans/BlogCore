@@ -1,4 +1,4 @@
-﻿using DBAccess.Data;
+﻿using BlogCoreAPI.Models;
 using DBAccess.Specifications.SortSpecification;
 
 namespace BlogCoreAPI.Builders.Specifications.Like
@@ -6,17 +6,17 @@ namespace BlogCoreAPI.Builders.Specifications.Like
     /// <summary>
     ///  Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Like"/>.
     /// </summary>
-    public class SortLikeFilter
+    public class SortLikeBuilder
     {
-        private readonly string _sortingDirection;
+        private readonly Order _order;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SortLikeFilter"/> class.
+        /// Initializes a new instance of the <see cref="SortLikeBuilder"/> class.
         /// </summary>
-        /// <param name="sortingDirection"></param>
-        public SortLikeFilter(string sortingDirection)
+        /// <param name="order"></param>
+        public SortLikeBuilder(Order order)
         {
-            _sortingDirection = sortingDirection;
+            _order = order;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace BlogCoreAPI.Builders.Specifications.Like
         {
             var sort = new SortSpecification<DBAccess.Data.Like>(
                 new OrderBySpecification<DBAccess.Data.Like>(x => x.PublishedAt),
-                _sortingDirection == "DESC"
+                _order == Order.Desc
                     ? SortingDirectionSpecification.Descending
                     : SortingDirectionSpecification.Ascending);
             return sort;

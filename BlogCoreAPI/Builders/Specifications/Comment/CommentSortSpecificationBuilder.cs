@@ -1,4 +1,5 @@
-﻿using DBAccess.Data;
+﻿using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.Sort;
 using DBAccess.Specifications.SortSpecification;
 
 namespace BlogCoreAPI.Builders.Specifications.Comment
@@ -8,18 +9,18 @@ namespace BlogCoreAPI.Builders.Specifications.Comment
     /// </summary>
     public class CommentSortSpecificationBuilder
     {
-        private readonly string _sortingDirection;
-        private readonly string _orderBy;
+        private readonly Order _order;
+        private readonly CommentSort _sort;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CommentSortSpecificationBuilder"/> class.
         /// </summary>
-        /// <param name="sortingDirection"></param>
-        /// <param name="orderBy"></param>
-        public CommentSortSpecificationBuilder(string sortingDirection, string orderBy)
+        /// <param name="order"></param>
+        /// <param name="sort"></param>
+        public CommentSortSpecificationBuilder(Order order, CommentSort sort)
         {
-            _sortingDirection = sortingDirection;
-            _orderBy = orderBy;
+            _order = order;
+            _sort = sort;
         }
 
         /// <summary>
@@ -28,17 +29,24 @@ namespace BlogCoreAPI.Builders.Specifications.Comment
         /// <returns></returns>
         public SortSpecification<DBAccess.Data.Comment> Build()
         {
-            SortSpecification<DBAccess.Data.Comment> sort;
-            if (_orderBy == "LIKE")
-                sort = new SortSpecification<DBAccess.Data.Comment>(new OrderBySpecification<DBAccess.Data.Comment>(x => x.Likes),
-                    _sortingDirection == "DESC"
+            var sort = _sort switch
+            {
+                CommentSort.LikeCount => new SortSpecification<DBAccess.Data.Comment>(
+                    new OrderBySpecification<DBAccess.Data.Comment>(x => x.Likes.Count),
+                    _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
-                        : SortingDirectionSpecification.Ascending);
-            else
-                sort = new SortSpecification<DBAccess.Data.Comment>(new OrderBySpecification<DBAccess.Data.Comment>(x => x.PublishedAt),
-                    _sortingDirection == "DESC"
+                        : SortingDirectionSpecification.Ascending),
+                CommentSort.CommentChildrenCount => new SortSpecification<DBAccess.Data.Comment>(
+                    new OrderBySpecification<DBAccess.Data.Comment>(x => x.ChildrenComments.Count),
+                    _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
-                        : SortingDirectionSpecification.Ascending);
+                        : SortingDirectionSpecification.Ascending),
+                _ => new SortSpecification<DBAccess.Data.Comment>(
+                    new OrderBySpecification<DBAccess.Data.Comment>(x => x.PublishedAt),
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending)
+            };
             return sort;
         }
     }

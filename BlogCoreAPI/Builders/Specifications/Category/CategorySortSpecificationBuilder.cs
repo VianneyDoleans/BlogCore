@@ -1,4 +1,5 @@
-﻿using DBAccess.Data;
+﻿using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.Sort;
 using DBAccess.Specifications.SortSpecification;
 
 namespace BlogCoreAPI.Builders.Specifications.Category
@@ -8,15 +9,18 @@ namespace BlogCoreAPI.Builders.Specifications.Category
     /// </summary>
     public class CategorySortSpecificationBuilder
     {
-        private readonly string _sortingDirection;
+        private readonly Order _order;
+        private readonly CategorySort _sort;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CategorySortSpecificationBuilder"/> class.
         /// </summary>
-        /// <param name="sortingDirection"></param>
-        public CategorySortSpecificationBuilder(string sortingDirection)
+        /// <param name="order"></param>
+        /// <param name="categorySort"></param>
+        public CategorySortSpecificationBuilder(Order order, CategorySort categorySort)
         {
-            _sortingDirection = sortingDirection;
+            _order = order;
+            _sort = categorySort;
         }
 
         /// <summary>
@@ -25,10 +29,26 @@ namespace BlogCoreAPI.Builders.Specifications.Category
         /// <returns></returns>
         public SortSpecification<DBAccess.Data.Category> Build()
         {
-            var sort = new SortSpecification<DBAccess.Data.Category>(new OrderBySpecification<DBAccess.Data.Category>(x => x.Name),
-                _sortingDirection == "DESC"
-                    ? SortingDirectionSpecification.Descending
-                    : SortingDirectionSpecification.Ascending);
+
+            var sort = _sort switch
+            {
+                CategorySort.PostCount => new SortSpecification<DBAccess.Data.Category>(
+                    new OrderBySpecification<DBAccess.Data.Category>(x => x.Posts.Count),
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending),
+                CategorySort.Name => new SortSpecification<DBAccess.Data.Category>(
+                    new OrderBySpecification<DBAccess.Data.Category>(x => x.Name),
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending),
+                _ => new SortSpecification<DBAccess.Data.Category>(
+                    new OrderBySpecification<DBAccess.Data.Category>(x => x.Name),
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending)
+            };
+            
             return sort;
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Services.UserService;
 
 namespace BlogCoreAPI.Tests.Builders
