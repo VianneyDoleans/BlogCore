@@ -51,7 +51,7 @@ namespace BlogCoreAPI.Controllers
         /// <param name="order"></param>
         /// <param name="sort"></param>
         /// <param name="page"></param>
-        /// <param name="size"></param>
+        /// <param name="pageSize"></param>
         /// <param name="authorUsername"></param>
         /// <param name="postParentName"></param>
         /// <param name="content"></param>
@@ -60,9 +60,9 @@ namespace BlogCoreAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCommentDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetComments(Order order = Order.Desc, CommentSort sort = CommentSort.PublishedAt, int page = 1, 
-            int size = 10, string authorUsername = null, string postParentName = null, string content = null)
+            int pageSize = 10, string authorUsername = null, string postParentName = null, string content = null)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
             var filterSpecification = new CommentFilterSpecificationBuilder(authorUsername, postParentName, content).Build();
             var data = await _commentService.GetComments(filterSpecification,
                 pagingSpecificationBuilder.Build(), new CommentSortSpecificationBuilder(order, sort).Build());

@@ -49,7 +49,7 @@ namespace BlogCoreAPI.Controllers
         /// <param name="order"></param>
         /// <param name="categorySort"></param>
         /// <param name="page"></param>
-        /// <param name="size"></param>
+        /// <param name="pageSize"></param>
         /// <param name="name"></param>
         /// <param name="minimumPostNumber"></param>
         /// <param name="maximumPostNumber"></param>
@@ -57,10 +57,10 @@ namespace BlogCoreAPI.Controllers
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCategoryDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCategories(Order order = Order.Asc, CategorySort categorySort = CategorySort.Name, int page = 1, int size = 10, 
+        public async Task<IActionResult> GetCategories(Order order = Order.Asc, CategorySort categorySort = CategorySort.Name, int page = 1, int pageSize = 10, 
             string name = null, int? minimumPostNumber = null, int? maximumPostNumber = null)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
 
             var filterSpecification = new CategoryFilterSpecificationBuilder(name, minimumPostNumber, maximumPostNumber).Build();
             var data = await _categoryService.GetCategories(filterSpecification,

@@ -68,7 +68,7 @@ namespace BlogCoreAPI.Controllers
         /// <param name="order"></param>
         /// <param name="sort"></param>
         /// <param name="page"></param>
-        /// <param name="size"></param>
+        /// <param name="pageSize"></param>
         /// <param name="name"></param>
         /// <param name="registerBefore"></param>
         /// <param name="lastLoginBefore"></param>
@@ -77,9 +77,9 @@ namespace BlogCoreAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetUserDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetUsers(Order order = Order.Desc, UserSort sort = UserSort.RegisteredAt, int page = 1,
-            int size = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
+            int pageSize = 10, string name = null, DateTime? registerBefore = null, DateTime? lastLoginBefore = null)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
             var filterSpecification = new UserFilterSpecificationBuilder(name, lastLoginBefore, registerBefore).Build();
             var data = await _userService.GetUsers(filterSpecification,
                 pagingSpecificationBuilder.Build(), new UserSortSpecificationBuilder(order, sort).Build());

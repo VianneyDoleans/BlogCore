@@ -58,7 +58,7 @@ namespace BlogCoreAPI.Controllers
         /// <param name="order"></param>
         /// <param name="sort"></param>
         /// <param name="page"><example>3</example></param>
-        /// <param name="size"></param>
+        /// <param name="pageSize"></param>
         /// <param name="name"></param>
         /// <param name="content"></param>
         /// <returns></returns>
@@ -66,9 +66,9 @@ namespace BlogCoreAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetPostDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetPosts(Order order = Order.Desc, PostSort sort = PostSort.PublishedAt, int page = 1,
-            int size = 10, string name = null, string content = null)
+            int pageSize = 10, string name = null, string content = null)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
             var filterSpecification = new PostFilterSpecificationBuilder(content, name).Build();
             var data = await _postService.GetPosts(filterSpecification,
                 pagingSpecificationBuilder.Build(), new SortPostFilter(order, sort).GetSorting());

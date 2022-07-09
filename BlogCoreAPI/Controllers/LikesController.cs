@@ -44,16 +44,16 @@ namespace BlogCoreAPI.Controllers
         /// </remarks>
         /// <param name="order"></param>
         /// <param name="page"></param>
-        /// <param name="size"></param>
+        /// <param name="pageSize"></param>
         /// <param name="likeableType"></param>
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetLikeDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLikes(Order order = Order.Desc, int page = 1,
-            int size = 10, LikeableType? likeableType = null)
+            int pageSize = 10, LikeableType? likeableType = null)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
             var filterSpecification = new LikeFilterSpecificationBuilder(likeableType).Build();
             var data = await _likeService.GetLikes(filterSpecification,
                 pagingSpecificationBuilder.Build(), new SortLikeBuilder(order).Build());

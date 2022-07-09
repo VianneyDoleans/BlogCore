@@ -48,15 +48,15 @@ namespace BlogCoreAPI.Controllers
         /// </remarks>
         /// <param name="order"></param>
         /// <param name="page"></param>
-        /// <param name="size"></param>
+        /// <param name="pageSize"></param>
         /// <returns></returns>
         [HttpGet()]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetRoleDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetRoles(Order order = Order.Asc, int page = 1,
-            int size = 10)
+            int pageSize = 10)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
             var data = await _roleService.GetRoles(null,
                 pagingSpecificationBuilder.Build(), new RoleSortSpecificationBuilder(order).Build());
 
