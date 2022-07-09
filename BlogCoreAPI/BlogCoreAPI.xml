@@ -510,7 +510,7 @@
             Get list of categories. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
             <param name="order"></param>
-            <param name="categorySort"></param>
+            <param name="sort"></param>
             <param name="page"></param>
             <param name="pageSize"></param>
             <param name="name"></param>
