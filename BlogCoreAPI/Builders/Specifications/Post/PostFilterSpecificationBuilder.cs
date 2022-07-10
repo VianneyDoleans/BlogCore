@@ -1,4 +1,6 @@
-﻿using DBAccess.Specifications.FilterSpecifications;
+﻿using System;
+using System.Collections.Generic;
+using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
 namespace BlogCoreAPI.Builders.Specifications.Post
@@ -9,18 +11,54 @@ namespace BlogCoreAPI.Builders.Specifications.Post
     public class PostFilterSpecificationBuilder
     {
 
-        private readonly string _name;
-        private readonly string _content;
+        private string _inName;
+        private string _inContent;
+        private DateTime? _toPublishedAt;
+        private DateTime? _fromPublishedAt;
+        private int? _minimumLikeCount;
+        private int? _maximumLikeCount;
+        private List<string> _tags;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="PostFilterSpecificationBuilder"/> class.
-        /// </summary>
-        /// <param name="content"></param>
-        /// <param name="name"></param>
-        public PostFilterSpecificationBuilder(string content, string name)
+        public PostFilterSpecificationBuilder WithInContent(string inContent)
         {
-            _content = content;
-            _name = name;
+            _inContent = inContent;
+            return this;
+        }
+
+        public PostFilterSpecificationBuilder WithInName(string inName)
+        {
+            _inName = inName;
+            return this;
+        }
+
+        public PostFilterSpecificationBuilder WithToPublishedAt(DateTime? toPublishedAt)
+        {
+            _toPublishedAt = toPublishedAt;
+            return this;
+        }
+
+        public PostFilterSpecificationBuilder WithFromPublishedAt(DateTime? fromPublishedAt)
+        {
+            _fromPublishedAt = fromPublishedAt;
+            return this;
+        }
+
+        public PostFilterSpecificationBuilder WithMinimumLikeCount(int? minimumLikeCount)
+        {
+            _minimumLikeCount = minimumLikeCount;
+            return this;
+        }
+
+        public PostFilterSpecificationBuilder WithMaximumLikeCount(int? maximumLikeCount)
+        {
+            _maximumLikeCount = maximumLikeCount;
+            return this;
+        }
+
+        public PostFilterSpecificationBuilder WithTags(List<string> tags)
+        {
+            _tags = tags;
+            return this;
         }
 
         /// <summary>
@@ -32,13 +70,46 @@ namespace BlogCoreAPI.Builders.Specifications.Post
 
             FilterSpecification<DBAccess.Data.Post> filter = null;
 
-            if (_content != null)
-                filter = new ContentContainsSpecification<DBAccess.Data.Post>(_content);
-            if (_name != null)
+            if (_inContent != null)
+                filter = new ContentContainsSpecification<DBAccess.Data.Post>(_inContent);
+            if (_inName != null)
             {
                 filter = filter == null ?
-                    new NameContainsSpecification<DBAccess.Data.Post>(_name)
-                    : filter & new NameContainsSpecification<DBAccess.Data.Post>(_name);
+                    new NameContainsSpecification<DBAccess.Data.Post>(_inName)
+                    : filter & new NameContainsSpecification<DBAccess.Data.Post>(_inName);
+            }
+            if (_toPublishedAt != null)
+            {
+                filter = filter == null ?
+                    new PublishedBeforeDateSpecification<DBAccess.Data.Post>(_toPublishedAt.Value)
+                    : filter & new PublishedBeforeDateSpecification<DBAccess.Data.Post>(_toPublishedAt.Value);
+            }
+            if (_fromPublishedAt != null)
+            {
+                filter = filter == null ?
+                    new PublishedAfterDateSpecification<DBAccess.Data.Post>(_fromPublishedAt.Value)
+                    : filter & new PublishedAfterDateSpecification<DBAccess.Data.Post>(_fromPublishedAt.Value);
+            }
+            if (_minimumLikeCount != null)
+            {
+                filter = filter == null ?
+                    new MinimumLikeCountSpecification<DBAccess.Data.Post>(_minimumLikeCount.Value)
+                    : filter & new MinimumLikeCountSpecification<DBAccess.Data.Post>(_minimumLikeCount.Value);
+            }
+            if (_maximumLikeCount != null)
+            {
+                filter = filter == null ?
+                    new MaximumLikeCountSpecification<DBAccess.Data.Post>(_maximumLikeCount.Value)
+                    : filter & new MaximumLikeCountSpecification<DBAccess.Data.Post>(_maximumLikeCount.Value);
+            }
+            if (_tags != null)
+            {
+                foreach (var tag in _tags)
+                {
+                    filter = filter == null
+                        ? new TagSpecification<DBAccess.Data.Post>(tag)
+                        : filter & new TagSpecification<DBAccess.Data.Post>(tag);
+                }
             }
 
             return filter;

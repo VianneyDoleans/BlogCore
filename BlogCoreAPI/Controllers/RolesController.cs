@@ -50,11 +50,10 @@ namespace BlogCoreAPI.Controllers
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        [HttpGet()]
+        [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetRoleDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetRoles(Order order = Order.Asc, int page = 1,
-            int pageSize = 10)
+        public async Task<IActionResult> GetRoles(Order order = Order.Asc, int page = 1, int pageSize = 10)
         {
             var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
             var data = await _roleService.GetRoles(null,

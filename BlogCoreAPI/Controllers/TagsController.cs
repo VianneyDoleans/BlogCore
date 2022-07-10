@@ -48,16 +48,16 @@ namespace BlogCoreAPI.Controllers
         /// <param name="order"></param>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
-        /// <param name="name"></param>
+        /// <param name="inName"></param>
         /// <returns></returns>
-        [HttpGet()]
+        [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetTagDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetTags(Order order = Order.Asc, int page = 1,
-            int pageSize = 10, string name = null)
+            int pageSize = 10, string inName = null)
         {
             var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
-            var filterSpecification = new TagQueryFilter(name).Build();
+            var filterSpecification = new TagQueryFilter(inName).Build();
             var data = await _tagService.GetTags(filterSpecification,
                 pagingSpecificationBuilder.Build(), new TagSortSpecificationBuilder(order).Build());
 

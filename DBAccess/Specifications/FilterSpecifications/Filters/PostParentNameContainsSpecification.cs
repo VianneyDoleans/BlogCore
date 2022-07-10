@@ -5,11 +5,11 @@ using DBAccess.Data;
 
 namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
-    public class PostParentNameContains<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasPostParent
+    public class PostParentNameContainsSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasPostParent
     {
         private readonly string _name;
 
-        public PostParentNameContains(string name)
+        public PostParentNameContainsSpecification(string name)
         {
             _name = name;
         }

@@ -47,7 +47,7 @@ namespace BlogCoreAPI.Controllers
         /// <param name="pageSize"></param>
         /// <param name="likeableType"></param>
         /// <returns></returns>
-        [HttpGet()]
+        [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetLikeDto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetLikes(Order order = Order.Desc, int page = 1,

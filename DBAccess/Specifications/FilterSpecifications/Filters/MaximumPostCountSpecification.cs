@@ -5,11 +5,11 @@ using DBAccess.Data;
 
 namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
-    public class MaximumPostNumberSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasPosts
+    public class MaximumPostCountSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasPosts
     {
         private readonly int _number;
 
-        public MaximumPostNumberSpecification(int number)
+        public MaximumPostCountSpecification(int number)
         {
             _number = number;
         }

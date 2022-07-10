@@ -5,11 +5,11 @@ using DBAccess.Data;
 
 namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
-    public class MinimumPostNumberSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasPosts
+    public class MinimumPostCountSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasPosts
     {
         private readonly int _number;
 
-        public MinimumPostNumberSpecification(int number)
+        public MinimumPostCountSpecification(int number)
         {
             _number = number;
         }
