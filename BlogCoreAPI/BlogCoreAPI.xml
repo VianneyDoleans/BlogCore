@@ -875,7 +875,7 @@
             <param name="order"></param>
             <param name="page"></param>
             <param name="pageSize"></param>
-            <param name="inName"></param>
+            <param name="inName">Returns only tags whose name contains the given parameter</param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.TagsController.Get(System.Int32)">
@@ -1422,6 +1422,96 @@
         <member name="T:BlogCoreAPI.Models.DTOs.User.GetUserDto">
             <summary>
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.InName">
+            <summary>
+            Returns only categories whose name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MinimumPostCount">
+            <summary>
+            Returns only categories with a number of posts greater than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MaximumPostCount">
+            <summary>
+            Returns only categories with a number of posts less than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InAuthorUserName">
+            <summary>
+            Returns only comments whose author's username contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InPostParentName">
+            <summary>
+            Returns only comments whose parent post name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InContent">
+            <summary>
+            Returns only comments whose content contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.InName">
+            <summary>
+            Returns only posts whose name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.InContent">
+            <summary>
+            Returns only posts whose content contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.FromPublishedDate">
+            <summary>
+            Returns only posts whose published date is more recent or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.ToPublishedDate">
+            <summary>
+            Returns only posts whose published date is older or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MinimumLikeCount">
+            <summary>
+            Returns only posts with a number of likes greater than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MaximumLikeCount">
+            <summary>
+            Returns only posts with a number of likes greater than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.Tagged">
+            <summary>
+            Returns only posts that have the specified tag given in the parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.InUserName">
+            <summary>
+            Returns only users whose username contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.FromRegisterDate">
+            <summary>
+            Returns only users whose register date is more recent or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.ToRegisterDate">
+            <summary>
+            Returns only users whose register date is older or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.FromLastLoginDate">
+            <summary>
+            Returns only users whose last login date is more recent or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.ToLastLoginDate">
+            <summary>
+            Returns only users whose last login date is older or equal to the given parameter
             </summary>
         </member>
         <member name="T:BlogCoreAPI.Responses.BlogErrorResponse">

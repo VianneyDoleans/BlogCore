@@ -48,7 +48,7 @@ namespace BlogCoreAPI.Controllers
         /// <param name="order"></param>
         /// <param name="page"></param>
         /// <param name="pageSize"></param>
-        /// <param name="inName"></param>
+        /// <param name="inName">Returns only tags whose name contains the given parameter</param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]

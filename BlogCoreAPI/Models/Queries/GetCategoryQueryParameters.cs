@@ -22,12 +22,21 @@ namespace BlogCoreAPI.Models.Queries
         [FromQuery(Name = "pageSize")]
         public int PageSize { get; set; } = 10;
 
+        /// <summary>
+        /// Returns only categories whose name contains the given parameter
+        /// </summary>
         [FromQuery(Name = "inName")]
         public string InName { get; set; } = null;
 
+        /// <summary>
+        /// Returns only categories with a number of posts greater than or equal to the given parameter
+        /// </summary>
         [FromQuery(Name = "minimumPostCount")]
         public int? MinimumPostCount { get; set; } = null;
 
+        /// <summary>
+        /// Returns only categories with a number of posts less than or equal to the given parameter
+        /// </summary>
         [FromQuery(Name = "maximumPostCount")]
         public int? MaximumPostCount { get; set; } = null;
     }

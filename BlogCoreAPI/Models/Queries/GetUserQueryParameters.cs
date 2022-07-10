@@ -23,18 +23,33 @@ namespace BlogCoreAPI.Models.Queries
         [FromQuery(Name = "pageSize")]
         public int PageSize { get; set; } = 10;
 
+        /// <summary>
+        /// Returns only users whose username contains the given parameter
+        /// </summary>
         [FromQuery(Name = "inUserName")]
         public string InUserName { get; set; } = null;
 
+        /// <summary>
+        /// Returns only users whose register date is more recent or equal to the given parameter
+        /// </summary>
         [FromQuery(Name = "FromRegisterDate")]
         public DateTime? FromRegisterDate { get; set; } = null;
 
+        /// <summary>
+        /// Returns only users whose register date is older or equal to the given parameter
+        /// </summary>
         [FromQuery(Name = "ToRegisterDate")]
         public DateTime? ToRegisterDate { get; set; } = null;
 
+        /// <summary>
+        /// Returns only users whose last login date is more recent or equal to the given parameter
+        /// </summary>
         [FromQuery(Name = "FromLastLoginDate")]
         public DateTime? FromLastLoginDate { get; set; } = null;
 
+        /// <summary>
+        /// Returns only users whose last login date is older or equal to the given parameter
+        /// </summary>
         [FromQuery(Name = "ToLastLoginDate")]
         public DateTime? ToLastLoginDate { get; set; } = null;
     }
