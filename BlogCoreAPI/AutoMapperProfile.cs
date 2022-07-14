@@ -15,6 +15,11 @@ using BlogCoreAPI.DTOs.Tag;
 using BlogCoreAPI.DTOs.Tag.Converters;
 using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.DTOs.User.Converters;
+using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.User;
 using DBAccess.Data;
 using DBAccess.Data.Permission;
 

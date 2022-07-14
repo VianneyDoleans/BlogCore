@@ -38,8 +38,6 @@ namespace BlogCoreAPI.Controllers
                     code = HttpStatusCode.Conflict;
                     break;
                 case ArgumentNullException _:
-                    code = HttpStatusCode.BadRequest;
-                    break;
                 case ArgumentException _:
                     code = HttpStatusCode.BadRequest;
                     break;

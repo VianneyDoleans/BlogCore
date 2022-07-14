@@ -69,7 +69,7 @@ namespace DBAccess.Repositories.User
                 throw new ArgumentNullException(nameof(user));
             var result = await _userManager.CreateAsync(user, user.Password);
             if (!result.Succeeded)
-                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
             var getUserAddedByManagerWithoutUserRolePropertyNavigation = await _userManager.FindByNameAsync(user.UserName);
             return await GetAsync(getUserAddedByManagerWithoutUserRolePropertyNavigation.Id);
         }
@@ -79,7 +79,7 @@ namespace DBAccess.Repositories.User
         {
             var result = await _userManager.DeleteAsync(user);
             if (!result.Succeeded)
-                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
 
         /// <inheritdoc />
@@ -145,14 +145,14 @@ namespace DBAccess.Repositories.User
         {
             var result = await _userManager.AddToRoleAsync(user, role.Name);
             if (!result.Succeeded)
-                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
 
         public async Task RemoveRoleToUser(Data.User user, Data.Role role)
         {
             var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
             if (!result.Succeeded)
-                throw new Exception(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+                throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
     }
 }

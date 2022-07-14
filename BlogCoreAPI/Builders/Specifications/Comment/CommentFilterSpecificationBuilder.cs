@@ -1,5 +1,4 @@
-﻿using DBAccess.Data;
-using DBAccess.Specifications.FilterSpecifications;
+﻿using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
 namespace BlogCoreAPI.Builders.Specifications.Comment
@@ -9,21 +8,26 @@ namespace BlogCoreAPI.Builders.Specifications.Comment
     /// </summary>
     public class CommentFilterSpecificationBuilder
     {
-        private readonly string _authorUsername;
-        private readonly string _postParentName;
-        private readonly string _content;
+        private string _inAuthorUserName;
+        private string _inPostParentName;
+        private string _inContent;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CommentFilterSpecificationBuilder"/> class.
-        /// </summary>
-        /// <param name="authorUsername"></param>
-        /// <param name="postParentName"></param>
-        /// <param name="content"></param>
-        public CommentFilterSpecificationBuilder(string authorUsername, string postParentName, string content)
+        public CommentFilterSpecificationBuilder WithInAuthorUserName(string inAuthorUserName)
         {
-            _authorUsername = authorUsername;
-            _postParentName = postParentName;
-            _content = content;
+            _inAuthorUserName = inAuthorUserName;
+            return this;
+        }
+
+        public CommentFilterSpecificationBuilder WithPostParentName(string inPostParentName)
+        {
+            _inPostParentName = inPostParentName;
+            return this;
+        }
+
+        public CommentFilterSpecificationBuilder WithInContent(string inContent)
+        {
+            _inContent = inContent;
+            return this;
         }
 
         /// <summary>
@@ -33,19 +37,19 @@ namespace BlogCoreAPI.Builders.Specifications.Comment
         public FilterSpecification<DBAccess.Data.Comment> Build()
         {
             FilterSpecification<DBAccess.Data.Comment> filter = null;
-            if (!string.IsNullOrEmpty(_authorUsername))
-                filter = new AuthorUsernameContainsSpecification<DBAccess.Data.Comment>(_authorUsername);
-            if (!string.IsNullOrEmpty(_postParentName))
+            if (!string.IsNullOrEmpty(_inAuthorUserName))
+                filter = new AuthorUsernameContainsSpecification<DBAccess.Data.Comment>(_inAuthorUserName);
+            if (!string.IsNullOrEmpty(_inPostParentName))
             {
                 filter = filter == null
-                    ? new PostParentNameContains<DBAccess.Data.Comment>(_postParentName)
-                    : filter & new PostParentNameContains<DBAccess.Data.Comment>(_postParentName);
+                    ? new PostParentNameContainsSpecification<DBAccess.Data.Comment>(_inPostParentName)
+                    : filter & new PostParentNameContainsSpecification<DBAccess.Data.Comment>(_inPostParentName);
             }
-            if (!string.IsNullOrEmpty(_content))
+            if (!string.IsNullOrEmpty(_inContent))
             {
                 filter = filter == null
-                    ? new ContentContainsSpecification<DBAccess.Data.Comment>(_content)
-                    : filter & new PostParentNameContains<DBAccess.Data.Comment>(_content);
+                    ? new ContentContainsSpecification<DBAccess.Data.Comment>(_inContent)
+                    : filter & new PostParentNameContainsSpecification<DBAccess.Data.Comment>(_inContent);
             }
 
             return filter;

@@ -1,12 +1,12 @@
-﻿using System;
-using DBAccess.Data;
+﻿using DBAccess.Data;
 using DBAccess.DataContext;
+using DBAccess.Exceptions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DBAccess
+namespace DBAccess.Extensions
 {
     public static class ServiceCollectionExtensions
     {
@@ -15,7 +15,7 @@ namespace DBAccess
         {
             var dbProvider = configuration.GetSection("DatabaseProvider");
             if (!dbProvider.Exists())
-                throw new Exception("Database provider is not specified inside the configuration.");
+                throw new DatabaseProviderException("Database provider is not specified inside the configuration.");
             switch (dbProvider.Value)
             {
                 case "MsSQL":
@@ -38,7 +38,7 @@ namespace DBAccess
                         o.UseNpgsql(builder.ConnectionString));
                     break;
                 default:
-                    throw new Exception("Unsupported database provider : " + dbProvider);
+                    throw new DatabaseProviderException("Unsupported database provider : " + dbProvider);
             }
 
             return services;

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using BlogCoreAPI.DTOs.Role;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.Models.DTOs.Role;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers

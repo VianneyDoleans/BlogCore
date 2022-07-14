@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net.Http;
 using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Post;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers
 {

@@ -192,14 +192,6 @@
             Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder.#ctor(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder"/> class.
-            </summary>
-            <param name="name"></param>
-            <param name="minimumPostNumber"></param>
-            <param name="maximumPostNumber"></param>
-        </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder.Build">
             <summary>
             Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/> based of internal properties defined.
@@ -211,11 +203,12 @@
             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.CategorySort)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder"/> class.
             </summary>
-            <param name="sortingDirection"></param>
+            <param name="order"></param>
+            <param name="categorySort"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.Build">
             <summary>
@@ -228,14 +221,6 @@
             Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder.#ctor(System.String,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder"/> class.
-            </summary>
-            <param name="authorUsername"></param>
-            <param name="postParentName"></param>
-            <param name="content"></param>
-        </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder.Build">
             <summary>
             Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/> based of internal properties defined.
@@ -247,12 +232,12 @@
             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.CommentSort)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder"/> class.
             </summary>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
+            <param name="order"></param>
+            <param name="sort"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.Build">
             <summary>
@@ -277,18 +262,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter">
+        <member name="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder">
             <summary>
              Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder.#ctor(BlogCoreAPI.Models.Order)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder"/> class.
             </summary>
-            <param name="sortingDirection"></param>
+            <param name="order"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeFilter.Build">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder.Build">
             <summary>
             Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/> based of internal properties defined.
             </summary>
@@ -314,19 +299,12 @@
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder"/> class.
             </summary>
             <param name="page"></param>
-            <param name="size"></param>
+            <param name="pageSize"></param>
         </member>
         <member name="T:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder">
             <summary>
             Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/>.
             </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder.#ctor(System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder"/> class.
-            </summary>
-            <param name="content"></param>
-            <param name="name"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder.Build">
             <summary>
@@ -339,33 +317,16 @@
             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.PostSort)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter"/> class.
             </summary>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
+            <param name="order"></param>
+            <param name="sort"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.GetSorting">
             <summary>
             Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/> based of internal properties defined.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter">
-            <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter.#ctor(System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter"/> class.
-            </summary>
-            <param name="name"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleQueryFilter.GetFilterSpecification">
-            <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
@@ -374,11 +335,11 @@
             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder"/> class.
             </summary>
-            <param name="sortingDirection"></param>
+            <param name="order"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.Build">
             <summary>
@@ -395,7 +356,7 @@
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter"/> class.
             </summary>
-            <param name="name"></param>
+            <param name="inName"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter.Build">
             <summary>
@@ -403,18 +364,18 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder">
             <summary>
             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder"/> class.
             </summary>
-            <param name="sortingDirection"></param>
+            <param name="order"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagsortSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder.Build">
             <summary>
             Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/> based of internal properties defined.
             </summary>
@@ -424,14 +385,6 @@
             <summary>
             Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.User"/>.
             </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder.#ctor(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder"/> class.
-            </summary>
-            <param name="username"></param>
-            <param name="lastLoginBefore"></param>
-            <param name="registerBefore"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder.Build">
             <summary>
@@ -444,12 +397,12 @@
             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.User"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.#ctor(System.String,System.String)">
+        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.UserSort)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder"/> class.
             </summary>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
+            <param name="order"></param>
+            <param name="sort"></param>
         </member>
         <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.Build">
             <summary>
@@ -501,19 +454,14 @@
             <param name="categoryService"></param>
             <param name="postService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetCategories(System.String,System.Int32,System.Int32,System.String,System.Nullable{System.Int32},System.Nullable{System.Int32})">
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetCategories(BlogCoreAPI.Models.Queries.GetCategoryQueryParameters)">
             <summary>
             Get list of categories.
             </summary>
             <remarks>
             Get list of categories. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="page"></param>
-            <param name="size"></param>
-            <param name="name"></param>
-            <param name="minimumPostNumber"></param>
-            <param name="maximumPostNumber"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.CategoriesController.Get(System.Int32)">
@@ -579,20 +527,14 @@
             <param name="likeService"></param>
             <param name="authorizationService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetComments(System.String,System.String,System.Int32,System.Int32,System.String,System.String,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetComments(BlogCoreAPI.Models.Queries.GetCommentQueryParameters)">
             <summary>
             Get list of comments.
             </summary>
             <remarks>
             Get list of comments. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
-            <param name="page"></param>
-            <param name="size"></param>
-            <param name="authorUsername"></param>
-            <param name="postParentName"></param>
-            <param name="content"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.CommentsController.Get(System.Int32)">
@@ -668,17 +610,14 @@
             <param name="likeService"></param>
             <param name="authorizeService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(System.String,System.Int32,System.Int32,System.Nullable{DBAccess.Data.LikeableType})">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(BlogCoreAPI.Models.Queries.GetLikeQueryParameters)">
             <summary>
             Get list of likes.
             </summary>
             <remarks>
             Get list of likes. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="page"></param>
-            <param name="size"></param>
-            <param name="likeableType"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.LikesController.Get(System.Int32)">
@@ -735,19 +674,14 @@
             <param name="likeService"></param>
             <param name="authorizationService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.GetPosts(System.String,System.String,System.Int32,System.Int32,System.String,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetPosts(BlogCoreAPI.Models.Queries.GetPostQueryParameters)">
             <summary>
             Get list of posts.
             </summary>
             <remarks>
             Get list of posts. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
-            <param name="page"></param>
-            <param name="size"></param>
-            <param name="name"></param>
-            <param name="content"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.PostsController.Get(System.Int32)">
@@ -822,16 +756,14 @@
             <param name="roleService"></param>
             <param name="userService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(System.String,System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(BlogCoreAPI.Models.Queries.GetRoleQueryParameters)">
             <summary>
             Get list of roles.
             </summary>
             <remarks>
             Get list of roles. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="page"></param>
-            <param name="size"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.RolesController.Get(System.Int32)">
@@ -928,17 +860,14 @@
             <param name="tagService"></param>
             <param name="postService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(System.String,System.Int32,System.Int32,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(BlogCoreAPI.Models.Queries.GetTagQueryParameters)">
             <summary>
             Get list of tags.
             </summary>
             <remarks>
             Get list of tags. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="page"></param>
-            <param name="size"></param>
-            <param name="name"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.TagsController.Get(System.Int32)">
@@ -1005,20 +934,14 @@
             <param name="roleService"></param>
             <param name="authorizationService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.GetUsers(System.String,System.String,System.Int32,System.Int32,System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime})">
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetUsers(BlogCoreAPI.Models.Queries.GetUserQueryParameters)">
             <summary>
             Get list of users.
             </summary>
             <remarks>
             Get list of users. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="sortingDirection"></param>
-            <param name="orderBy"></param>
-            <param name="page"></param>
-            <param name="size"></param>
-            <param name="name"></param>
-            <param name="registerBefore"></param>
-            <param name="lastLoginBefore"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.UsersController.Get(System.Int32)">
@@ -1103,6 +1026,39 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:BlogCoreAPI.Extensions.ServiceCollectionExtensions">
+            <summary> 
+            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject BlogCoreAPI Services 
+            </summary> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register repository services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterDtoResourceValidators(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource validators
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
         <member name="T:BlogCoreAPI.DTOs.ADto">
             <summary>
             Abstract of <see cref="T:BlogCoreAPI.DTOs.IDto"/>. This class implement the mandatory properties and methods of all resources classified as Dto.
@@ -1146,11 +1102,6 @@
         </member>
         <member name="M:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter.Convert(BlogCoreAPI.DTOs.Category.UpdateCategoryDto,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Category.GetCategoryDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Category"/>.
-            </summary>
         </member>
         <member name="T:BlogCoreAPI.DTOs.Category.ICategoryDto">
             <summary>
@@ -1335,11 +1286,6 @@
         <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.Convert(BlogCoreAPI.DTOs.Post.UpdatePostDto,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:BlogCoreAPI.DTOs.Post.GetPostDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Post"/>.
-            </summary>
-        </member>
         <member name="T:BlogCoreAPI.DTOs.Post.IPostDto">
             <summary>
             Interface of <see cref="N:BlogCoreAPI.DTOs.Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).
@@ -1369,11 +1315,6 @@
         <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DBAccess.Data.Role,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:BlogCoreAPI.DTOs.Role.GetRoleDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Role"/>.
-            </summary>
-        </member>
         <member name="T:BlogCoreAPI.DTOs.Role.IRoleDto">
             <summary>
             Interface of <see cref="N:BlogCoreAPI.DTOs.Role"/> Dto containing all the common properties of Role Dto Type (GET, ADD, UPDATE).
@@ -1402,11 +1343,6 @@
         </member>
         <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DBAccess.Data.Tag,AutoMapper.ResolutionContext)">
             <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Tag.GetTagDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Tag"/>.
-            </summary>
         </member>
         <member name="T:BlogCoreAPI.DTOs.Tag.ITagDto">
             <summary>
@@ -1445,11 +1381,6 @@
         <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.User,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:BlogCoreAPI.DTOs.User.GetUserDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
-            </summary>
-        </member>
         <member name="T:BlogCoreAPI.DTOs.User.IUserDto">
             <summary>
             Interface of User Dto containing all the common properties of User Dto Type (GET, ADD, UPDATE).
@@ -1460,38 +1391,195 @@
             UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
             </summary>
         </member>
-        <member name="T:BlogCoreAPI.Extensions.ServiceCollectionExtensions">
-            <summary> 
-            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject BlogCoreAPI Services 
-            </summary> 
+        <member name="T:BlogCoreAPI.Models.DTOs.Category.GetCategoryDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Category"/>.
+            </summary>
         </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register repository services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
+        <member name="T:BlogCoreAPI.Models.DTOs.Post.GetPostDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Post"/>.
+            </summary>
         </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
+        <member name="T:BlogCoreAPI.Models.DTOs.Role.GetRoleDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Role"/>.
+            </summary>
         </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterDtoResourceValidators(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource validators
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
+        <member name="T:BlogCoreAPI.Models.DTOs.Tag.GetTagDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/>.
+            </summary>
         </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
+        <member name="T:BlogCoreAPI.Models.DTOs.User.GetUserDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.APaginationQuery.Page">
+            <summary>
+            Cursor for pagination across multiple pages of results. Default value is 1.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.APaginationQuery.PageSize">
+            <summary>
+            Number of elements to return per page. Max value is 100. Default value is 10.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.OrderBy">
+            <summary>
+            Order the return categories by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.SortBy">
+            <summary>
+            Sort the returned categories by the given parameter.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.InName">
+            <summary>
+            Returns only categories whose name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MinimumPosts">
+            <summary>
+            Returns only categories with a number of posts greater than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MaximumPosts">
+            <summary>
+            Returns only categories with a number of posts less than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.OrderBy">
+            <summary>
+            Order the return comments by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.SortBy">
+            <summary>
+            Sort the returned comments by the given parameter.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InAuthorUserName">
+            <summary>
+            Returns only comments whose author's username contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InPostParentName">
+            <summary>
+            Returns only comments whose parent post name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InContent">
+            <summary>
+            Returns only comments whose content contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetLikeQueryParameters.OrderBy">
+            <summary>
+            Order the return likes by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetLikeQueryParameters.LikeableType">
+            <summary>
+            Returns only the likes that are on posts **or** comments according to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.OrderBy">
+            <summary>
+            Order the return posts by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.SortBy">
+            <summary>
+            Sort the returned posts by the given parameter.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.InName">
+            <summary>
+            Returns only posts whose name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.InContent">
+            <summary>
+            Returns only posts whose content contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.FromPublicationDate">
+            <summary>
+            Returns only posts whose publication date is more recent or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.ToPublicationDate">
+            <summary>
+            Returns only posts whose published date is older or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MinimumLikes">
+            <summary>
+            Returns only posts with a number of likes greater than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MaximumLikes">
+            <summary>
+            Returns only posts with a number of likes greater than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.Tagged">
+            <summary>
+            Returns only posts that have the specified tag given in the parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetRoleQueryParameters.OrderBy">
+            <summary>
+            Order the return roles by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetTagQueryParameters.OrderBy">
+            <summary>
+            Order the return tags by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetTagQueryParameters.InName">
+            <summary>
+            Returns only categories whose name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.OrderBy">
+            <summary>
+            Order the return users by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.SortBy">
+            <summary>
+            Sort the returned users by the given parameter.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.InUserName">
+            <summary>
+            Returns only users whose username contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.FromRegistrationDate">
+            <summary>
+            Returns only users whose register date is more recent or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.ToRegistrationDate">
+            <summary>
+            Returns only users whose register date is older or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.FromLastLoginDate">
+            <summary>
+            Returns only users whose last login date is more recent or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.ToLastLoginDate">
+            <summary>
+            Returns only users whose last login date is older or equal to the given parameter
+            </summary>
         </member>
         <member name="T:BlogCoreAPI.Responses.BlogErrorResponse">
             <summary>

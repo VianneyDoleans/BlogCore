@@ -1,5 +1,4 @@
-﻿using DBAccess.Data;
-using DBAccess.Specifications.FilterSpecifications;
+﻿using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
 namespace BlogCoreAPI.Builders.Specifications.Category
@@ -9,21 +8,26 @@ namespace BlogCoreAPI.Builders.Specifications.Category
     /// </summary>
     public class CategoryFilterSpecificationBuilder
     {
-        private readonly string _name;
-        private readonly int? _minimumPostNumber;
-        private readonly int? _maximumPostNumber;
+        private string _inName;
+        private int? _minimumPostCount;
+        private int? _maximumPostCount;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="CategoryFilterSpecificationBuilder"/> class.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="minimumPostNumber"></param>
-        /// <param name="maximumPostNumber"></param>
-        public CategoryFilterSpecificationBuilder(string name, int? minimumPostNumber, int? maximumPostNumber)
+        public CategoryFilterSpecificationBuilder WithInName(string inName)
         {
-            _name = name;
-            _minimumPostNumber = minimumPostNumber;
-            _maximumPostNumber = maximumPostNumber;
+            _inName = inName;
+            return this;
+        }
+
+        public CategoryFilterSpecificationBuilder WithMinimumPostCount(int? minimumPostNumber)
+        {
+            _minimumPostCount = minimumPostNumber;
+            return this;
+        }
+
+        public CategoryFilterSpecificationBuilder WithMaximumPostCount(int? maximumPostNumber)
+        {
+            _maximumPostCount = maximumPostNumber;
+            return this;
         }
 
         /// <summary>
@@ -33,20 +37,20 @@ namespace BlogCoreAPI.Builders.Specifications.Category
         public FilterSpecification<DBAccess.Data.Category> Build()
         {
             FilterSpecification<DBAccess.Data.Category> filter = null;
-            if (!string.IsNullOrEmpty(_name))
-                filter = new NameContainsSpecification<DBAccess.Data.Category>(_name);
-            if (_minimumPostNumber != null)
+            if (!string.IsNullOrEmpty(_inName))
+                filter = new NameContainsSpecification<DBAccess.Data.Category>(_inName);
+            if (_minimumPostCount != null)
             {
                 filter = filter == null
-                    ? new MinimumPostNumberSpecification<DBAccess.Data.Category>(_minimumPostNumber.Value)
-                    : filter & new MinimumPostNumberSpecification<DBAccess.Data.Category>(_minimumPostNumber.Value);
+                    ? new MinimumPostCountSpecification<DBAccess.Data.Category>(_minimumPostCount.Value)
+                    : filter & new MinimumPostCountSpecification<DBAccess.Data.Category>(_minimumPostCount.Value);
             }
 
-            if (_maximumPostNumber != null)
+            if (_maximumPostCount != null)
             {
                 filter = filter == null
-                    ? new MaximumPostNumberSpecification<DBAccess.Data.Category>(_maximumPostNumber.Value)
-                    : filter & new MaximumPostNumberSpecification<DBAccess.Data.Category>(_maximumPostNumber.Value);
+                    ? new MaximumPostCountSpecification<DBAccess.Data.Category>(_maximumPostCount.Value)
+                    : filter & new MaximumPostCountSpecification<DBAccess.Data.Category>(_maximumPostCount.Value);
             }
 
             return filter;

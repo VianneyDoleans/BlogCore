@@ -2,6 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.User;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 

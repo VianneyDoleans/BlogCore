@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
-using BlogCoreAPI.Builders;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Tag;
-using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.TagService;
@@ -44,21 +45,17 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of tags. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="sortingDirection"></param>
-        /// <param name="page"></param>
-        /// <param name="size"></param>
-        /// <param name="name"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        [HttpGet()]
+        [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetTagDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTags(string sortingDirection = "ASC", int page = 1,
-            int size = 10, string name = null)
+        public async Task<IActionResult> GetTags([FromQuery] GetTagQueryParameters parameters)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
-            var filterSpecification = new TagQueryFilter(name).Build();
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(parameters.Page, parameters.PageSize);
+            var filterSpecification = new TagQueryFilter(parameters.InName).Build();
             var data = await _tagService.GetTags(filterSpecification,
-                pagingSpecificationBuilder.Build(), new TagsortSpecificationBuilder(sortingDirection).Build());
+                pagingSpecificationBuilder.Build(), new TagSortSpecificationBuilder(parameters.OrderBy).Build());
 
             return Ok(new PagedBlogResponse<GetTagDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _tagService.CountTagsWhere(filterSpecification)));
