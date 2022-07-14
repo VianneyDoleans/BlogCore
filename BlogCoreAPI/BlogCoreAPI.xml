@@ -610,17 +610,14 @@
             <param name="likeService"></param>
             <param name="authorizeService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(BlogCoreAPI.Models.Order,System.Int32,System.Int32,System.Nullable{DBAccess.Data.LikeableType})">
+        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(BlogCoreAPI.Models.Queries.GetLikeQueryParameters)">
             <summary>
             Get list of likes.
             </summary>
             <remarks>
             Get list of likes. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="order"></param>
-            <param name="page"></param>
-            <param name="pageSize"></param>
-            <param name="likeableType"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.LikesController.Get(System.Int32)">
@@ -759,16 +756,14 @@
             <param name="roleService"></param>
             <param name="userService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(BlogCoreAPI.Models.Order,System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(BlogCoreAPI.Models.Queries.GetRoleQueryParameters)">
             <summary>
             Get list of roles.
             </summary>
             <remarks>
             Get list of roles. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="order"></param>
-            <param name="page"></param>
-            <param name="pageSize"></param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.RolesController.Get(System.Int32)">
@@ -865,17 +860,14 @@
             <param name="tagService"></param>
             <param name="postService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(BlogCoreAPI.Models.Order,System.Int32,System.Int32,System.String)">
+        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(BlogCoreAPI.Models.Queries.GetTagQueryParameters)">
             <summary>
             Get list of tags.
             </summary>
             <remarks>
             Get list of tags. The endpoint uses pagination and sort. Filter(s) can be applied for research.
             </remarks>
-            <param name="order"></param>
-            <param name="page"></param>
-            <param name="pageSize"></param>
-            <param name="inName">Returns only tags whose name contains the given parameter</param>
+            <param name="parameters"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.TagsController.Get(System.Int32)">
@@ -1424,19 +1416,49 @@
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
             </summary>
         </member>
+        <member name="P:BlogCoreAPI.Models.Queries.APaginationQuery.Page">
+            <summary>
+            Cursor for pagination across multiple pages of results. Default value is 1.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.APaginationQuery.PageSize">
+            <summary>
+            Number of elements to return per page. Max value is 100. Default value is 10.
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.OrderBy">
+            <summary>
+            Order the return categories by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.SortBy">
+            <summary>
+            Sort the returned categories by the given parameter.
+            </summary>
+        </member>
         <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.InName">
             <summary>
             Returns only categories whose name contains the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MinimumPostCount">
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MinimumPosts">
             <summary>
             Returns only categories with a number of posts greater than or equal to the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MaximumPostCount">
+        <member name="P:BlogCoreAPI.Models.Queries.GetCategoryQueryParameters.MaximumPosts">
             <summary>
             Returns only categories with a number of posts less than or equal to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.OrderBy">
+            <summary>
+            Order the return comments by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.SortBy">
+            <summary>
+            Sort the returned comments by the given parameter.
             </summary>
         </member>
         <member name="P:BlogCoreAPI.Models.Queries.GetCommentQueryParameters.InAuthorUserName">
@@ -1454,6 +1476,26 @@
             Returns only comments whose content contains the given parameter
             </summary>
         </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetLikeQueryParameters.OrderBy">
+            <summary>
+            Order the return likes by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetLikeQueryParameters.LikeableType">
+            <summary>
+            Returns only the likes that are on posts **or** comments according to the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.OrderBy">
+            <summary>
+            Order the return posts by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.SortBy">
+            <summary>
+            Sort the returned posts by the given parameter.
+            </summary>
+        </member>
         <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.InName">
             <summary>
             Returns only posts whose name contains the given parameter
@@ -1464,22 +1506,22 @@
             Returns only posts whose content contains the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.FromPublishedDate">
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.FromPublicationDate">
             <summary>
-            Returns only posts whose published date is more recent or equal to the given parameter
+            Returns only posts whose publication date is more recent or equal to the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.ToPublishedDate">
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.ToPublicationDate">
             <summary>
             Returns only posts whose published date is older or equal to the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MinimumLikeCount">
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MinimumLikes">
             <summary>
             Returns only posts with a number of likes greater than or equal to the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MaximumLikeCount">
+        <member name="P:BlogCoreAPI.Models.Queries.GetPostQueryParameters.MaximumLikes">
             <summary>
             Returns only posts with a number of likes greater than or equal to the given parameter
             </summary>
@@ -1489,17 +1531,42 @@
             Returns only posts that have the specified tag given in the parameter
             </summary>
         </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetRoleQueryParameters.OrderBy">
+            <summary>
+            Order the return roles by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetTagQueryParameters.OrderBy">
+            <summary>
+            Order the return tags by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetTagQueryParameters.InName">
+            <summary>
+            Returns only categories whose name contains the given parameter
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.OrderBy">
+            <summary>
+            Order the return users by Ascending or Descending
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.SortBy">
+            <summary>
+            Sort the returned users by the given parameter.
+            </summary>
+        </member>
         <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.InUserName">
             <summary>
             Returns only users whose username contains the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.FromRegisterDate">
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.FromRegistrationDate">
             <summary>
             Returns only users whose register date is more recent or equal to the given parameter
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.ToRegisterDate">
+        <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.ToRegistrationDate">
             <summary>
             Returns only users whose register date is older or equal to the given parameter
             </summary>

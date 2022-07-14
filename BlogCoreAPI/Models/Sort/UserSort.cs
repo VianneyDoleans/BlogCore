@@ -5,6 +5,6 @@
         Username = 1,
         Email = 2,
         LastLogin = 3,
-        RegisteredAt = 4,
+        Registration = 4,
     }
 }

@@ -3,10 +3,9 @@ using BlogCoreAPI.Authorization.Permissions;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Like;
 using BlogCoreAPI.DTOs.Like;
-using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.LikeService;
-using DBAccess.Data;
 using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -42,21 +41,17 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of likes. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="order"></param>
-        /// <param name="page"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="likeableType"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetLikeDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetLikes(Order order = Order.Desc, int page = 1,
-            int pageSize = 10, LikeableType? likeableType = null)
+        public async Task<IActionResult> GetLikes([FromQuery] GetLikeQueryParameters parameters)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
-            var filterSpecification = new LikeFilterSpecificationBuilder(likeableType).Build();
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(parameters.Page, parameters.PageSize);
+            var filterSpecification = new LikeFilterSpecificationBuilder(parameters.LikeableType).Build();
             var data = await _likeService.GetLikes(filterSpecification,
-                pagingSpecificationBuilder.Build(), new SortLikeBuilder(order).Build());
+                pagingSpecificationBuilder.Build(), new SortLikeBuilder(parameters.OrderBy).Build());
 
             return Ok(new PagedBlogResponse<GetLikeDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _likeService.CountLikesWhere(filterSpecification)));

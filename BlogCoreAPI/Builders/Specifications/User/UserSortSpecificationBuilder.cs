@@ -36,7 +36,7 @@ namespace BlogCoreAPI.Builders.Specifications.User
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
-                UserSort.RegisteredAt => new SortSpecification<DBAccess.Data.User>(
+                UserSort.Registration => new SortSpecification<DBAccess.Data.User>(
                     new OrderBySpecification<DBAccess.Data.User>(x => x.RegisteredAt),
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending

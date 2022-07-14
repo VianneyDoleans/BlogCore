@@ -4,9 +4,9 @@ using BlogCoreAPI.Authorization.Attributes;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Tag;
 using BlogCoreAPI.DTOs.Tag;
-using BlogCoreAPI.Models;
 using BlogCoreAPI.Models.DTOs.Post;
 using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.TagService;
@@ -45,21 +45,17 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of tags. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="order"></param>
-        /// <param name="page"></param>
-        /// <param name="pageSize"></param>
-        /// <param name="inName">Returns only tags whose name contains the given parameter</param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetTagDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetTags(Order order = Order.Asc, int page = 1,
-            int pageSize = 10, string inName = null)
+        public async Task<IActionResult> GetTags([FromQuery] GetTagQueryParameters parameters)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, pageSize);
-            var filterSpecification = new TagQueryFilter(inName).Build();
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(parameters.Page, parameters.PageSize);
+            var filterSpecification = new TagQueryFilter(parameters.InName).Build();
             var data = await _tagService.GetTags(filterSpecification,
-                pagingSpecificationBuilder.Build(), new TagSortSpecificationBuilder(order).Build());
+                pagingSpecificationBuilder.Build(), new TagSortSpecificationBuilder(parameters.OrderBy).Build());
 
             return Ok(new PagedBlogResponse<GetTagDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _tagService.CountTagsWhere(filterSpecification)));

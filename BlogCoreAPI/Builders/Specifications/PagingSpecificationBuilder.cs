@@ -25,7 +25,7 @@ namespace BlogCoreAPI.Builders.Specifications
         public PagingSpecificationBuilder(int page, int pageSize)
         {
             Page = page < 1 ? 1 : page;
-            Limit = pageSize > 10 ? 10 : pageSize;
+            Limit = pageSize > 100 ? 100 : pageSize;
         }
 
         public PagingSpecification Build()

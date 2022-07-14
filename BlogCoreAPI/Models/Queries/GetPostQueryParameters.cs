@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using BlogCoreAPI.Models.Queries.Interfaces;
 using BlogCoreAPI.Models.Sort;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogCoreAPI.Models.Queries
 {
-    public class GetPostQueryParameters
+    public class GetPostQueryParameters : APaginationQuery, IOrderQuery
     {
+        /// <summary>
+        /// Order the return posts by Ascending or Descending
+        /// </summary>
         [DefaultValue(Order.Desc)]
-        [FromQuery(Name = "order")]
-        public Order Order { get; set; } = Order.Desc;
+        [FromQuery(Name = "orderBy")]
+        public Order OrderBy { get; set; } = Order.Desc;
 
-        [DefaultValue(PostSort.PublishedAt)]
-        [FromQuery(Name = "sort")]
-        public PostSort Sort { get; set; } = PostSort.PublishedAt;
-
-        [DefaultValue(1)]
-        [FromQuery(Name = "page")]
-        public int Page { get; set; } = 1;
-
-        [DefaultValue(10)]
-        [FromQuery(Name = "pageSize")]
-        public int PageSize { get; set; } = 10;
+        /// <summary>
+        /// Sort the returned posts by the given parameter.
+        /// </summary>
+        [DefaultValue(PostSort.Publication)]
+        [FromQuery(Name = "sortBy")]
+        public PostSort SortBy { get; set; } = PostSort.Publication;
 
         /// <summary>
         /// Returns only posts whose name contains the given parameter
@@ -37,28 +36,28 @@ namespace BlogCoreAPI.Models.Queries
         public string InContent { get; set; } = null;
 
         /// <summary>
-        /// Returns only posts whose published date is more recent or equal to the given parameter
+        /// Returns only posts whose publication date is more recent or equal to the given parameter
         /// </summary>
-        [FromQuery(Name = "fromPublishedDate")]
-        public DateTime? FromPublishedDate { get; set; } = null;
+        [FromQuery(Name = "fromPublicationDate")]
+        public DateTime? FromPublicationDate { get; set; } = null;
 
         /// <summary>
         /// Returns only posts whose published date is older or equal to the given parameter
         /// </summary>
-        [FromQuery(Name = "toPublishedDate")]
-        public DateTime? ToPublishedDate { get; set; } = null;
+        [FromQuery(Name = "toPublicationDate")]
+        public DateTime? ToPublicationDate { get; set; } = null;
 
         /// <summary>
         /// Returns only posts with a number of likes greater than or equal to the given parameter
         /// </summary>
-        [FromQuery(Name = "minimumLikeCount")]
-        public int? MinimumLikeCount { get; set; } = null;
+        [FromQuery(Name = "minimumLikes")]
+        public int? MinimumLikes { get; set; } = null;
 
         /// <summary>
         /// Returns only posts with a number of likes greater than or equal to the given parameter
         /// </summary>
-        [FromQuery(Name = "maximumLikeCount")]
-        public int? MaximumLikeCount { get; set; } = null;
+        [FromQuery(Name = "maximumLikes")]
+        public int? MaximumLikes { get; set; } = null;
 
         /// <summary>
         /// Returns only posts that have the specified tag given in the parameter

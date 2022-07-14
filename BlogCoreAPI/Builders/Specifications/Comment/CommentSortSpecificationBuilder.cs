@@ -31,12 +31,12 @@ namespace BlogCoreAPI.Builders.Specifications.Comment
         {
             var sort = _sort switch
             {
-                CommentSort.LikeCount => new SortSpecification<DBAccess.Data.Comment>(
+                CommentSort.Likes => new SortSpecification<DBAccess.Data.Comment>(
                     new OrderBySpecification<DBAccess.Data.Comment>(x => x.Likes.Count),
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
-                CommentSort.CommentChildrenCount => new SortSpecification<DBAccess.Data.Comment>(
+                CommentSort.Comments => new SortSpecification<DBAccess.Data.Comment>(
                     new OrderBySpecification<DBAccess.Data.Comment>(x => x.ChildrenComments.Count),
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending

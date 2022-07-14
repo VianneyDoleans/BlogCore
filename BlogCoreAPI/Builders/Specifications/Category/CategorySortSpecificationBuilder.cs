@@ -32,7 +32,7 @@ namespace BlogCoreAPI.Builders.Specifications.Category
 
             var sort = _sort switch
             {
-                CategorySort.PostCount => new SortSpecification<DBAccess.Data.Category>(
+                CategorySort.Posts => new SortSpecification<DBAccess.Data.Category>(
                     new OrderBySpecification<DBAccess.Data.Category>(x => x.Posts.Count),
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending

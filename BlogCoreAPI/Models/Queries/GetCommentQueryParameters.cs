@@ -1,27 +1,25 @@
 ﻿using System.ComponentModel;
+using BlogCoreAPI.Models.Queries.Interfaces;
 using BlogCoreAPI.Models.Sort;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlogCoreAPI.Models.Queries
 {
-    public class GetCommentQueryParameters
+    public class GetCommentQueryParameters : APaginationQuery, IOrderQuery
     {
+        /// <summary>
+        /// Order the return comments by Ascending or Descending
+        /// </summary>
         [DefaultValue(Order.Desc)]
-        [FromQuery(Name = "order")]
-        public Order Order { get; set; } = Order.Desc;
+        [FromQuery(Name = "orderBy")]
+        public Order OrderBy { get; set; } = Order.Desc;
 
-        [DefaultValue(CommentSort.PublishedAt)]
-
-        [FromQuery(Name = "sort")]
-        public CommentSort Sort { get; set; } = CommentSort.PublishedAt;
-
-        [DefaultValue(1)]
-        [FromQuery(Name = "page")]
-        public int Page { get; set; } = 1;
-
-        [DefaultValue(10)]
-        [FromQuery(Name = "pageSize")]
-        public int PageSize { get; set; } = 10;
+        /// <summary>
+        /// Sort the returned comments by the given parameter.
+        /// </summary>
+        [DefaultValue(CommentSort.Publication)]
+        [FromQuery(Name = "sortBy")]
+        public CommentSort SortBy { get; set; } = CommentSort.Publication;
 
         /// <summary>
         /// Returns only comments whose author's username contains the given parameter

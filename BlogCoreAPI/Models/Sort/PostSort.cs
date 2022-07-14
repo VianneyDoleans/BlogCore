@@ -2,8 +2,8 @@
 {
     public enum PostSort
     {
-        LikeCount = 1,
+        Likes = 1,
         Name = 2,
-        PublishedAt = 3
+        Publication = 3
     }
 }

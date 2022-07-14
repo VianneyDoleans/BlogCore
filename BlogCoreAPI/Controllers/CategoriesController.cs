@@ -50,7 +50,7 @@ namespace BlogCoreAPI.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCategoryDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetCategories([FromQuery]GetCategoryQueryParameters parameters)
+        public async Task<IActionResult> GetCategories([FromQuery] GetCategoryQueryParameters parameters)
         {
             parameters ??= new GetCategoryQueryParameters();
 
@@ -58,11 +58,11 @@ namespace BlogCoreAPI.Controllers
 
             var filterSpecification = new CategoryFilterSpecificationBuilder()
                 .WithInName(parameters.InName)
-                .WithMinimumPostCount(parameters.MinimumPostCount)
-                .WithMaximumPostCount(parameters.MaximumPostCount)
+                .WithMinimumPostCount(parameters.MinimumPosts)
+                .WithMaximumPostCount(parameters.MaximumPosts)
                 .Build();
             var data = await _categoryService.GetCategories(filterSpecification,
-                pagingSpecificationBuilder.Build(), new CategorySortSpecificationBuilder(parameters.Order, parameters.Sort).Build());
+                pagingSpecificationBuilder.Build(), new CategorySortSpecificationBuilder(parameters.OrderBy, parameters.SortBy).Build());
 
             return Ok(new PagedBlogResponse<GetCategoryDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit, 
                 await _categoryService.CountCategoriesWhere(filterSpecification)));

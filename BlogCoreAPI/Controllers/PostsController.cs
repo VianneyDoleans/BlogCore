@@ -59,7 +59,7 @@ namespace BlogCoreAPI.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetPostDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPosts([FromQuery]GetPostQueryParameters parameters)
+        public async Task<IActionResult> GetPosts([FromQuery] GetPostQueryParameters parameters)
         {
             parameters ??= new GetPostQueryParameters();
             
@@ -68,14 +68,14 @@ namespace BlogCoreAPI.Controllers
                 .WithInContent(parameters.InContent)
                 .WithInName(parameters.InName)
                 .WithInContent(parameters.InContent)
-                .WithToPublishedAt(parameters.ToPublishedDate)
-                .WithFromPublishedAt(parameters.FromPublishedDate)
-                .WithMinimumLikeCount(parameters.MinimumLikeCount)
-                .WithMaximumLikeCount(parameters.MaximumLikeCount)
+                .WithToPublishedAt(parameters.ToPublicationDate)
+                .WithFromPublishedAt(parameters.FromPublicationDate)
+                .WithMinimumLikeCount(parameters.MinimumLikes)
+                .WithMaximumLikeCount(parameters.MaximumLikes)
                 .WithTags(parameters.Tagged)
                 .Build();
             var data = await _postService.GetPosts(filterSpecification,
-                pagingSpecificationBuilder.Build(), new SortPostFilter(parameters.Order, parameters.Sort).GetSorting());
+                pagingSpecificationBuilder.Build(), new SortPostFilter(parameters.OrderBy, parameters.SortBy).GetSorting());
 
             return Ok(new PagedBlogResponse<GetPostDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _postService.CountPostsWhere(filterSpecification)));

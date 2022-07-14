@@ -3,6 +3,6 @@
     public enum CategorySort
     {
         Name = 1,
-        PostCount = 2
+        Posts = 2
     }
 }

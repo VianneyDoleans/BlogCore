@@ -77,11 +77,11 @@ namespace BlogCoreAPI.Controllers
                 .WithInUserName(parameters.InUserName)
                 .WithFromLastLogin(parameters.FromLastLoginDate)
                 .WithToLastLogin(parameters.ToLastLoginDate)
-                .WithFromRegister(parameters.FromRegisterDate)
-                .WithToRegister(parameters.ToRegisterDate)
+                .WithFromRegister(parameters.FromRegistrationDate)
+                .WithToRegister(parameters.ToRegistrationDate)
                 .Build();
             var data = await _userService.GetUsers(filterSpecification,
-                pagingSpecificationBuilder.Build(), new UserSortSpecificationBuilder(parameters.Order, parameters.Sort).Build());
+                pagingSpecificationBuilder.Build(), new UserSortSpecificationBuilder(parameters.OrderBy, parameters.SortBy).Build());
 
             return Ok(new PagedBlogResponse<GetUserDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _userService.CountUsersWhere(filterSpecification)));

@@ -31,7 +31,7 @@ namespace BlogCoreAPI.Builders.Specifications.Post
         {
             var sort = _sort switch
             {
-                PostSort.LikeCount => new SortSpecification<DBAccess.Data.Post>(
+                PostSort.Likes => new SortSpecification<DBAccess.Data.Post>(
                     new OrderBySpecification<DBAccess.Data.Post>(x => x.Likes.Count),
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
@@ -41,7 +41,7 @@ namespace BlogCoreAPI.Builders.Specifications.Post
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
-                PostSort.PublishedAt => new SortSpecification<DBAccess.Data.Post>(
+                PostSort.Publication => new SortSpecification<DBAccess.Data.Post>(
                     new OrderBySpecification<DBAccess.Data.Post>(x => x.PublishedAt),
                     _order == Order.Desc
                         ? SortingDirectionSpecification.Descending

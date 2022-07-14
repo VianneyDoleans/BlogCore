@@ -52,7 +52,7 @@ namespace BlogCoreAPI.Controllers
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetCommentDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetComments([FromQuery]GetCommentQueryParameters parameters)
+        public async Task<IActionResult> GetComments([FromQuery] GetCommentQueryParameters parameters)
         {
             parameters ??= new GetCommentQueryParameters();
 
@@ -63,7 +63,7 @@ namespace BlogCoreAPI.Controllers
                 .WithInAuthorUserName(parameters.InAuthorUserName)
                 .Build();
             var data = await _commentService.GetComments(filterSpecification,
-                pagingSpecificationBuilder.Build(), new CommentSortSpecificationBuilder(parameters.Order, parameters.Sort).Build());
+                pagingSpecificationBuilder.Build(), new CommentSortSpecificationBuilder(parameters.OrderBy, parameters.SortBy).Build());
 
             return Ok(new PagedBlogResponse<GetCommentDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _commentService.CountCommentsWhere(filterSpecification)));

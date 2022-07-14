@@ -2,8 +2,8 @@
 {
     public enum CommentSort
     {
-        LikeCount = 0,
-        CommentChildrenCount = 1,
-        PublishedAt = 2
+        Likes = 0,
+        Comments = 1,
+        Publication = 2
     }
 }
