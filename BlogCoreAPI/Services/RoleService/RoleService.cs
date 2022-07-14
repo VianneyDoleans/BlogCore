@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Permission;
 using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.Role;
 using DBAccess.Data;
 using DBAccess.Data.Permission;
 using DBAccess.Repositories.Role;

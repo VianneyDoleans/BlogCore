@@ -21,7 +21,7 @@ namespace BlogCoreAPI
                 var context = services.GetRequiredService<BlogCoreContext>();
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
-                await DBInitializer.Seed(context, roleManager, userManager);
+                await DbInitializer.Seed(context, roleManager, userManager);
             }
             await host.RunAsync();
         }

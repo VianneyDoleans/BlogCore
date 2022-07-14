@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
-using BlogCoreAPI.Builders;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Post;
 using BlogCoreAPI.DTOs.Comment;
 using BlogCoreAPI.DTOs.Like;
 using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
@@ -53,23 +54,28 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get list of posts. The endpoint uses pagination and sort. Filter(s) can be applied for research.
         /// </remarks>
-        /// <param name="sortingDirection"></param>
-        /// <param name="orderBy"></param>
-        /// <param name="page"></param>
-        /// <param name="size"></param>
-        /// <param name="name"></param>
-        /// <param name="content"></param>
+        /// <param name="parameters"></param>
         /// <returns></returns>
-        [HttpGet()]
+        [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(PagedBlogResponse<GetPostDto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPosts(string sortingDirection = "ASC", string orderBy = null, int page = 1,
-            int size = 10, string name = null, string content = null)
+        public async Task<IActionResult> GetPosts([FromQuery] GetPostQueryParameters parameters)
         {
-            var pagingSpecificationBuilder = new PagingSpecificationBuilder(page, size);
-            var filterSpecification = new PostFilterSpecificationBuilder(content, name).Build();
+            parameters ??= new GetPostQueryParameters();
+            
+            var pagingSpecificationBuilder = new PagingSpecificationBuilder(parameters.Page, parameters.PageSize);
+            var filterSpecification = new PostFilterSpecificationBuilder()
+                .WithInContent(parameters.InContent)
+                .WithInName(parameters.InName)
+                .WithInContent(parameters.InContent)
+                .WithToPublishedAt(parameters.ToPublicationDate)
+                .WithFromPublishedAt(parameters.FromPublicationDate)
+                .WithMinimumLikeCount(parameters.MinimumLikes)
+                .WithMaximumLikeCount(parameters.MaximumLikes)
+                .WithTags(parameters.Tagged)
+                .Build();
             var data = await _postService.GetPosts(filterSpecification,
-                pagingSpecificationBuilder.Build(), new SortPostFilter(sortingDirection, orderBy).GetSorting());
+                pagingSpecificationBuilder.Build(), new SortPostFilter(parameters.OrderBy, parameters.SortBy).GetSorting());
 
             return Ok(new PagedBlogResponse<GetPostDto>(data, pagingSpecificationBuilder.Page, pagingSpecificationBuilder.Limit,
                 await _postService.CountPostsWhere(filterSpecification)));

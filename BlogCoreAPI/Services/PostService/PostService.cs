@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Post;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.Exceptions;
@@ -126,7 +127,6 @@ namespace BlogCoreAPI.Services.PostService
                 if (tag == null)
                     throw new ResourceNotFoundException("Tag id " + x + " doesn't exist.");
             });
-            // TODO do it on each service (check duplicate) and add unitTests
             if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
                 throw new InvalidOperationException("There can't be duplicate tags.");
         }

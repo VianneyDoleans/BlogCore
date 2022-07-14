@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Tag;
 using DBAccess.Data;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;

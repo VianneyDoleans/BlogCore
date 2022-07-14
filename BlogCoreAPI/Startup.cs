@@ -1,12 +1,12 @@
 using System;
 using System.IO;
+using System.Text.Json.Serialization;
 using BlogCoreAPI.Authorization;
-using BlogCoreAPI.Builders;
 using BlogCoreAPI.Extensions;
 using BlogCoreAPI.Filters;
 using BlogCoreAPI.Services.JwtService;
-using DBAccess;
 using DBAccess.Data.Jwt;
+using DBAccess.Extensions;
 using DBAccess.Repositories.UnitOfWork;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
@@ -37,7 +37,9 @@ namespace BlogCoreAPI
                 {
                     s.RegisterValidatorsFromAssemblyContaining<Startup>();
                     s.DisableDataAnnotationsValidation = true;
-                });
+                })
+                .AddJsonOptions(options =>
+                    options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
             services.AddMvc(options =>
             {
@@ -65,9 +67,11 @@ namespace BlogCoreAPI
             services.AddAutoMapper(typeof(AutoMapperProfile));
             services.AddSwaggerGen(c =>
             {
+                c.UseInlineDefinitionsForEnums();
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "BlogCore",
+                    Description = "Powerful .NET 6 Blog API",
                     Version = "v1"
                 });
                 c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, "BlogCoreAPI.xml"));
@@ -115,7 +119,7 @@ namespace BlogCoreAPI
             // specifying the Swagger JSON endpoint.    
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My Blog API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "BlogCore V1");
             });
 
             app.UseHttpsRedirection();

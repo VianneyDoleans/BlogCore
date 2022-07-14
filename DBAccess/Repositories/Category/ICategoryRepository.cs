@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using DBAccess.Data;
 
 namespace DBAccess.Repositories.Category
 {

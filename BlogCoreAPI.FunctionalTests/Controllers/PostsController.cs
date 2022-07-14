@@ -5,6 +5,7 @@ using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.Models.DTOs.Post;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers

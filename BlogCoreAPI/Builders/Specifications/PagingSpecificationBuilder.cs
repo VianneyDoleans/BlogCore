@@ -21,11 +21,11 @@ namespace BlogCoreAPI.Builders.Specifications
         /// Initializes a new instance of the <see cref="PagingSpecificationBuilder"/> class.
         /// </summary>
         /// <param name="page"></param>
-        /// <param name="size"></param>
-        public PagingSpecificationBuilder(int page, int size)
+        /// <param name="pageSize"></param>
+        public PagingSpecificationBuilder(int page, int pageSize)
         {
             Page = page < 1 ? 1 : page;
-            Limit = size > 10 ? 10 : size;
+            Limit = pageSize > 100 ? 100 : pageSize;
         }
 
         public PagingSpecification Build()

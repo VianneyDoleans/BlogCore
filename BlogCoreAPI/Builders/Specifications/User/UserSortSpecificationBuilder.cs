@@ -1,4 +1,5 @@
-﻿using DBAccess.Data;
+﻿using BlogCoreAPI.Models;
+using BlogCoreAPI.Models.Sort;
 using DBAccess.Specifications.SortSpecification;
 
 namespace BlogCoreAPI.Builders.Specifications.User
@@ -8,18 +9,18 @@ namespace BlogCoreAPI.Builders.Specifications.User
     /// </summary>
     public class UserSortSpecificationBuilder
     {
-        private readonly string _sortingDirection;
-        private readonly string _orderBy;
+        private readonly Order _order;
+        private readonly UserSort _sort;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserSortSpecificationBuilder"/> class.
         /// </summary>
-        /// <param name="sortingDirection"></param>
-        /// <param name="orderBy"></param>
-        public UserSortSpecificationBuilder(string sortingDirection, string orderBy)
+        /// <param name="order"></param>
+        /// <param name="sort"></param>
+        public UserSortSpecificationBuilder(Order order, UserSort sort)
         {
-            _sortingDirection = sortingDirection;
-            _orderBy = orderBy;
+            _order = order;
+            _sort = sort;
         }
 
         /// <summary>
@@ -28,19 +29,35 @@ namespace BlogCoreAPI.Builders.Specifications.User
         /// <returns></returns>
         public SortSpecification<DBAccess.Data.User> Build()
         {
-            var sort = _orderBy switch
+            var sort = _sort switch
             {
-                "USERNAME" => new SortSpecification<DBAccess.Data.User>(
+                UserSort.Username => new SortSpecification<DBAccess.Data.User>(
                     new OrderBySpecification<DBAccess.Data.User>(x => x.UserName),
-                    _sortingDirection == "DESC"
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending),
+                UserSort.Registration => new SortSpecification<DBAccess.Data.User>(
+                    new OrderBySpecification<DBAccess.Data.User>(x => x.RegisteredAt),
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending),
+                UserSort.Email => new SortSpecification<DBAccess.Data.User>(
+                    new OrderBySpecification<DBAccess.Data.User>(x => x.Email),
+                    _order == Order.Desc
+                        ? SortingDirectionSpecification.Descending
+                        : SortingDirectionSpecification.Ascending),
+                UserSort.LastLogin => new SortSpecification<DBAccess.Data.User>(
+                    new OrderBySpecification<DBAccess.Data.User>(x => x.LastLogin),
+                    _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending),
                 _ => new SortSpecification<DBAccess.Data.User>(
                     new OrderBySpecification<DBAccess.Data.User>(x => x.RegisteredAt),
-                    _sortingDirection == "DESC"
+                    _order == Order.Desc
                         ? SortingDirectionSpecification.Descending
                         : SortingDirectionSpecification.Ascending)
             };
+
             return sort;
         }
     }

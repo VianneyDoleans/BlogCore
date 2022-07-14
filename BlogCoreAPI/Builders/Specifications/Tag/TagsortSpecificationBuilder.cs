@@ -1,4 +1,4 @@
-﻿using DBAccess.Data;
+﻿using BlogCoreAPI.Models;
 using DBAccess.Specifications.SortSpecification;
 
 namespace BlogCoreAPI.Builders.Specifications.Tag
@@ -6,17 +6,17 @@ namespace BlogCoreAPI.Builders.Specifications.Tag
     /// <summary>
     /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Tag"/>.
     /// </summary>
-    public class TagsortSpecificationBuilder
+    public class TagSortSpecificationBuilder
     {
-        private readonly string _sortingDirection;
+        private readonly Order _order;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TagsortSpecificationBuilder"/> class.
+        /// Initializes a new instance of the <see cref="TagSortSpecificationBuilder"/> class.
         /// </summary>
-        /// <param name="sortingDirection"></param>
-        public TagsortSpecificationBuilder(string sortingDirection)
+        /// <param name="order"></param>
+        public TagSortSpecificationBuilder(Order order)
         {
-            _sortingDirection = sortingDirection;
+            _order = order;
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace BlogCoreAPI.Builders.Specifications.Tag
         {
             var sort = new SortSpecification<DBAccess.Data.Tag>(
                 new OrderBySpecification<DBAccess.Data.Tag>(x => x.Name), 
-                _sortingDirection == "DESC" 
+                _order == Order.Desc 
                     ? SortingDirectionSpecification.Descending 
                     : SortingDirectionSpecification.Ascending);
             return sort;

@@ -1,5 +1,4 @@
 ﻿using System;
-using DBAccess.Data;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
@@ -10,21 +9,40 @@ namespace BlogCoreAPI.Builders.Specifications.User
     /// </summary>
     public class UserFilterSpecificationBuilder
     {
-        private readonly string _username;
-        private readonly DateTime? _lastLoginBefore;
-        private readonly DateTime? _registerBefore;
+        private string _inUserName;
+        private DateTime? _fromRegister;
+        private DateTime? _toRegister;
+        private DateTime? _fromLastLogin;
+        private DateTime? _toLastLogin;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UserFilterSpecificationBuilder"/> class.
-        /// </summary>
-        /// <param name="username"></param>
-        /// <param name="lastLoginBefore"></param>
-        /// <param name="registerBefore"></param>
-        public UserFilterSpecificationBuilder(string username, DateTime? lastLoginBefore, DateTime? registerBefore)
+        public UserFilterSpecificationBuilder WithInUserName(string inUserName)
         {
-            _username = username;
-            _lastLoginBefore = lastLoginBefore;
-            _registerBefore = registerBefore;
+            _inUserName = inUserName;
+            return this;
+        }
+
+        public UserFilterSpecificationBuilder WithFromRegister(DateTime? fromRegister)
+        {
+            _fromRegister = fromRegister;
+            return this;
+        }
+
+        public UserFilterSpecificationBuilder WithToRegister(DateTime? toRegister)
+        {
+            _toRegister = toRegister;
+            return this;
+        }
+
+        public UserFilterSpecificationBuilder WithFromLastLogin(DateTime? fromLastLogin)
+        {
+            _fromLastLogin = fromLastLogin;
+            return this;
+        }
+
+        public UserFilterSpecificationBuilder WithToLastLogin(DateTime? toLastLogin)
+        {
+            _toLastLogin = toLastLogin;
+            return this;
         }
 
         /// <summary>
@@ -36,19 +54,31 @@ namespace BlogCoreAPI.Builders.Specifications.User
 
             FilterSpecification<DBAccess.Data.User> filter = null;
 
-            if (_lastLoginBefore != null)
-                filter = new LastLoginBeforeDateSpecification<DBAccess.Data.User>(_lastLoginBefore.Value);
-            if (_registerBefore != null)
+            if (_fromLastLogin != null)
+                filter = new LastLoginBeforeDateSpecification<DBAccess.Data.User>(_fromLastLogin.Value);
+            if (_fromRegister!= null)
             {
                 filter = filter == null ?
-                    new RegisterBeforeDateSpecification<DBAccess.Data.User>(_registerBefore.Value) 
-                    : filter & new RegisterBeforeDateSpecification<DBAccess.Data.User>(_registerBefore.Value);
+                    new RegisterBeforeDateSpecification<DBAccess.Data.User>(_fromRegister.Value) 
+                    : filter & new RegisterBeforeDateSpecification<DBAccess.Data.User>(_fromRegister.Value);
             }
-            if (_username != null)
+            if (_toLastLogin != null)
+            {
+                filter = filter == null
+                    ? new LastLoginAfterDateSpecification<DBAccess.Data.User>(_toLastLogin.Value)
+                    : filter & new LastLoginAfterDateSpecification<DBAccess.Data.User>(_toLastLogin.Value);
+            }
+            if (_toRegister != null)
+            {
+                filter = filter == null
+                    ? new RegisterAfterDateSpecification<DBAccess.Data.User>(_toRegister.Value)
+                    : filter & new RegisterAfterDateSpecification<DBAccess.Data.User>(_toRegister.Value);
+            }
+            if (_inUserName != null)
             {
                 filter = filter == null ?
-                    new UsernameContainsSpecification<DBAccess.Data.User>(_username) 
-                    : filter & new UsernameContainsSpecification<DBAccess.Data.User>(_username);
+                    new UsernameContainsSpecification<DBAccess.Data.User>(_inUserName)
+                    : filter & new UsernameContainsSpecification<DBAccess.Data.User>(_inUserName);
             }
 
             return filter;

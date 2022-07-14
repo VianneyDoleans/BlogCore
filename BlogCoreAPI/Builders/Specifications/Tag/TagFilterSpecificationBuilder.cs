@@ -1,5 +1,4 @@
-﻿using DBAccess.Data;
-using DBAccess.Specifications.FilterSpecifications;
+﻿using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
 namespace BlogCoreAPI.Builders.Specifications.Tag
@@ -9,15 +8,15 @@ namespace BlogCoreAPI.Builders.Specifications.Tag
     /// </summary>
     public class TagQueryFilter
     {
-        private readonly string _name;
+        private readonly string _inName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TagQueryFilter"/> class.
         /// </summary>
-        /// <param name="name"></param>
-        public TagQueryFilter(string name)
+        /// <param name="inName"></param>
+        public TagQueryFilter(string inName)
         {
-            _name = name;
+            _inName = inName;
         }
 
         /// <summary>
@@ -28,8 +27,8 @@ namespace BlogCoreAPI.Builders.Specifications.Tag
         {
             FilterSpecification<DBAccess.Data.Tag> filter = null;
 
-            if (_name != null)
-                filter = new NameContainsSpecification<DBAccess.Data.Tag>(_name);
+            if (_inName != null)
+                filter = new NameContainsSpecification<DBAccess.Data.Tag>(_inName);
 
             return filter;
         }
