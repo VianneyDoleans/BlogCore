@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Permission
+﻿namespace BlogCoreAPI.Models.DTOs.Permission
 {
     public class PermissionActionDto
     {

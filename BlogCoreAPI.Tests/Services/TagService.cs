@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Tag;
 using BlogCoreAPI.Services.TagService;
 using BlogCoreAPI.Validators.Tag;
 using DBAccess.Exceptions;

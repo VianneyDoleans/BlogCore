@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlogCoreAPI.DTOs;
+using BlogCoreAPI.Models.DTOs;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers
 {

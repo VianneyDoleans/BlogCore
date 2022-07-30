@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Validators.Category;
 using DBAccess.Data;

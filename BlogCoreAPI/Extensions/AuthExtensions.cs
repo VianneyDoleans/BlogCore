@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using DBAccess.Data.Jwt;
+using DBAccess.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;

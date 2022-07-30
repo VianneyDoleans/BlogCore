@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DBAccess.Repositories.User;
 
-namespace BlogCoreAPI.DTOs.User.Converters
+namespace BlogCoreAPI.Models.DTOs.User.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="User"/> to its resource Id.

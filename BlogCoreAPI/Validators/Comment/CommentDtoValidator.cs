@@ -1,5 +1,5 @@
 ﻿using BlogCoreAPI.Constants;
-using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.Models.DTOs.Comment;
 using FluentValidation;
 
 namespace BlogCoreAPI.Validators.Comment

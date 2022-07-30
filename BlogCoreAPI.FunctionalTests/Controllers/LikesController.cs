@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using BlogCoreAPI.DTOs.Category;
-using BlogCoreAPI.DTOs.Like;
-using BlogCoreAPI.DTOs.Post;
-using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.User;
 using DBAccess.Data;
 using Xunit;
 

@@ -1,5 +1,5 @@
 ﻿using BlogCoreAPI.Constants;
-using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Category;
 using FluentValidation;
 
 namespace BlogCoreAPI.Validators.Category

@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Validators.Like;
 using DBAccess.Data;

@@ -1,5 +1,4 @@
 ﻿using System.Threading.Tasks;
-using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.JwtService;

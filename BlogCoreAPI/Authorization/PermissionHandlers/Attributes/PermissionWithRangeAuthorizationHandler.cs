@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Authorization.Permissions;
-using BlogCoreAPI.DTOs.Permission;
+using BlogCoreAPI.Models.DTOs.Permission;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
 using Microsoft.AspNetCore.Authorization;

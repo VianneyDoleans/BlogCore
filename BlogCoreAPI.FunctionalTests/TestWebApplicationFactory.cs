@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.User;
 using DBAccess;
 using DBAccess.Data;
 using DBAccess.DataContext;

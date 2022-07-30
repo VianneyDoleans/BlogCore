@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Comment
+﻿namespace BlogCoreAPI.Models.DTOs.Comment
 {
     /// <summary>
     /// Add Dto type of <see cref="Comment"/>.

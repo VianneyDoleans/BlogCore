@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.Models.DTOs.Comment;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Validators.Comment;
 using DBAccess.Data;

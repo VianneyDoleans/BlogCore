@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Contracts
+﻿namespace BlogCoreAPI.Models.DTOs.Contracts
 {
     public interface IHasAuthor
     {

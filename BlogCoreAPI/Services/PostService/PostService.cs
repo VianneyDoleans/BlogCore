@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.Models.DTOs.Post;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;

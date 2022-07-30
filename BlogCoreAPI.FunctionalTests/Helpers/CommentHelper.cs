@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.Models.DTOs.Comment;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers
 {

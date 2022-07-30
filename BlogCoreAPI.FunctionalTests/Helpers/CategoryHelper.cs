@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Category;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers

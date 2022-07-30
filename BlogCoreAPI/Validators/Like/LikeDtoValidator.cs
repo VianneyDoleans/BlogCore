@@ -1,5 +1,5 @@
 ﻿using BlogCoreAPI.Constants;
-using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Like;
 using DBAccess.Data;
 using FluentValidation;
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Like;
 using DBAccess.Data;
 using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;

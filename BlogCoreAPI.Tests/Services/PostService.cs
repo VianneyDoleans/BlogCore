@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Post;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Validators.Post;
 using DBAccess.Data;

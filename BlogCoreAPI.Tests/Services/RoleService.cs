@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Validators.Role;
 using DBAccess.Data;

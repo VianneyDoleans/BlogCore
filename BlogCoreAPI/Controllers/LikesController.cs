@@ -2,7 +2,7 @@
 using BlogCoreAPI.Authorization.Permissions;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Like;
-using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.LikeService;
