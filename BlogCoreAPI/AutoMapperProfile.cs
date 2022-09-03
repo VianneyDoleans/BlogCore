@@ -60,7 +60,7 @@ namespace BlogCoreAPI
 
             CreateMap<int, Like>().ConvertUsing<LikeIdConverter>();
             CreateMap<int, Comment>().ConvertUsing<CommentIdConverter>();
-            CreateMap<int, Post> ().ConvertUsing<PostIdConverter>();
+            CreateMap<int, Post>().ConvertUsing<PostIdConverter>();
             CreateMap<int, User>().ConvertUsing<UserIdConverter>();
             CreateMap<int, Category>().ConvertUsing<CategoryIdConverter>();
             CreateMap<int, Role>().ConvertUsing<RoleIdConverter>();

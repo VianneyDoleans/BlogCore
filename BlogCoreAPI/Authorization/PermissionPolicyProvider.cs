@@ -17,14 +17,14 @@ namespace BlogCoreAPI.Authorization
         {
         }
 
-        private static PermissionWithRangeRequirement GetPermissionWithRangeRequirement(string policyName)
+        private static PermissionWithRangeRequirement? GetPermissionWithRangeRequirement(string policyName)
         {
             if (policyName.StartsWith("permission."))
             {
                 var values = policyName.Split('.');
                 if (values.Length == 4)
                 {
-                    var actionSuccess = Enum.TryParse(values[1], out PermissionAction permissionAction); 
+                    var actionSuccess = Enum.TryParse(values[1], out PermissionAction permissionAction);
                     var targetSuccess = Enum.TryParse(values[2], out PermissionTarget permissionTarget);
                     var rangeSuccess = Enum.TryParse(values[3], out PermissionRange permissionRange);
                     if (!actionSuccess || !targetSuccess || !rangeSuccess)
@@ -39,9 +39,11 @@ namespace BlogCoreAPI.Authorization
         /// <inheritdoc />
         public override async Task<AuthorizationPolicy> GetPolicyAsync(string policyName)
         {
+            var permissionWithRangeRequirement = GetPermissionWithRangeRequirement(policyName);
             return await base.GetPolicyAsync(policyName)
-                   ?? new AuthorizationPolicyBuilder()
-                       .AddRequirements(GetPermissionWithRangeRequirement(policyName)).Build();
+                   ??
+                   (permissionWithRangeRequirement != null ? new AuthorizationPolicyBuilder()
+                           .AddRequirements(permissionWithRangeRequirement).Build() : null);
         }
     }
 }

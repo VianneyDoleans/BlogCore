@@ -29,6 +29,7 @@ using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Repositories.User;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
@@ -55,6 +56,7 @@ namespace BlogCoreAPI.Extensions
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
 
@@ -82,7 +84,7 @@ namespace BlogCoreAPI.Extensions
         /// <returns></returns> 
         public static IServiceCollection RegisterDtoResourceValidators(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<ICategoryDto>,CategoryDtoValidator>();
+            services.AddScoped<IValidator<ICategoryDto>, CategoryDtoValidator>();
             services.AddScoped<IValidator<ICommentDto>, CommentDtoValidator>();
             services.AddScoped<IValidator<ILikeDto>, LikeDtoValidator>();
             services.AddScoped<IValidator<IPostDto>, PostDtoValidator>();

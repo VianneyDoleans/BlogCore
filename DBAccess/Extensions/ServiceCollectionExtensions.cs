@@ -45,7 +45,7 @@ namespace DBAccess.Extensions
             return services;
         }
 
-        public static IServiceCollection RegisterIdentityService(this IServiceCollection services)
+        public static IServiceCollection RegisterIdentity(this IServiceCollection services)
         {
             services.AddIdentity<User, Role>(options =>
                 {
