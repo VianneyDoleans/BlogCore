@@ -10,7 +10,6 @@ namespace BlogCoreAPI.Extensions
         public static IServiceCollection RegisterJwt(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<JwtSettings>(configuration.GetSection("Jwt"));
-            var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
             services.AddScoped<IJwtService, JwtService>();
             return services;
         }
