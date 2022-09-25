@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Services.UserService;
@@ -67,7 +68,7 @@ namespace BlogCoreAPI.Controllers
             {
                 return Ok(await _jwtService.GenerateJwt((await _userService.GetUser(userLogin.UserName)).Id));
             }
-            return BadRequest("Bad username or password.");
+            return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Bad username or password."));
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Net;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Responses;
 using DBAccess.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,14 +33,18 @@ namespace BlogCoreAPI.Controllers
 
             switch (exception)
             {
-                case ResourceNotFoundException _:
+                case ResourceNotFoundException:
                     code = HttpStatusCode.NotFound;
                     break;
-                case InvalidOperationException _:
+                case InvalidRequestException:
+                case PermissionManagementException:
+                case RoleManagementException:
+                case UserManagementException:
                     code = HttpStatusCode.Conflict;
                     break;
-                case ArgumentNullException _:
-                case ArgumentException _:
+                case ArgumentNullException:
+                case ArgumentException:
+                case ValidationException:
                     code = HttpStatusCode.BadRequest;
                     break;
             }

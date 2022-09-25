@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Comment;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Validators.Comment;
 using DBAccess.Data;
@@ -141,7 +142,7 @@ namespace BlogCoreAPI.Tests.Services
             var commentAdded = await _service.AddComment(comment);
 
             //Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateComment(new UpdateCommentDto()
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateComment(new UpdateCommentDto()
             {
                 Id = commentAdded.Id,
                 Author = user.Entity.Id,

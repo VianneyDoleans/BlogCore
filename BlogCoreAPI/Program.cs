@@ -2,16 +2,20 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using BlogCoreAPI;
 using BlogCoreAPI.Extensions;
+using BlogCoreAPI.Extensions.FluentValidation;
 using DBAccess;
 using DBAccess.Data;
 using DBAccess.DataContext;
 using DBAccess.Extensions;
 using DBAccess.Settings;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Net.Http.Headers;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -19,7 +23,8 @@ var configuration = builder.Configuration;
 builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
-builder.Host.RegisterLogger(configuration);
+builder.Host.RegisterLoggerConfiguration();
+builder.Services.AddHttpContextAccessor();
 builder.Services.RegisterFluentValidation();
 builder.Services.RegisterDatabaseProvider(configuration);
 builder.Services.RegisterIdentity();
@@ -38,6 +43,8 @@ builder.Services.RegisterJwt(configuration);
 var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
 builder.Services.RegisterAuthentication(jwtSettings);
 
+ConfigureHttpLogging();
+
 var app = builder.Build();
 
 app.UseExceptionHandler("/error");
@@ -53,8 +60,10 @@ app.UseSwaggerUI(c =>
 });
 
 app.UseHttpsRedirection();
-
 app.UseRouting();
+
+app.UseHttpLogging()
+    .UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -64,6 +73,25 @@ app.MapControllers();
 await FillInDatabase();
 
 app.Run();
+
+void ConfigureHttpLogging()
+{
+    builder.Services.AddHttpLogging(logging =>
+    {
+        logging.LoggingFields = HttpLoggingFields.All;
+        logging.RequestHeaders.Add(HeaderNames.Accept);
+        logging.RequestHeaders.Add(HeaderNames.ContentType);
+        logging.RequestHeaders.Add(HeaderNames.ContentDisposition);
+        logging.RequestHeaders.Add(HeaderNames.ContentEncoding);
+        logging.RequestHeaders.Add(HeaderNames.ContentLength);
+
+        logging.MediaTypeOptions.AddText("application/json");
+        logging.MediaTypeOptions.AddText("multipart/form-data");
+
+        logging.RequestBodyLogLimit = 4096;
+        logging.ResponseBodyLogLimit = 4096;
+    });
+}
 
 async Task FillInDatabase()
 {

@@ -117,7 +117,7 @@ namespace BlogCoreAPI.Extensions
 
             // Resource Attribute Handler
             services.AddScoped<IAuthorizationHandler, PermissionWithRangeAuthorizationHandler>();
-
+            
             return services;
         }
     }

@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Comment;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;
@@ -86,7 +86,7 @@ namespace BlogCoreAPI.Services.CommentService
             {
                 var commentParent = await _repository.GetAsync(comment.CommentParent.Value);
                 if (commentParent.Id == comment.Id)
-                    throw new InvalidOperationException("Comment's comment parent cannot be itself.");
+                    throw new InvalidRequestException("Comment's comment parent cannot be itself.");
             }
         }
 

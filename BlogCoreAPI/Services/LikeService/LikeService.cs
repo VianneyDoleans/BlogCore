@@ -1,9 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Like;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Exceptions;
 using DBAccess.Repositories.Comment;
@@ -80,7 +80,7 @@ namespace BlogCoreAPI.Services.LikeService
         {
             await CheckLikeValidity((ILikeDto)like);
             if (await _repository.LikeAlreadyExists(_mapper.Map<Like>(like)))
-                throw new InvalidOperationException("Like already exists.");
+                throw new InvalidRequestException("Like already exists.");
         }
 
         public async Task<GetLikeDto> AddLike(AddLikeDto like)

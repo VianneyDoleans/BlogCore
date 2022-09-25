@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Role;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Validators.Role;
 using DBAccess.Data;
@@ -53,7 +54,7 @@ namespace BlogCoreAPI.Tests.Services
             await _service.AddRole(role);
 
             // Act && Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddRole(role));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddRole(role));
         }
 
         [Fact]
@@ -239,7 +240,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateRole(roleToUpdate));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateRole(roleToUpdate));
         }
 
 

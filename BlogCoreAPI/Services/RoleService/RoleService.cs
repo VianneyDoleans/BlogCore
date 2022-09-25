@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Permission;
 using BlogCoreAPI.Models.DTOs.Role;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Data.Permission;
 using DBAccess.Repositories.Role;
@@ -68,14 +68,14 @@ namespace BlogCoreAPI.Services.RoleService
         public async Task CheckRoleValidity(AddRoleDto role)
         {
             if (await _repository.NameAlreadyExists(role.Name))
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task CheckRoleValidity(UpdateRoleDto role)
         {
             if (await _repository.NameAlreadyExists(role.Name) &&
                 (await _repository.GetAsync(role.Id)).Name != role.Name)
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task<GetRoleDto> AddRole(AddRoleDto role)

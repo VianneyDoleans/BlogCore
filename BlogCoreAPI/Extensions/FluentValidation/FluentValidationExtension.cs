@@ -1,9 +1,8 @@
-﻿using BlogCoreAPI.Filters;
-using FluentValidation.AspNetCore;
+﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BlogCoreAPI.Extensions
+namespace BlogCoreAPI.Extensions.FluentValidation
 {
     public static class FluentValidationExtension
     {

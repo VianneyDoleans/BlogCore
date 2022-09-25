@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Validators.Post;
 using DBAccess.Data;
@@ -71,7 +72,7 @@ namespace BlogCoreAPI.Tests.Services
             var post2 = new AddPostDto() { Author = user2.Entity.Id, Category = category.Entity.Id, Content = "new post", Name = "AddPostAlName" };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddPost(post2));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddPost(post2));
         }
 
         [Fact]
@@ -177,7 +178,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddPost(post));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddPost(post));
         }
 
         [Fact]
@@ -480,7 +481,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdatePost(postToUpdate));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdatePost(postToUpdate));
         }
 
         [Fact]

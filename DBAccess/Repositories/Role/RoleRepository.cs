@@ -107,7 +107,7 @@ namespace DBAccess.Repositories.Role
             var role = await GetAsync(roleId);
             var allClaims = await _roleManager.GetClaimsAsync(role);
             if (allClaims.Any(x => x.Type == "Permission" && permission.Equals(JsonSerializer.Deserialize<Permission>(x.Value)))) 
-                throw new InvalidOperationException("This permission already exists for this role.");
+                throw new PermissionManagementException("This permission already exists for this role.");
             await _roleManager.AddClaimAsync(role, new Claim("Permission", JsonSerializer.Serialize(permission)));
         }
 
