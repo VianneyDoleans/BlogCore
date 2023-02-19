@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.UnitOfWork;
@@ -55,14 +54,14 @@ namespace BlogCoreAPI.Services.CategoryService
         public async Task CheckCategoryValidity(AddCategoryDto category)
         {
             if (await _repository.NameAlreadyExists(category.Name))
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task CheckCategoryValidity(UpdateCategoryDto category)
         {
             if (await _repository.NameAlreadyExists(category.Name) &&
                 (await _repository.GetAsync(category.Id)).Name != category.Name)
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task<GetCategoryDto> AddCategory(AddCategoryDto category)

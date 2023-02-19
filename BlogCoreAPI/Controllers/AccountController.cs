@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
-using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Immutable;
 using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Services.UserService;
@@ -60,7 +61,7 @@ namespace BlogCoreAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignIn")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonWebToken), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(UserLoginDto userLogin)
         {
@@ -68,7 +69,7 @@ namespace BlogCoreAPI.Controllers
             {
                 return Ok(await _jwtService.GenerateJwt((await _userService.GetUser(userLogin.UserName)).Id));
             }
-            return BadRequest("Bad username or password.");
+            return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Bad username or password."));
         }
     }
 }

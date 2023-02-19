@@ -4,8 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using DBAccess.Data.Jwt;
+using BlogCoreAPI.Models.DTOs.Immutable;
 using DBAccess.Repositories.User;
+using DBAccess.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
@@ -23,7 +24,7 @@ namespace BlogCoreAPI.Services.JwtService
         }
 
         /// <inheritdoc />
-        public async Task<string> GenerateJwt(int userId)
+        public async Task<JsonWebToken> GenerateJwt(int userId)
         {
             var user = await _userRepository.GetAsync(userId);
             var claims = new List<Claim>
@@ -46,7 +47,7 @@ namespace BlogCoreAPI.Services.JwtService
                 signingCredentials: credentials
             );
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            return new JsonWebToken(new JwtSecurityTokenHandler().WriteToken(token));
         }
     }
 }

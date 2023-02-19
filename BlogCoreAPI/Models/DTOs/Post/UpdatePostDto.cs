@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace BlogCoreAPI.DTOs.Post
+namespace BlogCoreAPI.Models.DTOs.Post
 {
     /// <summary>
     /// UPDATE Dto type of <see cref="Post"/>.

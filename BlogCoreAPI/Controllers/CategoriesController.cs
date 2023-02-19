@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Category;
-using BlogCoreAPI.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Post;
 using BlogCoreAPI.Models.Queries;

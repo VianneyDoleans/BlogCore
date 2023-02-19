@@ -1,13 +1,13 @@
 ﻿using BlogCoreAPI.Authorization.PermissionHandlers.Attributes;
 using BlogCoreAPI.Authorization.PermissionHandlers.Dtos;
 using BlogCoreAPI.Authorization.PermissionHandlers.Resources;
-using BlogCoreAPI.DTOs.Category;
-using BlogCoreAPI.DTOs.Comment;
-using BlogCoreAPI.DTOs.Like;
-using BlogCoreAPI.DTOs.Post;
-using BlogCoreAPI.DTOs.Role;
-using BlogCoreAPI.DTOs.Tag;
-using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Comment;
+using BlogCoreAPI.Models.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
@@ -29,10 +29,13 @@ using DBAccess.Repositories.Like;
 using DBAccess.Repositories.Post;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.Tag;
+using DBAccess.Repositories.UnitOfWork;
 using DBAccess.Repositories.User;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
 
 namespace BlogCoreAPI.Extensions
 {
@@ -55,6 +58,7 @@ namespace BlogCoreAPI.Extensions
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
         }
 
@@ -82,7 +86,7 @@ namespace BlogCoreAPI.Extensions
         /// <returns></returns> 
         public static IServiceCollection RegisterDtoResourceValidators(this IServiceCollection services)
         {
-            services.AddScoped<IValidator<ICategoryDto>,CategoryDtoValidator>();
+            services.AddScoped<IValidator<ICategoryDto>, CategoryDtoValidator>();
             services.AddScoped<IValidator<ICommentDto>, CommentDtoValidator>();
             services.AddScoped<IValidator<ILikeDto>, LikeDtoValidator>();
             services.AddScoped<IValidator<IPostDto>, PostDtoValidator>();
@@ -115,6 +119,27 @@ namespace BlogCoreAPI.Extensions
 
             // Resource Attribute Handler
             services.AddScoped<IAuthorizationHandler, PermissionWithRangeAuthorizationHandler>();
+            
+            return services;
+        }
+
+        public static IServiceCollection AddAllHttpLoggingInformationAvailable(this IServiceCollection services)
+        {
+            services.AddHttpLogging(logging =>
+            {
+                logging.LoggingFields = HttpLoggingFields.All;
+                logging.RequestHeaders.Add(HeaderNames.Accept);
+                logging.RequestHeaders.Add(HeaderNames.ContentType);
+                logging.RequestHeaders.Add(HeaderNames.ContentDisposition);
+                logging.RequestHeaders.Add(HeaderNames.ContentEncoding);
+                logging.RequestHeaders.Add(HeaderNames.ContentLength);
+
+                logging.MediaTypeOptions.AddText("application/json");
+                logging.MediaTypeOptions.AddText("multipart/form-data");
+
+                logging.RequestBodyLogLimit = 4096;
+                logging.ResponseBodyLogLimit = 4096;
+            });
 
             return services;
         }

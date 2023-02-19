@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Permission
+﻿namespace BlogCoreAPI.Models.DTOs.Permission
 {
     /// <summary>
     /// GET Dto type of <see cref="Permission"/>

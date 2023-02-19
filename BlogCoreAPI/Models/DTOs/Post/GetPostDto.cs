@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlogCoreAPI.DTOs;
-using BlogCoreAPI.DTOs.Post;
 
 namespace BlogCoreAPI.Models.DTOs.Post
 {

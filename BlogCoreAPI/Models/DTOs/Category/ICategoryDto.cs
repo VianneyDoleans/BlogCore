@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Category
+﻿namespace BlogCoreAPI.Models.DTOs.Category
 {
     /// <summary>
     /// Interface of <see cref="Category"/> Dto containing all the common properties of Category Dto Type (GET, ADD, UPDATE).

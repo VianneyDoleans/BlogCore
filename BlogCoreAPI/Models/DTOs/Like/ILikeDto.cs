@@ -1,7 +1,7 @@
-﻿using BlogCoreAPI.DTOs.Contracts;
+﻿using BlogCoreAPI.Models.DTOs.Contracts;
 using DBAccess.Data;
 
-namespace BlogCoreAPI.DTOs.Like
+namespace BlogCoreAPI.Models.DTOs.Like
 {
     /// <summary>
     /// Interface of <see cref="Like"/> Dto containing all the common properties of Like Dto Type (GET, ADD, UPDATE).

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using BlogCoreAPI.DTOs.Contracts;
+using BlogCoreAPI.Models.DTOs.Contracts;
 
-namespace BlogCoreAPI.DTOs.Post
+namespace BlogCoreAPI.Models.DTOs.Post
 {
     /// <summary>
     /// Interface of <see cref="Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).

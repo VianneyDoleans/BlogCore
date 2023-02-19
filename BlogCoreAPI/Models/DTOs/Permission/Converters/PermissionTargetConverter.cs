@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DBAccess.Data.Permission;
 
-namespace BlogCoreAPI.DTOs.Permission.Converters
+namespace BlogCoreAPI.Models.DTOs.Permission.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="PermissionTarget"/> to <see cref="PermissionTargetDto"/>.

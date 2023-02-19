@@ -1,25 +1,20 @@
 ﻿using AutoMapper;
-using BlogCoreAPI.DTOs.Category;
-using BlogCoreAPI.DTOs.Category.Converters;
-using BlogCoreAPI.DTOs.Comment;
-using BlogCoreAPI.DTOs.Comment.Converters;
-using BlogCoreAPI.DTOs.Like;
-using BlogCoreAPI.DTOs.Like.Converters;
-using BlogCoreAPI.DTOs.Permission;
-using BlogCoreAPI.DTOs.Permission.Converters;
-using BlogCoreAPI.DTOs.Post;
-using BlogCoreAPI.DTOs.Post.Converters;
-using BlogCoreAPI.DTOs.Role;
-using BlogCoreAPI.DTOs.Role.Converters;
-using BlogCoreAPI.DTOs.Tag;
-using BlogCoreAPI.DTOs.Tag.Converters;
-using BlogCoreAPI.DTOs.User;
-using BlogCoreAPI.DTOs.User.Converters;
 using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Category.Converters;
+using BlogCoreAPI.Models.DTOs.Comment;
+using BlogCoreAPI.Models.DTOs.Comment.Converters;
+using BlogCoreAPI.Models.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Like.Converters;
+using BlogCoreAPI.Models.DTOs.Permission;
+using BlogCoreAPI.Models.DTOs.Permission.Converters;
 using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Post.Converters;
 using BlogCoreAPI.Models.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.Role.Converters;
 using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Tag.Converters;
 using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.DTOs.User.Converters;
 using DBAccess.Data;
 using DBAccess.Data.Permission;
 
@@ -65,7 +60,7 @@ namespace BlogCoreAPI
 
             CreateMap<int, Like>().ConvertUsing<LikeIdConverter>();
             CreateMap<int, Comment>().ConvertUsing<CommentIdConverter>();
-            CreateMap<int, Post> ().ConvertUsing<PostIdConverter>();
+            CreateMap<int, Post>().ConvertUsing<PostIdConverter>();
             CreateMap<int, User>().ConvertUsing<UserIdConverter>();
             CreateMap<int, Category>().ConvertUsing<CategoryIdConverter>();
             CreateMap<int, Role>().ConvertUsing<RoleIdConverter>();

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace BlogCoreAPI.DTOs.User.Converters
+namespace BlogCoreAPI.Models.DTOs.User.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="UpdateUserDto"/> to <see cref="User"/>.

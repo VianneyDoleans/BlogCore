@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BlogCoreAPI.Models.DTOs.Immutable;
 
 namespace BlogCoreAPI.Services.JwtService
 {
@@ -12,6 +13,6 @@ namespace BlogCoreAPI.Services.JwtService
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<string> GenerateJwt(int userId);
+        Task<JsonWebToken> GenerateJwt(int userId);
     }
 }

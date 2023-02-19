@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Category;
+using BlogCoreAPI.Models.DTOs.Category;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Validators.Category;
 using DBAccess.Data;
@@ -80,7 +81,7 @@ namespace BlogCoreAPI.Tests.Services
             await _service.AddCategory(category);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddCategory(category));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddCategory(category));
         }
 
         [Fact]
@@ -290,7 +291,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateCategory(categoryToUpdate));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateCategory(categoryToUpdate));
         }
 
         [Fact]

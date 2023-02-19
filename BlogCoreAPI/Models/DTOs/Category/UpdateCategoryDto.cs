@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Category
+﻿namespace BlogCoreAPI.Models.DTOs.Category
 {
     /// <summary>
     /// UPDATE Dto type of <see cref="Category"/>.

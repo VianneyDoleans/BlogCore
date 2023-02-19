@@ -1,7 +1,7 @@
 ﻿using System;
 using DBAccess.Data;
 
-namespace BlogCoreAPI.DTOs.Like
+namespace BlogCoreAPI.Models.DTOs.Like
 {
     /// <summary>
     /// GET Dto type of <see cref="Like"/>.

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlogCoreAPI.DTOs.Comment;
+using BlogCoreAPI.Models.DTOs.Comment;
 using DBAccess.Data;
 using DBAccess.Specifications;
 using DBAccess.Specifications.FilterSpecifications;

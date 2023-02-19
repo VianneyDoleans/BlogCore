@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using BlogCoreAPI.DTOs.User;
+﻿using BlogCoreAPI.Models.DTOs.User;
 using DBAccess;
 using DBAccess.Data;
 using DBAccess.DataContext;
@@ -11,11 +8,14 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
+using System.Linq;
 using User = DBAccess.Data.User;
 
 namespace BlogCoreAPI.FunctionalTests
 {
-    public class TestWebApplicationFactory : WebApplicationFactory<Startup>
+    public class TestWebApplicationFactory : WebApplicationFactory<Program>
     {
         private readonly string _dbName = Guid.NewGuid().ToString();
         public UserLoginDto Admin { get; set; }
@@ -53,7 +53,7 @@ namespace BlogCoreAPI.FunctionalTests
                     options.UseInMemoryDatabase(_dbName);
                     options.UseInternalServiceProvider(serviceProvider);
                 });
-                
+
                 // Add AutoMapper profile
                 services.AddAutoMapper(typeof(AutoMapperProfile));
 

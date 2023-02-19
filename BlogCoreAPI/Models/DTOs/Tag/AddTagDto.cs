@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Tag
+﻿namespace BlogCoreAPI.Models.DTOs.Tag
 {
     /// <summary>
     /// Add Dto type of <see cref="Tag"/>.

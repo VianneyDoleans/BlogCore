@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using BlogCoreAPI.DTOs;
-using BlogCoreAPI.DTOs.Role;
 
 namespace BlogCoreAPI.Models.DTOs.Role
 {

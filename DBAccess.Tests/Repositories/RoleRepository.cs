@@ -843,7 +843,7 @@ namespace DBAccess.Tests.Repositories
             await _fixture.Db.SaveChangesAsync();
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await roleRepository.AddPermissionAsync(testRole.Id, permission));
+            await Assert.ThrowsAsync<PermissionManagementException>(async () => await roleRepository.AddPermissionAsync(testRole.Id, permission));
         }
 
         [Fact]

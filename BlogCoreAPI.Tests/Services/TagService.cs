@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.TagService;
 using BlogCoreAPI.Validators.Tag;
 using DBAccess.Exceptions;
@@ -51,7 +52,7 @@ namespace BlogCoreAPI.Tests.Services
             await _service.AddTag(tag);
 
             // Act && Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddTag(tag));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddTag(tag));
         }
 
         [Fact]
@@ -259,7 +260,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateTag(tagToUpdate));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateTag(tagToUpdate));
         }
 
         [Fact]

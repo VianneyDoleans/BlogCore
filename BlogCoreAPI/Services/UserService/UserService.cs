@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
@@ -98,9 +97,9 @@ namespace BlogCoreAPI.Services.UserService
         private async Task CheckUserValidity(AddUserDto user)
         {
             if (await _repository.UserNameAlreadyExists(user.UserName))
-                throw new InvalidOperationException("UserName already exists.");
+                throw new InvalidRequestException("UserName already exists.");
             if (await _repository.EmailAlreadyExists(user.Email))
-                throw new InvalidOperationException("Email Address already exists.");
+                throw new InvalidRequestException("Email Address already exists.");
         }
 
         private async Task CheckUserValidity(UpdateUserDto user)
@@ -108,10 +107,10 @@ namespace BlogCoreAPI.Services.UserService
             var userDb = _repository.GetAsync(user.Id);
             if (await _repository.UserNameAlreadyExists(user.UserName) &&
                 (await userDb).UserName != user.UserName)
-                throw new InvalidOperationException("UserName already exists.");
+                throw new InvalidRequestException("UserName already exists.");
             if (await _repository.EmailAlreadyExists(user.Email) &&
                 (await userDb).Email != user.Email)
-                throw new InvalidOperationException("Email Address already exists.");
+                throw new InvalidRequestException("Email Address already exists.");
         }
 
         public async Task<GetUserDto> AddUser(AddUserDto user)
@@ -141,7 +140,7 @@ namespace BlogCoreAPI.Services.UserService
             }
 
             if (user.UserRoles.Any(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId))
-                throw new InvalidOperationException("User already have the role.");
+                throw new InvalidRequestException("User already have the role.");
             await _repository.AddRoleToUser(user, role);
             _unitOfWork.Save();
         }
@@ -161,7 +160,7 @@ namespace BlogCoreAPI.Services.UserService
             }
 
             if (!user.UserRoles.Any(x => x.UserId == userRole.UserId && x.RoleId == userRole.RoleId))
-                throw new InvalidOperationException("User doesn't have the role.");
+                throw new InvalidRequestException("User doesn't have the role.");
             await _repository.RemoveRoleToUser(user, role);
             _unitOfWork.Save();
         }

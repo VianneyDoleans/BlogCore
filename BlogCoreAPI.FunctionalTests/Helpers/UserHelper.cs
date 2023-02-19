@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.Models.DTOs.User;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers

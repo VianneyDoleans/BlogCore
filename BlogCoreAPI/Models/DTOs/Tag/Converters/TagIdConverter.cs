@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DBAccess.Repositories.Tag;
 
-namespace BlogCoreAPI.DTOs.Tag.Converters
+namespace BlogCoreAPI.Models.DTOs.Tag.Converters
 {
     /// <summary>
     /// AutoMapper converter used to enable the conversion of <see cref="Tag"/> to its resource Id.

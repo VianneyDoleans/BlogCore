@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using BlogCoreAPI.DTOs.Permission;
-using BlogCoreAPI.DTOs.Role;
+using BlogCoreAPI.Models.DTOs.Permission;
 using BlogCoreAPI.Models.DTOs.Role;
 using DBAccess.Data;
 using DBAccess.Data.Permission;
