@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BlogCoreAPI.DTOs.Comment
+namespace BlogCoreAPI.Models.DTOs.Comment
 {
     /// <summary>
     /// GET Dto type of <see cref="Comment"/>.

@@ -1,4 +1,4 @@
-﻿namespace DBAccess.Data.Jwt
+﻿namespace DBAccess.Settings
 {
     public class JwtSettings
     {

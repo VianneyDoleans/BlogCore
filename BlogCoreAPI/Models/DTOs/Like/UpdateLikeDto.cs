@@ -1,6 +1,6 @@
 ﻿using DBAccess.Data;
 
-namespace BlogCoreAPI.DTOs.Like
+namespace BlogCoreAPI.Models.DTOs.Like
 {
     /// <summary>
     /// UPDATE Dto type of <see cref="Like"/>.

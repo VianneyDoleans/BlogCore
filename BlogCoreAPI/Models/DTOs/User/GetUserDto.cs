@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BlogCoreAPI.DTOs;
 
 namespace BlogCoreAPI.Models.DTOs.User
 {

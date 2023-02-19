@@ -3,7 +3,7 @@ using BlogCoreAPI.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace BlogCoreAPI.Filters
+namespace BlogCoreAPI.Extensions.FluentValidation
 {
     public class ValidatorFilterAttribute : ActionFilterAttribute
     {

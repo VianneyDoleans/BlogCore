@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.UserService;
 using BlogCoreAPI.Validators.User;
 using DBAccess.Data;
@@ -83,7 +84,7 @@ namespace BlogCoreAPI.Tests.Services
             userToAdd.UserName = "test11";
 
             // Act && Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -100,7 +101,7 @@ namespace BlogCoreAPI.Tests.Services
             userToAdd.Email = "RandomExistingUsername@newEmail1.com";
 
             // Act && Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddUser(userToAdd));
         }
 
         [Fact]
@@ -348,7 +349,7 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.UpdateUser(userToUpdate));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateUser(userToUpdate));
         }
 
         [Fact]
@@ -565,7 +566,7 @@ namespace BlogCoreAPI.Tests.Services
             });
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddUserRole(new UserRoleDto()
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddUserRole(new UserRoleDto()
             {
                 RoleId = roleId,
                 UserId = userId
@@ -682,7 +683,7 @@ namespace BlogCoreAPI.Tests.Services
             var userId = (await _fixture.UserManager.FindByNameAsync(user.UserName)).Id;
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.RemoveUserRole(new UserRoleDto()
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.RemoveUserRole(new UserRoleDto()
             {
                 RoleId = roleId,
                 UserId = userId

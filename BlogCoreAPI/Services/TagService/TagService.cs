@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Tag;
 using BlogCoreAPI.Models.DTOs.Tag;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Repositories.Tag;
 using DBAccess.Repositories.UnitOfWork;
@@ -55,14 +54,14 @@ namespace BlogCoreAPI.Services.TagService
         public async Task CheckTagValidity(AddTagDto tag)
         {
             if (await _repository.NameAlreadyExists(tag.Name))
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task CheckTagValidity(UpdateTagDto tag)
         {
             if (await _repository.NameAlreadyExists(tag.Name) &&
                 (await _repository.GetAsync(tag.Id)).Name != tag.Name)
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task<GetTagDto> AddTag(AddTagDto tag)

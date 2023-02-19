@@ -1,5 +1,5 @@
 ﻿using BlogCoreAPI.Constants;
-using BlogCoreAPI.DTOs.Tag;
+using BlogCoreAPI.Models.DTOs.Tag;
 using FluentValidation;
 
 namespace BlogCoreAPI.Validators.Tag

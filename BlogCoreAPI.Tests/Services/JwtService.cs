@@ -6,9 +6,9 @@ using AutoMapper;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Tests.Builders;
 using BlogCoreAPI.Validators.User;
-using DBAccess.Data.Jwt;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
+using DBAccess.Settings;
 using Microsoft.Extensions.Options;
 using Xunit;
 
@@ -46,7 +46,7 @@ namespace BlogCoreAPI.Tests.Services
             var user = await new UserBuilder(userService).Build();
 
             // Act
-            var token = await _jwtService.GenerateJwt(user.Id);
+            var token = (await _jwtService.GenerateJwt(user.Id)).Token;
 
             // Assert
             Assert.NotNull(token);

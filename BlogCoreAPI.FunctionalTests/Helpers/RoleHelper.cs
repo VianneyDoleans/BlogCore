@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
-using BlogCoreAPI.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.Role;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers

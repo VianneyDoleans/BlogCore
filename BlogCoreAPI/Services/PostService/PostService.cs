@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Post;
 using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.Exceptions;
@@ -128,14 +127,14 @@ namespace BlogCoreAPI.Services.PostService
                     throw new ResourceNotFoundException("Tag id " + x + " doesn't exist.");
             });
             if (post.Tags != null && post.Tags.GroupBy(x => x).Any(y => y.Count() > 1))
-                throw new InvalidOperationException("There can't be duplicate tags.");
+                throw new InvalidRequestException("There can't be duplicate tags.");
         }
 
         public async Task CheckPostValidity(AddPostDto post)
         {
             await CheckPostValidity((IPostDto)post);
             if (await _repository.NameAlreadyExists(post.Name))
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task CheckPostValidity(UpdatePostDto post)
@@ -143,7 +142,7 @@ namespace BlogCoreAPI.Services.PostService
             await CheckPostValidity((IPostDto)post);
             if (await _repository.NameAlreadyExists(post.Name) &&
                 (await _repository.GetAsync(post.Id)).Name != post.Name)
-                throw new InvalidOperationException("Name already exists.");
+                throw new InvalidRequestException("Name already exists.");
         }
 
         public async Task<GetPostDto> AddPost(AddPostDto post)

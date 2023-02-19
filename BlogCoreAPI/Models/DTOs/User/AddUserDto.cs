@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.User
+﻿namespace BlogCoreAPI.Models.DTOs.User
 {
     /// <summary>
     /// Add Dto type of <see cref="User"/>.

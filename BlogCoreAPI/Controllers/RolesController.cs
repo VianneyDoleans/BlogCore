@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
 using BlogCoreAPI.Builders.Specifications;
 using BlogCoreAPI.Builders.Specifications.Role;
-using BlogCoreAPI.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Queries;

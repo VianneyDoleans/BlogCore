@@ -72,7 +72,7 @@
         <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,BlogCoreAPI.DTOs.User.IUserDto)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,BlogCoreAPI.Models.DTOs.User.IUserDto)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1">
@@ -186,6 +186,655 @@
         </member>
         <member name="M:BlogCoreAPI.AutoMapperProfile.#ctor">
             <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.AccountController">
+            <summary>
+            Controller used to enables account action such as login / log out.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
+            </summary>
+            <param name="userService"></param>
+            <param name="jwtService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.Models.DTOs.User.AddUserDto)">
+            <summary>
+            Create an account (a user).
+            </summary>
+            <remarks>
+            Create a user.
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignIn(BlogCoreAPI.Models.DTOs.User.UserLoginDto)">
+            <summary>
+            Sign In as a user.
+            </summary>
+            <remarks>
+            Sign In as a user.
+            </remarks>
+            <param name="userLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.CategoriesController">
+            <summary>
+            Controller used to expose Category resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.#ctor(BlogCoreAPI.Services.CategoryService.ICategoryService,BlogCoreAPI.Services.PostService.IPostService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CategoriesController"/> class.
+            </summary>
+            <param name="categoryService"></param>
+            <param name="postService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetCategories(BlogCoreAPI.Models.Queries.GetCategoryQueryParameters)">
+            <summary>
+            Get list of categories.
+            </summary>
+            <remarks>
+            Get list of categories. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.Get(System.Int32)">
+            <summary>
+            Get a category by giving its Id.
+            </summary>
+            <remarks>
+            Get a category by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.AddCategory(BlogCoreAPI.Models.DTOs.Category.AddCategoryDto)">
+            <summary>
+            Add a category.
+            </summary>
+            <remarks>
+            Add a category.
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.UpdateCategory(BlogCoreAPI.Models.DTOs.Category.UpdateCategoryDto)">
+            <summary>
+            Update a category.
+            </summary>
+            <remarks>
+            Update a category.
+            </remarks>
+            <param name="category"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.DeleteCategory(System.Int32)">
+            <summary>
+            Delete a category by giving its id.
+            </summary>
+            <remarks>
+            Delete a category by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetPostFromCategory(System.Int32)">
+            <summary>
+            Get posts from a category by giving category's id.
+            </summary>
+            <remarks>
+            Get posts from a category by giving category's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.CommentsController">
+            <summary>
+            Controller used to expose Comment resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.#ctor(BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CommentsController"/> class.
+            </summary>
+            <param name="commentService"></param>
+            <param name="likeService"></param>
+            <param name="authorizationService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetComments(BlogCoreAPI.Models.Queries.GetCommentQueryParameters)">
+            <summary>
+            Get list of comments.
+            </summary>
+            <remarks>
+            Get list of comments. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.Get(System.Int32)">
+            <summary>
+            Get a comment by giving its Id.
+            </summary>
+            <remarks>
+            Get a comment by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.AddComment(BlogCoreAPI.Models.DTOs.Comment.AddCommentDto)">
+            <summary>
+            Add a comment.
+            </summary>
+            <remarks>
+            Add a comment.
+            </remarks>
+            <param name="comment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.UpdateComment(BlogCoreAPI.Models.DTOs.Comment.UpdateCommentDto)">
+            <summary>
+            Update a comment.
+            </summary>
+            <remarks>
+            Update a comment.
+            </remarks>
+            <param name="comment"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.DeleteComment(System.Int32)">
+            <summary>
+            Delete a comment by giving its id.
+            </summary>
+            <remarks>
+            Delete a comment by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetLikesFromComment(System.Int32)">
+            <summary>
+            Get likes from a comment by giving comment's id.
+            </summary>
+            <remarks>
+            Get likes from a comment by giving comment's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.ErrorsController">
+            <summary>
+            Errors controllers used as middleware to catch exceptions and manage behaviors.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.ErrorsController.Error">
+            <summary>
+            Define HttpStatusCode and error type depending of exception raised.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.LikesController">
+            <summary>
+            Controller used to expose Like resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.LikesController.#ctor(BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.LikesController"/> class.
+            </summary>
+            <param name="likeService"></param>
+            <param name="authorizeService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(BlogCoreAPI.Models.Queries.GetLikeQueryParameters)">
+            <summary>
+            Get list of likes.
+            </summary>
+            <remarks>
+            Get list of likes. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.LikesController.Get(System.Int32)">
+            <summary>
+            Get a like by giving its Id.
+            </summary>
+            <remarks>
+            Get a like by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.LikesController.AddLikes(BlogCoreAPI.Models.DTOs.Like.AddLikeDto)">
+            <summary>
+            Add a like.
+            </summary>
+            <remarks>
+            Add a like.
+            </remarks>
+            <param name="like"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.LikesController.UpdateLike(BlogCoreAPI.Models.DTOs.Like.UpdateLikeDto)">
+            <summary>
+            Update a like.
+            </summary>
+            <remarks>
+            Update a like.
+            </remarks>
+            <param name="like"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.LikesController.DeleteLike(System.Int32)">
+            <summary>
+            Delete a like by giving its id.
+            </summary>
+            <remarks>
+            Delete a like by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.PostsController">
+            <summary>
+            Controller used to expose Post resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.#ctor(BlogCoreAPI.Services.PostService.IPostService,BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.PostsController"/> class.
+            </summary>
+            <param name="postService"></param>
+            <param name="commentService"></param>
+            <param name="likeService"></param>
+            <param name="authorizationService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetPosts(BlogCoreAPI.Models.Queries.GetPostQueryParameters)">
+            <summary>
+            Get list of posts.
+            </summary>
+            <remarks>
+            Get list of posts. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.Get(System.Int32)">
+            <summary>
+            Get a post by giving its Id.
+            </summary>
+            <remarks>
+            Get a post by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.AddPost(BlogCoreAPI.Models.DTOs.Post.AddPostDto)">
+            <summary>
+            Add a post.
+            </summary>
+            <remarks>
+            Add a post.
+            </remarks>
+            <param name="post"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.UpdatePost(BlogCoreAPI.Models.DTOs.Post.UpdatePostDto)">
+            <summary>
+            Update a post.
+            </summary>
+            <remarks>
+            Update a post.
+            </remarks>
+            <param name="post"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.DeletePost(System.Int32)">
+            <summary>
+            Delete a post by giving its id.
+            </summary>
+            <remarks>
+            Delete a post by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetCommentsFromPost(System.Int32)">
+            <summary>
+            Get comments from a post by giving post's id.
+            </summary>
+            <remarks>
+            Get comments from a post by giving post's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.PostsController.GetLikesFromPost(System.Int32)">
+            <summary>
+            Get likes from a post by giving post's id.
+            </summary>
+            <remarks>
+            Get likes from a post by giving post's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.RolesController">
+            <summary>
+            Controller used to expose Role resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.#ctor(BlogCoreAPI.Services.RoleService.IRoleService,BlogCoreAPI.Services.UserService.IUserService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CommentsController"/> class.
+            </summary>
+            <param name="roleService"></param>
+            <param name="userService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(BlogCoreAPI.Models.Queries.GetRoleQueryParameters)">
+            <summary>
+            Get list of roles.
+            </summary>
+            <remarks>
+            Get list of roles. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.Get(System.Int32)">
+            <summary>
+            Get a role by giving its Id.
+            </summary>
+            <remarks>
+            Get a role by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.AddRole(BlogCoreAPI.Models.DTOs.Role.AddRoleDto)">
+            <summary>
+            Add a role.
+            </summary>
+            <remarks>
+            Add a role.
+            </remarks>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.UpdateRole(BlogCoreAPI.Models.DTOs.Role.UpdateRoleDto)">
+            <summary>
+            Update a role.
+            </summary>
+            <remarks>
+            Update a role.
+            </remarks>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetPermissions(System.Int32)">
+            <summary>
+            Get permissions from an existing role.
+            </summary>
+            <remarks>
+            Get permissions from an existing role.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.AddPermission(System.Int32,DBAccess.Data.Permission.Permission)">
+            <summary>
+            Add a permission to an existing role.
+            </summary>
+            <remarks>
+            Add a permission to an existing role.
+            </remarks>
+            <param name="id"></param>
+            <param name="permission"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.RemovePermission(System.Int32,DBAccess.Data.Permission.Permission)">
+            <summary>
+            Remove a permission to an existing role.
+            </summary>
+            <remarks>
+            Remove a permission to an existing role.
+            </remarks>
+            <param name="id"></param>
+            <param name="permission"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.DeleteRole(System.Int32)">
+            <summary>
+            Delete a role by giving its id.
+            </summary>
+            <remarks>
+            Delete a role by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.RolesController.GetUsersFromRole(System.Int32)">
+            <summary>
+            Get list of users with a specific role by giving the role's id.
+            </summary>
+            <remarks>
+            Get list of users with a specific role by giving the role's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.TagsController">
+            <summary>
+            Controller used to expose Tag resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.#ctor(BlogCoreAPI.Services.TagService.ITagService,BlogCoreAPI.Services.PostService.IPostService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.TagsController"/> class.
+            </summary>
+            <param name="tagService"></param>
+            <param name="postService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(BlogCoreAPI.Models.Queries.GetTagQueryParameters)">
+            <summary>
+            Get list of tags.
+            </summary>
+            <remarks>
+            Get list of tags. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.Get(System.Int32)">
+            <summary>
+            Get a tag by giving its Id.
+            </summary>
+            <remarks>
+            Get a tag by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.AddTag(BlogCoreAPI.Models.DTOs.Tag.AddTagDto)">
+            <summary>
+            Add a tag.
+            </summary>
+            <remarks>
+            Add a tag.
+            </remarks>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.UpdateTag(BlogCoreAPI.Models.DTOs.Tag.UpdateTagDto)">
+            <summary>
+            Update a tag.
+            </summary>
+            <remarks>
+            Update a tag.
+            </remarks>
+            <param name="tag"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.DeleteUser(System.Int32)">
+            <summary>
+            Delete a tag by giving its id.
+            </summary>
+            <remarks>
+            Delete a tag by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.TagsController.GetPostsFromTag(System.Int32)">
+            <summary>
+            Get posts from a tag by giving tag's id.
+            </summary>
+            <remarks>
+            Get posts from a tag by giving tag's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Controllers.UsersController">
+            <summary>
+            Controller used to expose User resources of the API.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.LikeService.ILikeService,BlogCoreAPI.Services.PostService.IPostService,BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.RoleService.IRoleService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
+            </summary>
+            <param name="userService"></param>
+            <param name="likeService"></param>
+            <param name="postService"></param>
+            <param name="commentService"></param>
+            <param name="roleService"></param>
+            <param name="authorizationService"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetUsers(BlogCoreAPI.Models.Queries.GetUserQueryParameters)">
+            <summary>
+            Get list of users.
+            </summary>
+            <remarks>
+            Get list of users. The endpoint uses pagination and sort. Filter(s) can be applied for research.
+            </remarks>
+            <param name="parameters"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.Get(System.Int32)">
+            <summary>
+            Get a user by giving its Id.
+            </summary>
+            <remarks>
+            Get a user by giving its Id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.AddRoleToUser(System.Int32,System.Int32)">
+            <summary>
+            Add a role to a user.
+            </summary>
+            <remarks>
+            Add a role to a user.
+            </remarks>
+            <param name="id"></param>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.RemoveRoleToUser(System.Int32,System.Int32)">
+            <summary>
+            Remove a role to a user.
+            </summary>
+            <remarks>
+            Remove a role to a user.
+            </remarks>
+            <param name="id"></param>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.UpdateUser(BlogCoreAPI.Models.DTOs.User.UpdateUserDto)">
+            <summary>
+            Update a user.
+            </summary>
+            <remarks>
+            Update a user.
+            </remarks>
+            <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.DeleteUser(System.Int32)">
+            <summary>
+            Delete a user by giving its id.
+            </summary>
+            <remarks>
+            Delete a user by giving its id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">
+            <summary>
+            Get posts written by a user by giving user's id.
+            </summary>
+            <remarks>
+            Get posts written by a user by giving user's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetCommentsFromUser(System.Int32)">
+            <summary>
+            Get comments written by a user by giving user's id.
+            </summary>
+            <remarks>
+            Get comments written by a user by giving user's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetLikesFromUser(System.Int32)">
+            <summary>
+            Get likes given by a user by giving user's id.
+            </summary>
+            <remarks>
+            Get likes given by a user by giving user's id.
+            </remarks>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Extensions.ServiceCollectionExtensions">
+            <summary> 
+            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject BlogCoreAPI Services 
+            </summary> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register repository services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterDtoResourceValidators(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource validators
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
+        </member>
+        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary> 
+            class used to register resource services 
+            </summary> 
+            <param name="services"></param> 
+            <returns></returns> 
         </member>
         <member name="T:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder">
             <summary>
@@ -410,1010 +1059,361 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Controllers.AccountController">
+        <member name="T:BlogCoreAPI.Models.DTOs.ADto">
             <summary>
-            Controller used to enables account action such as login / log out.
+            Abstract of <see cref="T:BlogCoreAPI.Models.DTOs.IDto"/>. This class implement the mandatory properties and methods of all resources classified as Dto.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
-            </summary>
-            <param name="userService"></param>
-            <param name="jwtService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.DTOs.User.AddUserDto)">
-            <summary>
-            Create an account (a user).
-            </summary>
-            <remarks>
-            Create a user.
-            </remarks>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.SignIn(BlogCoreAPI.DTOs.User.UserLoginDto)">
-            <summary>
-            Sign In as a user.
-            </summary>
-            <remarks>
-            Sign In as a user.
-            </remarks>
-            <param name="userLogin"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.CategoriesController">
-            <summary>
-            Controller used to expose Category resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.#ctor(BlogCoreAPI.Services.CategoryService.ICategoryService,BlogCoreAPI.Services.PostService.IPostService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CategoriesController"/> class.
-            </summary>
-            <param name="categoryService"></param>
-            <param name="postService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetCategories(BlogCoreAPI.Models.Queries.GetCategoryQueryParameters)">
-            <summary>
-            Get list of categories.
-            </summary>
-            <remarks>
-            Get list of categories. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.Get(System.Int32)">
-            <summary>
-            Get a category by giving its Id.
-            </summary>
-            <remarks>
-            Get a category by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.AddCategory(BlogCoreAPI.DTOs.Category.AddCategoryDto)">
-            <summary>
-            Add a category.
-            </summary>
-            <remarks>
-            Add a category.
-            </remarks>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.UpdateCategory(BlogCoreAPI.DTOs.Category.UpdateCategoryDto)">
-            <summary>
-            Update a category.
-            </summary>
-            <remarks>
-            Update a category.
-            </remarks>
-            <param name="category"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.DeleteCategory(System.Int32)">
-            <summary>
-            Delete a category by giving its id.
-            </summary>
-            <remarks>
-            Delete a category by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CategoriesController.GetPostFromCategory(System.Int32)">
-            <summary>
-            Get posts from a category by giving category's id.
-            </summary>
-            <remarks>
-            Get posts from a category by giving category's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.CommentsController">
-            <summary>
-            Controller used to expose Comment resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.#ctor(BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CommentsController"/> class.
-            </summary>
-            <param name="commentService"></param>
-            <param name="likeService"></param>
-            <param name="authorizationService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetComments(BlogCoreAPI.Models.Queries.GetCommentQueryParameters)">
-            <summary>
-            Get list of comments.
-            </summary>
-            <remarks>
-            Get list of comments. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.Get(System.Int32)">
-            <summary>
-            Get a comment by giving its Id.
-            </summary>
-            <remarks>
-            Get a comment by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.AddComment(BlogCoreAPI.DTOs.Comment.AddCommentDto)">
-            <summary>
-            Add a comment.
-            </summary>
-            <remarks>
-            Add a comment.
-            </remarks>
-            <param name="comment"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.UpdateComment(BlogCoreAPI.DTOs.Comment.UpdateCommentDto)">
-            <summary>
-            Update a comment.
-            </summary>
-            <remarks>
-            Update a comment.
-            </remarks>
-            <param name="comment"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.DeleteComment(System.Int32)">
-            <summary>
-            Delete a comment by giving its id.
-            </summary>
-            <remarks>
-            Delete a comment by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.CommentsController.GetLikesFromComment(System.Int32)">
-            <summary>
-            Get likes from a comment by giving comment's id.
-            </summary>
-            <remarks>
-            Get likes from a comment by giving comment's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.ErrorsController">
-            <summary>
-            Errors controllers used as middleware to catch exceptions and manage behaviors.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.ErrorsController.Error">
-            <summary>
-            Define HttpStatusCode and error type depending of exception raised.
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.LikesController">
-            <summary>
-            Controller used to expose Like resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.#ctor(BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.LikesController"/> class.
-            </summary>
-            <param name="likeService"></param>
-            <param name="authorizeService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.GetLikes(BlogCoreAPI.Models.Queries.GetLikeQueryParameters)">
-            <summary>
-            Get list of likes.
-            </summary>
-            <remarks>
-            Get list of likes. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.Get(System.Int32)">
-            <summary>
-            Get a like by giving its Id.
-            </summary>
-            <remarks>
-            Get a like by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.AddLikes(BlogCoreAPI.DTOs.Like.AddLikeDto)">
-            <summary>
-            Add a like.
-            </summary>
-            <remarks>
-            Add a like.
-            </remarks>
-            <param name="like"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.UpdateLike(BlogCoreAPI.DTOs.Like.UpdateLikeDto)">
-            <summary>
-            Update a like.
-            </summary>
-            <remarks>
-            Update a like.
-            </remarks>
-            <param name="like"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.LikesController.DeleteLike(System.Int32)">
-            <summary>
-            Delete a like by giving its id.
-            </summary>
-            <remarks>
-            Delete a like by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.PostsController">
-            <summary>
-            Controller used to expose Post resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.#ctor(BlogCoreAPI.Services.PostService.IPostService,BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.LikeService.ILikeService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.PostsController"/> class.
-            </summary>
-            <param name="postService"></param>
-            <param name="commentService"></param>
-            <param name="likeService"></param>
-            <param name="authorizationService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.GetPosts(BlogCoreAPI.Models.Queries.GetPostQueryParameters)">
-            <summary>
-            Get list of posts.
-            </summary>
-            <remarks>
-            Get list of posts. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.Get(System.Int32)">
-            <summary>
-            Get a post by giving its Id.
-            </summary>
-            <remarks>
-            Get a post by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.AddPost(BlogCoreAPI.DTOs.Post.AddPostDto)">
-            <summary>
-            Add a post.
-            </summary>
-            <remarks>
-            Add a post.
-            </remarks>
-            <param name="post"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.UpdatePost(BlogCoreAPI.DTOs.Post.UpdatePostDto)">
-            <summary>
-            Update a post.
-            </summary>
-            <remarks>
-            Update a post.
-            </remarks>
-            <param name="post"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.DeletePost(System.Int32)">
-            <summary>
-            Delete a post by giving its id.
-            </summary>
-            <remarks>
-            Delete a post by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.GetCommentsFromPost(System.Int32)">
-            <summary>
-            Get comments from a post by giving post's id.
-            </summary>
-            <remarks>
-            Get comments from a post by giving post's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.PostsController.GetLikesFromPost(System.Int32)">
-            <summary>
-            Get likes from a post by giving post's id.
-            </summary>
-            <remarks>
-            Get likes from a post by giving post's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.RolesController">
-            <summary>
-            Controller used to expose Role resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.#ctor(BlogCoreAPI.Services.RoleService.IRoleService,BlogCoreAPI.Services.UserService.IUserService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.CommentsController"/> class.
-            </summary>
-            <param name="roleService"></param>
-            <param name="userService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.GetRoles(BlogCoreAPI.Models.Queries.GetRoleQueryParameters)">
-            <summary>
-            Get list of roles.
-            </summary>
-            <remarks>
-            Get list of roles. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.Get(System.Int32)">
-            <summary>
-            Get a role by giving its Id.
-            </summary>
-            <remarks>
-            Get a role by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.AddRole(BlogCoreAPI.DTOs.Role.AddRoleDto)">
-            <summary>
-            Add a role.
-            </summary>
-            <remarks>
-            Add a role.
-            </remarks>
-            <param name="role"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.UpdateRole(BlogCoreAPI.DTOs.Role.UpdateRoleDto)">
-            <summary>
-            Update a role.
-            </summary>
-            <remarks>
-            Update a role.
-            </remarks>
-            <param name="role"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.GetPermissions(System.Int32)">
-            <summary>
-            Get permissions from an existing role.
-            </summary>
-            <remarks>
-            Get permissions from an existing role.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.AddPermission(System.Int32,DBAccess.Data.Permission.Permission)">
-            <summary>
-            Add a permission to an existing role.
-            </summary>
-            <remarks>
-            Add a permission to an existing role.
-            </remarks>
-            <param name="id"></param>
-            <param name="permission"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.RemovePermission(System.Int32,DBAccess.Data.Permission.Permission)">
-            <summary>
-            Remove a permission to an existing role.
-            </summary>
-            <remarks>
-            Remove a permission to an existing role.
-            </remarks>
-            <param name="id"></param>
-            <param name="permission"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.DeleteRole(System.Int32)">
-            <summary>
-            Delete a role by giving its id.
-            </summary>
-            <remarks>
-            Delete a role by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.RolesController.GetUsersFromRole(System.Int32)">
-            <summary>
-            Get list of users with a specific role by giving the role's id.
-            </summary>
-            <remarks>
-            Get list of users with a specific role by giving the role's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.TagsController">
-            <summary>
-            Controller used to expose Tag resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.#ctor(BlogCoreAPI.Services.TagService.ITagService,BlogCoreAPI.Services.PostService.IPostService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.TagsController"/> class.
-            </summary>
-            <param name="tagService"></param>
-            <param name="postService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.GetTags(BlogCoreAPI.Models.Queries.GetTagQueryParameters)">
-            <summary>
-            Get list of tags.
-            </summary>
-            <remarks>
-            Get list of tags. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.Get(System.Int32)">
-            <summary>
-            Get a tag by giving its Id.
-            </summary>
-            <remarks>
-            Get a tag by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.AddTag(BlogCoreAPI.DTOs.Tag.AddTagDto)">
-            <summary>
-            Add a tag.
-            </summary>
-            <remarks>
-            Add a tag.
-            </remarks>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.UpdateTag(BlogCoreAPI.DTOs.Tag.UpdateTagDto)">
-            <summary>
-            Update a tag.
-            </summary>
-            <remarks>
-            Update a tag.
-            </remarks>
-            <param name="tag"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.DeleteUser(System.Int32)">
-            <summary>
-            Delete a tag by giving its id.
-            </summary>
-            <remarks>
-            Delete a tag by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.TagsController.GetPostsFromTag(System.Int32)">
-            <summary>
-            Get posts from a tag by giving tag's id.
-            </summary>
-            <remarks>
-            Get posts from a tag by giving tag's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Controllers.UsersController">
-            <summary>
-            Controller used to expose User resources of the API.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.LikeService.ILikeService,BlogCoreAPI.Services.PostService.IPostService,BlogCoreAPI.Services.CommentService.ICommentService,BlogCoreAPI.Services.RoleService.IRoleService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
-            </summary>
-            <param name="userService"></param>
-            <param name="likeService"></param>
-            <param name="postService"></param>
-            <param name="commentService"></param>
-            <param name="roleService"></param>
-            <param name="authorizationService"></param>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.GetUsers(BlogCoreAPI.Models.Queries.GetUserQueryParameters)">
-            <summary>
-            Get list of users.
-            </summary>
-            <remarks>
-            Get list of users. The endpoint uses pagination and sort. Filter(s) can be applied for research.
-            </remarks>
-            <param name="parameters"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.Get(System.Int32)">
-            <summary>
-            Get a user by giving its Id.
-            </summary>
-            <remarks>
-            Get a user by giving its Id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.AddRoleToUser(System.Int32,System.Int32)">
-            <summary>
-            Add a role to a user.
-            </summary>
-            <remarks>
-            Add a role to a user.
-            </remarks>
-            <param name="id"></param>
-            <param name="roleId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.RemoveRoleToUser(System.Int32,System.Int32)">
-            <summary>
-            Remove a role to a user.
-            </summary>
-            <remarks>
-            Remove a role to a user.
-            </remarks>
-            <param name="id"></param>
-            <param name="roleId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.UpdateUser(BlogCoreAPI.DTOs.User.UpdateUserDto)">
-            <summary>
-            Update a user.
-            </summary>
-            <remarks>
-            Update a user.
-            </remarks>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.DeleteUser(System.Int32)">
-            <summary>
-            Delete a user by giving its id.
-            </summary>
-            <remarks>
-            Delete a user by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">
-            <summary>
-            Get posts written by a user by giving user's id.
-            </summary>
-            <remarks>
-            Get posts written by a user by giving user's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.GetCommentsFromUser(System.Int32)">
-            <summary>
-            Get comments written by a user by giving user's id.
-            </summary>
-            <remarks>
-            Get comments written by a user by giving user's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.GetLikesFromUser(System.Int32)">
-            <summary>
-            Get likes given by a user by giving user's id.
-            </summary>
-            <remarks>
-            Get likes given by a user by giving user's id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="T:BlogCoreAPI.Extensions.ServiceCollectionExtensions">
-            <summary> 
-            Extension of <see cref="T:Microsoft.Extensions.DependencyInjection.IServiceCollection"/> adding methods to inject BlogCoreAPI Services 
-            </summary> 
-        </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterRepositoryServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register repository services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
-        </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterResourceServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
-        </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterDtoResourceValidators(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource validators
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
-        </member>
-        <member name="M:BlogCoreAPI.Extensions.ServiceCollectionExtensions.RegisterAuthorizationHandlers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary> 
-            class used to register resource services 
-            </summary> 
-            <param name="services"></param> 
-            <returns></returns> 
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.ADto">
-            <summary>
-            Abstract of <see cref="T:BlogCoreAPI.DTOs.IDto"/>. This class implement the mandatory properties and methods of all resources classified as Dto.
-            </summary>
-        </member>
-        <member name="P:BlogCoreAPI.DTOs.ADto.Id">
+        <member name="P:BlogCoreAPI.Models.DTOs.ADto.Id">
             <inheritdoc />
         </member>
-        <member name="M:BlogCoreAPI.DTOs.ADto.Equals(BlogCoreAPI.DTOs.IDto)">
+        <member name="M:BlogCoreAPI.Models.DTOs.ADto.Equals(BlogCoreAPI.Models.DTOs.IDto)">
             <inheritdoc />
         </member>
-        <member name="M:BlogCoreAPI.DTOs.ADto.Equals(System.Object)">
+        <member name="M:BlogCoreAPI.Models.DTOs.ADto.Equals(System.Object)">
             <inheritdoc />
         </member>
-        <member name="M:BlogCoreAPI.DTOs.ADto.GetHashCode">
+        <member name="M:BlogCoreAPI.Models.DTOs.ADto.GetHashCode">
             <inheritdoc />
         </member>
-        <member name="T:BlogCoreAPI.DTOs.Category.AddCategoryDto">
+        <member name="T:BlogCoreAPI.Models.DTOs.Category.AddCategoryDto">
             <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Category"/>.
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="T:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter">
+        <member name="T:BlogCoreAPI.Models.DTOs.Category.Converters.CategoryIdConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Category"/> to its resource Id.
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.Category"/> to its resource Id.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter.#ctor(DBAccess.Repositories.Category.ICategoryRepository)">
+        <member name="M:BlogCoreAPI.Models.DTOs.Category.Converters.CategoryIdConverter.#ctor(DBAccess.Repositories.Category.ICategoryRepository)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Category.Converters.CategoryIdConverter"/> class.
             </summary>
             <param name="repository"></param>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Category.Converters.CategoryIdConverter.Convert(System.Int32,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.Models.DTOs.Category.Converters.CategoryIdConverter.Convert(System.Int32,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
         </member>
-        <member name="T:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter">
+        <member name="T:BlogCoreAPI.Models.DTOs.Category.Converters.UpdateCategoryConverter">
             <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Category.UpdateCategoryDto"/> to <see cref="N:BlogCoreAPI.DTOs.Category"/>.
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.Category.UpdateCategoryDto"/> to <see cref="N:BlogCoreAPI.Models.DTOs.Category"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.DTOs.Category.Converters.UpdateCategoryConverter.Convert(BlogCoreAPI.DTOs.Category.UpdateCategoryDto,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
+        <member name="M:BlogCoreAPI.Models.DTOs.Category.Converters.UpdateCategoryConverter.Convert(BlogCoreAPI.Models.DTOs.Category.UpdateCategoryDto,DBAccess.Data.Category,AutoMapper.ResolutionContext)">
             <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Category.ICategoryDto">
-            <summary>
-            Interface of <see cref="N:BlogCoreAPI.DTOs.Category"/> Dto containing all the common properties of Category Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Category.UpdateCategoryDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Category"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Comment.AddCommentDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Comment"/> to its resource Id.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter"/> class.
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.CommentIdConverter.Convert(System.Int32,DBAccess.Data.Comment,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Comment.UpdateCommentDto"/> to <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository,DBAccess.Repositories.Post.IPostRepository,DBAccess.Repositories.User.IUserRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter"/> class.
-            </summary>
-            <param name="commentRepository"></param>
-            <param name="postRepository"></param>
-            <param name="userRepository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Comment.Converters.UpdateCommentConverter.Convert(BlogCoreAPI.DTOs.Comment.UpdateCommentDto,DBAccess.Data.Comment,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Comment.GetCommentDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Comment.ICommentDto">
-            <summary>
-            Interface of <see cref="N:BlogCoreAPI.DTOs.Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Comment.UpdateCommentDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Comment"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.IDto">
-            <summary>
-            Interface of all Dto object resource which include the mandatory properties needed to classify an object as a Dto
-            </summary>
-        </member>
-        <member name="P:BlogCoreAPI.DTOs.IDto.Id">
-            <summary>
-            Id of the resource. This element is necessary to recover the object inside Database.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Like.AddLikeDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Like"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Like"/> to its resource Id.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter.#ctor(DBAccess.Repositories.Like.ILikeRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter"/> class.
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Like.Converters.LikeIdConverter.Convert(System.Int32,DBAccess.Data.Like,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Like.UpdateLikeDto"/> to <see cref="N:BlogCoreAPI.DTOs.Like"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository,DBAccess.Repositories.Post.IPostRepository,DBAccess.Repositories.User.IUserRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter"/> class.
-            </summary>
-            <param name="commentRepository"></param>
-            <param name="postRepository"></param>
-            <param name="userRepository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Like.Converters.UpdateLikeConverter.Convert(BlogCoreAPI.DTOs.Like.UpdateLikeDto,DBAccess.Data.Like,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Like.GetLikeDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Like"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Like.ILikeDto">
-            <summary>
-            Interface of <see cref="N:BlogCoreAPI.DTOs.Like"/> Dto containing all the common properties of Like Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Like.UpdateLikeDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Like"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionAction"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionActionDto"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionActionConverter.Convert(DBAccess.Data.Permission.PermissionAction,BlogCoreAPI.DTOs.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionRange"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionRangeDto"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionRangeConverter.Convert(DBAccess.Data.Permission.PermissionRange,BlogCoreAPI.DTOs.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> to <see cref="T:BlogCoreAPI.DTOs.Permission.PermissionTargetDto"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Permission.Converters.PermissionTargetConverter.Convert(DBAccess.Data.Permission.PermissionTarget,BlogCoreAPI.DTOs.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Permission.PermissionDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.DTOs.Permission"/>
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Post.AddPostDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Post"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Post"/> to its resource Id.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter.#ctor(DBAccess.Repositories.Post.IPostRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter"/> class.
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Post.Converters.PostIdConverter.Convert(System.Int32,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter"/> to <see cref="N:BlogCoreAPI.DTOs.Post"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.#ctor(DBAccess.Repositories.User.IUserRepository,DBAccess.Repositories.Category.ICategoryRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter"/> class.
-            </summary>
-            <param name="userRepository"></param>
-            <param name="categoryRepository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Post.Converters.UpdatePostConverter.Convert(BlogCoreAPI.DTOs.Post.UpdatePostDto,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Post.IPostDto">
-            <summary>
-            Interface of <see cref="N:BlogCoreAPI.DTOs.Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Post.UpdatePostDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Post"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Role.AddRoleDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Role"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Role"/> to its resource Id.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.#ctor(DBAccess.Repositories.Role.IRoleRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter"/> class.
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DBAccess.Data.Role,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Role.IRoleDto">
-            <summary>
-            Interface of <see cref="N:BlogCoreAPI.DTOs.Role"/> Dto containing all the common properties of Role Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Role.UpdateRoleDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Role"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Tag.AddTagDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.Tag"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.Tag"/> to its resource Id.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.#ctor(DBAccess.Repositories.Tag.ITagRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter"/> class.
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DBAccess.Data.Tag,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Tag.ITagDto">
-            <summary>
-            Interface of <see cref="N:BlogCoreAPI.DTOs.Tag"/> Dto containing all the common properties of Tag Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.Tag.UpdateTagDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.Tag"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.User.AddUserDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.User.Converters.UpdateUserConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.DTOs.User.UpdateUserDto"/> to <see cref="N:BlogCoreAPI.DTOs.User"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.User.Converters.UpdateUserConverter.Convert(BlogCoreAPI.DTOs.User.UpdateUserDto,DBAccess.Data.User,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.User.Converters.UserIdConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.DTOs.User"/> to its resource Id.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.#ctor(DBAccess.Repositories.User.IUserRepository)">
-            <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.DTOs.User.Converters.UserIdConverter"/> class.
-            </summary>
-            <param name="repository"></param>
-        </member>
-        <member name="M:BlogCoreAPI.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.User,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.User.IUserDto">
-            <summary>
-            Interface of User Dto containing all the common properties of User Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.DTOs.User.UpdateUserDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.DTOs.User"/>.
-            </summary>
         </member>
         <member name="T:BlogCoreAPI.Models.DTOs.Category.GetCategoryDto">
             <summary>
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Category"/>.
             </summary>
         </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Category.ICategoryDto">
+            <summary>
+            Interface of <see cref="N:BlogCoreAPI.Models.DTOs.Category"/> Dto containing all the common properties of Category Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Category.UpdateCategoryDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Category"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Comment.AddCommentDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Comment"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Comment.Converters.CommentIdConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.Comment"/> to its resource Id.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Comment.Converters.CommentIdConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Comment.Converters.CommentIdConverter"/> class.
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Comment.Converters.CommentIdConverter.Convert(System.Int32,DBAccess.Data.Comment,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Comment.Converters.UpdateCommentConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.Comment.UpdateCommentDto"/> to <see cref="N:BlogCoreAPI.Models.DTOs.Comment"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Comment.Converters.UpdateCommentConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository,DBAccess.Repositories.Post.IPostRepository,DBAccess.Repositories.User.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Comment.Converters.UpdateCommentConverter"/> class.
+            </summary>
+            <param name="commentRepository"></param>
+            <param name="postRepository"></param>
+            <param name="userRepository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Comment.Converters.UpdateCommentConverter.Convert(BlogCoreAPI.Models.DTOs.Comment.UpdateCommentDto,DBAccess.Data.Comment,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Comment.GetCommentDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Comment"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Comment.ICommentDto">
+            <summary>
+            Interface of <see cref="N:BlogCoreAPI.Models.DTOs.Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Comment.UpdateCommentDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Comment"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.IDto">
+            <summary>
+            Interface of all Dto object resource which include the mandatory properties needed to classify an object as a Dto
+            </summary>
+        </member>
+        <member name="P:BlogCoreAPI.Models.DTOs.IDto.Id">
+            <summary>
+            Id of the resource. This element is necessary to recover the object inside Database.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Like.AddLikeDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Like"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Like.Converters.LikeIdConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.Like"/> to its resource Id.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Like.Converters.LikeIdConverter.#ctor(DBAccess.Repositories.Like.ILikeRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Like.Converters.LikeIdConverter"/> class.
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Like.Converters.LikeIdConverter.Convert(System.Int32,DBAccess.Data.Like,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Like.Converters.UpdateLikeConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.Like.UpdateLikeDto"/> to <see cref="N:BlogCoreAPI.Models.DTOs.Like"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Like.Converters.UpdateLikeConverter.#ctor(DBAccess.Repositories.Comment.ICommentRepository,DBAccess.Repositories.Post.IPostRepository,DBAccess.Repositories.User.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Like.Converters.UpdateLikeConverter"/> class.
+            </summary>
+            <param name="commentRepository"></param>
+            <param name="postRepository"></param>
+            <param name="userRepository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Like.Converters.UpdateLikeConverter.Convert(BlogCoreAPI.Models.DTOs.Like.UpdateLikeDto,DBAccess.Data.Like,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Like.GetLikeDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Like"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Like.ILikeDto">
+            <summary>
+            Interface of <see cref="N:BlogCoreAPI.Models.DTOs.Like"/> Dto containing all the common properties of Like Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Like.UpdateLikeDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Like"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Permission.Converters.PermissionActionConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionAction"/> to <see cref="T:BlogCoreAPI.Models.DTOs.Permission.PermissionActionDto"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Permission.Converters.PermissionActionConverter.Convert(DBAccess.Data.Permission.PermissionAction,BlogCoreAPI.Models.DTOs.Permission.PermissionActionDto,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Permission.Converters.PermissionRangeConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionRange"/> to <see cref="T:BlogCoreAPI.Models.DTOs.Permission.PermissionRangeDto"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Permission.Converters.PermissionRangeConverter.Convert(DBAccess.Data.Permission.PermissionRange,BlogCoreAPI.Models.DTOs.Permission.PermissionRangeDto,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Permission.Converters.PermissionTargetConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:DBAccess.Data.Permission.PermissionTarget"/> to <see cref="T:BlogCoreAPI.Models.DTOs.Permission.PermissionTargetDto"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Permission.Converters.PermissionTargetConverter.Convert(DBAccess.Data.Permission.PermissionTarget,BlogCoreAPI.Models.DTOs.Permission.PermissionTargetDto,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Permission.PermissionDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Permission"/>
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Post.AddPostDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Post"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Post.Converters.PostIdConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.Post"/> to its resource Id.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Post.Converters.PostIdConverter.#ctor(DBAccess.Repositories.Post.IPostRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Post.Converters.PostIdConverter"/> class.
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Post.Converters.PostIdConverter.Convert(System.Int32,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Post.Converters.UpdatePostConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.Post.Converters.UpdatePostConverter"/> to <see cref="N:BlogCoreAPI.Models.DTOs.Post"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Post.Converters.UpdatePostConverter.#ctor(DBAccess.Repositories.User.IUserRepository,DBAccess.Repositories.Category.ICategoryRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Post.Converters.UpdatePostConverter"/> class.
+            </summary>
+            <param name="userRepository"></param>
+            <param name="categoryRepository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Post.Converters.UpdatePostConverter.Convert(BlogCoreAPI.Models.DTOs.Post.UpdatePostDto,DBAccess.Data.Post,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
         <member name="T:BlogCoreAPI.Models.DTOs.Post.GetPostDto">
             <summary>
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Post"/>.
             </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Post.IPostDto">
+            <summary>
+            Interface of <see cref="N:BlogCoreAPI.Models.DTOs.Post"/> Dto containing all the common properties of Post Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Post.UpdatePostDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Post"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Role.AddRoleDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Role"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Role.Converters.RoleIdConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.Role"/> to its resource Id.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Role.Converters.RoleIdConverter.#ctor(DBAccess.Repositories.Role.IRoleRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Role.Converters.RoleIdConverter"/> class.
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Role.Converters.RoleIdConverter.Convert(System.Int32,DBAccess.Data.Role,AutoMapper.ResolutionContext)">
+            <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.Models.DTOs.Role.GetRoleDto">
             <summary>
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Role"/>.
             </summary>
         </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Role.IRoleDto">
+            <summary>
+            Interface of <see cref="N:BlogCoreAPI.Models.DTOs.Role"/> Dto containing all the common properties of Role Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Role.UpdateRoleDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Role"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Tag.AddTagDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Tag.Converters.TagIdConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/> to its resource Id.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Tag.Converters.TagIdConverter.#ctor(DBAccess.Repositories.Tag.ITagRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.Tag.Converters.TagIdConverter"/> class.
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Tag.Converters.TagIdConverter.Convert(System.Int32,DBAccess.Data.Tag,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
         <member name="T:BlogCoreAPI.Models.DTOs.Tag.GetTagDto">
             <summary>
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/>.
             </summary>
         </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Tag.ITagDto">
+            <summary>
+            Interface of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/> Dto containing all the common properties of Tag Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Tag.UpdateTagDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.User.AddUserDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.User.Converters.UpdateUserConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.User.UpdateUserDto"/> to <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.User.Converters.UpdateUserConverter.Convert(BlogCoreAPI.Models.DTOs.User.UpdateUserDto,DBAccess.Data.User,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.User.Converters.UserIdConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.User"/> to its resource Id.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.User.Converters.UserIdConverter.#ctor(DBAccess.Repositories.User.IUserRepository)">
+            <summary>
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.DTOs.User.Converters.UserIdConverter"/> class.
+            </summary>
+            <param name="repository"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.User,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
         <member name="T:BlogCoreAPI.Models.DTOs.User.GetUserDto">
             <summary>
             GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.User.IUserDto">
+            <summary>
+            Interface of User Dto containing all the common properties of User Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.User.UpdateUserDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
             </summary>
         </member>
         <member name="P:BlogCoreAPI.Models.Queries.APaginationQuery.Page">
@@ -1543,7 +1543,7 @@
         </member>
         <member name="P:BlogCoreAPI.Models.Queries.GetTagQueryParameters.InName">
             <summary>
-            Returns only categories whose name contains the given parameter
+            Returns only tags whose name contains the given parameter
             </summary>
         </member>
         <member name="P:BlogCoreAPI.Models.Queries.GetUserQueryParameters.OrderBy">

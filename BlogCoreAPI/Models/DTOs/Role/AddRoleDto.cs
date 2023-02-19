@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Role
+﻿namespace BlogCoreAPI.Models.DTOs.Role
 {
     /// <summary>
     /// Add Dto type of <see cref="Role"/>.

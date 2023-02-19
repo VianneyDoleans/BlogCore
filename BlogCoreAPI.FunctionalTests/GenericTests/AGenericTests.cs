@@ -3,9 +3,9 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs;
-using BlogCoreAPI.DTOs.User;
 using BlogCoreAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.Models.DTOs;
+using BlogCoreAPI.Models.DTOs.User;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.GenericTests

@@ -2,7 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using BlogCoreAPI.DTOs.Like;
+using BlogCoreAPI.Models.DTOs.Like;
+using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Validators.Like;
 using DBAccess.Data;
@@ -72,7 +73,7 @@ namespace BlogCoreAPI.Tests.Services
             await _service.AddLike(like);
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _service.AddLike(like));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddLike(like));
         }
 
         [Fact]

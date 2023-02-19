@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Authorization.Permissions;
-using BlogCoreAPI.DTOs.Permission;
-using BlogCoreAPI.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Permission;
+using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
 using DBAccess.Data.Permission;

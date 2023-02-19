@@ -1,6 +1,6 @@
-﻿using BlogCoreAPI.DTOs.Contracts;
+﻿using BlogCoreAPI.Models.DTOs.Contracts;
 
-namespace BlogCoreAPI.DTOs.Comment
+namespace BlogCoreAPI.Models.DTOs.Comment
 {
     /// <summary>
     /// Interface of <see cref="Comment"/> Dto containing all the common properties of Comment Dto Type (GET, ADD, UPDATE).

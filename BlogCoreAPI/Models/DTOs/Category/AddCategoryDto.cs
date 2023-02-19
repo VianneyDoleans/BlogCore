@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.DTOs.Category
+﻿namespace BlogCoreAPI.Models.DTOs.Category
 {
     /// <summary>
     /// Add Dto type of <see cref="Category"/>.
