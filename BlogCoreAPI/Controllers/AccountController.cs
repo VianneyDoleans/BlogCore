@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using BlogCoreAPI.Models.DTOs.Immutable;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Responses;
@@ -60,7 +61,7 @@ namespace BlogCoreAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignIn")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(JsonWebToken), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(UserLoginDto userLogin)
         {

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using BlogCoreAPI.FunctionalTests.Models;
 using BlogCoreAPI.Models.DTOs.User;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
@@ -25,8 +26,8 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             var httpResponse =
                 await _client.PostAsync(_baseUrl + "/SignIn", new StringContent(json, Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
-            var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            return stringResponse;
+            var jsonWebTokenDto = JsonSerializer.Deserialize<JsonWebTokenDto>(await httpResponse.Content.ReadAsStringAsync());
+            return jsonWebTokenDto?.Token;
         }
 
         public async Task<GetUserDto> CreateAccount(AddUserDto addUserDto)
