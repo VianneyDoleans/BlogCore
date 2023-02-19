@@ -6,9 +6,6 @@ on:
   pull_request:
     branches: [ "master" ]
   workflow_dispatch:
-  
-env:
-  DOTNET_VERSION: 6.0.x
 
 permissions:
   pull-requests: read # allows SonarCloud to decorate PRs with analysis results
@@ -29,7 +26,7 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Restore dependencies
       run: dotnet restore
     - name: Begin Sonar scan
