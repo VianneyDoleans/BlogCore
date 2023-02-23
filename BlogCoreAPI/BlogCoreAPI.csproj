@@ -10,6 +10,10 @@
     <WarningLevel>5</WarningLevel>
 	  <NoWarn>1591</NoWarn> <!-- Missing XML Comment -->
   </PropertyGroup>
+	
+	<PropertyGroup>
+		<InvariantGlobalization>false</InvariantGlobalization>
+	</PropertyGroup>
 
   <ItemGroup>
     <AdditionalFiles Include="..\.sonarlint\vianneydoleans_blogcore\CSharp\SonarLint.xml" Link="SonarLint.xml" />
