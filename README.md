@@ -26,7 +26,7 @@
   </a>
 </p>
 
-Live demo : https://mydevblogapi.herokuapp.com/swagger/
+Live demo : https://blogcoredemo.onrender.com/swagger
 
 ## Powerful features
 
@@ -58,6 +58,7 @@ Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](ht
  - [xUnit](https://xunit.net/)
  - [Moq](https://github.com/moq/moq4)
  - [AutoMapper](https://automapper.org/)
+ - [Docker](https://www.docker.com/)
 
 
 ## Getting Started
