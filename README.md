@@ -44,7 +44,7 @@ Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](ht
  - Follow guidelines from DDD (Domain Driven Design).
  - Good code coverage
  - [SonarCloud](https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore) used to ensure code quality
- - Solution contains also End-to-End Unit Testing (ensure that Blog Core API's endpoints work)
+ - Solution also contains End-to-End Testing (ensure that Blog Core API's endpoints work)
  - [Resharper](https://www.jetbrains.com/fr-fr/resharper/) and [SonarLint](https://www.sonarsource.com/products/sonarlint/) are used during the development of this project
 
 ## Technologies
