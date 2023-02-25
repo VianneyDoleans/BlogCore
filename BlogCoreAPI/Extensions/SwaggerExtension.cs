@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 
@@ -19,8 +20,9 @@ namespace BlogCoreAPI.Extensions
                     Description = "Powerful .NET 7 Blog API",
                     Version = "v1"
                 });
-                var xmlDocumentationPath = Path.Combine(AppContext.BaseDirectory, "BlogCoreAPI.xml");
-                if (Directory.Exists(xmlDocumentationPath))
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlDocumentationPath = Path.Combine(AppContext.BaseDirectory, xmlFilename);
+                if (File.Exists(xmlDocumentationPath))
                     c.IncludeXmlComments(xmlDocumentationPath);
 
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
