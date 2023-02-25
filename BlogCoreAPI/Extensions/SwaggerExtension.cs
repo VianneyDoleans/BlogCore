@@ -16,7 +16,7 @@ namespace BlogCoreAPI.Extensions
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "BlogCore",
-                    Description = "Powerful .NET 6 Blog API",
+                    Description = "Powerful .NET 7 Blog API",
                     Version = "v1"
                 });
                 var xmlDocumentationPath = Path.Combine(AppContext.BaseDirectory, "BlogCoreAPI.xml");
