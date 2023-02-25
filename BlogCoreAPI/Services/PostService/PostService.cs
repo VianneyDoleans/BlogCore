@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -55,7 +55,13 @@ namespace BlogCoreAPI.Services.PostService
             PagingSpecification pagingSpecification = null,
             SortSpecification<Post> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetPostDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification))
+                .Select(x =>
+                {
+                    var postDto =  _mapper.Map<GetPostDto>(x);
+                    postDto.Tags = x.PostTags.Select(y => y.TagId);
+                    return postDto;
+                });
         }
 
         public async Task<int> CountPostsWhere(FilterSpecification<Post> filterSpecification = null)
