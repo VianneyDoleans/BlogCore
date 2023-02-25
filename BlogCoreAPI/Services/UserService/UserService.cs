@@ -65,9 +65,9 @@ namespace BlogCoreAPI.Services.UserService
         public async Task<GetUserDto> GetUser(int id)
         {
             var user = await _repository.GetAsync(id);
-                var userDto = _mapper.Map<GetUserDto>(user);
-                userDto.Roles = user.UserRoles.Select(x => x.RoleId);
-                return userDto;
+            var userDto = _mapper.Map<GetUserDto>(user);
+            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            return userDto;
         }
 
         public async Task<GetUserDto> GetUser(string userName)
