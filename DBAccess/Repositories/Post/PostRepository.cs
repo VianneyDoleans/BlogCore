@@ -98,11 +98,13 @@ namespace DBAccess.Repositories.Post
         /// <inheritdoc />
         public async Task<IEnumerable<Data.Post>> GetPostsFromTag(int id)
         {
-            return await _context.Set<PostTag>().Include(x => x.Post.Likes)
+            var postTags = await _context.Set<PostTag>().Include(x => x.Post.Likes)
                 .Include(x => x.Post.Author)
                 .Include(x => x.Post.Category)
                 .Include(x => x.Tag)
-                .Where(x => x.TagId == id).Select(x => x.Post).ToListAsync();
+                .Include(x => x.Post)
+                .Where(x => x.TagId == id).ToListAsync();
+            return postTags.Select(x => x.Post);
         }
 
         /// <inheritdoc />
