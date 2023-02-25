@@ -35,8 +35,9 @@ namespace BlogCoreAPI.Authorization.PermissionHandlers.Attributes
         /// <inheritdoc />
         protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionWithRangeRequirement withRangeRequirement)
         {
-            var userId = context.User.Claims
-                .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value;
+            var userId = context.User.Claims.FirstOrDefault(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier")?.Value;
+            if (string.IsNullOrEmpty(userId))
+                return;
 
             var user = await _userService.GetUser(int.Parse(userId));
             if (user.Roles.Any())
