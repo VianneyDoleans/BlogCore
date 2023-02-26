@@ -1,9 +1,9 @@
-﻿namespace BlogCoreAPI.Models.DTOs.User
+﻿namespace BlogCoreAPI.Models.DTOs.Account
 {
     /// <summary>
     /// Add Dto type of <see cref="User"/>.
     /// </summary>
-    public class AddUserDto : IUserDto
+    public class AddAccountDto : IAccountDto
     {
         public string UserName { get; set; }
 

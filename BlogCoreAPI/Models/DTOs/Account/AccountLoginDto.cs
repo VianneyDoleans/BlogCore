@@ -1,6 +1,6 @@
-﻿namespace BlogCoreAPI.Models.DTOs.User
+﻿namespace BlogCoreAPI.Models.DTOs.Account
 {
-    public class UserLoginDto
+    public class AccountLoginDto
     {
         public string UserName { get; set; }
 

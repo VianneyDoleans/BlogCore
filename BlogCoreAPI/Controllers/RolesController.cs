@@ -2,10 +2,10 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
-using BlogCoreAPI.Builders.Specifications;
-using BlogCoreAPI.Builders.Specifications.Role;
+using BlogCoreAPI.Models.Builders.Specifications;
+using BlogCoreAPI.Models.Builders.Specifications.Role;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Role;
-using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.RoleService;
@@ -208,7 +208,7 @@ namespace BlogCoreAPI.Controllers
         /// <returns></returns>
         [HttpGet("{id:int}/Users/")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(IEnumerable<GetUserDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<GetAccountDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUsersFromRole(int id)
         {

@@ -21,7 +21,7 @@ namespace DBAccess.Builders
             _permissions = new List<Permission>();
         }
 
-        public RoleBuilder WithCanReadAllOnAllResources()
+        public RoleBuilder WithCanReadAllOnAllResourcesExceptAccount()
         {
             WithCanReadAll(PermissionTarget.Category);
             WithCanReadAll(PermissionTarget.Comment);
@@ -42,8 +42,8 @@ namespace DBAccess.Builders
             WithCanUpdateAll(PermissionTarget.Post);
             WithCanUpdateAll(PermissionTarget.Role);
             WithCanUpdateAll(PermissionTarget.Tag);
-            WithCanUpdateAll(PermissionTarget.User);
-            WithCanReadAll(PermissionTarget.Permission);
+            WithCanUpdateAll(PermissionTarget.Permission);
+            WithCanUpdateAll(PermissionTarget.Account);
             return this;
         }
 
@@ -55,8 +55,8 @@ namespace DBAccess.Builders
             WithCanCreateAll(PermissionTarget.Post);
             WithCanCreateAll(PermissionTarget.Role);
             WithCanCreateAll(PermissionTarget.Tag);
-            WithCanCreateAll(PermissionTarget.User);
-            WithCanReadAll(PermissionTarget.Permission);
+            WithCanCreateAll(PermissionTarget.Permission);
+            WithCanCreateAll(PermissionTarget.Account);
             return this;
         }
 
@@ -68,8 +68,8 @@ namespace DBAccess.Builders
             WithCanDeleteAll(PermissionTarget.Post);
             WithCanDeleteAll(PermissionTarget.Role);
             WithCanDeleteAll(PermissionTarget.Tag);
-            WithCanDeleteAll(PermissionTarget.User);
-            WithCanReadAll(PermissionTarget.Permission);
+            WithCanDeleteAll(PermissionTarget.Permission);
+            WithCanDeleteAll(PermissionTarget.Account);
             return this;
         }
 
@@ -100,6 +100,17 @@ namespace DBAccess.Builders
             _permissions.Add(new Permission
             {
                 PermissionAction = PermissionAction.CanDelete,
+                PermissionTarget = target,
+                PermissionRange = PermissionRange.Own
+            });
+            return this;
+        }
+
+        public RoleBuilder WithCanReadOwn(PermissionTarget target)
+        {
+            _permissions.Add(new Permission
+            {
+                PermissionAction = PermissionAction.CanRead,
                 PermissionTarget = target,
                 PermissionRange = PermissionRange.Own
             });

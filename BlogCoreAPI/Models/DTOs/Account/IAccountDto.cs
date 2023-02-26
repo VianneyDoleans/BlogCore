@@ -1,9 +1,10 @@
-﻿namespace BlogCoreAPI.Models.DTOs.User
+﻿namespace BlogCoreAPI.Models.DTOs.Account
 {
+
     /// <summary>
-    /// UPDATE Dto type of <see cref="User"/>.
+    /// Interface of User Dto containing all the common properties of Account Dto Type (GET, ADD, UPDATE).
     /// </summary>
-    public class UpdateUserDto : ADto, IUserDto
+    public interface IAccountDto
     {
         public string UserName { get; set; }
 

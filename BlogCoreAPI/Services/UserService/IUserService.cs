@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.User;
 using DBAccess.Data;
 using DBAccess.Specifications;
@@ -10,7 +11,7 @@ namespace BlogCoreAPI.Services.UserService
 {
     public interface IUserService
     {
-        Task<IEnumerable<GetUserDto>> GetAllUsers();
+        Task<IEnumerable<GetAccountDto>> GetAllAccounts();
 
         public Task<IEnumerable<GetUserDto>> GetUsers(FilterSpecification<User> filterSpecification = null,
             PagingSpecification pagingSpecification = null,
@@ -18,23 +19,25 @@ namespace BlogCoreAPI.Services.UserService
 
         public Task<int> CountUsersWhere(FilterSpecification<User> filterSpecification = null);
 
+        Task<GetAccountDto> GetAccount(int id);
+
         Task<GetUserDto> GetUser(int id);
 
-        Task<GetUserDto> GetUser(string userName);
+        Task<GetAccountDto> GetAccount(string userName);
 
         Task<User> GetUserEntity(int id);
 
-        Task<GetUserDto> AddUser(AddUserDto user);
+        Task<GetAccountDto> AddAccount(AddAccountDto account);
 
         Task AddUserRole(UserRoleDto userRole);
 
         Task RemoveUserRole(UserRoleDto userRole);
 
-        Task<bool> SignIn(UserLoginDto userLogin);
+        Task<bool> SignIn(AccountLoginDto accountLogin);
 
-        Task UpdateUser(UpdateUserDto user);
+        Task UpdateAccount(UpdateAccountDto account);
 
-        Task DeleteUser(int id);
+        Task DeleteAccount(int id);
 
         Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id);
     }

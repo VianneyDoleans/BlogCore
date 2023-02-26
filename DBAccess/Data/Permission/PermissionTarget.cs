@@ -13,6 +13,7 @@ namespace DBAccess.Data.Permission
         Tag = 4,
         User = 5,
         Role = 6,
-        Permission = 7
+        Permission = 7,
+        Account = 8
     }
 }

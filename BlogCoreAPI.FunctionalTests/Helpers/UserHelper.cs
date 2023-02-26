@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Linq;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
-using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Account;
+using Newtonsoft.Json;
 
 namespace BlogCoreAPI.FunctionalTests.Helpers
 {
-    public class UserHelper : AEntityHelper<GetUserDto, AddUserDto, UpdateUserDto>
+    public class UserHelper : AEntityHelper<GetAccountDto, AddAccountDto, UpdateAccountDto>
     {
         private readonly AccountHelper _accountHelper;
 
@@ -15,15 +17,25 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             _accountHelper = new AccountHelper(client);
         }
 
-        public override async Task<GetUserDto> AddEntity(AddUserDto entity)
+        public override async Task<GetAccountDto> AddEntity(AddAccountDto entity)
         {
             var userCreated = await _accountHelper.CreateAccount(entity);
             return userCreated;
         }
 
-        protected override UpdateUserDto ModifyTUpdate(UpdateUserDto entity)
+        public override async Task RemoveIdentity(int id)
         {
-            return new UpdateUserDto()
+            await _accountHelper.DeleteAccount(id);
+        }
+
+        public override async Task UpdateEntity(UpdateAccountDto entity)
+        {
+            await _accountHelper.UpdateAccount(entity);
+        }
+
+        protected override UpdateAccountDto ModifyTUpdate(UpdateAccountDto entity)
+        {
+            return new UpdateAccountDto()
             {
                 Email = entity.Email,
                 Id = entity.Id,
@@ -33,7 +45,7 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             };
         }
 
-        public override bool Equals(GetUserDto first, GetUserDto second)
+        public override bool Equals(GetAccountDto first, GetAccountDto second)
         {
             if (first == null || second == null)
                 return false;

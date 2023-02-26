@@ -1,8 +1,7 @@
-﻿using BlogCoreAPI.Models;
-using BlogCoreAPI.Models.Sort;
+﻿using BlogCoreAPI.Models.Sort;
 using DBAccess.Specifications.SortSpecification;
 
-namespace BlogCoreAPI.Builders.Specifications.Category
+namespace BlogCoreAPI.Models.Builders.Specifications.Category
 {
     /// <summary>
     /// Class used to generate <see cref="SortSpecification{TEntity}"/> for <see cref="Category"/>.

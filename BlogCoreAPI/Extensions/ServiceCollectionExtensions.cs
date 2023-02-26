@@ -1,13 +1,13 @@
 ﻿using BlogCoreAPI.Authorization.PermissionHandlers.Attributes;
 using BlogCoreAPI.Authorization.PermissionHandlers.Dtos;
 using BlogCoreAPI.Authorization.PermissionHandlers.Resources;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Comment;
 using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.DTOs.Post;
 using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.Tag;
-using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Services.CategoryService;
 using BlogCoreAPI.Services.CommentService;
 using BlogCoreAPI.Services.LikeService;
@@ -92,7 +92,7 @@ namespace BlogCoreAPI.Extensions
             services.AddScoped<IValidator<IPostDto>, PostDtoValidator>();
             services.AddScoped<IValidator<IRoleDto>, RoleDtoValidator>();
             services.AddScoped<IValidator<ITagDto>, TagDtoValidator>();
-            services.AddScoped<IValidator<IUserDto>, UserDtoValidator>();
+            services.AddScoped<IValidator<IAccountDto>, UserDtoValidator>();
             return services;
         }
 

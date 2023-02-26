@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace BlogCoreAPI.Builders.Specifications.Post
+namespace BlogCoreAPI.Models.Builders.Specifications.Post
 {
     /// <summary>
     /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Post"/>.

@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BlogCoreAPI.Models.DTOs.Account;
+using BlogCoreAPI.Models.DTOs.Account.Converters;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Category.Converters;
 using BlogCoreAPI.Models.DTOs.Comment;
@@ -32,7 +34,7 @@ namespace BlogCoreAPI
             CreateMap<AddPostDto, Post>();
             CreateMap<AddRoleDto, Role>();
             CreateMap<AddTagDto, Tag>();
-            CreateMap<AddUserDto, User>();
+            CreateMap<AddAccountDto, User>();
 
             CreateMap<Category, GetCategoryDto>();
             CreateMap<Comment, GetCommentDto>();
@@ -41,6 +43,7 @@ namespace BlogCoreAPI
             CreateMap<Role, GetRoleDto>();
             CreateMap<Tag, GetTagDto>();
             CreateMap<User, GetUserDto>();
+            CreateMap<User, GetAccountDto>();
 
             CreateMap<GetCategoryDto, UpdateCategoryDto>();
             CreateMap<GetCommentDto, UpdateCommentDto>();
@@ -48,7 +51,7 @@ namespace BlogCoreAPI
             CreateMap<GetPostDto, UpdatePostDto>();
             CreateMap<GetRoleDto, UpdateRoleDto>();
             CreateMap<GetTagDto, UpdateTagDto>();
-            CreateMap<GetUserDto, UpdateUserDto>();
+            CreateMap<GetAccountDto, UpdateAccountDto>();
 
             CreateMap<Like, int>().ConvertUsing(x => x.Id);
             CreateMap<Comment, int>().ConvertUsing(x => x.Id);
@@ -67,7 +70,7 @@ namespace BlogCoreAPI
             CreateMap<int, Tag>().ConvertUsing<TagIdConverter>();
 
             CreateMap<UpdateCategoryDto, Category>().ConvertUsing<UpdateCategoryConverter>();
-            CreateMap<UpdateUserDto, User>().ConvertUsing(new UpdateUserConverter());
+            CreateMap<UpdateAccountDto, User>().ConvertUsing(new UpdateAccountConverter());
             CreateMap<UpdateCommentDto, Comment>().ConvertUsing<UpdateCommentConverter>();
             CreateMap<UpdateLikeDto, Like>().ConvertUsing<UpdateLikeConverter>();
             CreateMap<UpdatePostDto, Post>().ConvertUsing<UpdatePostConverter>();

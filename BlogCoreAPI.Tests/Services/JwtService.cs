@@ -43,10 +43,10 @@ namespace BlogCoreAPI.Tests.Services
         {
             var userService = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager),
                 _mapper, _fixture.UnitOfWork, new UserDtoValidator());
-            var user = await new UserBuilder(userService).Build();
+            var account = await new AccountBuilder(userService).Build();
 
             // Act
-            var token = (await _jwtService.GenerateJwt(user.Id)).Token;
+            var token = (await _jwtService.GenerateJwt(account.Id)).Token;
 
             // Assert
             Assert.NotNull(token);
@@ -55,7 +55,7 @@ namespace BlogCoreAPI.Tests.Services
             Assert.Equal(_issuer, jwtSecurityToken.Issuer);
             Assert.Contains(jwtSecurityToken.Claims, x =>
                 x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier" &&
-                x.Value == user.Id.ToString());
+                x.Value == account.Id.ToString());
             var jwtExpValue = long.Parse(jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == "exp")?.Value ?? "0");
             var expirationTime = DateTimeOffset.FromUnixTimeSeconds(jwtExpValue).DateTime;
             Assert.Equal(expirationTime, DateTime.UtcNow.AddDays(_expirationInDays), TimeSpan.FromSeconds(5));

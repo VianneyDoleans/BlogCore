@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.FunctionalTests.Helpers;
 using BlogCoreAPI.Models.DTOs;
-using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Account;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.GenericTests
@@ -17,7 +17,7 @@ namespace BlogCoreAPI.FunctionalTests.GenericTests
     {
         protected readonly HttpClient Client;
         protected abstract IEntityHelper<TGet, TAdd, TUpdate> Helper { get; set; }
-        protected readonly UserLoginDto Admin;
+        protected readonly AccountLoginDto Admin;
 
         protected AGenericTests(TestWebApplicationFactory factory)
         {

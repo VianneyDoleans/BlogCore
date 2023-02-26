@@ -42,13 +42,13 @@ namespace BlogCoreAPI.Authorization.PermissionHandlers.Resources
             var userId = int.Parse(context.User.Claims
                 .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
 
-            var user = await _userService.GetUser(userId);
-            if (user.Roles.Any())
+            var account = await _userService.GetAccount(userId);
+            if (account.Roles.Any())
             {
                 var requirementAction = _mapper.Map<PermissionActionDto>(requirement.Permission);
                 var requirementTarget = _mapper.Map<PermissionTargetDto>(requirement.PermissionTarget);
 
-                foreach (var role in user.Roles)
+                foreach (var role in account.Roles)
                 {
                     var permissions = await _roleService.GetPermissionsAsync(role);
 

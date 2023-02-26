@@ -17,7 +17,7 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
 
         public Task<IEnumerable<TGet>> GetAll();
 
-        public Task UpdateIdentity(TUpdate entity);
+        public Task UpdateEntity(TUpdate entity);
 
         public Task RemoveIdentity(int id);
 

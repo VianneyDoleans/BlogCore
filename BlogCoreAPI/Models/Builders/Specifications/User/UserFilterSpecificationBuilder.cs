@@ -2,7 +2,7 @@
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace BlogCoreAPI.Builders.Specifications.User
+namespace BlogCoreAPI.Models.Builders.Specifications.User
 {
     /// <summary>
     /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="User"/>.

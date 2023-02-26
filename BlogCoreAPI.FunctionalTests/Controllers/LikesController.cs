@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.DTOs.Post;
@@ -20,7 +21,7 @@ namespace BlogCoreAPI.FunctionalTests.Controllers
         private readonly PostHelper _postHelper;
         public override async Task<GetLikeDto> AddRandomEntity()
         {
-            var user = new AddUserDto()
+            var user = new AddAccountDto()
             {
                 Email = Guid.NewGuid() + "@user.com",
                 Password = "0a1234A@",
