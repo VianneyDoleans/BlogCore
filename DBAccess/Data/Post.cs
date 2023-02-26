@@ -33,5 +33,7 @@ namespace DBAccess.Data
 
         [ForeignKey("PostId")]
         public virtual ICollection<Comment> Comments { get; set; }
+
+        public string ThumbnailUrl { get; set; }
     }
 }
