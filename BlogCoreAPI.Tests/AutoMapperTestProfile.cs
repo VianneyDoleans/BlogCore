@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using BlogCoreAPI.Models.DTOs.Account;
+using BlogCoreAPI.Models.DTOs.Account.Converters;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Category.Converters;
 using BlogCoreAPI.Models.DTOs.Comment;
@@ -43,7 +45,7 @@ namespace BlogCoreAPI.Tests
             CreateMap<AddPostDto, Post>();
             CreateMap<AddRoleDto, Role>();
             CreateMap<AddTagDto, Tag>();
-            CreateMap<AddUserDto, User>();
+            CreateMap<AddAccountDto, User>();
 
             CreateMap<Category, GetCategoryDto>();
             CreateMap<Comment, GetCommentDto>();
@@ -52,6 +54,7 @@ namespace BlogCoreAPI.Tests
             CreateMap<Role, GetRoleDto>();
             CreateMap<Tag, GetTagDto>();
             CreateMap<User, GetUserDto>();
+            CreateMap<User, GetAccountDto>();
 
             CreateMap<GetCategoryDto, UpdateCategoryDto>();
             CreateMap<GetCommentDto, UpdateCommentDto>();
@@ -59,7 +62,7 @@ namespace BlogCoreAPI.Tests
             CreateMap<GetPostDto, UpdatePostDto>();
             CreateMap<GetRoleDto, UpdateRoleDto>();
             CreateMap<GetTagDto, UpdateTagDto>();
-            CreateMap<GetUserDto, UpdateUserDto>();
+            CreateMap<GetAccountDto, UpdateAccountDto>();
 
             CreateMap<Like, int>().ConvertUsing(x => x.Id);
             CreateMap<Comment, int>().ConvertUsing(x => x.Id);
@@ -71,14 +74,14 @@ namespace BlogCoreAPI.Tests
 
             CreateMap<int, Like>().ConvertUsing(new LikeIdConverter(likeRepository));
             CreateMap<int, Comment>().ConvertUsing(new CommentIdConverter(commentRepository));
-            CreateMap<int, Post> ().ConvertUsing(new PostIdConverter(postRepository));
+            CreateMap<int, Post>().ConvertUsing(new PostIdConverter(postRepository));
             CreateMap<int, User>().ConvertUsing(new UserIdConverter(userRepository));
             CreateMap<int, Category>().ConvertUsing(new CategoryIdConverter(categoryRepository));
             CreateMap<int, Role>().ConvertUsing(new RoleIdConverter(roleRepository));
             CreateMap<int, Tag>().ConvertUsing(new TagIdConverter(tagRepository));
 
             CreateMap<UpdateCategoryDto, Category>().ConvertUsing(new UpdateCategoryConverter());
-            CreateMap<UpdateUserDto, User>().ConvertUsing(new UpdateUserConverter());
+            CreateMap<UpdateAccountDto, User>().ConvertUsing(new UpdateAccountConverter());
             CreateMap<UpdateCommentDto, Comment>().ConvertUsing(new UpdateCommentConverter(commentRepository, postRepository, userRepository));
             CreateMap<UpdateLikeDto, Like>().ConvertUsing(new UpdateLikeConverter(commentRepository, postRepository, userRepository));
             CreateMap<UpdatePostDto, Post>().ConvertUsing(new UpdatePostConverter(userRepository, categoryRepository));

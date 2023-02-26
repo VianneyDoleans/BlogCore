@@ -2,17 +2,17 @@
 using System.Threading.Tasks;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
-using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Account;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class UsersController : AGenericTests<GetUserDto, AddUserDto, UpdateUserDto>, IClassFixture<TestWebApplicationFactory>
+    public sealed class UsersController : AGenericTests<GetAccountDto, AddAccountDto, UpdateAccountDto>, IClassFixture<TestWebApplicationFactory>
     {
-        protected override IEntityHelper<GetUserDto, AddUserDto, UpdateUserDto> Helper { get; set; }
-        public override async Task<GetUserDto> AddRandomEntity()
+        protected override IEntityHelper<GetAccountDto, AddAccountDto, UpdateAccountDto> Helper { get; set; }
+        public override async Task<GetAccountDto> AddRandomEntity()
         {
-            var user = new AddUserDto()
+            var user = new AddAccountDto()
             {
                 Email = Guid.NewGuid().ToString("N") + "@user.com",
                 Password = "0a1234A@",

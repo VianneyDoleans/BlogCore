@@ -41,7 +41,7 @@ namespace BlogCoreAPI.Authorization.PermissionHandlers.Dtos
             var userId = int.Parse(context.User.Claims
                 .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
 
-            var user = await _userService.GetUser(userId);
+            var user = await _userService.GetAccount(userId);
             if (user.Roles.Any())
             {
                 var requirementAction = _mapper.Map<PermissionActionDto>(requirement.Permission);

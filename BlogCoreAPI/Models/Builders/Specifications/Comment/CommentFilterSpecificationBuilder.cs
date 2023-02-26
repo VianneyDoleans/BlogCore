@@ -1,7 +1,7 @@
 ﻿using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace BlogCoreAPI.Builders.Specifications.Comment
+namespace BlogCoreAPI.Models.Builders.Specifications.Comment
 {
     /// <summary>
     /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Comment"/>.

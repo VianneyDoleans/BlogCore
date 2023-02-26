@@ -21,7 +21,7 @@ namespace DBAccess.Tests.Repositories
         }
 
         [Fact]
-        public async Task AddUserAsync()
+        public async Task AddAccountAsync()
         {
             var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             var testUser = new User()
@@ -114,19 +114,19 @@ namespace DBAccess.Tests.Repositories
         // --------
 
         [Fact]
-        public void AddUser()
+        public void AddAccount()
         {
             // Arrange
             var userRepository = new DBAccess.Repositories.User.UserRepository(_fixture.Db, _fixture.UserManager);
             _fixture.Db.SaveChanges();
-            var testUser = new User() { Email = "", Password = "test", UserName = "AddUser" };
+            var testUser = new User() { Email = "", Password = "test", UserName = "AddAccount" };
 
             // Act
             userRepository.Add(testUser);
             _fixture.UnitOfWork.Save();
 
             // Assert
-            Assert.True(_fixture.Db.Users.First(x => x.UserName == "AddUser") != null);
+            Assert.True(_fixture.Db.Users.First(x => x.UserName == "AddAccount") != null);
         }
 
         [Fact]

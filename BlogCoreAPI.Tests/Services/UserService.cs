@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.UserService;
@@ -34,153 +35,153 @@ namespace BlogCoreAPI.Tests.Services
         }
 
         [Fact]
-        public async Task AddUser()
+        public async Task AddAccount()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
-                Email = "AddUser@newEmail.com",
+                Email = "AddAccount@newEmail.com",
                 Password = "16453aA-007",
-                UserName = "AddUser1"
+                UserName = "AddAccount1"
             };
 
             // Act
-            var user = await _service.AddUser(userToAdd);
+            var account = await _service.AddAccount(accountToAdd);
 
             // Assert
-            Assert.Contains(_fixture.Db.Users, x => x.Id == user.Id &&
-                                                    x.Email == user.Email &&
-                                                    x.UserDescription == user.UserDescription &&
-                                                    x.UserName == user.UserName);
+            Assert.Contains(_fixture.Db.Users, x => x.Id == account.Id &&
+                                                    x.Email == account.Email &&
+                                                    x.UserDescription == account.UserDescription &&
+                                                    x.UserName == account.UserName);
         }
 
         [Fact]
-        public async Task AddNullUser()
+        public async Task AddNullAccount()
         {
 
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.AddUser(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.AddAccount(null));
         }
 
         [Fact]
-        public async Task UpdateNullUser()
+        public async Task UpdateNullAccount()
         {
 
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateUser(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await _service.UpdateAccount(null));
         }
 
         [Fact]
-        public async Task AddUserWithAnAlreadyExistingEmailAddress()
+        public async Task AddAccountWithAnAlreadyExistingEmailAddress()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
-                Email = "AddUserAlreadyEmail@newEmail.com",
+                Email = "AddAccountAlreadyEmail@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "AddUsEmailA"
             };
-            await _service.AddUser(userToAdd);
-            userToAdd.UserName = "test11";
+            await _service.AddAccount(accountToAdd);
+            accountToAdd.UserName = "test11";
 
             // Act && Assert
-            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithAnAlreadyExistingUsername()
+        public async Task AddAccountWithAnAlreadyExistingUsername()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
-                Email = "AddUserAlreadyUsername@newEmail.com",
+                Email = "AddAccountAlreadyUsername@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "AddUUnameA"
             };
-            await _service.AddUser(userToAdd);
-            userToAdd.Email = "RandomExistingUsername@newEmail1.com";
+            await _service.AddAccount(accountToAdd);
+            accountToAdd.Email = "RandomExistingUsername@newEmail1.com";
 
             // Act && Assert
-            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithNullPassword()
+        public async Task AddAccountWithNullPassword()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
-                Email = "AddUserNullPassword@newEmail3.com",
+                Email = "AddAccountNullPassword@newEmail3.com",
                 UserName = "AddUNullPa"
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithNullUsername()
+        public async Task AddAccountWithNullUsername()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
-                Email = "AddUserNullUsername@newEmail3.com",
+                Email = "AddAccountNullUsername@newEmail3.com",
                 Password = "AddUNullUs"
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithNullEmail()
+        public async Task AddAccountWithNullEmail()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 UserName = "AddUNullEm",
                 Password = "12345"
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithTooLongUsername()
+        public async Task AddAccountWithTooLongUsername()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 UserName = "aaaaaaaaaaaaaaaaaaaab",
-                Email = "AddUserTooLongUsername@aNewEmail.com",
+                Email = "AddAccountTooLongUsername@aNewEmail.com",
                 Password = "12345"
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithTooShortUsername()
+        public async Task AddAccountWithTooShortUsername()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 UserName = "ab",
-                Email = "AddUserTooShortUsername@aNewEmail.com",
+                Email = "AddAccountTooShortUsername@aNewEmail.com",
                 Password = "12345"
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithTooLongEmail()
+        public async Task AddAccountWithTooLongEmail()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 UserName = "AddUToLEm",
                 Email = "aaaaaaaaaaaaaaaaaaaabrgffffffffffff" +
@@ -196,17 +197,17 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task AddUserWithTooLongUserDescription()
+        public async Task AddAccountWithTooLongUserDescription()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 UserName = "AddUToLUD",
-                Email = "AddUserWithTooLongUserDescription@email12.com",
+                Email = "AddAccountWithTooLongUserDescription@email12.com",
                 UserDescription = "This is a long long long long long long long long long" +
                                   " long long long long long long long long long long long" +
                                   " long long long long long long long long long long long" +
@@ -230,14 +231,14 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act && Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddUser(userToAdd));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
-        public async Task GetUser()
+        public async Task GetAccount()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 Email = "GetUser@newEmail.com",
                 Password = "16453aA-007",
@@ -245,42 +246,42 @@ namespace BlogCoreAPI.Tests.Services
             };
 
             // Act
-            var userDb = await _service.GetUser((await _service.AddUser(userToAdd)).Id);
+            var accountDb = await _service.GetAccount((await _service.AddAccount(accountToAdd)).Id);
 
             // Assert
-            Assert.True(userDb.Email == userToAdd.Email &&
-                        userDb.UserDescription == userToAdd.UserDescription &&
-                        userDb.UserName == userToAdd.UserName);
+            Assert.True(accountDb.Email == accountToAdd.Email &&
+                        accountDb.UserDescription == accountToAdd.UserDescription &&
+                        accountDb.UserName == accountToAdd.UserName);
         }
 
         [Fact]
-        public async Task GetUserNotFound()
+        public async Task GetAccountNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetUser(685479));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetAccount(685479));
         }
 
         [Fact]
-        public async Task UpdateUser()
+        public async Task UpdateAccount()
         {
             // Arrange
-            var user = await _service.AddUser(new AddUserDto()
+            var account = await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUser@newEmail.com",
+                Email = "UpdateAccount@newEmail.com",
                 Password = "16453aA-007",
-                UserName = "UpdateUser"
+                UserName = "UpdateAccount"
             });
-            var userToUpdate = new UpdateUserDto()
+            var userToUpdate = new UpdateAccountDto()
             {
-                Id = user.Id,
-                Email = "UpdateUser@newEmail.comUpdate",
+                Id = account.Id,
+                Email = "UpdateAccount@newEmail.comUpdate",
                 Password = "16453Update",
-                UserName = "UpdateUserUpdate"
+                UserName = "UpdateAccountUpdate"
             };
 
             // Act
-            await _service.UpdateUser(userToUpdate);
-            var userUpdated = await _service.GetUser(userToUpdate.Id);
+            await _service.UpdateAccount(userToUpdate);
+            var userUpdated = await _service.GetAccount(userToUpdate.Id);
 
             // Assert
             Assert.True(userUpdated.Email == userToUpdate.Email &&
@@ -289,145 +290,145 @@ namespace BlogCoreAPI.Tests.Services
         }
 
         [Fact]
-        public async Task UpdateUserNotFound()
+        public async Task UpdateAccountNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateUser(new UpdateUserDto() 
-                {Id = 164854, Password = "123", Email = "UpdateUserNotFound@email.com", UserName = "UpdUNotFound"}));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateAccount(new UpdateAccountDto() 
+                {Id = 164854, Password = "123", Email = "UpdateAccountNotFound@email.com", UserName = "UpdUNotFound"}));
         }
 
         [Fact]
-        public async Task UpdateUserWithSameExistingProperties()
+        public async Task UpdateAccountWithSameExistingProperties()
         {
             // Arrange
-            var user = await _service.AddUser(new AddUserDto()
+            var user = await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUserWithSameExistingProperty@newEmail.com",
+                Email = "UpdateAccountWithSameExistingProperty@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpUsrWiSaExtProp"
             });
-            var userToUpdate = new UpdateUserDto()
+            var userToUpdate = new UpdateAccountDto()
             {
                 Id = user.Id,
-                Email = "UpdateUserWithSameExistingProperty@newEmail.com",
+                Email = "UpdateAccountWithSameExistingProperty@newEmail.com",
                 Password = "16453",
                 UserName = "UpUsrWiSaExtProp"
             };
 
             // Act
-            await _service.UpdateUser(userToUpdate);
-            var userUpdated = await _service.GetUser(userToUpdate.Id);
+            await _service.UpdateAccount(userToUpdate);
+            var accountUpdated = await _service.GetAccount(userToUpdate.Id);
 
             // Assert
-            Assert.True(userUpdated.Email == userToUpdate.Email &&
-                        userUpdated.UserDescription == userToUpdate.UserDescription &&
-                        userUpdated.UserName == userToUpdate.UserName);
+            Assert.True(accountUpdated.Email == userToUpdate.Email &&
+                        accountUpdated.UserDescription == userToUpdate.UserDescription &&
+                        accountUpdated.UserName == userToUpdate.UserName);
         }
 
         [Fact]
-        public async Task UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser()
+        public async Task UpdateAccountWithSomeUniqueExistingPropertiesFromAnotherUser()
         {
             // Arrange
-            await _service.AddUser(new AddUserDto()
+            await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUserWithSomeUniqueExistingPropertiesFromAnotherUser@newEmail.com",
+                Email = "UpdateAccountWithSomeUniqueExistingPropertiesFromAnotherUser@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpUsrWiSoUExtProp"
             });
-            var user2 = await _service.AddUser(new AddUserDto()
+            var account2 = await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
+                Email = "UpdateAccountWithSomeUExistingUProperty2@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpUsrWiSoUExtProp2"
             });
-            var userToUpdate = new UpdateUserDto()
+            var userToUpdate = new UpdateAccountDto()
             {
-                Id = user2.Id,
-                Email = "UpdateUserWithSomeUExistingUProperty2@newEmail.com",
+                Id = account2.Id,
+                Email = "UpdateAccountWithSomeUExistingUProperty2@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpUsrWiSoUExtProp"
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateUser(userToUpdate));
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => await _service.UpdateAccount(userToUpdate));
         }
 
         [Fact]
-        public async Task UpdateUserOnlyOneProperty()
+        public async Task UpdateAccountOnlyOneProperty()
         {
             // Arrange
-            var user = await _service.AddUser(new AddUserDto()
+            var account = await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUserOnlyOneProperty@newEmail.com",
+                Email = "UpdateAccountOnlyOneProperty@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpdateUOnlyOPro"
             });
-            var userToUpdate = new UpdateUserDto()
+            var userToUpdate = new UpdateAccountDto()
             {
-                Id = user.Id,
+                Id = account.Id,
                 Password = "16453",
-                Email = "UpdateUserOnlyOnePropertyValid@newEmail.comUpdate",
+                Email = "UpdateAccountOnlyOnePropertyValid@newEmail.comUpdate",
                 UserName = "UpdateUOnlyOPro"
             };
 
             // Act
-            await _service.UpdateUser(userToUpdate);
+            await _service.UpdateAccount(userToUpdate);
 
             // Assert
-            var userUpdated = await _service.GetUser(user.Id);
-            Assert.True(userUpdated.Email == userToUpdate.Email &&
-                        userUpdated.UserDescription == userToUpdate.UserDescription &&
-                        userUpdated.UserName == userToUpdate.UserName);
+            var accountUpdated = await _service.GetAccount(account.Id);
+            Assert.True(accountUpdated.Email == userToUpdate.Email &&
+                        accountUpdated.UserDescription == userToUpdate.UserDescription &&
+                        accountUpdated.UserName == userToUpdate.UserName);
         }
 
         [Fact]
-        public async Task UpdateUserInvalid()
+        public async Task UpdateAccountInvalid()
         {
             // Arrange
-            var user = await _service.AddUser(new AddUserDto()
+            var account = await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUserInvalid@newEmail.com",
+                Email = "UpdateAccountInvalid@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpdateUInvalid"
             });
-            var userToUpdate = new UpdateUserDto()
+            var userToUpdate = new UpdateAccountDto()
             {
-                Id = user.Id,
-                Email = "UpdateUserInvalid@newEmail.comUpdate",
+                Id = account.Id,
+                Email = "UpdateAccountInvalid@newEmail.comUpdate",
                 Password = "",
                 UserName = "UpdateUInvalid"
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateUser(userToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateAccount(userToUpdate));
         }
 
         [Fact]
-        public async Task UpdateUserMissingUsername()
+        public async Task UpdateAccountMissingUsername()
         {
             // Arrange
-            var user = await _service.AddUser(new AddUserDto()
+            var account = await _service.AddAccount(new AddAccountDto()
             {
-                Email = "UpdateUserMissingUsername@newEmail.com",
+                Email = "UpdateAccountMissingUsername@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "UpdateUIdMissing"
             });
-            var userToUpdate = new UpdateUserDto()
+            var userToUpdate = new UpdateAccountDto()
             {
-                Id = user.Id,
-                Email = "UpdateUserMissingUsername@newEmail.comUpdate",
+                Id = account.Id,
+                Email = "UpdateAccountMissingUsername@newEmail.comUpdate",
                 Password = "16453",
             };
 
             // Act & Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateUser(userToUpdate));
+            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateAccount(userToUpdate));
         }
 
         [Fact]
         public async Task DeleteUser()
         {
             // Arrange
-            var user = await _service.AddUser(new AddUserDto()
+            var account = await _service.AddAccount(new AddAccountDto()
             {
                 Email = "DeleteUser@newEmail.com",
                 Password = "16453aA-007",
@@ -435,48 +436,48 @@ namespace BlogCoreAPI.Tests.Services
             });
 
             // Act
-            await _service.DeleteUser(user.Id);
+            await _service.DeleteAccount(account.Id);
 
             // Assert
-            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetUser(user.Id));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.GetAccount(account.Id));
         }
 
         [Fact]
         public async Task DeleteUserNotFound()
         {
             // Arrange & Act & Assert
-            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteUser(175574));
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.DeleteAccount(175574));
         }
 
         [Fact]
-        public async Task GetAllUsers()
+        public async Task GetAllAccounts()
         {
             // Arrange
-            var userToAdd = new AddUserDto()
+            var accountToAdd = new AddAccountDto()
             {
                 Email = "GetAllUser@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "GetAllUser"
             };
-            var userToAdd2 = new AddUserDto()
+            var accountToAdd2 = new AddAccountDto()
             {
                 Email = "GetAllUser2@newEmail.com",
                 Password = "16453aA-007",
                 UserName = "GetAllUser2"
             }; 
-            await _service.AddUser(userToAdd);
-            await _service.AddUser(userToAdd2);
+            await _service.AddAccount(accountToAdd);
+            await _service.AddAccount(accountToAdd2);
 
             // Act
-            var users = (await _service.GetAllUsers()).ToArray();
+            var accounts = (await _service.GetAllAccounts()).ToArray();
 
             // Assert
-            Assert.Contains(users, x => x.UserName == userToAdd.UserName &&
-                                     x.UserDescription == userToAdd.UserDescription &&
-                                     x.Email == userToAdd.Email);
-            Assert.Contains(users, x => x.UserName == userToAdd2.UserName &&
-                                              x.UserDescription == userToAdd2.UserDescription &&
-                                              x.Email == userToAdd2.Email);
+            Assert.Contains(accounts, x => x.UserName == accountToAdd.UserName &&
+                                     x.UserDescription == accountToAdd.UserDescription &&
+                                     x.Email == accountToAdd.Email);
+            Assert.Contains(accounts, x => x.UserName == accountToAdd2.UserName &&
+                                              x.UserDescription == accountToAdd2.UserDescription &&
+                                              x.Email == accountToAdd2.Email);
         }
 
         [Fact]
@@ -509,11 +510,9 @@ namespace BlogCoreAPI.Tests.Services
             // Assert
             Assert.True(users.Length == 2);
             Assert.Contains(users, x => x.UserName == user1.UserName &&
-                                        x.UserDescription == user1.UserDescription &&
-                                        x.Email == user1.Email);
+                                        x.UserDescription == user1.UserDescription);
             Assert.Contains(users, x => x.UserName == user2.UserName &&
-                                        x.UserDescription == user2.UserDescription &&
-                                        x.Email == user2.Email);
+                                        x.UserDescription == user2.UserDescription);
         }
 
         [Fact]
@@ -720,7 +719,7 @@ namespace BlogCoreAPI.Tests.Services
             await _fixture.UserManager.CreateAsync(user, password);
 
             // Act
-            var isSignIn = await _service.SignIn(new UserLoginDto() { UserName = user.UserName, Password = password });
+            var isSignIn = await _service.SignIn(new AccountLoginDto() { UserName = user.UserName, Password = password });
 
             // Assert
             Assert.True(isSignIn);
@@ -739,7 +738,7 @@ namespace BlogCoreAPI.Tests.Services
             await _fixture.UserManager.CreateAsync(user, password);
 
             // Act
-            var isSignIn = await _service.SignIn(new UserLoginDto() { UserName = user.UserName, Password = "wrongPass1234Ab@a" });
+            var isSignIn = await _service.SignIn(new AccountLoginDto() { UserName = user.UserName, Password = "wrongPass1234Ab@a" });
 
             // Assert
             Assert.False(isSignIn);
@@ -752,7 +751,7 @@ namespace BlogCoreAPI.Tests.Services
             const string password = "1234Ab@a";
 
             // Act & Assert
-            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.SignIn(new UserLoginDto()
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.SignIn(new AccountLoginDto()
                 { UserName = Guid.NewGuid().ToString()[..20], Password = password }));
         }
     }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
@@ -23,10 +24,10 @@ namespace BlogCoreAPI.Services.UserService
         private readonly IRoleRepository _roleRepository;
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IValidator<IUserDto> _dtoValidator;
+        private readonly IValidator<IAccountDto> _dtoValidator;
 
         public UserService(IUserRepository repository, IRoleRepository roleRepository, IMapper mapper, IUnitOfWork unitOfWork,
-            IValidator<IUserDto> dtoValidator)
+            IValidator<IAccountDto> dtoValidator)
         {
             _repository = repository;
             _roleRepository = roleRepository;
@@ -35,12 +36,12 @@ namespace BlogCoreAPI.Services.UserService
             _dtoValidator = dtoValidator;
         }
 
-        public async Task<IEnumerable<GetUserDto>> GetAllUsers()
+        public async Task<IEnumerable<GetAccountDto>> GetAllAccounts()
         {
             var users = await _repository.GetAllAsync();
             return users.Select(c =>
             {
-               var usersDto = _mapper.Map<GetUserDto>(c);
+               var usersDto = _mapper.Map<GetAccountDto>(c);
                usersDto.Roles = c.UserRoles.Select(x => x.RoleId);
                return usersDto;
             }).ToList();
@@ -62,6 +63,14 @@ namespace BlogCoreAPI.Services.UserService
             return await _repository.CountWhereAsync(filterSpecification);
         }
 
+        public async Task<GetAccountDto> GetAccount(int id)
+        {
+            var user = await _repository.GetAsync(id);
+            var userDto = _mapper.Map<GetAccountDto>(user);
+            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            return userDto;
+        }
+
         public async Task<GetUserDto> GetUser(int id)
         {
             var user = await _repository.GetAsync(id);
@@ -70,10 +79,10 @@ namespace BlogCoreAPI.Services.UserService
             return userDto;
         }
 
-        public async Task<GetUserDto> GetUser(string userName)
+        public async Task<GetAccountDto> GetAccount(string userName)
         {
             var user = await FindUser(userName);
-            var userDto = _mapper.Map<GetUserDto>(user);
+            var userDto = _mapper.Map<GetAccountDto>(user);
             userDto.Roles = user.UserRoles.Select(x => x.RoleId);
             return userDto;
         }
@@ -94,33 +103,33 @@ namespace BlogCoreAPI.Services.UserService
             return user.First();
         }
 
-        private async Task CheckUserValidity(AddUserDto user)
+        private async Task CheckUserValidity(AddAccountDto account)
         {
-            if (await _repository.UserNameAlreadyExists(user.UserName))
+            if (await _repository.UserNameAlreadyExists(account.UserName))
                 throw new InvalidRequestException("UserName already exists.");
-            if (await _repository.EmailAlreadyExists(user.Email))
+            if (await _repository.EmailAlreadyExists(account.Email))
                 throw new InvalidRequestException("Email Address already exists.");
         }
 
-        private async Task CheckUserValidity(UpdateUserDto user)
+        private async Task CheckUserValidity(UpdateAccountDto account)
         {
-            var userDb = _repository.GetAsync(user.Id);
-            if (await _repository.UserNameAlreadyExists(user.UserName) &&
-                (await userDb).UserName != user.UserName)
+            var userDb = _repository.GetAsync(account.Id);
+            if (await _repository.UserNameAlreadyExists(account.UserName) &&
+                (await userDb).UserName != account.UserName)
                 throw new InvalidRequestException("UserName already exists.");
-            if (await _repository.EmailAlreadyExists(user.Email) &&
-                (await userDb).Email != user.Email)
+            if (await _repository.EmailAlreadyExists(account.Email) &&
+                (await userDb).Email != account.Email)
                 throw new InvalidRequestException("Email Address already exists.");
         }
 
-        public async Task<GetUserDto> AddUser(AddUserDto user)
+        public async Task<GetAccountDto> AddAccount(AddAccountDto account)
         {
-            await _dtoValidator.ValidateAndThrowAsync(user);
-            await CheckUserValidity(user);
-            var userToAdd = _mapper.Map<User>(user);
+            await _dtoValidator.ValidateAndThrowAsync(account);
+            await CheckUserValidity(account);
+            var userToAdd = _mapper.Map<User>(account);
             var result = await _repository.AddAsync(userToAdd);
            _unitOfWork.Save();
-           var userDto = _mapper.Map<GetUserDto>(result);
+           var userDto = _mapper.Map<GetAccountDto>(result);
             userDto.Roles = result.UserRoles.Select(x => x.RoleId);
             return userDto;
         }
@@ -165,26 +174,26 @@ namespace BlogCoreAPI.Services.UserService
             _unitOfWork.Save();
         }
 
-        public async Task<bool> SignIn(UserLoginDto userLogin)
+        public async Task<bool> SignIn(AccountLoginDto accountLogin)
         {
-            var user = await FindUser(userLogin.UserName);
+            var user = await FindUser(accountLogin.UserName);
 
-            var isValidPassword = await _repository.CheckPasswordAsync(user, userLogin.Password);
+            var isValidPassword = await _repository.CheckPasswordAsync(user, accountLogin.Password);
             return isValidPassword;
         }
 
-        public async Task UpdateUser(UpdateUserDto user)
+        public async Task UpdateAccount(UpdateAccountDto account)
         {
-            await _dtoValidator.ValidateAndThrowAsync(user);
-            if (await UserAlreadyExistsWithSameProperties(user))
+            await _dtoValidator.ValidateAndThrowAsync(account);
+            if (await UserAlreadyExistsWithSameProperties(account))
                 return;
-            await CheckUserValidity(user);
-            var userEntity = await _repository.GetAsync(user.Id);
-            _mapper.Map(user, userEntity);
+            await CheckUserValidity(account);
+            var userEntity = await _repository.GetAsync(account.Id);
+            _mapper.Map(account, userEntity);
             _unitOfWork.Save();
         }
 
-        public async Task DeleteUser(int id)
+        public async Task DeleteAccount(int id)
         {
             await _repository.RemoveAsync(await _repository.GetAsync(id));
             _unitOfWork.Save();
@@ -202,12 +211,12 @@ namespace BlogCoreAPI.Services.UserService
             return usersDto;
         }
 
-        private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateUserDto user)
+        private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateAccountDto account)
         {
-            var userDb = await _repository.GetAsync(user.Id);
-            return userDb.UserName == user.UserName &&
-                   userDb.Email == user.Email &&
-                   user.UserDescription == userDb.UserDescription;
+            var userDb = await _repository.GetAsync(account.Id);
+            return userDb.UserName == account.UserName &&
+                   userDb.Email == account.Email &&
+                   account.UserDescription == userDb.UserDescription;
         }
     }
 }

@@ -2,8 +2,8 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Permission;
-using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
 using DBAccess.Data.Permission;
@@ -19,7 +19,7 @@ namespace BlogCoreAPI.Authorization.PermissionHandlers.Dtos
     /// In case of <see cref="PermissionRange.All"/>, the user can realize <see cref="PermissionAction"/> on all <see cref="PermissionTarget"/>. 
     /// In case of <see cref="PermissionRange.Own"/>, the user can realize <see cref="PermissionAction"/> only on its own <see cref="PermissionTarget"/> (it is the author of this resource).
     /// </example>
-    public class HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler : AuthorizationHandler<PermissionRequirement, IUserDto>
+    public class HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler : AuthorizationHandler<PermissionRequirement, IAccountDto>
     {
         private readonly IUserService _userService;
         private readonly IRoleService _roleService;
@@ -34,25 +34,25 @@ namespace BlogCoreAPI.Authorization.PermissionHandlers.Dtos
         }
 
         /// <inheritdoc />
-        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, IUserDto userDto)
+        protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement, IAccountDto accountDto)
         {
             var userId = int.Parse(context.User.Claims
                 .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
 
-            var user = await _userService.GetUser(userId);
-            if (user.Roles.Any())
+            var account = await _userService.GetAccount(userId);
+            if (account.Roles.Any())
             {
                 var requirementAction = _mapper.Map<PermissionActionDto>(requirement.Permission);
                 var requirementTarget = _mapper.Map<PermissionTargetDto>(requirement.PermissionTarget);
 
-                foreach (var role in user.Roles)
+                foreach (var role in account.Roles)
                 {
                     var permissions = await _roleService.GetPermissionsAsync(role);
 
                     if (permissions != null && permissions.Any(permission =>
                             requirementAction.Id == permission.PermissionAction.Id &&
                             requirementTarget.Id == permission.PermissionTarget.Id &&
-                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && userDto.UserName == user.UserName)
+                            ((permission.PermissionRange.Id == (int)PermissionRange.Own && accountDto.UserName == account.UserName)
                              || permission.PermissionRange.Id == (int)PermissionRange.All)))
                     {
                         context.Succeed(requirement);

@@ -75,10 +75,10 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         public async Task UpdateRandomEntity(TUpdate entity)
         {
             var entityModified = ModifyTUpdate(entity);
-            await UpdateIdentity(entityModified);
+            await UpdateEntity(entityModified);
         }
 
-        public async Task UpdateIdentity(TUpdate entity)
+        public virtual async Task UpdateEntity(TUpdate entity)
         {
             var json = JsonConvert.SerializeObject(entity);
             var httpResponse =
@@ -86,7 +86,7 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             httpResponse.EnsureSuccessStatusCode();
         }
 
-        public async Task RemoveIdentity(int id)
+        public virtual async Task RemoveIdentity(int id)
         {
             var httpResponse =
                 await _client.DeleteAsync(_baseUrl + "/" + id);

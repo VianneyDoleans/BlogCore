@@ -1,4 +1,4 @@
-﻿using BlogCoreAPI.Models.DTOs.User;
+﻿using BlogCoreAPI.Models.DTOs.Account;
 using DBAccess;
 using DBAccess.Data;
 using DBAccess.DataContext;
@@ -18,8 +18,8 @@ namespace BlogCoreAPI.FunctionalTests
     public class TestWebApplicationFactory : WebApplicationFactory<Program>
     {
         private readonly string _dbName = Guid.NewGuid().ToString();
-        public UserLoginDto Admin { get; set; }
-        public UserLoginDto User { get; set; }
+        public AccountLoginDto Admin { get; set; }
+        public AccountLoginDto Account { get; set; }
 
 
 
@@ -68,9 +68,9 @@ namespace BlogCoreAPI.FunctionalTests
 
                 var configuration = GetConfiguration();
                 var user = configuration.GetSection("Users").GetSection("User").Get<Models.User>();
-                User = new UserLoginDto() { UserName = user.Name, Password = user.Password };
+                Account = new AccountLoginDto() { UserName = user.Name, Password = user.Password };
                 var admin = configuration.GetSection("Users").GetSection("Admin").Get<Models.User>();
-                Admin = new UserLoginDto() { UserName = admin.Name, Password = admin.Password };
+                Admin = new AccountLoginDto() { UserName = admin.Name, Password = admin.Password };
             });
         }
     }

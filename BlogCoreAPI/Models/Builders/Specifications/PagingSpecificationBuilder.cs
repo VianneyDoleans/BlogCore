@@ -1,6 +1,6 @@
 ﻿using DBAccess.Specifications;
 
-namespace BlogCoreAPI.Builders.Specifications
+namespace BlogCoreAPI.Models.Builders.Specifications
 {
     /// <summary>
     /// Pagination filter used to execute Query on a resource.

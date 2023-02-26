@@ -72,7 +72,7 @@
         <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.RoleService.IRoleService,AutoMapper.IMapper)">
             <inheritdoc />
         </member>
-        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,BlogCoreAPI.Models.DTOs.User.IUserDto)">
+        <member name="M:BlogCoreAPI.Authorization.PermissionHandlers.Dtos.HasOwnOrAllPermissionRangeForUserDtoAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,BlogCoreAPI.Authorization.Permissions.PermissionRequirement,BlogCoreAPI.Models.DTOs.Account.IAccountDto)">
             <inheritdoc />
         </member>
         <member name="T:BlogCoreAPI.Authorization.PermissionHandlers.Resources.HasAllPermissionRangeAuthorizationHandler`1">
@@ -192,31 +192,62 @@
             Controller used to enables account action such as login / log out.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
             </summary>
             <param name="userService"></param>
             <param name="jwtService"></param>
+            <param name="authorizationService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.Models.DTOs.User.AddUserDto)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.Models.DTOs.Account.AddAccountDto)">
             <summary>
             Create an account (a user).
             </summary>
             <remarks>
             Create a user.
             </remarks>
-            <param name="user"></param>
+            <param name="account"></param>
             <returns></returns>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.SignIn(BlogCoreAPI.Models.DTOs.User.UserLoginDto)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignIn(BlogCoreAPI.Models.DTOs.Account.AccountLoginDto)">
             <summary>
             Sign In as a user.
             </summary>
             <remarks>
             Sign In as a user.
             </remarks>
-            <param name="userLogin"></param>
+            <param name="accountLogin"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.UpdateAccount(BlogCoreAPI.Models.DTOs.Account.UpdateAccountDto)">
+            <summary>
+            Update a user.
+            </summary>
+            <remarks>
+            Update a user.
+            </remarks>
+            <param name="account"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.GetAccount(System.Int32)">
+            <summary>
+            Get a user by giving its Id.
+            </summary>
+            <remarks>
+            Get a user by giving its Id.
+            </remarks>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.DeleteUser(System.Int32)">
+            <summary>
+            Delete a user by giving its id.
+            </summary>
+            <remarks>
+            Delete a user by giving its id.
+            </remarks>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="T:BlogCoreAPI.Controllers.CategoriesController">
@@ -753,26 +784,6 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.UpdateUser(BlogCoreAPI.Models.DTOs.User.UpdateUserDto)">
-            <summary>
-            Update a user.
-            </summary>
-            <remarks>
-            Update a user.
-            </remarks>
-            <param name="user"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Controllers.UsersController.DeleteUser(System.Int32)">
-            <summary>
-            Delete a user by giving its id.
-            </summary>
-            <remarks>
-            Delete a user by giving its id.
-            </remarks>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
         <member name="M:BlogCoreAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">
             <summary>
             Get posts written by a user by giving user's id.
@@ -836,228 +847,256 @@
             <param name="services"></param> 
             <returns></returns> 
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Category.CategoryFilterSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Category"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategoryFilterSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Category.CategoryFilterSpecificationBuilder.Build">
             <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Category"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Category.CategorySortSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Category"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.CategorySort)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Category.CategorySortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.CategorySort)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Category.CategorySortSpecificationBuilder"/> class.
             </summary>
             <param name="order"></param>
             <param name="categorySort"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Category.CategorySortSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Category.CategorySortSpecificationBuilder.Build">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Category"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Category"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Comment.CommentFilterSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Comment"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentFilterSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Comment.CommentFilterSpecificationBuilder.Build">
             <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Comment"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Comment.CommentSortSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Comment"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.CommentSort)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Comment.CommentSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.CommentSort)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Comment.CommentSortSpecificationBuilder"/> class.
             </summary>
             <param name="order"></param>
             <param name="sort"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Comment.CommentSortSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Comment.CommentSortSpecificationBuilder.Build">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Comment"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Comment"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Like.LikeFilterSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Like"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder.#ctor(System.Nullable{DBAccess.Data.LikeableType})">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Like.LikeFilterSpecificationBuilder.#ctor(System.Nullable{DBAccess.Data.LikeableType})">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Like.LikeFilterSpecificationBuilder"/> class.
             </summary>
             <param name="likeableType"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Like.LikeFilterSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Like.LikeFilterSpecificationBuilder.Build">
             <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Like"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Like.SortLikeBuilder">
             <summary>
-             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/>.
+             Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Like"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder.#ctor(BlogCoreAPI.Models.Order)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Like.SortLikeBuilder.#ctor(BlogCoreAPI.Models.Order)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Like.SortLikeBuilder"/> class.
             </summary>
             <param name="order"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Like.SortLikeBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Like.SortLikeBuilder.Build">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Like"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Like"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.PagingSpecificationBuilder">
             <summary>
             Pagination filter used to execute Query on a resource.
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder.Page">
+        <member name="P:BlogCoreAPI.Models.Builders.Specifications.PagingSpecificationBuilder.Page">
             <summary>
             Page of the query.
             </summary>
         </member>
-        <member name="P:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder.Limit">
+        <member name="P:BlogCoreAPI.Models.Builders.Specifications.PagingSpecificationBuilder.Limit">
             <summary>
             Limit of the query.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder.#ctor(System.Int32,System.Int32)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.PagingSpecificationBuilder.#ctor(System.Int32,System.Int32)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.PagingSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.PagingSpecificationBuilder"/> class.
             </summary>
             <param name="page"></param>
             <param name="pageSize"></param>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Post.PostFilterSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Post"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Post.PostFilterSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Post.PostFilterSpecificationBuilder.Build">
             <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Post"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Post.SortPostFilter">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Post"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.PostSort)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Post.SortPostFilter.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.PostSort)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Post.SortPostFilter"/> class.
             </summary>
             <param name="order"></param>
             <param name="sort"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Post.SortPostFilter.GetSorting">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Post.SortPostFilter.GetSorting">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Post"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Post"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Role.RoleSortSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Role"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Role.RoleSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Role.RoleSortSpecificationBuilder"/> class.
             </summary>
             <param name="order"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Role.RoleSortSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Role.RoleSortSpecificationBuilder.Build">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Role"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Role"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Tag.TagQueryFilter">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Tag"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter.#ctor(System.String)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Tag.TagQueryFilter.#ctor(System.String)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Tag.TagQueryFilter"/> class.
             </summary>
             <param name="inName"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagQueryFilter.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Tag.TagQueryFilter.Build">
             <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Tag"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.Tag.TagSortSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Tag"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Tag.TagSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.Tag.TagSortSpecificationBuilder"/> class.
             </summary>
             <param name="order"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.Tag.TagSortSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.Tag.TagSortSpecificationBuilder.Build">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.Tag"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.Tag"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.User.UserFilterSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.User"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.FilterSpecifications.FilterSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.User"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserFilterSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.User.UserFilterSpecificationBuilder.Build">
             <summary>
-            Get filter specification of <see cref="N:BlogCoreAPI.Builders.Specifications.User"/> based of internal properties defined.
+            Get filter specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.User"/> based of internal properties defined.
             </summary>
             <returns></returns>
         </member>
-        <member name="T:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder">
+        <member name="T:BlogCoreAPI.Models.Builders.Specifications.User.UserSortSpecificationBuilder">
             <summary>
-            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Builders.Specifications.User"/>.
+            Class used to generate <see cref="T:DBAccess.Specifications.SortSpecification.SortSpecification`1"/> for <see cref="N:BlogCoreAPI.Models.Builders.Specifications.User"/>.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.UserSort)">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.User.UserSortSpecificationBuilder.#ctor(BlogCoreAPI.Models.Order,BlogCoreAPI.Models.Sort.UserSort)">
             <summary>
-            Initializes a new instance of the <see cref="T:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder"/> class.
+            Initializes a new instance of the <see cref="T:BlogCoreAPI.Models.Builders.Specifications.User.UserSortSpecificationBuilder"/> class.
             </summary>
             <param name="order"></param>
             <param name="sort"></param>
         </member>
-        <member name="M:BlogCoreAPI.Builders.Specifications.User.UserSortSpecificationBuilder.Build">
+        <member name="M:BlogCoreAPI.Models.Builders.Specifications.User.UserSortSpecificationBuilder.Build">
             <summary>
-            Get sort specification of <see cref="N:BlogCoreAPI.Builders.Specifications.User"/> based of internal properties defined.
+            Get sort specification of <see cref="N:BlogCoreAPI.Models.Builders.Specifications.User"/> based of internal properties defined.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Account.AddAccountDto">
+            <summary>
+            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Account.Converters.UpdateAccountConverter">
+            <summary>
+            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.Account.UpdateAccountDto"/> to <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Models.DTOs.Account.Converters.UpdateAccountConverter.Convert(BlogCoreAPI.Models.DTOs.Account.UpdateAccountDto,DBAccess.Data.User,AutoMapper.ResolutionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Account.GetAccountDto">
+            <summary>
+            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Account"/>.
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Account.IAccountDto">
+            <summary>
+            Interface of User Dto containing all the common properties of Account Dto Type (GET, ADD, UPDATE).
+            </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Models.DTOs.Account.UpdateAccountDto">
+            <summary>
+            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Account"/>.
+            </summary>
         </member>
         <member name="T:BlogCoreAPI.Models.DTOs.ADto">
             <summary>
@@ -1374,19 +1413,6 @@
             UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.Tag"/>.
             </summary>
         </member>
-        <member name="T:BlogCoreAPI.Models.DTOs.User.AddUserDto">
-            <summary>
-            Add Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.Models.DTOs.User.Converters.UpdateUserConverter">
-            <summary>
-            AutoMapper converter used to enable the conversion of <see cref="T:BlogCoreAPI.Models.DTOs.User.UpdateUserDto"/> to <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Models.DTOs.User.Converters.UpdateUserConverter.Convert(BlogCoreAPI.Models.DTOs.User.UpdateUserDto,DBAccess.Data.User,AutoMapper.ResolutionContext)">
-            <inheritdoc />
-        </member>
         <member name="T:BlogCoreAPI.Models.DTOs.User.Converters.UserIdConverter">
             <summary>
             AutoMapper converter used to enable the conversion of <see cref="N:BlogCoreAPI.Models.DTOs.User"/> to its resource Id.
@@ -1400,21 +1426,6 @@
         </member>
         <member name="M:BlogCoreAPI.Models.DTOs.User.Converters.UserIdConverter.Convert(System.Int32,DBAccess.Data.User,AutoMapper.ResolutionContext)">
             <inheritdoc />
-        </member>
-        <member name="T:BlogCoreAPI.Models.DTOs.User.GetUserDto">
-            <summary>
-            GET Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.Models.DTOs.User.IUserDto">
-            <summary>
-            Interface of User Dto containing all the common properties of User Dto Type (GET, ADD, UPDATE).
-            </summary>
-        </member>
-        <member name="T:BlogCoreAPI.Models.DTOs.User.UpdateUserDto">
-            <summary>
-            UPDATE Dto type of <see cref="N:BlogCoreAPI.Models.DTOs.User"/>.
-            </summary>
         </member>
         <member name="P:BlogCoreAPI.Models.Queries.APaginationQuery.Page">
             <summary>

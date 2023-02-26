@@ -2,7 +2,7 @@
 using System.Text;
 using System.Threading.Tasks;
 using BlogCoreAPI.FunctionalTests.Models;
-using BlogCoreAPI.Models.DTOs.User;
+using BlogCoreAPI.Models.DTOs.Account;
 using Newtonsoft.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -20,9 +20,9 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             _client = client;
         }
 
-        public async Task<string> GetJwtLoginToken(UserLoginDto userLoginDto)
+        public async Task<string> GetJwtLoginToken(AccountLoginDto accountLoginDto)
         {
-            var json = JsonSerializer.Serialize(userLoginDto);
+            var json = JsonSerializer.Serialize(accountLoginDto);
             var httpResponse =
                 await _client.PostAsync(_baseUrl + "/SignIn", new StringContent(json, Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
@@ -30,14 +30,29 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             return jsonWebTokenDto?.Token;
         }
 
-        public async Task<GetUserDto> CreateAccount(AddUserDto addUserDto)
+        public async Task<GetAccountDto> CreateAccount(AddAccountDto addAccountDto)
         {
-            var json = JsonSerializer.Serialize(addUserDto);
+            var json = JsonSerializer.Serialize(addAccountDto);
             var httpResponse =
                 await _client.PostAsync(_baseUrl + "/SignUp", new StringContent(json, Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
             var stringResponse = await httpResponse.Content.ReadAsStringAsync();
-            return JsonConvert.DeserializeObject<GetUserDto>(stringResponse);
+            return JsonConvert.DeserializeObject<GetAccountDto>(stringResponse);
+        }
+
+        public async Task DeleteAccount(int id)
+        {
+            var httpResponse =
+                await _client.DeleteAsync(_baseUrl + "/" + id);
+            httpResponse.EnsureSuccessStatusCode();
+        }
+
+        public async Task UpdateAccount(UpdateAccountDto entity)
+        {
+            var json = JsonConvert.SerializeObject(entity);
+            var httpResponse =
+                await _client.PutAsync(_baseUrl, new StringContent(json, Encoding.UTF8, "application/json"));
+            httpResponse.EnsureSuccessStatusCode();
         }
     }
 }

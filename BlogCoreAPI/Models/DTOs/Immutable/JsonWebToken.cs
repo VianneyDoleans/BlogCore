@@ -4,9 +4,15 @@
     {
         public string Token { get; }
 
-        public JsonWebToken(string token)
+        public string UserName { get; }
+
+        public int UserId { get; }
+
+        public JsonWebToken(string token, string userName, int userId)
         {
             Token = token;
+            UserName = userName;
+            UserId = userId;
         }
     }
 }

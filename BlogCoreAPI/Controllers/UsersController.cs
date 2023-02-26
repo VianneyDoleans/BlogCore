@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
-using BlogCoreAPI.Builders.Specifications;
-using BlogCoreAPI.Builders.Specifications.User;
+using BlogCoreAPI.Models.Builders.Specifications;
+using BlogCoreAPI.Models.Builders.Specifications.User;
 using BlogCoreAPI.Models.DTOs.Comment;
 using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.DTOs.Post;
@@ -14,6 +14,7 @@ using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
+using DBAccess.Data;
 using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -168,57 +169,6 @@ namespace BlogCoreAPI.Controllers
                 return Forbid();
 
             await _userService.RemoveUserRole(new UserRoleDto {UserId = id, RoleId = roleId});
-            return Ok();
-        }
-
-        /// <summary>
-        /// Update a user.
-        /// </summary>
-        /// <remarks>
-        /// Update a user.
-        /// </remarks>
-        /// <param name="user"></param>
-        /// <returns></returns>
-        [HttpPut]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> UpdateUser(UpdateUserDto user)
-        {
-            if (await _userService.GetUser(user.Id) == null)
-                return NotFound();
-
-            var userEntity = await _userService.GetUserEntity(user.Id);
-            var authorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.User));
-            if (!authorized.Succeeded)
-                return Forbid();
-
-            await _userService.UpdateUser(user);
-            return Ok();
-        }
-
-        /// <summary>
-        /// Delete a user by giving its id.
-        /// </summary>
-        /// <remarks>
-        /// Delete a user by giving its id.
-        /// </remarks>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        [HttpDelete("{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            if (await _userService.GetUser(id) == null)
-                return NotFound();
-
-            var userEntity = await _userService.GetUserEntity(id);
-            var authorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.User));
-            if (!authorized.Succeeded)
-                return Forbid();
-
-            await _userService.DeleteUser(id);
             return Ok();
         }
 
