@@ -63,4 +63,104 @@ Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](ht
 
 ## Getting Started
 
-Tutorial available in [Getting Started](https://github.com/VianneyDoleans/BlogCore/wiki/GettingStarted) wiki section.
+- Install [Microsoft SQL Server](https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/download/)
+- Open ``appsettings.json`` file inside **BlogCoreAPI** project and edit the database settings :
+
+For **Microsoft SQL Server** :
+
+```json
+"DatabaseProvider": "MsSQL",
+"ConnectionStrings": {
+ "Default": "Server=.;Database=BlogCore;Integrated Security=True;TrustServerCertificate=True;"
+}
+```
+
+For **PostgreSQL** :
+
+```json
+"DatabaseProvider": "PostgreSQL",
+"ConnectionStrings": {
+ "Default": "Host=localhost;Port=5432;Database=BlogCore;Username=postgres;Password=[YourPassword];"
+}
+```
+
+Then in visual studio :
+
+1. Set **BlogCoreApi** as project to run
+1. Open the Package Manager Console (Tools -> Nuget Package Manager -> Package Manager Console).
+2. In the package Manager Console, select **DBAccess** as Default project
+3. Run the following commands:
+
+- **Microsoft SQL Server**
+```
+Add-Migration CreateInitialDatabase -Context MsSqlDbContext
+Update-Database -Context MsSqlDbContext
+```
+- **PostgreSQL**
+```
+Add-Migration CreateInitialDatabase -Context PostgreSqlDbContext
+Update-Database -Context PostgreSqlDbContext
+```
+5. Now press F5 and run the application.
+
+### Users
+Default users are :
+
+| User        | Password         | Role(s)        |
+| ----------- |:----------------:| :--------------|
+| Sam         | 0a1234A@         | User           |
+| Frodon      | 0a0000A@         | User           |
+| Jamy        | 0JamyRedactA@    | User, Redactor |
+| Fred        | 0FredRedactA@    | User, Redactor |
+| AdminUser   | 0adminPasswordA@ | User, Admin    |
+
+### Roles & Permissions
+Roles and permissions can be created / configured by API endpoints.  
+The default configuration is :
+
+**User** :
+
+|            | CanRead | CanCreate | CanUpdate | CanDelete  |
+| -----------|:-------:| :--------:|:---------:|:----------:|
+| Category   | All     |           |           |            |
+| Comment    | All     | Own       | Own       |   Own      |
+| Like       | All     | Own       | Own       |   Own      |
+| Post       | All     |           |           |            |
+| Tag        | All     |           |           |            |
+| User       | All     |    X      |   X       |     X      |
+| Role       | All     |           |           |            |
+| Permission | All     |           |   X       |            |
+| Account    | Own     |           | Own       | Own        |
+
+**Redactor** :
+
+|            | CanRead | CanCreate | CanUpdate | CanDelete  |
+| -----------|:-------:| :--------:|:---------:|:----------:|
+| Category   |         |    All    |           |            |
+| Comment    |         |           |           |            |
+| Like       |         |           |           |            |
+| Post       |         |    Own    |  Own      |   Own      |
+| Tag        |         |    All    |           |            |
+| User       |         |      X    |    X      |   X        |
+| Role       |         |           |           |            |
+| Permission |         |           |    X      |            |
+| Account    |         |           |           |            |
+
+**Admin** :
+
+|            | CanRead | CanCreate | CanUpdate | CanDelete  |
+| -----------|:-------:| :--------:|:---------:|:----------:|
+| Category   |   All   |    All    |  All      | All        |
+| Comment    |   All   |    All    |  All      | All        |
+| Like       |   All   |    All    |  All      | All        |
+| Post       |   All   |    All    |  All      | All        |
+| Tag        |   All   |    All    |  All      | All        |
+| User       |   All   |     X     |   X       | X          |
+| Role       |   All   |    All    |  All      | All        |
+| Permission |   All   |    All    |  X        | All        |
+| Account    |   All   |    All    |  All      | All        |
+
+## wiki
+
+A wiki for this project is available on github : [link](https://github.com/VianneyDoleans/BlogCore/wiki)  
+The wiki give more explanations about configuration, online deployment ([render](https://render.com/), [heroku](https://www.heroku.com/)) and architecture of the project.
