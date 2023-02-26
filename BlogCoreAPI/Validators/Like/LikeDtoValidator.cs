@@ -1,4 +1,4 @@
-﻿using BlogCoreAPI.Constants;
+﻿using BlogCoreAPI.Models.Constants;
 using BlogCoreAPI.Models.DTOs.Like;
 using DBAccess.Data;
 using FluentValidation;

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Attributes;
-using BlogCoreAPI.Builders.Specifications;
-using BlogCoreAPI.Builders.Specifications.Category;
+using BlogCoreAPI.Models.Builders.Specifications;
+using BlogCoreAPI.Models.Builders.Specifications.Category;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Post;
 using BlogCoreAPI.Models.Queries;

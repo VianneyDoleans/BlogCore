@@ -39,14 +39,14 @@ namespace BlogCoreAPI.Authorization.PermissionHandlers.Attributes
             if (string.IsNullOrEmpty(userId))
                 return;
 
-            var user = await _userService.GetUser(int.Parse(userId));
-            if (user.Roles.Any())
+            var account = await _userService.GetAccount(int.Parse(userId));
+            if (account.Roles.Any())
             {
                 var requirementAction = _mapper.Map<PermissionActionDto>(withRangeRequirement.Permission);
                 var requirementTarget = _mapper.Map<PermissionTargetDto>(withRangeRequirement.PermissionTarget);
                 var requirementRange = _mapper.Map<PermissionRangeDto>(withRangeRequirement.PermissionRange);
 
-                foreach (var role in user.Roles)
+                foreach (var role in account.Roles)
                 {
                     var permissions = await _roleService.GetPermissionsAsync(role);
 

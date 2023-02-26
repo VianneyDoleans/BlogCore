@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Comment;
 using BlogCoreAPI.Models.DTOs.Post;
@@ -20,7 +21,7 @@ namespace BlogCoreAPI.FunctionalTests.Controllers
 
         public override async Task<GetCommentDto> AddRandomEntity()
         {
-            var user = new AddUserDto()
+            var user = new AddAccountDto()
             {
                 Email = Guid.NewGuid().ToString("N") + "@user.com",
                 Password = "0a1234A@",

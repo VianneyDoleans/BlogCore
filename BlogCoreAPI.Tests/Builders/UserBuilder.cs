@@ -1,28 +1,29 @@
 ﻿using System;
 using System.Threading.Tasks;
+using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Services.UserService;
 
 namespace BlogCoreAPI.Tests.Builders
 {
-    public class UserBuilder
+    public class AccountBuilder
     {
         private readonly IUserService _userService;
 
-        public UserBuilder(IUserService userService)
+        public AccountBuilder(IUserService userService)
         {
             _userService = userService;
         }
 
-        public async Task<GetUserDto> Build()
+        public async Task<GetAccountDto> Build()
         {
-            var userToAdd = new AddUserDto()
+            var userToAdd = new AddAccountDto()
             {
                 Email = Guid.NewGuid().ToString("N") + "@test.com",
                 Password = "16453aA-007",
                 UserName = Guid.NewGuid().ToString()[..20]
             };
-            var user = await _userService.AddUser(userToAdd);
+            var user = await _userService.AddAccount(userToAdd);
             return user;
         }
     }

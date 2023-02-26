@@ -1,11 +1,16 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 
-namespace BlogCoreAPI.Models.DTOs.User
+namespace BlogCoreAPI.Models.DTOs.Account
 {
-    public class GetUserDto : ADto
+    /// <summary>
+    /// GET Dto type of <see cref="Account"/>.
+    /// </summary>
+    public class GetAccountDto : ADto
     {
         public string UserName { get; set; }
+
+        public string Email { get; set; }
 
         public DateTime RegisteredAt { get; set; }
 

@@ -47,7 +47,7 @@ namespace BlogCoreAPI.Services.JwtService
                 signingCredentials: credentials
             );
 
-            return new JsonWebToken(new JwtSecurityTokenHandler().WriteToken(token));
+            return new JsonWebToken(new JwtSecurityTokenHandler().WriteToken(token), user.UserName, user.Id);
         }
     }
 }

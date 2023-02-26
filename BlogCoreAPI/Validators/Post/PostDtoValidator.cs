@@ -1,5 +1,5 @@
 ﻿using System;
-using BlogCoreAPI.Constants;
+using BlogCoreAPI.Models.Constants;
 using BlogCoreAPI.Models.DTOs.Post;
 using FluentValidation;
 

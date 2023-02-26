@@ -1,4 +1,4 @@
-﻿namespace BlogCoreAPI.Constants
+﻿namespace BlogCoreAPI.Models.Constants
 {
     internal static class UserMessage
     {

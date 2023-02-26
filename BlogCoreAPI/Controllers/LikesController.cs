@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
-using BlogCoreAPI.Builders.Specifications;
-using BlogCoreAPI.Builders.Specifications.Like;
+using BlogCoreAPI.Models.Builders.Specifications;
+using BlogCoreAPI.Models.Builders.Specifications.Like;
 using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;

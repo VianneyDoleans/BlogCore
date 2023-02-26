@@ -2,7 +2,7 @@
 using DBAccess.Specifications.FilterSpecifications;
 using DBAccess.Specifications.FilterSpecifications.Filters;
 
-namespace BlogCoreAPI.Builders.Specifications.Like
+namespace BlogCoreAPI.Models.Builders.Specifications.Like
 {
     /// <summary>
     /// Class used to generate <see cref="FilterSpecification{TEntity}"/> for <see cref="Like"/>.

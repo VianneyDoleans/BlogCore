@@ -1,10 +1,10 @@
-﻿using BlogCoreAPI.Constants;
-using BlogCoreAPI.Models.DTOs.User;
+﻿using BlogCoreAPI.Models.Constants;
+using BlogCoreAPI.Models.DTOs.Account;
 using FluentValidation;
 
 namespace BlogCoreAPI.Validators.User
 {
-    public class UserDtoValidator : AbstractValidator<IUserDto>
+    public class UserDtoValidator : AbstractValidator<IAccountDto>
     {
         public UserDtoValidator()
         {

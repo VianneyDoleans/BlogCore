@@ -22,14 +22,16 @@ namespace DBAccess
         private static async Task GenerateDefaultRoles(RoleManager<Role> roleManager)
         {
             await new RoleBuilder(UserRole, roleManager)
-                .WithCanReadAllOnAllResources()
+                .WithCanReadAllOnAllResourcesExceptAccount()
                 .WithCanCreateOwn(PermissionTarget.Comment)
-                .WithCanCreateOwn(PermissionTarget.Like)
                 .WithCanUpdateOwn(PermissionTarget.Comment)
+                .WithCanCreateOwn(PermissionTarget.Like)
                 .WithCanUpdateOwn(PermissionTarget.Like)
-                .WithCanUpdateOwn(PermissionTarget.User)
                 .WithCanDeleteOwn(PermissionTarget.Comment)
                 .WithCanDeleteOwn(PermissionTarget.Like)
+                .WithCanReadOwn(PermissionTarget.Account)
+                .WithCanDeleteOwn(PermissionTarget.Account)
+                .WithCanUpdateOwn(PermissionTarget.Account)
                 .Build();
 
             await new RoleBuilder(RedactorRole, roleManager)
@@ -41,10 +43,11 @@ namespace DBAccess
                 .Build();
 
             await new RoleBuilder(AdminRole, roleManager)
-                .WithCanReadAllOnAllResources()
+                .WithCanReadAllOnAllResourcesExceptAccount()
                 .WithCanCreateAllOnAllResources()
                 .WithCanUpdateAllOnAllResources()
                 .WithCanDeleteAllOnAllResources()
+                .WithCanReadAll(PermissionTarget.Account)
                 .Build();
         }
 

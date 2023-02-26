@@ -1,14 +1,14 @@
 ﻿using AutoMapper;
 
-namespace BlogCoreAPI.Models.DTOs.User.Converters
+namespace BlogCoreAPI.Models.DTOs.Account.Converters
 {
     /// <summary>
-    /// AutoMapper converter used to enable the conversion of <see cref="UpdateUserDto"/> to <see cref="User"/>.
+    /// AutoMapper converter used to enable the conversion of <see cref="UpdateAccountDto"/> to <see cref="User"/>.
     /// </summary>
-    public class UpdateUserConverter : ITypeConverter<UpdateUserDto, DBAccess.Data.User>
+    public class UpdateAccountConverter : ITypeConverter<UpdateAccountDto, DBAccess.Data.User>
     {
         /// <inheritdoc />
-        public DBAccess.Data.User Convert(UpdateUserDto source, DBAccess.Data.User destination,
+        public DBAccess.Data.User Convert(UpdateAccountDto source, DBAccess.Data.User destination,
             ResolutionContext context)
         {
             destination.UserDescription = source.UserDescription;
