@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+#nullable enable
+using System;
+using System.Collections.Generic;
 using BlogCoreAPI.Models.DTOs.Contracts;
 
 namespace BlogCoreAPI.Models.DTOs.Post
@@ -9,6 +11,8 @@ namespace BlogCoreAPI.Models.DTOs.Post
     public interface IPostDto : IHasAuthor
     {
         public string Content { get; set; }
+
+        public string? ThumbnailUrl { get; set; }
 
         public string Name { get; set; }
 

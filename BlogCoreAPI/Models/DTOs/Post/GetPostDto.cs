@@ -1,4 +1,5 @@
-﻿using System;
+﻿#nullable enable
+using System;
 using System.Collections.Generic;
 
 namespace BlogCoreAPI.Models.DTOs.Post
@@ -9,6 +10,8 @@ namespace BlogCoreAPI.Models.DTOs.Post
     public class GetPostDto : ADto, IPostDto
     {
         public string Content { get; set; }
+
+        public string? ThumbnailUrl { get; set; }
 
         public string Name { get; set; }
 

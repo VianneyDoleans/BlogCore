@@ -33,6 +33,7 @@ namespace BlogCoreAPI.Models.DTOs.Post.Converters
             destination.Category = _categoryRepository.Get(source.Category);
             destination.Content = source.Content;
             destination.Name = source.Name;
+            destination.ThumbnailUrl = string.IsNullOrEmpty(source.ThumbnailUrl) ? null : source.ThumbnailUrl;
             if (source.Tags != null)
                 destination.PostTags = source.Tags.Select(x => new PostTag()
                 {
