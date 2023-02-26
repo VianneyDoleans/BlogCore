@@ -162,6 +162,7 @@ namespace BlogCoreAPI.Services.PostService
                     PostId = pocoPost.Id, 
                     TagId = x
                 }).ToList();
+            pocoPost.ThumbnailUrl = string.IsNullOrEmpty(pocoPost.ThumbnailUrl) ? null : pocoPost.ThumbnailUrl;
 
             var result = await _repository.AddAsync(pocoPost);
             _unitOfWork.Save();
