@@ -37,7 +37,7 @@ Live demo : https://blogcoredemo.onrender.com/swagger
 
 ## Compatibilities
 
-Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/) database. Can also be [deployed on Heroku](https://github.com/VianneyDoleans/BlogCore/wiki/HostingOnHeroku).
+Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/) database. Docker is also available (Dockerfile at the root of the project).
 
 ## Clean code
 
@@ -160,7 +160,7 @@ The default configuration is :
 | Permission |   All   |    All    |  X        | All        |
 | Account    |   All   |    All    |  All      | All        |
 
-## wiki
+## Wiki
 
 A wiki for this project is available on github : [link](https://github.com/VianneyDoleans/BlogCore/wiki)  
 The wiki give more explanations about configuration, online deployment ([render](https://render.com/), [heroku](https://www.heroku.com/)) and architecture of the project.
