@@ -10,6 +10,20 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         {
         }
 
+        public override bool Equals(UpdateTagDto first, GetTagDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Name == second.Name;
+        }
+
+        public override bool Equals(UpdateTagDto first, UpdateTagDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Name == second.Name;
+        }
+
         public override bool Equals(GetTagDto first, GetTagDto second)
         {
             if (first == null || second == null)
@@ -17,9 +31,9 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             return first.Name == second.Name;
         }
 
-        protected override UpdateTagDto ModifyTUpdate(UpdateTagDto entity)
+        public override UpdateTagDto GenerateTUpdate(int id, GetTagDto entity)
         {
-            return new UpdateTagDto { Id = entity.Id, Name = Guid.NewGuid().ToString("N") };
+            return new UpdateTagDto { Id = id, Name = Guid.NewGuid().ToString("N") };
         }
     }
 }

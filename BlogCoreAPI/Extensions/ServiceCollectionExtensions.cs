@@ -14,6 +14,7 @@ using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.TagService;
+using BlogCoreAPI.Services.UrlService;
 using BlogCoreAPI.Services.UserService;
 using BlogCoreAPI.Validators.Category;
 using BlogCoreAPI.Validators.Comment;
@@ -76,6 +77,8 @@ namespace BlogCoreAPI.Extensions
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITagService, TagService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddHttpClient<IUrlService, UrlService>();
+            services.AddScoped<IUrlService, UrlService>();
             return services;
         }
 

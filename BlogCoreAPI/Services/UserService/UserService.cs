@@ -213,10 +213,13 @@ namespace BlogCoreAPI.Services.UserService
 
         private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateAccountDto account)
         {
+            // if (account.Password != null)
+            //     return false;
             var userDb = await _repository.GetAsync(account.Id);
             return userDb.UserName == account.UserName &&
                    userDb.Email == account.Email &&
-                   account.UserDescription == userDb.UserDescription;
+                   account.UserDescription == userDb.UserDescription &&
+                   account.ProfilePictureUrl == userDb.ProfilePictureUrl;
         }
     }
 }

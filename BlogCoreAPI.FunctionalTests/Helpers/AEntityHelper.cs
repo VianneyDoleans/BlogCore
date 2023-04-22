@@ -23,6 +23,14 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             _client = client;
         }
 
+        public abstract bool Equals(TUpdate first, TGet second);
+        
+        public abstract bool Equals(TUpdate first, TUpdate second);
+        
+        public abstract bool Equals(TGet first, TGet second);
+        
+        public abstract TUpdate GenerateTUpdate(int id, TGet entity);
+
         public virtual async Task<TGet> AddEntity(TAdd entity)
         {
             var json = JsonConvert.SerializeObject(entity);
@@ -33,10 +41,7 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             return JsonConvert.DeserializeObject<TGet>(stringResponse);
         }
 
-        public abstract bool Equals(TGet first, TGet second);
-        protected abstract TUpdate ModifyTUpdate(TUpdate entity);
-
-        public async Task<TGet> GetById(int id)
+        public virtual async Task<TGet> GetById(int id)
         {
             var httpGetResponse = await _client.GetAsync(_baseUrl + "/" + id);
             httpGetResponse.EnsureSuccessStatusCode();
@@ -72,11 +77,11 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             return entities;
         }
 
-        public async Task UpdateRandomEntity(TUpdate entity)
-        {
-            var entityModified = ModifyTUpdate(entity);
-            await UpdateEntity(entityModified);
-        }
+        // public async Task UpdateRandomEntity(TUpdate entity)
+        // {
+        //     var entityModified = ModifyTUpdate(entity);
+        //     await UpdateEntity(entityModified);
+        // }
 
         public virtual async Task UpdateEntity(TUpdate entity)
         {

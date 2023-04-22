@@ -5,6 +5,7 @@ using AutoMapper;
 using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
+using BlogCoreAPI.Services.UrlService;
 using BlogCoreAPI.Services.UserService;
 using BlogCoreAPI.Validators.User;
 using DBAccess.Data;
@@ -13,6 +14,7 @@ using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
 using FluentValidation;
+using Moq;
 using Xunit;
 
 namespace BlogCoreAPI.Tests.Services
@@ -31,7 +33,7 @@ namespace BlogCoreAPI.Tests.Services
             });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
-                mapper, _fixture.UnitOfWork, new UserDtoValidator());
+                mapper, _fixture.UnitOfWork, new UserDtoValidator(Mock.Of<IUrlService>()));
         }
 
         [Fact]

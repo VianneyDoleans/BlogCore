@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using AutoMapper;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.Repositories.Category;
@@ -40,6 +41,8 @@ namespace BlogCoreAPI.Models.DTOs.Post.Converters
                     PostId = destination.Id,
                     TagId = x
                 }).ToList();
+            else
+                destination.PostTags = new List<PostTag>();
             return destination;
         }
     }

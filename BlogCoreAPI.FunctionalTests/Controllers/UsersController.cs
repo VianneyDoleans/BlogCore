@@ -17,7 +17,8 @@ namespace BlogCoreAPI.FunctionalTests.Controllers
                 Email = Guid.NewGuid().ToString("N") + "@user.com",
                 Password = "0a1234A@",
                 UserDescription = "My description",
-                UserName = Guid.NewGuid().ToString()[..20]
+                UserName = Guid.NewGuid().ToString()[..20],
+                ProfilePictureUrl = "https://www.facebook.com/images/fb_icon_325x325.png"
             };
             return await Helper.AddEntity(user);
         }

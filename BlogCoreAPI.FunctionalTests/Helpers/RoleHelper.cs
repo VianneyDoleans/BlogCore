@@ -11,6 +11,20 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         {
         }
 
+        public override bool Equals(UpdateRoleDto first, GetRoleDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Name == second.Name;
+        }
+
+        public override bool Equals(UpdateRoleDto first, UpdateRoleDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Name == second.Name;
+        }
+
         public override bool Equals(GetRoleDto first, GetRoleDto second)
         {
             if (first == null || second == null)
@@ -25,9 +39,9 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
 
         }
 
-        protected override UpdateRoleDto ModifyTUpdate(UpdateRoleDto entity)
+        public override UpdateRoleDto GenerateTUpdate(int id, GetRoleDto entity)
         {
-            return new UpdateRoleDto { Id = entity.Id, Name = Guid.NewGuid().ToString("N")[..20] };
+            return new UpdateRoleDto { Id = id, Name = Guid.NewGuid().ToString("N")[..20] };
         }
     }
 }

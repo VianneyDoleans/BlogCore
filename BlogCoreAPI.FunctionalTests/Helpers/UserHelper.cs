@@ -17,6 +17,11 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             _accountHelper = new AccountHelper(client);
         }
 
+        public override async Task<GetAccountDto> GetById(int id)
+        {
+            return await _accountHelper.GetById(id);
+        }
+        
         public override async Task<GetAccountDto> AddEntity(AddAccountDto entity)
         {
             var userCreated = await _accountHelper.CreateAccount(entity);
@@ -33,16 +38,37 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             await _accountHelper.UpdateAccount(entity);
         }
 
-        protected override UpdateAccountDto ModifyTUpdate(UpdateAccountDto entity)
+        public override UpdateAccountDto GenerateTUpdate(int id, GetAccountDto entity)
         {
             return new UpdateAccountDto()
             {
                 Email = entity.Email,
-                Id = entity.Id,
+                Id = id,
                 Password = Guid.NewGuid().ToString("N"),
                 UserDescription = entity.UserDescription,
-                UserName = Guid.NewGuid().ToString("N")[..20]
+                UserName = Guid.NewGuid().ToString("N")[..20],
+                ProfilePictureUrl = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
             };
+        }
+
+        public override bool Equals(UpdateAccountDto first, GetAccountDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Email == second.Email &&
+                   first.UserDescription == second.UserDescription &&
+                   first.UserName == second.UserName &&
+                   first.ProfilePictureUrl == second.ProfilePictureUrl;
+        }
+
+        public override bool Equals(UpdateAccountDto first, UpdateAccountDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Email == second.Email &&
+                   first.UserDescription == second.UserDescription &&
+                   first.UserName == second.UserName &&
+                   first.ProfilePictureUrl == second.ProfilePictureUrl;
         }
 
         public override bool Equals(GetAccountDto first, GetAccountDto second)
@@ -57,13 +83,15 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
                        first.LastLogin == second.LastLogin &&
                        first.RegisteredAt == second.RegisteredAt &&
                        first.UserDescription == second.UserDescription &&
-                       first.UserName == second.UserName;
+                       first.UserName == second.UserName &&
+                       first.ProfilePictureUrl == second.ProfilePictureUrl;
             return first.Roles.SequenceEqual(second.Roles) &&
                    first.Email == second.Email &&
                    first.LastLogin == second.LastLogin &&
                    first.RegisteredAt == second.RegisteredAt &&
                    first.UserDescription == second.UserDescription &&
-                   first.UserName == second.UserName;
+                   first.UserName == second.UserName &&
+                   first.ProfilePictureUrl == second.ProfilePictureUrl;
         }
     }
 }

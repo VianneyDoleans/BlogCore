@@ -13,7 +13,9 @@ namespace DBAccess.Data
         [Required]
         [MinLength(3), MaxLength(20)]
         public override string UserName { get; set; }
-
+        
+        public string ProfilePictureUrl { get; set; }
+        
         [Required]
         [MaxLength(320)]
         public override string Email { get; set; }
