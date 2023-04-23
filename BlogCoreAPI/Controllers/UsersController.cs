@@ -1,11 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using BlogCoreAPI.Authorization.Attributes;
 using BlogCoreAPI.Authorization.Permissions;
 using BlogCoreAPI.Models.Builders.Specifications;
 using BlogCoreAPI.Models.Builders.Specifications.User;
 using BlogCoreAPI.Models.DTOs.Comment;
 using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.DTOs.Post;
+using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Queries;
 using BlogCoreAPI.Responses;
@@ -14,7 +17,6 @@ using BlogCoreAPI.Services.LikeService;
 using BlogCoreAPI.Services.PostService;
 using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.UserService;
-using DBAccess.Data;
 using DBAccess.Data.Permission;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -171,6 +173,57 @@ namespace BlogCoreAPI.Controllers
             await _userService.RemoveUserRole(new UserRoleDto {UserId = id, RoleId = roleId});
             return Ok();
         }
+
+        /// <summary>
+        /// Define default role(s) assigned to new users.
+        /// </summary>
+        /// <remarks>
+        /// Define default role(s) assigned to new users.
+        /// </remarks>
+        /// <param name="defaultRoles"></param>
+        /// <returns></returns>
+        [HttpPost("Roles/Default")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> DefineDefaultRolesToNewUsers(DefaultRolesDto defaultRoles)
+        {
+            // todo : possible improvement : do a AuthorizeAsync without resource parameter needed (only check if have right on all resource type specified)
+            // Or something like that, so no more nedeed to give a not useful item (here user)
+            var userId = int.Parse(User.Claims
+                .First(x => x.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier").Value);
+
+            var user = await _userService.GetUserEntity(userId);
+            // end
+            
+            var roleAuthorized = await _authorizationService.AuthorizeAsync(User, user, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Role));
+            if (!roleAuthorized.Succeeded)
+                return Forbid();
+            
+            var userAuthorized = await _authorizationService.AuthorizeAsync(User, user, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Account));
+            if (!userAuthorized.Succeeded)
+                return Forbid();
+            
+            await _userService.SetDefaultRolesAssignedToNewUsers(defaultRoles.Roles);
+            return Ok();
+        }
+        
+        /// <summary>
+        /// Get current default role(s) assigned to new users.
+        /// </summary>
+        /// <remarks>
+        /// Get current default role(s) assigned to new users.
+        /// </remarks>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        [HttpGet("Roles/Default")]
+        [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.Role)]
+        [ProducesResponseType(typeof(IEnumerable<GetRoleDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> GetDefaultRolesToNewUsers()
+        {
+            return Ok(await _userService.GetDefaultRolesAssignedToNewUsers());
+        }
+
 
         /// <summary>
         /// Get posts written by a user by giving user's id.

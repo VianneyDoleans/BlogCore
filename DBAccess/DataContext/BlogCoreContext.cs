@@ -24,6 +24,8 @@ namespace DBAccess.DataContext
         public DbSet<Like> Likes { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<PostTag> PostTags { get; set; }
+        
+        public DbSet<DefaultRoles> DefaultRoles { get; set; }
 
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder builder)
@@ -52,6 +54,7 @@ namespace DBAccess.DataContext
             builder.Entity<Post>().HasOne(s => s.Author).WithMany(s => s.Posts).IsRequired().OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Comment>().HasOne(s => s.Author).WithMany(s => s.Comments).IsRequired().OnDelete(DeleteBehavior.NoAction);
             builder.Entity<Comment>().HasOne(s => s.CommentParent).WithMany(s => s.ChildrenComments).OnDelete(DeleteBehavior.NoAction);
+            builder.Entity<DefaultRoles>().HasOne(s => s.Role).WithMany(s => s.DefaultRoles).OnDelete(DeleteBehavior.NoAction);
 
             builder.Entity<User>(entity =>
             {

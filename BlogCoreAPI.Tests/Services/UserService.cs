@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,12 +9,14 @@ using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.UrlService;
 using BlogCoreAPI.Services.UserService;
 using BlogCoreAPI.Validators.Account;
+using DBAccess.Builders;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -552,6 +555,55 @@ namespace BlogCoreAPI.Tests.Services
             Assert.Null(exception);
             Assert.True((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles.Any());
             Assert.Contains((await _fixture.UserManager.FindByNameAsync(user.UserName)).UserRoles, x => x.RoleId == roleId && x.UserId == userId);
+        }
+        
+        [Fact]
+        public async Task CanSetDefaultRolesAssignedToNewUsers()
+        {
+            // Arrange
+            var role = await new RoleBuilder(_fixture.RoleManager).Build();
+            var role2 = await new RoleBuilder(_fixture.RoleManager).Build();
+
+            // Act
+            await _service.SetDefaultRolesAssignedToNewUsers(new List<int>() { role.Id, role2.Id });
+
+            // Assert
+            var roles = _fixture.Db.DefaultRoles.ToList().Select(x => x.Role);
+            Assert.Equal(2, roles.Count());
+            Assert.Contains(roles, x =>  x.Name == role.Name);
+            Assert.Contains(roles, x =>  x.Name == role2.Name);
+        }
+        
+        [Fact]
+        public async Task SetDefaultRolesAssignedToNewUsersWithFalseRoleThrowException()
+        {
+            // Arrange & Act && Assert
+            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => 
+                await _service.SetDefaultRolesAssignedToNewUsers(new List<int>() { 99987 }));
+        }
+        
+        [Fact]
+        public async Task SetDefaultRolesAssignedToNewUsersWithDuplicateRoleThrowException()
+        {
+            // Arrange
+            var role = await new RoleBuilder(_fixture.RoleManager).Build();
+            var role2 = await new RoleBuilder(_fixture.RoleManager).Build();
+
+            // Act && Assert
+            await Assert.ThrowsAsync<InvalidRequestException>(async () => 
+                await _service.SetDefaultRolesAssignedToNewUsers(new List<int>() { role.Id, role2.Id, role.Id }));
+        }
+        
+        [Fact]
+        public async Task CanGetDefaultRolesAssignedToNewUsers()
+        {
+            // Arrange & Act
+            var rolesGet = await _service.GetDefaultRolesAssignedToNewUsers();
+
+            // Assert
+            var realRolesInDb = _fixture.Db.DefaultRoles.ToList().Select(x => x.Role);
+            Assert.True(realRolesInDb.Count() == rolesGet.Count());
+            Assert.True(realRolesInDb.All(x => rolesGet.Any(y => y.Name == x.Name)));
         }
 
         [Fact]

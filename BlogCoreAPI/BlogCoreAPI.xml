@@ -784,6 +784,26 @@
             <param name="roleId"></param>
             <returns></returns>
         </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.DefineDefaultRolesToNewUsers(BlogCoreAPI.Models.DTOs.Role.DefaultRolesDto)">
+            <summary>
+            Define default role(s) assigned to new users.
+            </summary>
+            <remarks>
+            Define default role(s) assigned to new users.
+            </remarks>
+            <param name="defaultRoles"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.UsersController.GetDefaultRolesToNewUsers">
+            <summary>
+            Get current default role(s) assigned to new users.
+            </summary>
+            <remarks>
+            Get current default role(s) assigned to new users.
+            </remarks>
+            <param name="role"></param>
+            <returns></returns>
+        </member>
         <member name="M:BlogCoreAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">
             <summary>
             Get posts written by a user by giving user's id.

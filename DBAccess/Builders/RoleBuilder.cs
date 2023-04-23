@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -10,13 +11,12 @@ namespace DBAccess.Builders
 {
     public class RoleBuilder
     {
-        private readonly string _name;
+        private string _name;
         private readonly List<Permission> _permissions;
         private readonly RoleManager<Role> _roleManager;
 
-        public RoleBuilder(string name, RoleManager<Role> roleManager)
+        public RoleBuilder(RoleManager<Role> roleManager)
         {
-            _name = name;
             _roleManager = roleManager;
             _permissions = new List<Permission>();
         }
@@ -73,6 +73,12 @@ namespace DBAccess.Builders
             return this;
         }
 
+        public RoleBuilder WithName(string name)
+        {
+            _name = name;
+            return this;
+        }
+        
         public RoleBuilder WithCanReadAll(PermissionTarget target)
         {
             _permissions.Add(new Permission
@@ -164,7 +170,7 @@ namespace DBAccess.Builders
 
         public async Task<Role> Build()
         {
-            var role = new Role() { Name = _name };
+            var role = new Role() { Name = _name ?? Guid.NewGuid().ToString() };
             await _roleManager.CreateAsync(role);
             foreach (var permission in _permissions)
             {

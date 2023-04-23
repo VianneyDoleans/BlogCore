@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.Models.DTOs.Account;
+using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.User;
 using DBAccess.Data;
 using DBAccess.Specifications;
@@ -40,5 +41,9 @@ namespace BlogCoreAPI.Services.UserService
         Task DeleteAccount(int id);
 
         Task<IEnumerable<GetUserDto>> GetUsersFromRole(int id);
+        
+        Task<IEnumerable<GetRoleDto>> GetDefaultRolesAssignedToNewUsers();
+        
+        Task SetDefaultRolesAssignedToNewUsers(List<int> roleIds);
     }
 }
