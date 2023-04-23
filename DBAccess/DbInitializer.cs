@@ -54,6 +54,7 @@ namespace DBAccess
                 .Build();
 
             await context.DefaultRoles.AddAsync(new DefaultRoles() { Role = userRole });
+            await context.SaveChangesAsync();
         }
 
         private static async Task GenerateDefaultUsers(UserManager<User> userManager)
