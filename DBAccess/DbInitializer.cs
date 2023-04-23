@@ -78,6 +78,12 @@ namespace DBAccess
         private static void AssignRolesToDefaultUsers(BlogCoreContext context)
         {
             context.UserRoles.AddRange(
+                new UserRoleBuilder(context).WithUser("Jamy").WithRole(UserRole).Build(),
+                new UserRoleBuilder(context).WithUser("Fred").WithRole(UserRole).Build(),
+                new UserRoleBuilder(context).WithUser("Frodon").WithRole(UserRole).Build(),
+                new UserRoleBuilder(context).WithUser("Sam").WithRole(UserRole).Build(),
+                new UserRoleBuilder(context).WithUser("AdminUser").WithRole(UserRole).Build(),
+                
                 new UserRoleBuilder(context).WithUser("Fred").WithRole(RedactorRole).Build(),
                 new UserRoleBuilder(context).WithUser("Jamy").WithRole(RedactorRole).Build(),
 
