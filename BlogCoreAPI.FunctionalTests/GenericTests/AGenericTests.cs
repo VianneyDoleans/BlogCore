@@ -75,7 +75,7 @@ namespace BlogCoreAPI.FunctionalTests.GenericTests
         public async Task CanUpdateEntity()
         {
             // Arrange
-            var entityAdded = await AddRandomEntity(); // todo get post doesnt seems to work (GET post dont return [Tags] list)
+            var entityAdded = await AddRandomEntity();
             var entityModifiedToApply = Helper.GenerateTUpdate(entityAdded.Id, entityAdded);
 
             // Act
