@@ -2,7 +2,6 @@
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using AutoMapper;
 using BlogCoreAPI.FunctionalTests.Helpers;
 using BlogCoreAPI.Models.DTOs;
 using BlogCoreAPI.Models.DTOs.Account;
@@ -24,6 +23,9 @@ namespace BlogCoreAPI.FunctionalTests.GenericTests
             Client = factory.CreateClient();
             Admin = factory.Admin;
         }
+        
+        public abstract Task<TGet> AddRandomEntity();
+
 
         protected async Task Login()
         {
@@ -44,9 +46,7 @@ namespace BlogCoreAPI.FunctionalTests.GenericTests
             // Assert
             Assert.True(entities.Any());
         }
-
-        public abstract Task<TGet> AddRandomEntity();
-
+        
         [Fact]
         public async Task CanAddEntity()
         {
@@ -76,18 +76,14 @@ namespace BlogCoreAPI.FunctionalTests.GenericTests
         {
             // Arrange
             var entityAdded = await AddRandomEntity();
+            var entityModifiedToApply = Helper.GenerateTUpdate(entityAdded.Id, entityAdded);
 
             // Act
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new AutoMapperProfile());
-            });
-            var mapper = config.CreateMapper();
-            await Helper.UpdateRandomEntity(mapper.Map<TUpdate>(entityAdded));
+            await Helper.UpdateEntity(entityModifiedToApply);
 
             // Assert
             var getEntityFromApi = await Helper.GetById(entityAdded.Id);
-            Assert.False(Helper.Equals(getEntityFromApi, entityAdded));
+            Assert.True(Helper.Equals(entityModifiedToApply, getEntityFromApi));
         }
 
         [Fact]

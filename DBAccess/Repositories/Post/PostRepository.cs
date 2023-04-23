@@ -41,6 +41,7 @@ namespace DBAccess.Repositories.Post
                 return await _context.Set<Data.Post>().Include(x => x.Likes)
                     .Include(x => x.Author)
                     .Include(x => x.PostTags)
+                    .ThenInclude(x => x.Tag)
                     .Include(x => x.Category)
                     .SingleAsync(x => x.Id == id);
             }

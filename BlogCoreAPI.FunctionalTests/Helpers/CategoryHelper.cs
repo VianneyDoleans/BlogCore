@@ -11,6 +11,20 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         {
         }
 
+        public override bool Equals(UpdateCategoryDto first, GetCategoryDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Name == second.Name;
+        }
+
+        public override bool Equals(UpdateCategoryDto first, UpdateCategoryDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Name == second.Name;
+        }
+
         public override bool Equals(GetCategoryDto first, GetCategoryDto second)
         {
             if (first == null || second == null)
@@ -23,9 +37,9 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             return first.Name == second.Name;
         }
 
-        protected override UpdateCategoryDto ModifyTUpdate(UpdateCategoryDto entity)
+        public override UpdateCategoryDto GenerateTUpdate(int id, GetCategoryDto entity)
         {
-            return new UpdateCategoryDto {Id = entity.Id, Name = Guid.NewGuid().ToString("N") };
+            return new UpdateCategoryDto {Id = id, Name = Guid.NewGuid().ToString("N") };
         }
     }
 }

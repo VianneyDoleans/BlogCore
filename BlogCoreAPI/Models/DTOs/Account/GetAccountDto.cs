@@ -11,6 +11,8 @@ namespace BlogCoreAPI.Models.DTOs.Account
         public string UserName { get; set; }
 
         public string Email { get; set; }
+        
+        public string ProfilePictureUrl { get; set; }
 
         public DateTime RegisteredAt { get; set; }
 

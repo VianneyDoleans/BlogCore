@@ -111,13 +111,18 @@ namespace BlogCoreAPI.Services.PostService
         private async Task<bool> PostAlreadyExistsWithSameProperties(UpdatePostDto post)
         {
             var postDb = await _repository.GetAsync(post.Id);
+            if ((postDb.PostTags != null && post.Tags == null) ||
+                (postDb.PostTags == null && post.Tags != null))
+                return false;
             if (postDb.PostTags != null && post.Tags != null &&
-                !postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags))
+                !(postDb.PostTags.Select(x => x.Tag.Id).SequenceEqual(post.Tags) && 
+                  postDb.PostTags.Count() == post.Tags.Count()))
                 return false;
             return postDb.Name == post.Name &&
                    postDb.Author.Id == post.Author &&
                    postDb.Category.Id == post.Category &&
-                   postDb.Content == post.Content;
+                   postDb.Content == post.Content &&
+                   postDb.ThumbnailUrl == post.ThumbnailUrl;
         }
 
         public async Task CheckPostValidity(IPostDto post)
@@ -166,7 +171,11 @@ namespace BlogCoreAPI.Services.PostService
 
             var result = await _repository.AddAsync(pocoPost);
             _unitOfWork.Save();
-            return _mapper.Map<GetPostDto>(result);
+            var getPost = _mapper.Map<GetPostDto>(result);
+            getPost.Tags = result.PostTags != null ?
+                result.PostTags.Select(x => x.TagId).ToList() :
+                new List<int>();
+            return getPost;
         }
 
         public async Task UpdatePost(UpdatePostDto post)
