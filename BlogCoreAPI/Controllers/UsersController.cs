@@ -132,7 +132,7 @@ namespace BlogCoreAPI.Controllers
                 return Forbid();
 
             var userEntity = await _userService.GetUserEntity(id);
-            var userAuthorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.User));
+            var userAuthorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Account));
             if (!userAuthorized.Succeeded)
                 return Forbid();
 
@@ -166,7 +166,7 @@ namespace BlogCoreAPI.Controllers
                 return Forbid();
 
             var userEntity = await _userService.GetUserEntity(id);
-            var userAuthorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.User));
+            var userAuthorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Account));
             if (!userAuthorized.Succeeded)
                 return Forbid();
 
