@@ -19,9 +19,10 @@ namespace DBAccess
         private const string RedactorRole = "Redactor";
         private const string AdminRole = "Admin";
 
-        private static async Task GenerateDefaultRoles(RoleManager<Role> roleManager)
+        private static async Task GenerateDefaultRoles(RoleManager<Role> roleManager, BlogCoreContext context)
         {
-            await new RoleBuilder(UserRole, roleManager)
+            var userRole = await new RoleBuilder(roleManager)
+                .WithName(UserRole)
                 .WithCanReadAllOnAllResourcesExceptAccount()
                 .WithCanCreateOwn(PermissionTarget.Comment)
                 .WithCanUpdateOwn(PermissionTarget.Comment)
@@ -34,7 +35,8 @@ namespace DBAccess
                 .WithCanUpdateOwn(PermissionTarget.Account)
                 .Build();
 
-            await new RoleBuilder(RedactorRole, roleManager)
+            await new RoleBuilder(roleManager)
+                .WithName(RedactorRole)
                 .WithCanCreateAll(PermissionTarget.Category)
                 .WithCanCreateAll(PermissionTarget.Tag)
                 .WithCanCreateOwn(PermissionTarget.Post)
@@ -42,13 +44,16 @@ namespace DBAccess
                 .WithCanDeleteOwn(PermissionTarget.Post)
                 .Build();
 
-            await new RoleBuilder(AdminRole, roleManager)
+            await new RoleBuilder(roleManager)
+                .WithName(AdminRole)
                 .WithCanReadAllOnAllResourcesExceptAccount()
                 .WithCanCreateAllOnAllResources()
                 .WithCanUpdateAllOnAllResources()
                 .WithCanDeleteAllOnAllResources()
                 .WithCanReadAll(PermissionTarget.Account)
                 .Build();
+
+            await context.DefaultRoles.AddAsync(new DefaultRoles() { Role = userRole });
         }
 
         private static async Task GenerateDefaultUsers(UserManager<User> userManager)
@@ -72,12 +77,6 @@ namespace DBAccess
         private static void AssignRolesToDefaultUsers(BlogCoreContext context)
         {
             context.UserRoles.AddRange(
-                new UserRoleBuilder(context).WithUser("Jamy").WithRole(UserRole).Build(),
-                new UserRoleBuilder(context).WithUser("Fred").WithRole(UserRole).Build(),
-                new UserRoleBuilder(context).WithUser("Frodon").WithRole(UserRole).Build(),
-                new UserRoleBuilder(context).WithUser("Sam").WithRole(UserRole).Build(),
-                new UserRoleBuilder(context).WithUser("AdminUser").WithRole(UserRole).Build(),
-
                 new UserRoleBuilder(context).WithUser("Fred").WithRole(RedactorRole).Build(),
                 new UserRoleBuilder(context).WithUser("Jamy").WithRole(RedactorRole).Build(),
 
@@ -237,7 +236,7 @@ namespace DBAccess
         {
             if (!context.Roles.Any())
             {
-                await GenerateDefaultRoles(roleManager);
+                await GenerateDefaultRoles(roleManager, context);
                 await GenerateDefaultUsers(userManager);
                 AssignRolesToDefaultUsers(context);
                 GenerateDefaultTags(context);

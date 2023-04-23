@@ -16,6 +16,7 @@ namespace DBAccess.Repositories.User
     public class UserRepository : Repository<Data.User>, IUserRepository
     {
         private readonly UserManager<Data.User> _userManager;
+        private IUserRepository _userRepositoryImplementation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class.
@@ -153,6 +154,21 @@ namespace DBAccess.Repositories.User
             var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
             if (!result.Succeeded)
                 throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        public async Task SetDefaultRolesToNewUsers(IEnumerable<Data.Role> roles)
+        {
+            _context.Set<Data.DefaultRoles>().RemoveRange(_context.Set<Data.DefaultRoles>());
+            await _context.Set<Data.DefaultRoles>().AddRangeAsync(roles.Select(x => new Data.DefaultRoles() { Role = x}));
+        }
+
+        public async Task<IEnumerable<Data.Role>> GetDefaultRolesToNewUsers()
+        {
+            return await _context.Set<Data.DefaultRoles>()
+                .Include(y => y.Role)
+                .ThenInclude(x => x.UserRoles)
+                .Select(x => x.Role)
+                .ToListAsync();
         }
     }
 }

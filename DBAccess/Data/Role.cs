@@ -16,5 +16,8 @@ namespace DBAccess.Data
 
         [ForeignKey("RoleId")]
         public virtual ICollection<UserRole> UserRoles { get; set; }
+        
+        [ForeignKey("RoleId")]
+        public virtual ICollection<DefaultRoles> DefaultRoles { get; set; }
     }
 }

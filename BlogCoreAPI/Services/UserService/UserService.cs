@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.Constants;
 using BlogCoreAPI.Models.DTOs.Account;
+using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
 using DBAccess.Data;
@@ -54,7 +55,7 @@ namespace BlogCoreAPI.Services.UserService
             return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
-                userDto.Roles = x.UserRoles.Select(y => y.RoleId);
+                userDto.Roles = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.RoleId) : new List<int>();
                 return userDto;
             });
         }
@@ -68,7 +69,7 @@ namespace BlogCoreAPI.Services.UserService
         {
             var user = await _repository.GetAsync(id);
             var userDto = _mapper.Map<GetAccountDto>(user);
-            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            userDto.Roles = user.UserRoles != null && user.UserRoles.Any() ? user.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -76,7 +77,7 @@ namespace BlogCoreAPI.Services.UserService
         {
             var user = await _repository.GetAsync(id);
             var userDto = _mapper.Map<GetUserDto>(user);
-            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            userDto.Roles = user.UserRoles != null && user.UserRoles.Any() ? user.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -125,15 +126,25 @@ namespace BlogCoreAPI.Services.UserService
                 throw new InvalidRequestException("Email Address already exists.");
         }
 
+        private async Task AssignDefaultRolesToNewUser(User user)
+        {
+            var defaultRolesToNewUsers = await _repository.GetDefaultRolesToNewUsers();
+            foreach (var role in defaultRolesToNewUsers)
+            {
+                await AddUserRole(new UserRoleDto() { UserId = user.Id, RoleId = role.Id });
+            }
+        }
+        
         public async Task<GetAccountDto> AddAccount(AddAccountDto account)
         {
             await _accountDtoValidator.ValidateAndThrowAsync(account);
             await CheckUserValidity(account);
             var userToAdd = _mapper.Map<User>(account);
             var result = await _repository.AddAsync(userToAdd);
+            await AssignDefaultRolesToNewUser(result);
            _unitOfWork.Save();
            var userDto = _mapper.Map<GetAccountDto>(result);
-            userDto.Roles = result.UserRoles.Select(x => x.RoleId);
+            userDto.Roles = result.UserRoles != null && result.UserRoles.Any() ? result.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -208,10 +219,38 @@ namespace BlogCoreAPI.Services.UserService
             var usersDto = users.Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
-                userDto.Roles = x.UserRoles.Select(y => y.RoleId);
+                userDto.Roles = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.RoleId) : new List<int>();
                 return userDto;
             }).ToList();
             return usersDto;
+        }
+
+        public async Task<IEnumerable<GetRoleDto>> GetDefaultRolesAssignedToNewUsers()
+        {
+            var defaultRoles = await _repository.GetDefaultRolesToNewUsers();
+            return defaultRoles.Select(x =>
+            {
+                var userDto = _mapper.Map<GetRoleDto>(x);
+                userDto.Users = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.UserId) : new List<int>();
+                return userDto;
+            }).ToList();
+            
+            
+        }
+
+        public async Task SetDefaultRolesAssignedToNewUsers(List<int> roleIds)
+        {
+            var roles = new List<Role>();
+            foreach (var roleId in roleIds)
+            {
+                roles.Add(await _roleRepository.GetAsync(roleId));
+            }
+            
+            if (roles.Distinct().Count() != roles.Count)
+                throw new InvalidRequestException("Roles must be unique.");
+
+            await _repository.SetDefaultRolesToNewUsers(roles);
+            _unitOfWork.Save();
         }
 
         private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateAccountDto account)
