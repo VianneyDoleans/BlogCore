@@ -7,7 +7,7 @@ using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Services.UrlService;
 using BlogCoreAPI.Services.UserService;
-using BlogCoreAPI.Validators.User;
+using BlogCoreAPI.Validators.Account;
 using DBAccess.Data;
 using DBAccess.Data.JoiningEntity;
 using DBAccess.Exceptions;
@@ -33,7 +33,7 @@ namespace BlogCoreAPI.Tests.Services
             });
             var mapper = config.CreateMapper();
             _service = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager), 
-                mapper, _fixture.UnitOfWork, new UserDtoValidator(Mock.Of<IUrlService>()));
+                mapper, _fixture.UnitOfWork, new AccountDtoValidator(Mock.Of<IUrlService>()));
         }
 
         [Fact]
@@ -119,6 +119,21 @@ namespace BlogCoreAPI.Tests.Services
 
             // Act && Assert
             await Assert.ThrowsAsync<ValidationException>(async () => await _service.AddAccount(accountToAdd));
+        }
+        
+        [Fact]
+        public async Task AddAccountWithInvalidPassword()
+        {
+            // Arrange
+            var accountToAdd = new AddAccountDto()
+            {
+                Email = "AddAccountNullPassword@newEmail3.com",
+                UserName = "AddUNullPa",
+                Password = "abcde",
+            };
+
+            // Act && Assert
+            await Assert.ThrowsAsync<UserManagementException>(async () => await _service.AddAccount(accountToAdd));
         }
 
         [Fact]
@@ -277,7 +292,6 @@ namespace BlogCoreAPI.Tests.Services
             {
                 Id = account.Id,
                 Email = "UpdateAccount@newEmail.comUpdate",
-                Password = "16453Update",
                 UserName = "UpdateAccountUpdate"
             };
 
@@ -296,7 +310,7 @@ namespace BlogCoreAPI.Tests.Services
         {
             // Arrange & Act & Assert
             await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.UpdateAccount(new UpdateAccountDto() 
-                {Id = 164854, Password = "123", Email = "UpdateAccountNotFound@email.com", UserName = "UpdUNotFound"}));
+                {Id = 164854, Email = "UpdateAccountNotFound@email.com", UserName = "UpdUNotFound"}));
         }
 
         [Fact]
@@ -313,7 +327,6 @@ namespace BlogCoreAPI.Tests.Services
             {
                 Id = user.Id,
                 Email = "UpdateAccountWithSameExistingProperty@newEmail.com",
-                Password = "16453",
                 UserName = "UpUsrWiSaExtProp"
             };
 
@@ -347,7 +360,6 @@ namespace BlogCoreAPI.Tests.Services
             {
                 Id = account2.Id,
                 Email = "UpdateAccountWithSomeUExistingUProperty2@newEmail.com",
-                Password = "16453aA-007",
                 UserName = "UpUsrWiSoUExtProp"
             };
 
@@ -368,7 +380,6 @@ namespace BlogCoreAPI.Tests.Services
             var userToUpdate = new UpdateAccountDto()
             {
                 Id = account.Id,
-                Password = "16453",
                 Email = "UpdateAccountOnlyOnePropertyValid@newEmail.comUpdate",
                 UserName = "UpdateUOnlyOPro"
             };
@@ -383,7 +394,7 @@ namespace BlogCoreAPI.Tests.Services
                         accountUpdated.UserName == userToUpdate.UserName);
         }
 
-        [Fact]
+        [Fact(Skip = "It no more possible to edit password currently, need to reimplement it and improve this test/new one (check password modification, not only check validator)")]
         public async Task UpdateAccountInvalid()
         {
             // Arrange
@@ -397,7 +408,6 @@ namespace BlogCoreAPI.Tests.Services
             {
                 Id = account.Id,
                 Email = "UpdateAccountInvalid@newEmail.comUpdate",
-                Password = "",
                 UserName = "UpdateUInvalid"
             };
 
@@ -419,7 +429,6 @@ namespace BlogCoreAPI.Tests.Services
             {
                 Id = account.Id,
                 Email = "UpdateAccountMissingUsername@newEmail.comUpdate",
-                Password = "16453",
             };
 
             // Act & Assert

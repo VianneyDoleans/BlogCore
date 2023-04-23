@@ -16,13 +16,13 @@ using BlogCoreAPI.Services.RoleService;
 using BlogCoreAPI.Services.TagService;
 using BlogCoreAPI.Services.UrlService;
 using BlogCoreAPI.Services.UserService;
+using BlogCoreAPI.Validators.Account;
 using BlogCoreAPI.Validators.Category;
 using BlogCoreAPI.Validators.Comment;
 using BlogCoreAPI.Validators.Like;
 using BlogCoreAPI.Validators.Post;
 using BlogCoreAPI.Validators.Role;
 using BlogCoreAPI.Validators.Tag;
-using BlogCoreAPI.Validators.User;
 using DBAccess.Data;
 using DBAccess.Repositories.Category;
 using DBAccess.Repositories.Comment;
@@ -95,7 +95,7 @@ namespace BlogCoreAPI.Extensions
             services.AddScoped<IValidator<IPostDto>, PostDtoValidator>();
             services.AddScoped<IValidator<IRoleDto>, RoleDtoValidator>();
             services.AddScoped<IValidator<ITagDto>, TagDtoValidator>();
-            services.AddScoped<IValidator<IAccountDto>, UserDtoValidator>();
+            services.AddScoped<IValidator<IAccountDto>, AccountDtoValidator>();
             return services;
         }
 

@@ -44,7 +44,6 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             {
                 Email = entity.Email,
                 Id = id,
-                Password = Guid.NewGuid().ToString("N"),
                 UserDescription = entity.UserDescription,
                 UserName = Guid.NewGuid().ToString("N")[..20],
                 ProfilePictureUrl = "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"

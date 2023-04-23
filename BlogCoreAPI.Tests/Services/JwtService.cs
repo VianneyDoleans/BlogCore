@@ -6,7 +6,7 @@ using AutoMapper;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Services.UrlService;
 using BlogCoreAPI.Tests.Builders;
-using BlogCoreAPI.Validators.User;
+using BlogCoreAPI.Validators.Account;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
 using DBAccess.Settings;
@@ -44,7 +44,7 @@ namespace BlogCoreAPI.Tests.Services
         public async Task GenerateJwt()
         {
             var userService = new BlogCoreAPI.Services.UserService.UserService(new UserRepository(_fixture.Db, _fixture.UserManager), new RoleRepository(_fixture.Db, _fixture.RoleManager),
-                _mapper, _fixture.UnitOfWork, new UserDtoValidator(Mock.Of<IUrlService>()));
+                _mapper, _fixture.UnitOfWork, new AccountDtoValidator(Mock.Of<IUrlService>()));
             var account = await new AccountBuilder(userService).Build();
 
             // Act

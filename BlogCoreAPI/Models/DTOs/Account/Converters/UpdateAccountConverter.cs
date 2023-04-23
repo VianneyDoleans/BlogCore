@@ -15,7 +15,6 @@ namespace BlogCoreAPI.Models.DTOs.Account.Converters
             destination.UserDescription = source.UserDescription;
             destination.Email = source.Email;
             destination.UserName = source.UserName;
-            destination.Password = source.Password;
             return destination;
         }
     }

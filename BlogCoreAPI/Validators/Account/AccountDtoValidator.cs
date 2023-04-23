@@ -3,11 +3,11 @@ using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Services.UrlService;
 using FluentValidation;
 
-namespace BlogCoreAPI.Validators.User
+namespace BlogCoreAPI.Validators.Account
 {
-    public class UserDtoValidator : AbstractValidator<IAccountDto>
+    public class AccountDtoValidator : AbstractValidator<IAccountDto>
     {
-        public UserDtoValidator(IUrlService urlService)
+        public AccountDtoValidator(IUrlService urlService)
         {
             RuleFor(p => p).NotNull().WithMessage(p => UserMessage.CannotBeNull(nameof(p)));
             RuleFor(p => p.UserName).NotNull().NotEmpty().WithMessage(p => UserMessage.CannotBeNullOrEmpty(nameof(p.UserName)));
@@ -19,7 +19,6 @@ namespace BlogCoreAPI.Validators.User
             RuleFor(p => p.Email)
                 .Matches(@"\A[a-zA-Z0-9.!\#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*\z")
                 .WithMessage(p => "Email address is invalid.");
-            RuleFor(p => p.Password).NotNull().NotEmpty().WithMessage(p => UserMessage.CannotBeNullOrEmpty(nameof(p.Password)));
             RuleFor(p => p.UserDescription).Length(1, 1000).When(p => p != null)
                 .WithMessage(p => UserMessage.CannotExceed(nameof(p.UserDescription), 1000));
             RuleFor(p => p.ProfilePictureUrl).Must(urlService.IsUrl).When(p => !string.IsNullOrEmpty(p.ProfilePictureUrl))
