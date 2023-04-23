@@ -10,6 +10,26 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         {
         }
 
+        public override bool Equals(UpdateLikeDto first, GetLikeDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.User == second.User &&
+                   first.Post == second.Post &&
+                   first.LikeableType == second.LikeableType &&
+                   first.Comment == second.Comment;
+        }
+
+        public override bool Equals(UpdateLikeDto first, UpdateLikeDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.User == second.User &&
+                   first.Post == second.Post &&
+                   first.LikeableType == second.LikeableType &&
+                   first.Comment == second.Comment;
+        }
+
         public override bool Equals(GetLikeDto first, GetLikeDto second)
         {
             if (first == null || second == null)
@@ -20,9 +40,9 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
                    first.Comment == second.Comment;
         }
 
-        protected override UpdateLikeDto ModifyTUpdate(UpdateLikeDto entity)
+        public override UpdateLikeDto GenerateTUpdate(int id, GetLikeDto entity)
         {
-            return new UpdateLikeDto {Id = entity.Id, LikeableType = LikeableType.Post, Post = 1, User = entity.User};
+            return new UpdateLikeDto {Id = id, LikeableType = LikeableType.Post, Post = 1, User = entity.User};
         }
     }
 }

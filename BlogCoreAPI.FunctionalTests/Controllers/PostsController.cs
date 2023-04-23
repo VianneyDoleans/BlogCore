@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using BlogCoreAPI.FunctionalTests.GenericTests;
 using BlogCoreAPI.FunctionalTests.Helpers;
@@ -37,7 +38,9 @@ namespace BlogCoreAPI.FunctionalTests.Controllers
                 Name = Guid.NewGuid().ToString("N"),
                 Author = userAdded.Id,
                 Category = categoryAdded.Id,
-                Content = "test POstDto"
+                Content = "test POstDto",
+                Tags = new List<int>() {1},
+                ThumbnailUrl = "https://www.facebook.com/images/fb_icon_325x325.png"
             };
             return await Helper.AddEntity(post);
         }

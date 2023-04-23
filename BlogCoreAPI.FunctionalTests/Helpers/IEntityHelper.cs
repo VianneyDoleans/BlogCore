@@ -9,9 +9,11 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             where TUpdate : ADto, new()
             where TAdd : new()
     {
+        public abstract TUpdate GenerateTUpdate(int id, TGet entity);
+        
         public Task<TGet> AddEntity(TAdd entity);
 
-        public Task UpdateRandomEntity(TUpdate entity);
+        // public Task UpdateRandomEntity(TUpdate entity);
 
         public Task<TGet> GetById(int id);
 
@@ -22,5 +24,9 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         public Task RemoveIdentity(int id);
 
         public bool Equals(TGet first, TGet second);
+        
+        public bool Equals(TUpdate first, TGet second);
+        
+        public bool Equals(TUpdate first, TUpdate second);
     }
 }

@@ -52,6 +52,14 @@ namespace BlogCoreAPI
             CreateMap<GetRoleDto, UpdateRoleDto>();
             CreateMap<GetTagDto, UpdateTagDto>();
             CreateMap<GetAccountDto, UpdateAccountDto>();
+            
+            CreateMap<UpdateCategoryDto, GetCategoryDto>();
+            CreateMap<UpdateCommentDto, GetCommentDto>();
+            CreateMap<UpdateLikeDto, GetLikeDto>();
+            CreateMap<UpdatePostDto, GetPostDto>();
+            CreateMap<UpdateRoleDto, GetRoleDto>();
+            CreateMap<UpdateTagDto, GetTagDto>();
+            CreateMap<UpdateAccountDto, GetAccountDto>();
 
             CreateMap<Like, int>().ConvertUsing(x => x.Id);
             CreateMap<Comment, int>().ConvertUsing(x => x.Id);

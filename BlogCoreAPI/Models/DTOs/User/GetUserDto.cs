@@ -6,6 +6,8 @@ namespace BlogCoreAPI.Models.DTOs.User
     public class GetUserDto : ADto
     {
         public string UserName { get; set; }
+        
+        public string ProfilePictureUrl { get; set; }
 
         public DateTime RegisteredAt { get; set; }
 

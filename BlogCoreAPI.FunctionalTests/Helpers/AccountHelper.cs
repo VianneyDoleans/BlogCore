@@ -29,6 +29,15 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             var jsonWebTokenDto = JsonSerializer.Deserialize<JsonWebTokenDto>(await httpResponse.Content.ReadAsStringAsync());
             return jsonWebTokenDto?.Token;
         }
+        
+        public async Task<GetAccountDto> GetById(int id)
+        {
+            var httpGetResponse = await _client.GetAsync(_baseUrl + "/" + id);
+            httpGetResponse.EnsureSuccessStatusCode();
+            var stringResponse = await httpGetResponse.Content.ReadAsStringAsync();
+            var entity = JsonConvert.DeserializeObject<GetAccountDto>(stringResponse);
+            return entity;
+        }
 
         public async Task<GetAccountDto> CreateAccount(AddAccountDto addAccountDto)
         {

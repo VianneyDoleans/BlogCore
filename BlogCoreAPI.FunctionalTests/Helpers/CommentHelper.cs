@@ -11,6 +11,26 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         {
         }
 
+        public override bool Equals(UpdateCommentDto first, GetCommentDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Author == second.Author &&
+                   first.PostParent == second.PostParent &&
+                   first.CommentParent == second.CommentParent &&
+                   first.Content == second.Content;
+        }
+
+        public override bool Equals(UpdateCommentDto first, UpdateCommentDto second)
+        {
+            if (first == null || second == null)
+                return false;
+            return first.Author == second.Author &&
+                   first.PostParent == second.PostParent &&
+                   first.CommentParent == second.CommentParent &&
+                   first.Content == second.Content;
+        }
+        
         public override bool Equals(GetCommentDto first, GetCommentDto second)
         {
             if (first == null || second == null)
@@ -31,11 +51,11 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
 
         }
 
-        protected override UpdateCommentDto ModifyTUpdate(UpdateCommentDto entity)
+        public override UpdateCommentDto GenerateTUpdate(int id, GetCommentDto entity)
         {
             return new UpdateCommentDto
             {
-                Id = entity.Id, Content = Guid.NewGuid().ToString(),
+                Id = id, Content = Guid.NewGuid().ToString(),
                 Author = entity.Author,
                 CommentParent = entity.CommentParent,
                 PostParent = entity.PostParent
