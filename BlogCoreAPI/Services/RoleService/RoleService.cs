@@ -36,7 +36,8 @@ namespace BlogCoreAPI.Services.RoleService
             return (await _repository.GetAllAsync()).Select(c =>
             {
                 var roleDto = _mapper.Map<GetRoleDto>(c);
-                roleDto.Users = c.UserRoles.Select(x => x.UserId);
+                roleDto.Users = c.UserRoles != null && c.UserRoles.Any() ? c.UserRoles.Select(x => x.UserId) :
+                        new List<int>();
                 return roleDto;
             }).ToList();
         }
@@ -44,7 +45,12 @@ namespace BlogCoreAPI.Services.RoleService
         public async Task<IEnumerable<GetRoleDto>> GetRoles(FilterSpecification<Role> filterSpecification = null, PagingSpecification pagingSpecification = null,
             SortSpecification<Role> sortSpecification = null)
         {
-            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x => _mapper.Map<GetRoleDto>(x));
+            return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x =>
+            {
+                var roleDto = _mapper.Map<GetRoleDto>(x);
+                roleDto.Users = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.UserId) : new List<int>();
+                return roleDto;
+            });
         }
 
         public async Task<int> CountRolesWhere(FilterSpecification<Role> filterSpecification = null)

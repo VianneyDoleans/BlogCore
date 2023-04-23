@@ -55,7 +55,7 @@ namespace BlogCoreAPI.Services.UserService
             return (await _repository.GetAsync(filterSpecification, pagingSpecification, sortSpecification)).Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
-                userDto.Roles = x.UserRoles.Select(y => y.RoleId);
+                userDto.Roles = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.RoleId) : new List<int>();
                 return userDto;
             });
         }
@@ -69,7 +69,7 @@ namespace BlogCoreAPI.Services.UserService
         {
             var user = await _repository.GetAsync(id);
             var userDto = _mapper.Map<GetAccountDto>(user);
-            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            userDto.Roles = user.UserRoles != null && user.UserRoles.Any() ? user.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -77,7 +77,7 @@ namespace BlogCoreAPI.Services.UserService
         {
             var user = await _repository.GetAsync(id);
             var userDto = _mapper.Map<GetUserDto>(user);
-            userDto.Roles = user.UserRoles.Select(x => x.RoleId);
+            userDto.Roles = user.UserRoles != null && user.UserRoles.Any() ? user.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -144,7 +144,7 @@ namespace BlogCoreAPI.Services.UserService
             await AssignDefaultRolesToNewUser(result);
            _unitOfWork.Save();
            var userDto = _mapper.Map<GetAccountDto>(result);
-            userDto.Roles = result.UserRoles.Select(x => x.RoleId);
+            userDto.Roles = result.UserRoles != null && result.UserRoles.Any() ? result.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -219,7 +219,7 @@ namespace BlogCoreAPI.Services.UserService
             var usersDto = users.Select(x =>
             {
                 var userDto = _mapper.Map<GetUserDto>(x);
-                userDto.Roles = x.UserRoles.Select(y => y.RoleId);
+                userDto.Roles = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.RoleId) : new List<int>();
                 return userDto;
             }).ToList();
             return usersDto;
@@ -228,7 +228,14 @@ namespace BlogCoreAPI.Services.UserService
         public async Task<IEnumerable<GetRoleDto>> GetDefaultRolesAssignedToNewUsers()
         {
             var defaultRoles = await _repository.GetDefaultRolesToNewUsers();
-            return defaultRoles.Select(x => _mapper.Map<GetRoleDto>(x)).ToList();
+            return defaultRoles.Select(x =>
+            {
+                var userDto = _mapper.Map<GetRoleDto>(x);
+                userDto.Users = x.UserRoles != null && x.UserRoles.Any() ? x.UserRoles.Select(y => y.UserId) : new List<int>();
+                return userDto;
+            }).ToList();
+            
+            
         }
 
         public async Task SetDefaultRolesAssignedToNewUsers(List<int> roleIds)

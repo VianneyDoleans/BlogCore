@@ -164,7 +164,11 @@ namespace DBAccess.Repositories.User
 
         public async Task<IEnumerable<Data.Role>> GetDefaultRolesToNewUsers()
         {
-            return await _context.Set<Data.DefaultRoles>().Select(x => x.Role).ToListAsync();
+            return await _context.Set<Data.DefaultRoles>()
+                .Include(y => y.Role)
+                .ThenInclude(x => x.UserRoles)
+                .Select(x => x.Role)
+                .ToListAsync();
         }
     }
 }
