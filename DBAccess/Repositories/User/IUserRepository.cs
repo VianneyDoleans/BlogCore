@@ -56,5 +56,9 @@ namespace DBAccess.Repositories.User
         /// <param name="role"></param>
         /// <returns></returns>
         Task RemoveRoleToUser(Data.User user, Data.Role role);
+
+        Task SetDefaultRolesToNewUsers(IEnumerable<Data.Role> roles);
+        
+        Task<IEnumerable<Data.Role>> GetDefaultRolesToNewUsers();
     }
 }

@@ -76,7 +76,7 @@ namespace BlogCoreAPI.Controllers
         {
             return Ok(await _roleService.GetRole(id));
         }
-
+        
         /// <summary>
         /// Add a role.
         /// </summary>
