@@ -56,7 +56,12 @@ namespace BlogCoreAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> ConfirmEmailAccount(string emailValidationToken, int userId)
         {
-            return Ok(await _userService.ConfirmEmail(emailValidationToken, userId));
+            if (await _userService.EmailIsConfirmed(userId))
+                return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Email already confirmed."));
+            var emailConfirmation = await _userService.ConfirmEmail(emailValidationToken, userId);
+            if (!emailConfirmation)
+                return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Bad email validation token or user Id."));
+            return Ok();
         }
 
         /// <summary>
