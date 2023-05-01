@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace DBAccess.Repositories.User
@@ -60,5 +60,20 @@ namespace DBAccess.Repositories.User
         Task SetDefaultRolesToNewUsers(IEnumerable<Data.Role> roles);
         
         Task<IEnumerable<Data.Role>> GetDefaultRolesToNewUsers();
+
+        /// <summary>
+        /// Verify that the token corresponds to the one sent to a user's email.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<bool> ConfirmEmail(string token, Data.User user);
+        
+        /// <summary>
+        /// Generate a token needed to confirm a user's email.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<string> GenerateConfirmEmailToken(Data.User user);
     }
 }

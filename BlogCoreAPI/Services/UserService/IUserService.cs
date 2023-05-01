@@ -45,5 +45,11 @@ namespace BlogCoreAPI.Services.UserService
         Task<IEnumerable<GetRoleDto>> GetDefaultRolesAssignedToNewUsers();
         
         Task SetDefaultRolesAssignedToNewUsers(List<int> roleIds);
+
+        Task<bool> ConfirmEmail(string token, int userId);
+        
+        Task<bool> EmailIsConfirmed(int userId);
+        
+        Task<string> GenerateConfirmEmailToken(int userId);
     }
 }
