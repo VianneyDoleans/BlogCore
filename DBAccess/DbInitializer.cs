@@ -72,6 +72,8 @@ namespace DBAccess
             foreach (var user in users)
             {
                 await userManager.CreateAsync(user.Item1, user.Item2);
+                var emailConfirmationToken = await userManager.GenerateEmailConfirmationTokenAsync(user.Item1);
+                await userManager.ConfirmEmailAsync(user.Item1, emailConfirmationToken);
             }
         }
 
