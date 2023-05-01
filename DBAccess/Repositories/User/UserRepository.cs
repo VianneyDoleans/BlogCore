@@ -181,9 +181,24 @@ namespace DBAccess.Repositories.User
             return result.Succeeded;
         }
 
-        public async Task<string> GenerateConfirmEmailToken(Data.User user)
+        /// <inheritdoc />
+        public async Task ResetPassword(string token, Data.User user, string newPassword)
+        {
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            if (!result.Succeeded)
+                throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        /// <inheritdoc />
+        public async Task<string> GenerateEmailConfirmationToken(Data.User user)
         {
             return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        /// <inheritdoc />
+        public async Task<string> GeneratePasswordResetToken(Data.User user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
     }
 }

@@ -62,18 +62,34 @@ namespace DBAccess.Repositories.User
         Task<IEnumerable<Data.Role>> GetDefaultRolesToNewUsers();
 
         /// <summary>
-        /// Verify that the token corresponds to the one sent to a user's email.
+        /// Verify that the email confirmation token corresponds to the one sent to a user's email.
         /// </summary>
         /// <param name="token"></param>
         /// <param name="user"></param>
         /// <returns></returns>
         Task<bool> ConfirmEmail(string token, Data.User user);
+
+        /// <summary>
+        /// Verify that the password reset Token corresponds to the one sent to a user's email.
+        /// </summary>
+        /// <param name="token"></param>
+        /// <param name="user"></param>
+        /// <param name="newPassword"></param>
+        /// <returns></returns>
+        Task ResetPassword(string token, Data.User user, string newPassword);
         
         /// <summary>
         /// Generate a token needed to confirm a user's email.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>
-        Task<string> GenerateConfirmEmailToken(Data.User user);
+        Task<string> GenerateEmailConfirmationToken(Data.User user);
+        
+        /// <summary>
+        /// Generate a token needed to reset a user's email.
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        Task<string> GeneratePasswordResetToken(Data.User user);
     }
 }

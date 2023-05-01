@@ -48,8 +48,12 @@ namespace BlogCoreAPI.Services.UserService
 
         Task<bool> ConfirmEmail(string token, int userId);
         
+        Task ResetPassword(string token, int userId, string newPassword);
+        
         Task<bool> EmailIsConfirmed(int userId);
         
         Task<string> GenerateConfirmEmailToken(int userId);
+        
+        Task<string> GeneratePasswordResetToken(int userId);
     }
 }

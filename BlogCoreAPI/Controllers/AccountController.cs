@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
@@ -10,7 +11,9 @@ using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Services.MailService;
 using BlogCoreAPI.Services.UserService;
+using DBAccess.Data;
 using DBAccess.Data.Permission;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -53,8 +56,7 @@ namespace BlogCoreAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> ConfirmEmailAccount(string emailValidationToken, int userId)
+        public async Task<IActionResult> ConfirmAccountEmail(string emailValidationToken, int userId)
         {
             if (await _userService.EmailIsConfirmed(userId))
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Email already confirmed."));
@@ -62,6 +64,40 @@ namespace BlogCoreAPI.Controllers
             if (!emailConfirmation)
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Bad email validation token or user Id."));
             return Ok();
+        }
+        
+        /// <summary>
+        /// Reset password account by giving the token received by email
+        /// </summary>
+        [HttpGet("Password/Reset")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ResetAccountPassword(string passwordResetToken, int userId, string newPassword)
+        {
+            await _userService.ResetPassword(passwordResetToken, userId, newPassword);
+            return Ok();
+        }
+        
+        /// <summary>
+        /// Send an email to reset password account
+        /// </summary>
+        [HttpPost("ForgotPassword")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ForgotPassword(ResetPasswordDto resetPassword, CancellationToken token)
+        {
+            var user = (await _userService.GetUsers(new EmailEqualsSpecification<User>(resetPassword.Email))).FirstOrDefault();
+            if (user == null)
+                return Ok();
+            var accountGet = await _userService.GetAccount(user.Id);
+            var passwordResetToken = await _userService.GeneratePasswordResetToken(user.Id);
+            await _emailService.SendEmailAsync(new Message(new List<EmailIdentity>() {new(user.UserName, accountGet.Email)}, "Reset your password", 
+                $"Hello {accountGet.UserName},<br/><br/>Here is a password reset token needed to reset your password on the API: {passwordResetToken}." +
+                $"<br/><br/>If you have not requested to reset your password, you can ignore this email."), token);
+           
+            return Ok(accountGet);
         }
 
         /// <summary>
@@ -83,7 +119,7 @@ namespace BlogCoreAPI.Controllers
            var accountGet = await _userService.AddAccount(account);
            
            var emailValidationToken = await _userService.GenerateConfirmEmailToken(accountGet.Id);
-           var confirmationLink = Url.Action("ConfirmEmailAccount", "Account", new { emailValidationToken, userId = accountGet.Id }, Request.Scheme);
+           var confirmationLink = Url.Action("ConfirmAccountEmail", "Account", new { emailValidationToken, userId = accountGet.Id }, Request.Scheme);
            await _emailService.SendEmailAsync(new Message(new List<EmailIdentity>() {new(accountGet.UserName, accountGet.Email)}, "Confirm your email", 
                $"Hello {accountGet.UserName},<br/><br/>To confirm your registration, please verify your email by clicking on this link:<br/>{confirmationLink}."), token);
            
