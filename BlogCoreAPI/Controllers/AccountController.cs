@@ -50,7 +50,7 @@ namespace BlogCoreAPI.Controllers
         }
 
         /// <summary>
-        /// Confirm email account by giving the token received by email
+        /// Confirm account email by giving the token received by email
         /// </summary>
         [HttpGet("Email/Confirmation")]
         [AllowAnonymous]
@@ -58,8 +58,6 @@ namespace BlogCoreAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> ConfirmAccountEmail(string emailValidationToken, int userId)
         {
-            if (await _userService.EmailIsConfirmed(userId))
-                return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Email already confirmed."));
             var emailConfirmation = await _userService.ConfirmEmail(emailValidationToken, userId);
             if (!emailConfirmation)
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Bad email validation token or user Id."));
@@ -67,7 +65,7 @@ namespace BlogCoreAPI.Controllers
         }
         
         /// <summary>
-        /// Reset password account by giving the token received by email
+        /// Reset account password by giving the token received by email
         /// </summary>
         [HttpGet("Password/Reset")]
         [AllowAnonymous]
@@ -96,8 +94,7 @@ namespace BlogCoreAPI.Controllers
             await _emailService.SendEmailAsync(new Message(new List<EmailIdentity>() {new(user.UserName, accountGet.Email)}, "Reset your password", 
                 $"Hello {accountGet.UserName},<br/><br/>Here is a password reset token needed to reset your password on the API: {passwordResetToken}." +
                 $"<br/><br/>If you have not requested to reset your password, you can ignore this email."), token);
-           
-            return Ok(accountGet);
+            return Ok();
         }
 
         /// <summary>

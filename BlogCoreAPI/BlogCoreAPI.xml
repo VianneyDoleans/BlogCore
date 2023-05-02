@@ -201,9 +201,19 @@
             <param name="authorizationService"></param>
             <param name="emailService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.ConfirmEmailAccount(System.String,System.Int32)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.ConfirmAccountEmail(System.String,System.Int32)">
             <summary>
-            Confirm email account by giving the token received by email
+            Confirm account email by giving the token received by email
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.ResetAccountPassword(System.String,System.Int32,System.String)">
+            <summary>
+            Reset account password by giving the token received by email
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.ForgotPassword(BlogCoreAPI.Models.DTOs.Account.ResetPasswordDto,System.Threading.CancellationToken)">
+            <summary>
+            Send an email to reset password account
             </summary>
         </member>
         <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.Models.DTOs.Account.AddAccountDto,System.Threading.CancellationToken)">
