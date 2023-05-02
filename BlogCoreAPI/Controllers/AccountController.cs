@@ -1,12 +1,19 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
 using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Immutable;
 using BlogCoreAPI.Models.Exceptions;
+using BlogCoreAPI.Models.Mails;
 using BlogCoreAPI.Responses;
 using BlogCoreAPI.Services.JwtService;
+using BlogCoreAPI.Services.MailService;
 using BlogCoreAPI.Services.UserService;
+using DBAccess.Data;
 using DBAccess.Data.Permission;
+using DBAccess.Specifications.FilterSpecifications.Filters;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,6 +31,7 @@ namespace BlogCoreAPI.Controllers
         private readonly IUserService _userService;
         private readonly IJwtService _jwtService;
         private readonly IAuthorizationService _authorizationService;
+        private readonly IEmailService _emailService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersController"/> class.
@@ -31,12 +39,62 @@ namespace BlogCoreAPI.Controllers
         /// <param name="userService"></param>
         /// <param name="jwtService"></param>
         /// <param name="authorizationService"></param>
+        /// <param name="emailService"></param>
         public AccountController(IUserService userService, IJwtService jwtService,
-            IAuthorizationService authorizationService)
+            IAuthorizationService authorizationService, IEmailService emailService)
         {
             _userService = userService;
             _jwtService = jwtService;
             _authorizationService = authorizationService;
+            _emailService = emailService;
+        }
+
+        /// <summary>
+        /// Confirm account email by giving the token received by email
+        /// </summary>
+        [HttpGet("Email/Confirmation")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ConfirmAccountEmail(string emailValidationToken, int userId)
+        {
+            var emailConfirmation = await _userService.ConfirmEmail(emailValidationToken, userId);
+            if (!emailConfirmation)
+                return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException), "Bad email validation token or user Id."));
+            return Ok();
+        }
+        
+        /// <summary>
+        /// Reset account password by giving the token received by email
+        /// </summary>
+        [HttpGet("Password/Reset")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ResetAccountPassword(string passwordResetToken, int userId, string newPassword)
+        {
+            await _userService.ResetPassword(passwordResetToken, userId, newPassword);
+            return Ok();
+        }
+        
+        /// <summary>
+        /// Send an email to reset password account
+        /// </summary>
+        [HttpPost("ForgotPassword")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        public async Task<IActionResult> ForgotPassword(ResetPasswordDto resetPassword, CancellationToken token)
+        {
+            var user = (await _userService.GetUsers(new EmailEqualsSpecification<User>(resetPassword.Email))).FirstOrDefault();
+            if (user == null)
+                return Ok();
+            var accountGet = await _userService.GetAccount(user.Id);
+            var passwordResetToken = await _userService.GeneratePasswordResetToken(user.Id);
+            await _emailService.SendEmailAsync(new Message(new List<EmailIdentity>() {new(user.UserName, accountGet.Email)}, "Reset your password", 
+                $"Hello {accountGet.UserName},<br/><br/>Here is a password reset token needed to reset your password on the API: {passwordResetToken}." +
+                $"<br/><br/>If you have not requested to reset your password, you can ignore this email."), token);
+            return Ok();
         }
 
         /// <summary>
@@ -46,15 +104,23 @@ namespace BlogCoreAPI.Controllers
         /// Create a user.
         /// </remarks>
         /// <param name="account"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
         [HttpPost("SignUp")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> SignUp(AddAccountDto account)
+        public async Task<IActionResult> SignUp(AddAccountDto account, CancellationToken token)
         {
-            return Ok(await _userService.AddAccount(account));
+           var accountGet = await _userService.AddAccount(account);
+           
+           var emailValidationToken = await _userService.GenerateConfirmEmailToken(accountGet.Id);
+           var confirmationLink = Url.Action("ConfirmAccountEmail", "Account", new { emailValidationToken, userId = accountGet.Id }, Request.Scheme);
+           await _emailService.SendEmailAsync(new Message(new List<EmailIdentity>() {new(accountGet.UserName, accountGet.Email)}, "Confirm your email", 
+               $"Hello {accountGet.UserName},<br/><br/>To confirm your registration, please verify your email by clicking on this link:<br/>{confirmationLink}."), token);
+           
+           return Ok(accountGet);
         }
 
         /// <summary>
@@ -71,11 +137,13 @@ namespace BlogCoreAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(AccountLoginDto accountLogin)
         {
-            if (await _userService.SignIn(accountLogin))
-            {
-                return Ok(await _jwtService.GenerateJwt((await _userService.GetAccount(accountLogin.UserName)).Id));
-            }
-            return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Bad username or password."));
+            var user = await _userService.GetAccount(accountLogin.UserName);
+            
+            if (!await _userService.SignIn(accountLogin))
+                return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Bad username or password."));
+            if (!await _userService.EmailIsConfirmed(user.Id))
+                return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Email must be confirmed before you can sign in."));
+            return Ok(await _jwtService.GenerateJwt(user.Id));
         }
 
         /// <summary>

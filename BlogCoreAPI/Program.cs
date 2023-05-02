@@ -34,6 +34,8 @@ builder.Services.RegisterResourceServices();
 builder.Services.RegisterDtoResourceValidators();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
+builder.Services.RegisterMailService(configuration);
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterSwagger();
 
