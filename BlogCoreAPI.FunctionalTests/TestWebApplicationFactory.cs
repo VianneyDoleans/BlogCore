@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.IO;
 using System.Linq;
+using BlogCoreAPI.FunctionalTests.Models;
+using BlogCoreAPI.Services.MailService;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using User = DBAccess.Data.User;
 
 namespace BlogCoreAPI.FunctionalTests
@@ -56,6 +59,8 @@ namespace BlogCoreAPI.FunctionalTests
 
                 // Add AutoMapper profile
                 services.AddAutoMapper(typeof(AutoMapperProfile));
+                
+                services.Replace(ServiceDescriptor.Scoped<IEmailService, EmailServiceMock>());
 
                 var sp = services.BuildServiceProvider();
                 using var scope = sp.CreateScope();

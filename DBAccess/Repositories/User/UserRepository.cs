@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,7 +16,6 @@ namespace DBAccess.Repositories.User
     public class UserRepository : Repository<Data.User>, IUserRepository
     {
         private readonly UserManager<Data.User> _userManager;
-        private IUserRepository _userRepositoryImplementation;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class.
@@ -142,6 +141,7 @@ namespace DBAccess.Repositories.User
             return userSigninResult;
         }
 
+        /// <inheritdoc />
         public async Task AddRoleToUser(Data.User user, Data.Role role)
         {
             var result = await _userManager.AddToRoleAsync(user, role.Name);
@@ -149,6 +149,7 @@ namespace DBAccess.Repositories.User
                 throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
 
+        /// <inheritdoc />
         public async Task RemoveRoleToUser(Data.User user, Data.Role role)
         {
             var result = await _userManager.RemoveFromRoleAsync(user, role.Name);
@@ -156,12 +157,14 @@ namespace DBAccess.Repositories.User
                 throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
         }
 
+        /// <inheritdoc />
         public async Task SetDefaultRolesToNewUsers(IEnumerable<Data.Role> roles)
         {
             _context.Set<Data.DefaultRoles>().RemoveRange(_context.Set<Data.DefaultRoles>());
             await _context.Set<Data.DefaultRoles>().AddRangeAsync(roles.Select(x => new Data.DefaultRoles() { Role = x}));
         }
 
+        /// <inheritdoc />
         public async Task<IEnumerable<Data.Role>> GetDefaultRolesToNewUsers()
         {
             return await _context.Set<Data.DefaultRoles>()
@@ -169,6 +172,33 @@ namespace DBAccess.Repositories.User
                 .ThenInclude(x => x.UserRoles)
                 .Select(x => x.Role)
                 .ToListAsync();
+        }
+
+        /// <inheritdoc />
+        public async Task<bool> ConfirmEmail(string token, Data.User user)
+        {
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return result.Succeeded;
+        }
+
+        /// <inheritdoc />
+        public async Task ResetPassword(string token, Data.User user, string newPassword)
+        {
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            if (!result.Succeeded)
+                throw new UserManagementException(string.Concat(result.Errors.Select(x => x.Code + " : " + x.Description)));
+        }
+
+        /// <inheritdoc />
+        public async Task<string> GenerateEmailConfirmationToken(Data.User user)
+        {
+            return await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        }
+
+        /// <inheritdoc />
+        public async Task<string> GeneratePasswordResetToken(Data.User user)
+        {
+            return await _userManager.GeneratePasswordResetTokenAsync(user);
         }
     }
 }

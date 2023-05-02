@@ -192,15 +192,31 @@
             Controller used to enables account action such as login / log out.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService,Microsoft.AspNetCore.Authorization.IAuthorizationService)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService,Microsoft.AspNetCore.Authorization.IAuthorizationService,BlogCoreAPI.Services.MailService.IEmailService)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
             </summary>
             <param name="userService"></param>
             <param name="jwtService"></param>
             <param name="authorizationService"></param>
+            <param name="emailService"></param>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.Models.DTOs.Account.AddAccountDto)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.ConfirmAccountEmail(System.String,System.Int32)">
+            <summary>
+            Confirm account email by giving the token received by email
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.ResetAccountPassword(System.String,System.Int32,System.String)">
+            <summary>
+            Reset account password by giving the token received by email
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.ForgotPassword(BlogCoreAPI.Models.DTOs.Account.ResetPasswordDto,System.Threading.CancellationToken)">
+            <summary>
+            Send an email to reset password account
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.SignUp(BlogCoreAPI.Models.DTOs.Account.AddAccountDto,System.Threading.CancellationToken)">
             <summary>
             Create an account (a user).
             </summary>
@@ -208,6 +224,7 @@
             Create a user.
             </remarks>
             <param name="account"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.AccountController.SignIn(BlogCoreAPI.Models.DTOs.Account.AccountLoginDto)">
@@ -1695,6 +1712,12 @@
         </member>
         <member name="M:BlogCoreAPI.Services.JwtService.JwtService.GenerateJwt(System.Int32)">
             <inheritdoc />
+        </member>
+        <member name="T:BlogCoreAPI.Services.MailService.EmailService">
+            <summary>
+            Service for sending emails.
+            Code taken and modified from https://code-maze.com/aspnetcore-send-email/ / https://github.com/CodeMazeBlog/email-attachments-aspnet-core
+            </summary>
         </member>
     </members>
 </doc>

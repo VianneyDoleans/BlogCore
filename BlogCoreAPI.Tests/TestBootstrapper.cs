@@ -1,6 +1,7 @@
 ﻿using System;
 using DBAccess.Data;
 using DBAccess.DataContext;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -20,7 +21,8 @@ namespace BlogCoreAPI.Tests
             services.AddDbContext<BlogCoreContext, MsSqlDbContext>(o =>
                 o.UseInMemoryDatabase(Guid.NewGuid().ToString()));
             services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<BlogCoreContext>();
+                .AddEntityFrameworkStores<BlogCoreContext>()
+                .AddDefaultTokenProviders();
             var provider = services.BuildServiceProvider();
             return provider;
         }

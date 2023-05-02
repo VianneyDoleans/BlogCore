@@ -7,6 +7,7 @@ using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
+using BlogCoreAPI.Services.MailService;
 using DBAccess.Data;
 using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
@@ -140,11 +141,12 @@ namespace BlogCoreAPI.Services.UserService
             await _accountDtoValidator.ValidateAndThrowAsync(account);
             await CheckUserValidity(account);
             var userToAdd = _mapper.Map<User>(account);
-            var result = await _repository.AddAsync(userToAdd);
-            await AssignDefaultRolesToNewUser(result);
+            var user = await _repository.AddAsync(userToAdd);
+            await AssignDefaultRolesToNewUser(user);
            _unitOfWork.Save();
-           var userDto = _mapper.Map<GetAccountDto>(result);
-            userDto.Roles = result.UserRoles != null && result.UserRoles.Any() ? result.UserRoles.Select(x => x.RoleId) : new List<int>();
+           await _repository.GenerateEmailConfirmationToken(user);
+           var userDto = _mapper.Map<GetAccountDto>(user);
+            userDto.Roles = user.UserRoles != null && user.UserRoles.Any() ? user.UserRoles.Select(x => x.RoleId) : new List<int>();
             return userDto;
         }
 
@@ -251,6 +253,36 @@ namespace BlogCoreAPI.Services.UserService
 
             await _repository.SetDefaultRolesToNewUsers(roles);
             _unitOfWork.Save();
+        }
+
+        public async Task<bool> ConfirmEmail(string token, int userId)
+        {
+            var user = await _repository.GetAsync(userId);
+            return await _repository.ConfirmEmail(token, user);
+        }
+
+        public async Task ResetPassword(string token, int userId, string newPassword)
+        {
+            var user = await _repository.GetAsync(userId);
+            await _repository.ResetPassword(token, user, newPassword);
+        }
+
+        public async Task<bool> EmailIsConfirmed(int userId)
+        {
+            var user = await _repository.GetAsync(userId);
+            return user.EmailConfirmed;
+        }
+
+        public async Task<string> GenerateConfirmEmailToken(int userId)
+        {
+            var user = await _repository.GetAsync(userId);
+            return await _repository.GenerateEmailConfirmationToken(user);
+        }
+
+        public async Task<string> GeneratePasswordResetToken(int userId)
+        {
+            var user = await _repository.GetAsync(userId);
+            return await _repository.GeneratePasswordResetToken(user);
         }
 
         private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateAccountDto account)
