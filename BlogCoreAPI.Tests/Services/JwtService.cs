@@ -60,7 +60,7 @@ namespace BlogCoreAPI.Tests.Services
                 x.Value == account.Id.ToString());
             var jwtExpValue = long.Parse(jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == "exp")?.Value ?? "0");
             var expirationTime = DateTimeOffset.FromUnixTimeSeconds(jwtExpValue).DateTime;
-            Assert.Equal(expirationTime, DateTime.UtcNow.AddDays(_expirationInMinutes), TimeSpan.FromSeconds(5));
+            Assert.Equal(expirationTime, DateTime.UtcNow.AddMinutes(_expirationInMinutes), TimeSpan.FromSeconds(5));
         }
     }
 }

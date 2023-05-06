@@ -16,7 +16,6 @@ using DBAccess.Exceptions;
 using DBAccess.Repositories.Role;
 using DBAccess.Repositories.User;
 using FluentValidation;
-using Microsoft.EntityFrameworkCore;
 using Moq;
 using Xunit;
 
@@ -395,27 +394,6 @@ namespace BlogCoreAPI.Tests.Services
             Assert.True(accountUpdated.Email == userToUpdate.Email &&
                         accountUpdated.UserDescription == userToUpdate.UserDescription &&
                         accountUpdated.UserName == userToUpdate.UserName);
-        }
-
-        [Fact(Skip = "It no more possible to edit password currently, need to reimplement it and improve this test/new one (check password modification, not only check validator)")]
-        public async Task UpdateAccountInvalid()
-        {
-            // Arrange
-            var account = await _service.AddAccount(new AddAccountDto()
-            {
-                Email = "UpdateAccountInvalid@newEmail.com",
-                Password = "16453aA-007",
-                UserName = "UpdateUInvalid"
-            });
-            var userToUpdate = new UpdateAccountDto()
-            {
-                Id = account.Id,
-                Email = "UpdateAccountInvalid@newEmail.comUpdate",
-                UserName = "UpdateUInvalid"
-            };
-
-            // Act & Assert
-            await Assert.ThrowsAsync<ValidationException>(async () => await _service.UpdateAccount(userToUpdate));
         }
 
         [Fact]
@@ -813,9 +791,12 @@ namespace BlogCoreAPI.Tests.Services
             // Arrange
             const string password = "1234Ab@a";
 
-            // Act & Assert
-            await Assert.ThrowsAsync<ResourceNotFoundException>(async () => await _service.SignIn(new AccountLoginDto()
-                { UserName = Guid.NewGuid().ToString()[..20], Password = password }));
+            // Act
+             var success = await _service.SignIn(new AccountLoginDto()
+                { UserName = Guid.NewGuid().ToString()[..20], Password = password });
+
+             // Assert
+             Assert.False(success);
         }
     }
 }

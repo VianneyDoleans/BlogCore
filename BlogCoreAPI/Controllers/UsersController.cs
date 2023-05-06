@@ -213,7 +213,6 @@ namespace BlogCoreAPI.Controllers
         /// <remarks>
         /// Get current default role(s) assigned to new users.
         /// </remarks>
-        /// <param name="role"></param>
         /// <returns></returns>
         [HttpGet("Roles/Default")]
         [PermissionWithPermissionRangeAllRequired(PermissionAction.CanRead, PermissionTarget.Role)]
