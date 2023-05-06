@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -137,10 +137,10 @@ namespace BlogCoreAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(AccountLoginDto accountLogin)
         {
-            var user = await _userService.GetAccount(accountLogin.UserName);
-            
             if (!await _userService.SignIn(accountLogin))
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Bad username or password."));
+            
+            var user = await _userService.GetAccount(accountLogin.UserName);
             if (!await _userService.EmailIsConfirmed(user.Id))
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Email must be confirmed before you can sign in."));
             return Ok(await _jwtService.GenerateJwt(user.Id));

@@ -192,7 +192,17 @@ namespace BlogCoreAPI.Services.UserService
 
         public async Task<bool> SignIn(AccountLoginDto accountLogin)
         {
-            var user = await FindUser(accountLogin.UserName);
+            
+            User user;
+
+            try
+            {
+                user = await FindUser(accountLogin.UserName);
+            }
+            catch (ResourceNotFoundException)
+            {
+                return false;
+            }
 
             var isValidPassword = await _repository.CheckPasswordAsync(user, accountLogin.Password);
             return isValidPassword;
