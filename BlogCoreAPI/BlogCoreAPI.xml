@@ -221,7 +221,7 @@
             Create an account (a user).
             </summary>
             <remarks>
-            Create a user.
+            Create an account (a user).
             </remarks>
             <param name="account"></param>
             <param name="token"></param>
@@ -239,30 +239,30 @@
         </member>
         <member name="M:BlogCoreAPI.Controllers.AccountController.UpdateAccount(BlogCoreAPI.Models.DTOs.Account.UpdateAccountDto)">
             <summary>
-            Update a user.
+            Update an account (a user).
             </summary>
             <remarks>
-            Update a user.
+            Update an account (a user).
             </remarks>
             <param name="account"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.AccountController.GetAccount(System.Int32)">
             <summary>
-            Get a user by giving its Id.
+            Get an account by giving its Id.
             </summary>
             <remarks>
-            Get a user by giving its Id.
+            Get an account by giving its Id.
             </remarks>
             <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.AccountController.DeleteUser(System.Int32)">
             <summary>
-            Delete a user by giving its id.
+            Delete an account (a user) by giving its id.
             </summary>
             <remarks>
-            Delete a user by giving its id.
+            Delete an account (a user) by giving its id.
             </remarks>
             <param name="userId"></param>
             <returns></returns>
@@ -818,7 +818,6 @@
             <remarks>
             Get current default role(s) assigned to new users.
             </remarks>
-            <param name="role"></param>
             <returns></returns>
         </member>
         <member name="M:BlogCoreAPI.Controllers.UsersController.GetPostsFromUser(System.Int32)">

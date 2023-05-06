@@ -22,13 +22,13 @@ namespace BlogCoreAPI.Tests.Services
         private readonly IJwtService _jwtService;
         private readonly IMapper _mapper;
         private readonly string _issuer;
-        private readonly int _expirationInDays;
+        private readonly int _expirationInMinutes;
 
         public JwtService(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             _issuer = "test321";
-            _expirationInDays = 1;
+            _expirationInMinutes = 1;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });
             _mapper = config.CreateMapper();
             _jwtService = new BlogCoreAPI.Services.JwtService.JwtService(
@@ -36,7 +36,7 @@ namespace BlogCoreAPI.Tests.Services
                     new JwtSettings() { 
                         Issuer = _issuer, 
                         Secret = "test123ABDZDAZSQA", 
-                        ExpirationInDays = _expirationInDays
+                        ExpirationInMinutes = _expirationInMinutes
                     }));
         }
 
@@ -60,7 +60,7 @@ namespace BlogCoreAPI.Tests.Services
                 x.Value == account.Id.ToString());
             var jwtExpValue = long.Parse(jwtSecurityToken.Claims.FirstOrDefault(x => x.Type == "exp")?.Value ?? "0");
             var expirationTime = DateTimeOffset.FromUnixTimeSeconds(jwtExpValue).DateTime;
-            Assert.Equal(expirationTime, DateTime.UtcNow.AddDays(_expirationInDays), TimeSpan.FromSeconds(5));
+            Assert.Equal(expirationTime, DateTime.UtcNow.AddMinutes(_expirationInMinutes), TimeSpan.FromSeconds(5));
         }
     }
 }
