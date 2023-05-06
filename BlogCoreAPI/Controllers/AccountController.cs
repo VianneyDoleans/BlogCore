@@ -54,8 +54,10 @@ namespace BlogCoreAPI.Controllers
         /// </summary>
         [HttpGet("Email/Confirmation")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ConfirmAccountEmail(string emailValidationToken, int userId)
         {
             var emailConfirmation = await _userService.ConfirmEmail(emailValidationToken, userId);
@@ -69,8 +71,9 @@ namespace BlogCoreAPI.Controllers
         /// </summary>
         [HttpGet("Password/Reset")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ResetAccountPassword(string passwordResetToken, int userId, string newPassword)
         {
             await _userService.ResetPassword(passwordResetToken, userId, newPassword);
@@ -82,8 +85,9 @@ namespace BlogCoreAPI.Controllers
         /// </summary>
         [HttpPost("ForgotPassword")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ForgotPassword(ResetPasswordDto resetPassword, CancellationToken token)
         {
             var user = (await _userService.GetUsers(new EmailEqualsSpecification<User>(resetPassword.Email))).FirstOrDefault();
@@ -101,7 +105,7 @@ namespace BlogCoreAPI.Controllers
         /// Create an account (a user).
         /// </summary>
         /// <remarks>
-        /// Create a user.
+        /// Create an account (a user).
         /// </remarks>
         /// <param name="account"></param>
         /// <param name="token"></param>
@@ -110,7 +114,6 @@ namespace BlogCoreAPI.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(GetAccountDto), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> SignUp(AddAccountDto account, CancellationToken token)
         {
            var accountGet = await _userService.AddAccount(account);
@@ -137,26 +140,27 @@ namespace BlogCoreAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(AccountLoginDto accountLogin)
         {
-            var user = await _userService.GetAccount(accountLogin.UserName);
-            
             if (!await _userService.SignIn(accountLogin))
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Bad username or password."));
+            
+            var user = await _userService.GetAccount(accountLogin.UserName);
             if (!await _userService.EmailIsConfirmed(user.Id))
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Email must be confirmed before you can sign in."));
             return Ok(await _jwtService.GenerateJwt(user.Id));
         }
 
         /// <summary>
-        /// Update a user.
+        /// Update an account (a user).
         /// </summary>
         /// <remarks>
-        /// Update a user.
+        /// Update an account (a user).
         /// </remarks>
         /// <param name="account"></param>
         /// <returns></returns>
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> UpdateAccount(UpdateAccountDto account)
         {
@@ -173,10 +177,10 @@ namespace BlogCoreAPI.Controllers
         }
 
         /// <summary>
-        /// Get a user by giving its Id.
+        /// Get an account by giving its Id.
         /// </summary>
         /// <remarks>
-        /// Get a user by giving its Id.
+        /// Get an account by giving its Id.
         /// </remarks>
         /// <param name="userId"></param>
         /// <returns></returns>
@@ -193,10 +197,10 @@ namespace BlogCoreAPI.Controllers
         }
 
         /// <summary>
-        /// Delete a user by giving its id.
+        /// Delete an account (a user) by giving its id.
         /// </summary>
         /// <remarks>
-        /// Delete a user by giving its id.
+        /// Delete an account (a user) by giving its id.
         /// </remarks>
         /// <param name="userId"></param>
         /// <returns></returns>

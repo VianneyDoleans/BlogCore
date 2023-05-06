@@ -6,6 +6,6 @@
 
         public string Secret { get; set; }
 
-        public int ExpirationInDays { get; set; }
+        public int ExpirationInMinutes { get; set; }
     }
 }
