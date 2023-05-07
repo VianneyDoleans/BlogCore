@@ -1,6 +1,7 @@
 <p align="center">
 <h1 align="center">BlogCore.</h1>
-<p align="center">Powerful .NET 7 Blog API</p>
+<h3 align="center"><strong>Powerful .NET 7 Blog API</strong></h3>
+<p align="center">Create your own custom front-end or explore a complete blog API.</p>
 
 <p align="center">
   <a href="https://github.com/VianneyDoleans/BlogCore/actions/workflows/dotnet.yml">
@@ -30,22 +31,29 @@ Live demo : https://blogcoredemo.onrender.com/swagger
 
 ## Powerful features
 
- - **Advanced search** by combining filters on all resources (user, post, comment, etc.)
- - **Advanced user permissions management** by creating roles and permissions for users (CanEdit own Posts, CanDelete All Comments, etc.)
- - **Community features** (create comments on a post, like a comment or a post, add a comment on a comment, consult profiles, etc.)
- - **Configurable log system** (implementation of [Serilog library](https://serilog.net/))
-
-## Compatibilities
-
-Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/) database. Docker is also available (Dockerfile at the root of the project).
+ - **Advanced search** by combining criteria (filters) on all resources
+ - **Advanced user permissions management** by creating roles and permissions for users via the API at runtime (ex: create a role "mini-moderator" with the permissions CanEdit own Posts, CanDelete All Comments, etc.)
+   - Default role(s) given to new users can also be defined via the API.
+ - **Complete community features** (create comments on a post, like a comment or a post, add a comment on a comment, consult profiles, etc.)
+ - **Configurable log system** that logs all user actions / events (implementation of [Serilog library](https://serilog.net/), can be connected to Kibana, Seq and other solutions, for monitoring)
+ - **CRUD** is provided on all resources. Everything can be manipulated via endpoints, giving the possibility out-of-the-box to develop an admin interface or a mobile app. (current Swagger interface can act as an administrator interface)
+ - **Email SMTP configuration** : Email confirmation & password reset are provided by sending emails (can use Gmail SMTP server for example)
 
 ## Clean code
 
- - Follow guidelines from DDD (Domain Driven Design).
- - Good code coverage
- - [SonarCloud](https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore) used to ensure code quality
- - Solution also contains End-to-End Testing (ensure that Blog Core API's endpoints work)
- - [Resharper](https://www.jetbrains.com/fr-fr/resharper/) and [SonarLint](https://www.sonarsource.com/products/sonarlint/) are used during the development of this project
+- Good code coverage
+- The Project was developed by relying on guidelines from **DDD** (Domain Driven Design) and **Clean Code Book** by Robert C. Martin.
+- [SonarCloud](https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore) used to ensure code quality
+- Implementation of **End-to-End Testing** to ensure the functioning of Blog Core API endpoints.
+- Utilization of [Resharper](https://www.jetbrains.com/fr-fr/resharper/) and [SonarLint](https://www.sonarsource.com/products/sonarlint/) during the development process to enhance code quality and consistency.
+- The project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [Git Feature Workflow with Develop Branch](https://rovitpm.com/5-git-workflows-to-improve-development/), ensuring a clean and organized **git history** with meaningful and clear **commit messages**.
+- **Code Quality** is one of the main focuses on this project
+
+## Compatibilities
+
+Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](https://www.microsoft.com/en-us/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/) database.  
+[Docker](https://www.docker.com/) is also available (Dockerfile at the root of the project).
+
 
 ## Technologies
 
@@ -58,12 +66,16 @@ Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](ht
  - [xUnit](https://xunit.net/)
  - [Moq](https://github.com/moq/moq4)
  - [AutoMapper](https://automapper.org/)
- - [Docker](https://www.docker.com/)
-
 
 ## Getting Started
 
+### Prerequisites
+
 - Install [Microsoft SQL Server](https://www.microsoft.com/fr-fr/sql-server/sql-server-downloads) or [PostgreSQL](https://www.postgresql.org/download/)
+- [Visual Studio](https://visualstudio.microsoft.com/fr/) (or [Rider](https://www.jetbrains.com/rider/) with [Entity Framework Core UI Plugin](https://plugins.jetbrains.com/plugin/18147-entity-framework-core-ui))
+
+### Installation
+
 - Open ``appsettings.json`` file inside **BlogCoreAPI** project and edit the database settings :
 
 For **Microsoft SQL Server** :
@@ -102,6 +114,9 @@ Add-Migration CreateInitialDatabase -Context PostgreSqlDbContext
 Update-Database -Context PostgreSqlDbContext
 ```
 5. Now press F5 and run the application.
+6. Refresh the page. The API was busy filling the default data in the database. Now it can respond.
+
+## Default Users, Roles and Permissions
 
 ### Users
 Default users are :
@@ -114,7 +129,8 @@ Default users are :
 | Fred        | 0FredRedactA@    | User, Redactor |
 | AdminUser   | 0adminPasswordA@ | User, Admin    |
 
-### Roles & Permissions
+### Defalt Roles and Permissions
+
 Roles and permissions can be created / configured by API endpoints.  
 The default configuration is :
 
