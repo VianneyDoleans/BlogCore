@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using BlogCoreAPI.Models.Constants;
+using BlogCoreAPI.Models.DTOs;
 using BlogCoreAPI.Models.DTOs.Account;
+using BlogCoreAPI.Models.DTOs.Immutable;
 using BlogCoreAPI.Models.DTOs.Role;
 using BlogCoreAPI.Models.DTOs.User;
 using BlogCoreAPI.Models.Exceptions;
@@ -293,6 +296,13 @@ namespace BlogCoreAPI.Services.UserService
         {
             var user = await _repository.GetAsync(userId);
             return await _repository.GeneratePasswordResetToken(user);
+        }
+
+        public async Task RevokeRefreshToken(int userId)
+        {
+            var user = await _repository.GetAsync(userId);
+            user.RefreshToken = null;
+            _unitOfWork.Save();
         }
 
         private async Task<bool> UserAlreadyExistsWithSameProperties(UpdateAccountDto account)

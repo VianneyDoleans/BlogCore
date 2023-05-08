@@ -13,8 +13,6 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
         
         public Task<TGet> AddEntity(TAdd entity);
 
-        // public Task UpdateRandomEntity(TUpdate entity);
-
         public Task<TGet> GetById(int id);
 
         public Task<IEnumerable<TGet>> GetAll();

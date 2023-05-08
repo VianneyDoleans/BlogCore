@@ -20,14 +20,15 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             _client = client;
         }
 
-        public async Task<string> GetJwtLoginToken(AccountLoginDto accountLoginDto)
+        public async Task<string> GetJwtAccessToken(AccountLoginDto accountLoginDto)
         {
             var json = JsonSerializer.Serialize(accountLoginDto);
             var httpResponse =
                 await _client.PostAsync(_baseUrl + "/SignIn", new StringContent(json, Encoding.UTF8, "application/json"));
             httpResponse.EnsureSuccessStatusCode();
-            var jsonWebTokenDto = JsonSerializer.Deserialize<JsonWebTokenDto>(await httpResponse.Content.ReadAsStringAsync());
-            return jsonWebTokenDto?.Token;
+            var tokenApiResponseJson = await httpResponse.Content.ReadAsStringAsync();
+            var tokenApiResponse = JsonSerializer.Deserialize<TokenApiResponse>(tokenApiResponseJson);
+            return tokenApiResponse?.AccessToken;
         }
         
         public async Task<GetAccountDto> GetById(int id)

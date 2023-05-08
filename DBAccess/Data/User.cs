@@ -44,5 +44,9 @@ namespace DBAccess.Data
 
         [ForeignKey("UserId")]
         public virtual ICollection<Like> Likes { get; set; }
+        
+        public string RefreshToken { get; set; }
+        
+        public DateTime RefreshTokenExpiration { get; set; }
     }
 }

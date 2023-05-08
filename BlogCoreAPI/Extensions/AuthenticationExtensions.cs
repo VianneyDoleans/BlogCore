@@ -11,7 +11,7 @@ namespace BlogCoreAPI.Extensions
     {
         public static IServiceCollection RegisterAuthentication(
             this IServiceCollection services,
-            JwtSettings jwtSettings)
+            TokenSettings tokenSettings)
         {
             services
                 .AddAuthentication(options =>
@@ -26,7 +26,7 @@ namespace BlogCoreAPI.Extensions
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtSettings.Secret)),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenSettings.Secret)),
                         ClockSkew = TimeSpan.Zero,
                         ValidateIssuer = false,
                         ValidateAudience = false
