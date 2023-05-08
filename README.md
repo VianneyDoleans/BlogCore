@@ -32,11 +32,14 @@ Live demo : https://blogcoredemo.onrender.com/swagger
 ## Powerful features
 
  - **Advanced search** by combining criteria (filters) on all resources
- - **Advanced user permissions management** by creating roles and permissions for users via the API at runtime (ex: create a role "mini-moderator" with the permissions CanEdit own Posts, CanDelete All Comments, etc.)
+ - **Advanced user permissions management** by creating roles and permissions for users via the API at runtime (combination of **Permission-Based Authorization** & **Resource-based Authorization**)
+   - ex: create a role "mini-moderator" with the permissions CanEdit own Posts, CanDelete All Comments, etc.
    - Default role(s) given to new users can also be defined via the API.
  - **Complete community features** (create comments on a post, like a comment or a post, add a comment on a comment, consult profiles, etc.)
  - **Configurable log system** that logs all user actions / events (implementation of [Serilog library](https://serilog.net/), can be connected to Kibana, Seq and other solutions, for monitoring)
  - **CRUD** is provided on all resources. Everything can be manipulated via endpoints, giving the possibility out-of-the-box to develop an admin interface or a mobile app. (current Swagger interface can act as an administrator interface)
+ - **Pagination** strategy has been implemented.
+ - **OAuth2.0 standard** have been implemented for authorization, with **JWT** as token format
  - **Email SMTP configuration** : Email confirmation & password reset are provided by sending emails (can use Gmail SMTP server for example)
 
 ## Clean code
