@@ -39,7 +39,7 @@ Live demo : https://blogcoredemo.onrender.com/swagger
  - **Configurable log system** that logs all user actions / events (implementation of [Serilog library](https://serilog.net/), can be connected to Kibana, Seq and other solutions, for monitoring)
  - **CRUD** is provided on all resources. Everything can be manipulated via endpoints, giving the possibility out-of-the-box to develop an admin interface or a mobile app. (current Swagger interface can act as an administrator interface)
  - **Pagination** strategy has been implemented.
- - **OAuth2.0 standard** have been implemented for authorization, with **JWT** as token format
+ - **OAuth2.0 standard** have been implemented for authorization
  - **Email SMTP configuration** : Email confirmation & password reset are provided by sending emails (can use Gmail SMTP server for example)
 
 ## Clean code
@@ -182,4 +182,4 @@ The default configuration is :
 ## Wiki
 
 A wiki for this project is available on github : [link](https://github.com/VianneyDoleans/BlogCore/wiki)  
-The wiki give more explanations about configuration, online deployment ([render](https://render.com/), [heroku](https://www.heroku.com/)) and architecture of the project.
+The wiki give more explanations about configuration, online deployment ([render](https://github.com/VianneyDoleans/BlogCore/wiki/HostingOnRender), [heroku](https://github.com/VianneyDoleans/BlogCore/wiki/HostingOnHeroku)) and architecture of the project.
