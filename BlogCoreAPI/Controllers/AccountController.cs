@@ -3,13 +3,14 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using BlogCoreAPI.Authorization.Permissions;
+using BlogCoreAPI.Models.DTOs;
 using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Immutable;
 using BlogCoreAPI.Models.Exceptions;
 using BlogCoreAPI.Models.Mails;
 using BlogCoreAPI.Responses;
-using BlogCoreAPI.Services.JwtService;
 using BlogCoreAPI.Services.MailService;
+using BlogCoreAPI.Services.TokenService;
 using BlogCoreAPI.Services.UserService;
 using DBAccess.Data;
 using DBAccess.Data.Permission;
@@ -29,7 +30,7 @@ namespace BlogCoreAPI.Controllers
     public class AccountController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IJwtService _jwtService;
+        private readonly ITokenService _tokenService;
         private readonly IAuthorizationService _authorizationService;
         private readonly IEmailService _emailService;
 
@@ -37,14 +38,14 @@ namespace BlogCoreAPI.Controllers
         /// Initializes a new instance of the <see cref="UsersController"/> class.
         /// </summary>
         /// <param name="userService"></param>
-        /// <param name="jwtService"></param>
+        /// <param name="tokenService"></param>
         /// <param name="authorizationService"></param>
         /// <param name="emailService"></param>
-        public AccountController(IUserService userService, IJwtService jwtService,
+        public AccountController(IUserService userService, ITokenService tokenService,
             IAuthorizationService authorizationService, IEmailService emailService)
         {
             _userService = userService;
-            _jwtService = jwtService;
+            _tokenService = tokenService;
             _authorizationService = authorizationService;
             _emailService = emailService;
         }
@@ -136,7 +137,7 @@ namespace BlogCoreAPI.Controllers
         /// <returns></returns>
         [HttpPost("SignIn")]
         [AllowAnonymous]
-        [ProducesResponseType(typeof(JsonWebToken), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> SignIn(AccountLoginDto accountLogin)
         {
@@ -146,7 +147,54 @@ namespace BlogCoreAPI.Controllers
             var user = await _userService.GetAccount(accountLogin.UserName);
             if (!await _userService.EmailIsConfirmed(user.Id))
                 return BadRequest(new BlogErrorResponse(nameof(InvalidRequestException),"Email must be confirmed before you can sign in."));
-            return Ok(await _jwtService.GenerateJwt(user.Id));
+            
+            var accessToken = await _tokenService.GenerateJwtAccessToken(user.Id);
+            var refreshToken = await _tokenService.GenerateRefreshToken(user.Id);
+            
+            return Ok(new TokenResponse(accessToken, refreshToken));
+        }
+
+        /// <summary>
+        /// Revoke refresh token of a user
+        /// </summary>
+        /// <remarks>
+        /// Revoke refresh token of a user
+        /// </remarks>
+        [HttpPost("RevokeRefreshToken")]
+        public async Task<IActionResult> RevokeRefreshToken(int userId)
+        {
+            var userEntity = await _userService.GetUserEntity(userId);
+            var authorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Account));
+            if (!authorized.Succeeded)
+                return Forbid();
+            
+            await _userService.RevokeRefreshToken(userId);
+            return Ok();
+        }
+
+        /// <summary>
+        /// Generate a new refresh token and access token using a valid refresh token
+        /// </summary>
+        /// <remarks>
+        /// Sign In as a user.
+        /// </remarks>
+        [HttpPost("RefreshToken")]
+        public async Task<IActionResult> Refresh(RefreshTokenDto refreshTokenModel)
+        {
+            var userEntity = await _userService.GetUserEntity(refreshTokenModel.UserId);
+            var authorized = await _authorizationService.AuthorizeAsync(User, userEntity, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Account));
+            if (!authorized.Succeeded)
+                return Forbid();
+
+            var validRefreshToken = await _tokenService.IsAuthenticAndValidRefreshToken(refreshTokenModel);
+            if (!validRefreshToken)
+                return BadRequest("Invalid refresh token.");
+            
+            var accessToken = await _tokenService.GenerateJwtAccessToken(refreshTokenModel.UserId);
+            var refreshToken = await _tokenService.GenerateRefreshToken(refreshTokenModel.UserId);
+
+            return Ok(new TokenResponse(accessToken, refreshToken));
+            
         }
 
         /// <summary>

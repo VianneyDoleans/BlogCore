@@ -30,7 +30,7 @@ namespace BlogCoreAPI.FunctionalTests.GenericTests
         protected async Task Login()
         {
             var accountHelper = new AccountHelper(Client);
-            var token = await accountHelper.GetJwtLoginToken(Admin);
+            var token = await accountHelper.GetJwtAccessToken(Admin);
             Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", $"{token}");
         }
 
