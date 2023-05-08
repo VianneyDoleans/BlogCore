@@ -14,9 +14,9 @@ namespace BlogCoreAPI.Models.DTOs.Comment
 
         public int? CommentParent { get; set; }
 
-        public DateTime PublishedAt { get; set; }
+        public DateTimeOffset PublishedAt { get; set; }
 
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         public string Content { get; set; }
 

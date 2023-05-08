@@ -18,9 +18,9 @@ namespace BlogCoreAPI.FunctionalTests.Models
         public string RefreshToken { get; set; }
     
         [JsonPropertyName("accessTokenExpiration")]
-        public DateTime AccessTokenExpiration { get; set; }
+        public DateTimeOffset AccessTokenExpiration { get; set; }
     
         [JsonPropertyName("refreshTokenExpiration")]
-        public DateTime RefreshTokenExpiration { get; set; }
+        public DateTimeOffset RefreshTokenExpiration { get; set; }
     }
 }

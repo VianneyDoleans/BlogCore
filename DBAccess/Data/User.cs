@@ -25,10 +25,10 @@ namespace DBAccess.Data
         public string Password { get; set; }
 
         [Required]
-        public DateTime RegisteredAt { get; set; }
+        public DateTimeOffset RegisteredAt { get; set; }
 
         [Required]
-        public DateTime LastLogin { get; set; }
+        public DateTimeOffset LastLogin { get; set; }
 
         [MaxLength(1000)]
         public string UserDescription { get; set; }
@@ -47,6 +47,6 @@ namespace DBAccess.Data
         
         public string RefreshToken { get; set; }
         
-        public DateTime RefreshTokenExpiration { get; set; }
+        public DateTimeOffset RefreshTokenExpiration { get; set; }
     }
 }

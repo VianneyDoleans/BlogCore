@@ -20,9 +20,9 @@ namespace DBAccess.Data
         public Comment CommentParent { get; set; }
 
         [Required]
-        public DateTime PublishedAt { get; set; }
+        public DateTimeOffset PublishedAt { get; set; }
 
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         [Required]
         public string Content { get; set; }

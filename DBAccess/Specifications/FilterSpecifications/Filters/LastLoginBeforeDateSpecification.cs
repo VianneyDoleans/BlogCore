@@ -7,9 +7,9 @@ namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
     public class LastLoginBeforeDateSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasLastLogin
     {
-        private readonly DateTime _date;
+        private readonly DateTimeOffset _date;
 
-        public LastLoginBeforeDateSpecification(DateTime date)
+        public LastLoginBeforeDateSpecification(DateTimeOffset date)
         {
             _date = date;
         }
