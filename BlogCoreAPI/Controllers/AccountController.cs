@@ -161,6 +161,7 @@ namespace BlogCoreAPI.Controllers
         /// Revoke refresh token of a user
         /// </remarks>
         [HttpPost("RevokeRefreshToken")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<IActionResult> RevokeRefreshToken(int userId)
         {
             var userEntity = await _userService.GetUserEntity(userId);
@@ -179,6 +180,9 @@ namespace BlogCoreAPI.Controllers
         /// Sign In as a user.
         /// </remarks>
         [HttpPost("RefreshToken")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(TokenResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Refresh(RefreshTokenDto refreshTokenModel)
         {
             var userEntity = await _userService.GetUserEntity(refreshTokenModel.UserId);
