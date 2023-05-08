@@ -192,12 +192,12 @@
             Controller used to enables account action such as login / log out.
             </summary>
         </member>
-        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.JwtService.IJwtService,Microsoft.AspNetCore.Authorization.IAuthorizationService,BlogCoreAPI.Services.MailService.IEmailService)">
+        <member name="M:BlogCoreAPI.Controllers.AccountController.#ctor(BlogCoreAPI.Services.UserService.IUserService,BlogCoreAPI.Services.TokenService.ITokenService,Microsoft.AspNetCore.Authorization.IAuthorizationService,BlogCoreAPI.Services.MailService.IEmailService)">
             <summary>
             Initializes a new instance of the <see cref="T:BlogCoreAPI.Controllers.UsersController"/> class.
             </summary>
             <param name="userService"></param>
-            <param name="jwtService"></param>
+            <param name="tokenService"></param>
             <param name="authorizationService"></param>
             <param name="emailService"></param>
         </member>
@@ -236,6 +236,22 @@
             </remarks>
             <param name="accountLogin"></param>
             <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.RevokeRefreshToken(System.Int32)">
+            <summary>
+            Revoke refresh token of a user
+            </summary>
+            <remarks>
+            Revoke refresh token of a user
+            </remarks>
+        </member>
+        <member name="M:BlogCoreAPI.Controllers.AccountController.Refresh(BlogCoreAPI.Models.DTOs.RefreshTokenDto)">
+            <summary>
+            Generate a new refresh token and access token using a valid refresh token
+            </summary>
+            <remarks>
+            Sign In as a user.
+            </remarks>
         </member>
         <member name="M:BlogCoreAPI.Controllers.AccountController.UpdateAccount(BlogCoreAPI.Models.DTOs.Account.UpdateAccountDto)">
             <summary>
@@ -1697,26 +1713,40 @@
             <param name="size"></param>
             <param name="total"></param>
         </member>
-        <member name="T:BlogCoreAPI.Services.JwtService.IJwtService">
-            <summary>
-            Service used to manipulate JWT
-            </summary>
-        </member>
-        <member name="M:BlogCoreAPI.Services.JwtService.IJwtService.GenerateJwt(System.Int32)">
-            <summary>
-            Generate a unique JWT for a user.
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:BlogCoreAPI.Services.JwtService.JwtService.GenerateJwt(System.Int32)">
-            <inheritdoc />
-        </member>
         <member name="T:BlogCoreAPI.Services.MailService.EmailService">
             <summary>
             Service for sending emails.
             Code taken and modified from https://code-maze.com/aspnetcore-send-email/ / https://github.com/CodeMazeBlog/email-attachments-aspnet-core
             </summary>
+        </member>
+        <member name="T:BlogCoreAPI.Services.TokenService.ITokenService">
+            <summary>
+            Service used to manipulate JWT
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Services.TokenService.ITokenService.GenerateJwtAccessToken(System.Int32)">
+            <summary>
+            Generate a unique JWT Bearer token for a user.
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:BlogCoreAPI.Services.TokenService.ITokenService.GenerateRefreshToken(System.Int32)">
+            <summary>
+            Generate a unique JWT refresh token for a user
+            </summary>
+        </member>
+        <member name="M:BlogCoreAPI.Services.TokenService.ITokenService.IsAuthenticAndValidRefreshToken(BlogCoreAPI.Models.DTOs.RefreshTokenDto)">
+            <summary>
+            Ensure tokens are valid and authentic
+            </summary>
+            <param name="refreshTokenDto"></param>
+        </member>
+        <member name="M:BlogCoreAPI.Services.TokenService.TokenService.GenerateJwtAccessToken(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:BlogCoreAPI.Services.TokenService.TokenService.GenerateRefreshToken(System.Int32)">
+            <inheritdoc />
         </member>
     </members>
 </doc>

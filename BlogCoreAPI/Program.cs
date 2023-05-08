@@ -41,8 +41,8 @@ builder.Services.RegisterSwagger();
 
 builder.Services.RegisterAuthorization();
 
-builder.Services.RegisterJwt(configuration);
-var jwtSettings = configuration.GetSection("Jwt").Get<JwtSettings>();
+builder.Services.RegisterTokenConfiguration(configuration);
+var jwtSettings = configuration.GetSection("TokenConfiguration").Get<TokenSettings>();
 builder.Services.RegisterAuthentication(jwtSettings);
 
 var logSettings = configuration.GetSection(SerilogSettings.Position).Get<SerilogSettings>();

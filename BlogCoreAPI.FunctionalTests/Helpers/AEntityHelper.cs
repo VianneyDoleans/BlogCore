@@ -77,12 +77,6 @@ namespace BlogCoreAPI.FunctionalTests.Helpers
             return entities;
         }
 
-        // public async Task UpdateRandomEntity(TUpdate entity)
-        // {
-        //     var entityModified = ModifyTUpdate(entity);
-        //     await UpdateEntity(entityModified);
-        // }
-
         public virtual async Task UpdateEntity(TUpdate entity)
         {
             var json = JsonConvert.SerializeObject(entity);

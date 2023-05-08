@@ -55,5 +55,7 @@ namespace BlogCoreAPI.Services.UserService
         Task<string> GenerateConfirmEmailToken(int userId);
         
         Task<string> GeneratePasswordResetToken(int userId);
+        
+        Task RevokeRefreshToken(int userId);
     }
 }
