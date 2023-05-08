@@ -8,7 +8,7 @@ namespace BlogCoreAPI.Models.DTOs.Like
     /// </summary>
     public class GetLikeDto : ADto, ILikeDto
     {
-        public DateTime PublishedAt { get; set; }
+        public DateTimeOffset PublishedAt { get; set; }
 
         public LikeableType LikeableType { get; set; }
 

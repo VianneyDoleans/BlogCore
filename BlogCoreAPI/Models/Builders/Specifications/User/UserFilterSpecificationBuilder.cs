@@ -10,10 +10,10 @@ namespace BlogCoreAPI.Models.Builders.Specifications.User
     public class UserFilterSpecificationBuilder
     {
         private string _inUserName;
-        private DateTime? _fromRegister;
-        private DateTime? _toRegister;
-        private DateTime? _fromLastLogin;
-        private DateTime? _toLastLogin;
+        private DateTimeOffset? _fromRegister;
+        private DateTimeOffset? _toRegister;
+        private DateTimeOffset? _fromLastLogin;
+        private DateTimeOffset? _toLastLogin;
 
         public UserFilterSpecificationBuilder WithInUserName(string inUserName)
         {
@@ -21,25 +21,25 @@ namespace BlogCoreAPI.Models.Builders.Specifications.User
             return this;
         }
 
-        public UserFilterSpecificationBuilder WithFromRegister(DateTime? fromRegister)
+        public UserFilterSpecificationBuilder WithFromRegister(DateTimeOffset? fromRegister)
         {
             _fromRegister = fromRegister;
             return this;
         }
 
-        public UserFilterSpecificationBuilder WithToRegister(DateTime? toRegister)
+        public UserFilterSpecificationBuilder WithToRegister(DateTimeOffset? toRegister)
         {
             _toRegister = toRegister;
             return this;
         }
 
-        public UserFilterSpecificationBuilder WithFromLastLogin(DateTime? fromLastLogin)
+        public UserFilterSpecificationBuilder WithFromLastLogin(DateTimeOffset? fromLastLogin)
         {
             _fromLastLogin = fromLastLogin;
             return this;
         }
 
-        public UserFilterSpecificationBuilder WithToLastLogin(DateTime? toLastLogin)
+        public UserFilterSpecificationBuilder WithToLastLogin(DateTimeOffset? toLastLogin)
         {
             _toLastLogin = toLastLogin;
             return this;

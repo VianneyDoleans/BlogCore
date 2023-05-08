@@ -4,6 +4,6 @@ namespace DBAccess.Contracts
 {
     public interface IHasLastLogin
     {
-        public DateTime LastLogin { get; set; }
+        public DateTimeOffset LastLogin { get; set; }
     }
 }

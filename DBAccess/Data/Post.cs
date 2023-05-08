@@ -21,9 +21,9 @@ namespace DBAccess.Data
         [Required] public Category Category { get; set; }
 
         [Required]
-        public DateTime PublishedAt { get; set; }
+        public DateTimeOffset PublishedAt { get; set; }
 
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         [ForeignKey("PostId")]
         public virtual ICollection<PostTag> PostTags { get; set; }

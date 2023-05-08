@@ -14,9 +14,9 @@ namespace BlogCoreAPI.Models.DTOs.Account
         
         public string ProfilePictureUrl { get; set; }
 
-        public DateTime RegisteredAt { get; set; }
+        public DateTimeOffset RegisteredAt { get; set; }
 
-        public DateTime LastLogin { get; set; }
+        public DateTimeOffset LastLogin { get; set; }
 
         public string UserDescription { get; set; }
 

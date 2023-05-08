@@ -8,9 +8,9 @@ namespace DBAccess.Specifications.FilterSpecifications.Filters
     public class PublishedBeforeDateSpecification<TEntity> : FilterSpecification<TEntity>
         where TEntity : class, IPoco, IHasCreationDate
     {
-        private readonly DateTime _date;
+        private readonly DateTimeOffset _date;
 
-        public PublishedBeforeDateSpecification(DateTime date)
+        public PublishedBeforeDateSpecification(DateTimeOffset date)
         {
             _date = date;
         }
