@@ -13,9 +13,9 @@ public class TokenResponse
     
     public string RefreshToken { get; }
     
-    public DateTime AccessTokenExpiration { get; }
+    public DateTimeOffset AccessTokenExpiration { get; }
     
-    public DateTime RefreshTokenExpiration { get; }
+    public DateTimeOffset RefreshTokenExpiration { get; }
 
     public TokenResponse(TokenItem accessToken, TokenItem refreshToken)
     {

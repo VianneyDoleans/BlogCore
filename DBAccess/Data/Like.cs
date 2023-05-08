@@ -17,7 +17,7 @@ namespace DBAccess.Data
         public int Id { get; set; }
 
         [Required]
-        public DateTime PublishedAt { get; set; }
+        public DateTimeOffset PublishedAt { get; set; }
 
         [Required]
         public LikeableType LikeableType { get; set; }

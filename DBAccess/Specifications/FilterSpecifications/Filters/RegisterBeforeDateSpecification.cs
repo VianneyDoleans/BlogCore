@@ -7,9 +7,9 @@ namespace DBAccess.Specifications.FilterSpecifications.Filters
 {
     public class RegisterBeforeDateSpecification<TEntity> : FilterSpecification<TEntity> where TEntity : class, IPoco, IHasRegisteredAt
     {
-        private readonly DateTime _date;
+        private readonly DateTimeOffset _date;
 
-        public RegisterBeforeDateSpecification(DateTime date)
+        public RegisterBeforeDateSpecification(DateTimeOffset date)
         {
             _date = date;
         }

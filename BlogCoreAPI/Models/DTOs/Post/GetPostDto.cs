@@ -19,9 +19,9 @@ namespace BlogCoreAPI.Models.DTOs.Post
 
         public int Category { get; set; }
 
-        public DateTime PublishedAt { get; set; }
+        public DateTimeOffset PublishedAt { get; set; }
 
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
 
         public IEnumerable<int> Likes { get; set; }
 

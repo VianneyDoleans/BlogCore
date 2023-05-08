@@ -39,13 +39,13 @@ namespace BlogCoreAPI.Models.Queries
         /// Returns only posts whose publication date is more recent or equal to the given parameter
         /// </summary>
         [FromQuery(Name = "fromPublicationDate")]
-        public DateTime? FromPublicationDate { get; set; } = null;
+        public DateTimeOffset? FromPublicationDate { get; set; } = null;
 
         /// <summary>
         /// Returns only posts whose published date is older or equal to the given parameter
         /// </summary>
         [FromQuery(Name = "toPublicationDate")]
-        public DateTime? ToPublicationDate { get; set; } = null;
+        public DateTimeOffset? ToPublicationDate { get; set; } = null;
 
         /// <summary>
         /// Returns only posts with a number of likes greater than or equal to the given parameter

@@ -43,7 +43,7 @@ namespace BlogCoreAPI.Services.TokenService
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_tokenSettings.Secret));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_tokenSettings.AccessTokenExpirationInMinutes));
+            var expires = DateTimeOffset.UtcNow.UtcDateTime.AddMinutes(Convert.ToDouble(_tokenSettings.AccessTokenExpirationInMinutes));
 
             var token = new JwtSecurityToken(
                 issuer: _tokenSettings.Issuer,
@@ -65,7 +65,7 @@ namespace BlogCoreAPI.Services.TokenService
             using var rng = RandomNumberGenerator.Create();
             rng.GetBytes(randomNumber);
             var refreshToken = Convert.ToBase64String(randomNumber);
-            var expires = DateTime.Now.AddMinutes(Convert.ToDouble(_tokenSettings.RefreshTokenExpirationInMinutes));
+            var expires = DateTimeOffset.UtcNow.UtcDateTime.AddMinutes(Convert.ToDouble(_tokenSettings.RefreshTokenExpirationInMinutes));
 
             user.RefreshToken = refreshToken;
             user.RefreshTokenExpiration = expires;
@@ -78,7 +78,7 @@ namespace BlogCoreAPI.Services.TokenService
         {
             var user = await _userRepository.GetAsync(refreshTokenDto.UserId);
 
-            return user.RefreshToken != null && user.RefreshToken == refreshTokenDto.RefreshToken && user.RefreshTokenExpiration > DateTime.Now;
+            return user.RefreshToken != null && user.RefreshToken == refreshTokenDto.RefreshToken && user.RefreshTokenExpiration > DateTimeOffset.UtcNow.UtcDateTime;
         }
     }
 }

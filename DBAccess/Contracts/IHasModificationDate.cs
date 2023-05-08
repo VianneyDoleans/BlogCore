@@ -4,6 +4,6 @@ namespace DBAccess.Contracts
 {
     public interface IHasModificationDate
     {
-        public DateTime? ModifiedAt { get; set; }
+        public DateTimeOffset? ModifiedAt { get; set; }
     }
 }

@@ -32,24 +32,24 @@ namespace BlogCoreAPI.Models.Queries
         /// Returns only users whose register date is more recent or equal to the given parameter
         /// </summary>
         [FromQuery(Name = "FromRegistrationDate")]
-        public DateTime? FromRegistrationDate { get; set; } = null;
+        public DateTimeOffset? FromRegistrationDate { get; set; } = null;
 
         /// <summary>
         /// Returns only users whose register date is older or equal to the given parameter
         /// </summary>
         [FromQuery(Name = "ToRegistrationDate")]
-        public DateTime? ToRegistrationDate { get; set; } = null;
+        public DateTimeOffset? ToRegistrationDate { get; set; } = null;
 
         /// <summary>
         /// Returns only users whose last login date is more recent or equal to the given parameter
         /// </summary>
         [FromQuery(Name = "FromLastLoginDate")]
-        public DateTime? FromLastLoginDate { get; set; } = null;
+        public DateTimeOffset? FromLastLoginDate { get; set; } = null;
 
         /// <summary>
         /// Returns only users whose last login date is older or equal to the given parameter
         /// </summary>
         [FromQuery(Name = "ToLastLoginDate")]
-        public DateTime? ToLastLoginDate { get; set; } = null;
+        public DateTimeOffset? ToLastLoginDate { get; set; } = null;
     }
 }

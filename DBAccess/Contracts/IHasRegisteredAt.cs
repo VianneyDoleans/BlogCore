@@ -4,6 +4,6 @@ namespace DBAccess.Contracts
 {
     public interface IHasRegisteredAt
     {
-        public DateTime RegisteredAt { get; set; }
+        public DateTimeOffset RegisteredAt { get; set; }
     }
 }

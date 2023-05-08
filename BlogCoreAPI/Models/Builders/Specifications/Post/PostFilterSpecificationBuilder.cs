@@ -13,8 +13,8 @@ namespace BlogCoreAPI.Models.Builders.Specifications.Post
 
         private string _inName;
         private string _inContent;
-        private DateTime? _toPublishedAt;
-        private DateTime? _fromPublishedAt;
+        private DateTimeOffset? _toPublishedAt;
+        private DateTimeOffset? _fromPublishedAt;
         private int? _minimumLikeCount;
         private int? _maximumLikeCount;
         private List<string> _tags;
@@ -31,13 +31,13 @@ namespace BlogCoreAPI.Models.Builders.Specifications.Post
             return this;
         }
 
-        public PostFilterSpecificationBuilder WithToPublishedAt(DateTime? toPublishedAt)
+        public PostFilterSpecificationBuilder WithToPublishedAt(DateTimeOffset? toPublishedAt)
         {
             _toPublishedAt = toPublishedAt;
             return this;
         }
 
-        public PostFilterSpecificationBuilder WithFromPublishedAt(DateTime? fromPublishedAt)
+        public PostFilterSpecificationBuilder WithFromPublishedAt(DateTimeOffset? fromPublishedAt)
         {
             _fromPublishedAt = fromPublishedAt;
             return this;
