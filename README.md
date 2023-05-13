@@ -27,7 +27,7 @@
   </a>
 </p>
 
-Live demo : https://blogcoredemo.onrender.com/swagger
+Live demo : https://blogcore.fly.dev/swagger
 
 ## Powerful features
 
@@ -39,7 +39,7 @@ Live demo : https://blogcoredemo.onrender.com/swagger
  - **Configurable log system** that logs all user actions / events (implementation of [Serilog library](https://serilog.net/), can be connected to Kibana, Seq and other solutions, for monitoring)
  - **CRUD** is provided on all resources. Everything can be manipulated via endpoints, giving the possibility out-of-the-box to develop an admin interface or a mobile app. (current Swagger interface can act as an administrator interface)
  - **Pagination** strategy has been implemented.
- - **OAuth2.0 standard** have been implemented for authorization
+ - **OAuth2.0 standard** (access / refresh token) has been implemented for authorization.
  - **Email SMTP configuration** : Email confirmation & password reset are provided by sending emails (can use Gmail SMTP server for example)
 
 ## Clean code
