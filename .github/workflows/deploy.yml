@@ -3,7 +3,7 @@ name: deploy
 on:
   push:
     branches: [ "master" ]
-    
+
 jobs:
   build:
     name: Build docker image
@@ -26,6 +26,7 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/blogcore:latest
   deploy:
+    needs: build
     name: Deploy app
     runs-on: ubuntu-latest
     environment: production
