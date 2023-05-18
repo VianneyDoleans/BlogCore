@@ -208,6 +208,12 @@ namespace BlogCoreAPI.Services.UserService
             }
 
             var isValidPassword = await _repository.CheckPasswordAsync(user, accountLogin.Password);
+            if (isValidPassword)
+            {
+                user.LastLogin = DateTimeOffset.UtcNow;
+                _unitOfWork.Save();
+            }
+
             return isValidPassword;
         }
 

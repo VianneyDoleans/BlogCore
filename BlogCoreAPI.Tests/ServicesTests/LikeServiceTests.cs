@@ -15,14 +15,14 @@ using DBAccess.Repositories.User;
 using FluentValidation;
 using Xunit;
 
-namespace BlogCoreAPI.Tests.Services
+namespace BlogCoreAPI.Tests.ServicesTests
 {
-    public class LikeService : IClassFixture<DatabaseFixture>
+    public class LikeServiceTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture _fixture;
         private readonly ILikeService _service;
 
-        public LikeService(DatabaseFixture databaseFixture)
+        public LikeServiceTests(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });

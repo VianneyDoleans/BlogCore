@@ -11,13 +11,13 @@ using DBAccess.Specifications.SortSpecification;
 using DBAccess.Tests.Builders;
 using Xunit;
 
-namespace DBAccess.Tests.Repositories
+namespace DBAccess.Tests.RepositoriesTests
 {
-    public class CategoryRepository
+    public class CategoryRepositoryTests
     {
         private readonly DatabaseFixture _fixture;
 
-        public CategoryRepository()
+        public CategoryRepositoryTests()
         {
             _fixture = new DatabaseFixture();
         }
