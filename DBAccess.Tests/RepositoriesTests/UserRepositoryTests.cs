@@ -9,13 +9,13 @@ using DBAccess.Specifications.FilterSpecifications.Filters;
 using DBAccess.Specifications.SortSpecification;
 using Xunit;
 
-namespace DBAccess.Tests.Repositories
+namespace DBAccess.Tests.RepositoriesTests
 {
-    public class UserRepository
+    public class UserRepositoryTests
     {
         private readonly DatabaseFixture _fixture;
 
-        public UserRepository()
+        public UserRepositoryTests()
         {
             _fixture = new DatabaseFixture();
         }

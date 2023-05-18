@@ -13,14 +13,14 @@ using DBAccess.Repositories.Role;
 using FluentValidation;
 using Xunit;
 
-namespace BlogCoreAPI.Tests.Services
+namespace BlogCoreAPI.Tests.ServicesTests
 {
-    public class RoleService : IClassFixture<DatabaseFixture>
+    public class RoleServiceTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture _fixture;
         private readonly IRoleService _service;
 
-        public RoleService(DatabaseFixture databaseFixture)
+        public RoleServiceTests(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });

@@ -11,7 +11,7 @@ using DBAccess.Specifications.SortSpecification;
 using DBAccess.Tests.Builders;
 using Xunit;
 
-namespace DBAccess.Tests.Repositories
+namespace DBAccess.Tests.RepositoriesTests
 {
     public class PostsRepository
     {
