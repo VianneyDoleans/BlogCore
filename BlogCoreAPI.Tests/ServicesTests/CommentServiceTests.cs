@@ -32,6 +32,37 @@ namespace BlogCoreAPI.Tests.ServicesTests
         }
 
         [Fact]
+        public async Task HaveModifiedDate()
+        {
+            // Arrange
+            var user = await _fixture.Db.Users.AddAsync(
+                new User() { Email = "canupdatemodifieddate@mail.com", Password = "1234", UserName = "CanUpdateMoDate" });
+            var category = await _fixture.Db.Categories.AddAsync(
+                new Category() { Name = "CanUpdateModifiedDate" });
+            var post = await _fixture.Db.Posts.AddAsync(
+                new Post() { Author = user.Entity, Category = category.Entity, Content = "new post", Name = "CanUpdateModifiedDate" });
+            _fixture.UnitOfWork.Save();
+            var comment = new AddCommentDto() { Author = user.Entity.Id, Content = "A new Content", PostParent = post.Entity.Id };
+            var commentAdded = await _service.AddComment(comment);
+
+            // Act
+            await _service.UpdateComment(new UpdateCommentDto()
+            {
+                Id = commentAdded.Id,
+                Author = commentAdded.Author,
+                PostParent = commentAdded.PostParent,
+                CommentParent = commentAdded.CommentParent,
+                Content = commentAdded.Content + 'a'
+            });
+
+            // Assert
+            var commentUpdated = await _service.GetComment(commentAdded.Id);
+            Assert.NotNull(commentUpdated);
+            Assert.NotNull(commentUpdated.ModifiedAt);
+            Assert.Equal(DateTimeOffset.UtcNow.UtcDateTime, commentUpdated.ModifiedAt.Value.UtcDateTime, TimeSpan.FromSeconds(5));
+        }
+
+        [Fact]
         public async Task AddComment()
         {
             // Arrange

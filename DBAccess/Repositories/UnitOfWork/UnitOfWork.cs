@@ -20,12 +20,12 @@ namespace DBAccess.Repositories.UnitOfWork
         
         private void ChangeModifiedAt()
         {
-            var added = _context.ChangeTracker.Entries()
-                .Where(t => t.Entity is IHasModificationDate && t.State == EntityState.Added)
+            var modified = _context.ChangeTracker.Entries()
+                .Where(t => t.Entity is IHasModificationDate && t.State == EntityState.Modified)
                 .Select(t => t.Entity)
                 .ToArray();
             
-            foreach (var entity in added)
+            foreach (var entity in modified)
             {
                 if (entity is IHasModificationDate track)
                 {
@@ -33,28 +33,11 @@ namespace DBAccess.Repositories.UnitOfWork
                 }
             }
         }
-        
-        private void ChangeLastLogin()
-        {
-            var added = _context.ChangeTracker.Entries()
-                .Where(t => t.Entity is IHasLastLogin && t.State == EntityState.Added)
-                .Select(t => t.Entity)
-                .ToArray();
-            
-            foreach (var entity in added)
-            {
-                if (entity is IHasLastLogin track)
-                {
-                    track.LastLogin = DateTimeOffset.UtcNow;
-                }
-            }
-        }
-        
+
         /// <inheritdoc />
         public void Save()
         {
             ChangeModifiedAt();
-            ChangeLastLogin();
 
             _context.SaveChanges();
         }
