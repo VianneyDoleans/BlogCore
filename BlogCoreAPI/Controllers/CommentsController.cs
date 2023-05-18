@@ -100,7 +100,7 @@ namespace BlogCoreAPI.Controllers
         [ProducesResponseType(typeof(BlogErrorResponse), StatusCodes.Status409Conflict)]
         public async Task<IActionResult> AddComment(AddCommentDto comment)
         {
-            var authorized = await _authorizationService.AuthorizeAsync(User, comment, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            var authorized = await _authorizationService.AuthorizeAsync(User, comment, new PermissionRequirement(PermissionAction.CanCreate, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
 
@@ -143,7 +143,7 @@ namespace BlogCoreAPI.Controllers
         public async Task<IActionResult> DeleteComment(int id)
         {
             var commentDto = await _commentService.GetComment(id);
-            var authorized = await _authorizationService.AuthorizeAsync(User, commentDto, new PermissionRequirement(PermissionAction.CanUpdate, PermissionTarget.Comment));
+            var authorized = await _authorizationService.AuthorizeAsync(User, commentDto, new PermissionRequirement(PermissionAction.CanDelete, PermissionTarget.Comment));
             if (!authorized.Succeeded)
                 return Forbid();
 
