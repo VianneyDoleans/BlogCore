@@ -11,14 +11,14 @@ using DBAccess.Repositories.Tag;
 using FluentValidation;
 using Xunit;
 
-namespace BlogCoreAPI.Tests.Services
+namespace BlogCoreAPI.Tests.ServicesTests
 {
-    public class TagService : IClassFixture<DatabaseFixture>
+    public class TagServiceTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture _fixture;
         private readonly ITagService _service;
 
-        public TagService(DatabaseFixture databaseFixture)
+        public TagServiceTests(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });

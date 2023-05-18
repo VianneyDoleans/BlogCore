@@ -14,9 +14,9 @@ using Microsoft.Extensions.Options;
 using Moq;
 using Xunit;
 
-namespace BlogCoreAPI.Tests.Services
+namespace BlogCoreAPI.Tests.ServicesTests
 {
-    public class TokenService : IClassFixture<DatabaseFixture>
+    public class TokenServiceTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture _fixture;
         private readonly ITokenService _tokenService;
@@ -25,7 +25,7 @@ namespace BlogCoreAPI.Tests.Services
         private readonly int _accessTokenExpirationInMinutes;
         private readonly int _refreshTokenExpirationInMinutes;
 
-        public TokenService(DatabaseFixture databaseFixture)
+        public TokenServiceTests(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             _issuer = "test321";

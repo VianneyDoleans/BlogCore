@@ -18,14 +18,14 @@ using FluentValidation;
 using Moq;
 using Xunit;
 
-namespace BlogCoreAPI.Tests.Services
+namespace BlogCoreAPI.Tests.ServicesTests
 {
-    public class PostService : IClassFixture<DatabaseFixture>
+    public class PostServiceTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture _fixture;
         private readonly IPostService _service;
 
-        public PostService(DatabaseFixture databaseFixture)
+        public PostServiceTests(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg => { cfg.AddProfile(databaseFixture.MapperProfile); });

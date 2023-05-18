@@ -14,14 +14,14 @@ using DBAccess.Specifications.SortSpecification;
 using FluentValidation;
 using Xunit;
 
-namespace BlogCoreAPI.Tests.Services
+namespace BlogCoreAPI.Tests.ServicesTests
 {
-    public class CategoryService : IClassFixture<DatabaseFixture>
+    public class CategoryServiceTests : IClassFixture<DatabaseFixture>
     {
         private readonly DatabaseFixture _fixture;
         private readonly ICategoryService _service;
 
-        public CategoryService(DatabaseFixture databaseFixture)
+        public CategoryServiceTests(DatabaseFixture databaseFixture)
         {
             _fixture = databaseFixture;
             var config = new MapperConfiguration(cfg =>
