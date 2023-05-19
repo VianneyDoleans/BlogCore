@@ -7,7 +7,8 @@ using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class UsersController : AGenericTests<GetAccountDto, AddAccountDto, UpdateAccountDto>, IClassFixture<TestWebApplicationFactory>
+    [Collection("WebApplicationFactory")]
+    public sealed class UsersController : AGenericTests<GetAccountDto, AddAccountDto, UpdateAccountDto>
     {
         protected override IEntityHelper<GetAccountDto, AddAccountDto, UpdateAccountDto> Helper { get; set; }
         public override async Task<GetAccountDto> AddRandomEntity()
