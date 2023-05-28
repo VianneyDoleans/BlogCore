@@ -14,6 +14,6 @@ namespace DBAccess.Specifications.FilterSpecifications.Filters
             _name = name;
         }
 
-        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.PostParent.Name == _name;
+        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.PostParent != null && p.PostParent.Name.Contains(_name);
     }
 }
