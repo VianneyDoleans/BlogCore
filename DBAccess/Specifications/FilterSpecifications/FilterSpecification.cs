@@ -58,8 +58,19 @@ namespace DBAccess.Specifications.FilterSpecifications
             return this | other;
         }
 
+        public FilterSpecification<T> Not(FilterSpecification<T> other)
+        {
+            return this & !other;
+        }
+
         public static FilterSpecification<T> operator !(FilterSpecification<T> original)
-            => new ConstructedSpecification<T>(Expression.Lambda<Func<T, bool>>(Expression.Negate(original.SpecificationExpression.Body), original.SpecificationExpression.Parameters));
+        {
+            var expression = original.SpecificationExpression;
+            var arg = Expression.Parameter(typeof(T));
+            var body = new ReplaceParameterVisitor { { expression.Parameters.Single(), arg } }.Visit(expression.Body);
+
+            return new ConstructedSpecification<T>(Expression.Lambda<Func<T, bool>>(body, arg));
+        }
 
     }
 }

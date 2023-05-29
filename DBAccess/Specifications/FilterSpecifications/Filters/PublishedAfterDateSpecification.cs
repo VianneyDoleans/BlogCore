@@ -15,6 +15,6 @@ namespace DBAccess.Specifications.FilterSpecifications.Filters
             _date = date;
         }
 
-        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.PublishedAt >= _date;
+        protected override Expression<Func<TEntity, bool>> SpecificationExpression => p => p.PublishedAt > _date;
     }
 }
