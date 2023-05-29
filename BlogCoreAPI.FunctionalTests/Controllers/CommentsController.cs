@@ -6,13 +6,12 @@ using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Comment;
 using BlogCoreAPI.Models.DTOs.Post;
-using BlogCoreAPI.Models.DTOs.User;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class CommentsController : AGenericTests<GetCommentDto, AddCommentDto, UpdateCommentDto>,
-        IClassFixture<TestWebApplicationFactory>
+    [Collection("WebApplicationFactory")]
+    public sealed class CommentsController : AGenericTests<GetCommentDto, AddCommentDto, UpdateCommentDto>
     {
         protected override IEntityHelper<GetCommentDto, AddCommentDto, UpdateCommentDto> Helper { get; set; }
         private readonly PostHelper _postHelper;

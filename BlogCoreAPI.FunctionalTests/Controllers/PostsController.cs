@@ -11,7 +11,8 @@ using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class PostsController : AGenericTests<GetPostDto, AddPostDto, UpdatePostDto>, IClassFixture<TestWebApplicationFactory>
+    [Collection("WebApplicationFactory")]
+    public sealed class PostsController : AGenericTests<GetPostDto, AddPostDto, UpdatePostDto>
     {
         protected override IEntityHelper<GetPostDto, AddPostDto, UpdatePostDto> Helper { get; set; }
 

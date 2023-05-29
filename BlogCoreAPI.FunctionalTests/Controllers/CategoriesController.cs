@@ -7,7 +7,8 @@ using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class CategoriesController : AGenericTests<GetCategoryDto, AddCategoryDto, UpdateCategoryDto>, IClassFixture<TestWebApplicationFactory>
+    [Collection("WebApplicationFactory")]
+    public sealed class CategoriesController : AGenericTests<GetCategoryDto, AddCategoryDto, UpdateCategoryDto>
     {
         protected override IEntityHelper<GetCategoryDto, AddCategoryDto, UpdateCategoryDto> Helper { get; set; }
         public override async Task<GetCategoryDto> AddRandomEntity()

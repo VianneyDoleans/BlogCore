@@ -6,13 +6,13 @@ using BlogCoreAPI.Models.DTOs.Account;
 using BlogCoreAPI.Models.DTOs.Category;
 using BlogCoreAPI.Models.DTOs.Like;
 using BlogCoreAPI.Models.DTOs.Post;
-using BlogCoreAPI.Models.DTOs.User;
 using DBAccess.Data;
 using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class LikesController : AGenericTests<GetLikeDto, AddLikeDto, UpdateLikeDto>, IClassFixture<TestWebApplicationFactory>
+    [Collection("WebApplicationFactory")]
+    public sealed class LikesController : AGenericTests<GetLikeDto, AddLikeDto, UpdateLikeDto>
     {
         protected override IEntityHelper<GetLikeDto, AddLikeDto, UpdateLikeDto> Helper { get; set; }
 

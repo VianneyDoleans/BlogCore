@@ -7,7 +7,8 @@ using Xunit;
 
 namespace BlogCoreAPI.FunctionalTests.Controllers
 {
-    public sealed class TagsController : AGenericTests<GetTagDto, AddTagDto, UpdateTagDto>, IClassFixture<TestWebApplicationFactory>
+    [Collection("WebApplicationFactory")]
+    public sealed class TagsController : AGenericTests<GetTagDto, AddTagDto, UpdateTagDto>
     {
         protected override IEntityHelper<GetTagDto, AddTagDto, UpdateTagDto> Helper { get; set; }
         public override async Task<GetTagDto> AddRandomEntity()

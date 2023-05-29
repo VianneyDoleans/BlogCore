@@ -37,7 +37,7 @@ namespace BlogCoreAPI.Tests.ServicesTests
                 new UserRepository(_fixture.Db, _fixture.UserManager), _fixture.UnitOfWork, Options.Create(
                     new TokenSettings() { 
                         Issuer = _issuer, 
-                        Secret = "test123ABDZDAZSQA", 
+                        Secret = "test123ABDZDAZSQAABEDBCVHEBFJEVD", 
                         AccessTokenExpirationInMinutes = _accessTokenExpirationInMinutes,
                         RefreshTokenExpirationInMinutes = _refreshTokenExpirationInMinutes
                     }));
