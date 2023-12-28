@@ -17,7 +17,7 @@ namespace BlogCoreAPI.Extensions
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Title = "BlogCore",
-                    Description = "Powerful .NET 7 Blog API",
+                    Description = "Powerful .NET 8 Blog API",
                     Version = "v1"
                 });
                 var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";

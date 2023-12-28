@@ -1,6 +1,6 @@
 <p align="center">
 <h1 align="center">BlogCore.</h1>
-<h3 align="center"><strong>Powerful .NET 7 Blog API</strong></h3>
+<h3 align="center"><strong>Powerful .NET 8 Blog API</strong></h3>
 <p align="center">Create your own custom front-end or explore a complete blog API.</p>
 
 <p align="center">
@@ -60,7 +60,7 @@ Compatible with Linux / Windows / MacOS and can be deployed with [SQL Server](ht
 
 ## Technologies
 
- - [.NET 7](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-7)
+ - [.NET 8](https://learn.microsoft.com/en-us/dotnet/core/whats-new/dotnet-8)
  - [EntityFramework](https://learn.microsoft.com/en-us/ef/)
  - [Microsoft Dependency Injection (DI)](https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection)
  - [FluentValidation](https://github.com/FluentValidation/FluentValidation)
