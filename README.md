@@ -49,7 +49,7 @@ Live demo : https://blogcore.fly.dev/swagger
 - [SonarCloud](https://sonarcloud.io/summary/overall?id=VianneyDoleans_BlogCore) used to ensure code quality
 - Implementation of **End-to-End Testing** to ensure the functioning of Blog Core API endpoints.
 - Utilization of [Resharper](https://www.jetbrains.com/fr-fr/resharper/) and [SonarLint](https://www.sonarsource.com/products/sonarlint/) during the development process to enhance code quality and consistency.
-- The project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [Git Feature Workflow with Develop Branch](https://rovitpm.com/5-git-workflows-to-improve-development/), ensuring a clean and organized **git history** with meaningful and clear **commit messages**.
+- The project follows [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) and [Git Feature Workflow with Develop Branch](https://svikashk.medium.com/5-git-workflows-you-can-use-to-deliver-better-code-9b8c84e0135f), ensuring a clean and organized **git history** with meaningful and clear **commit messages**.
 - **Code Quality** is one of the main focuses on this project
 
 ## Compatibilities
